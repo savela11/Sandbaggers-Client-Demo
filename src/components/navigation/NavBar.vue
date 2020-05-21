@@ -1,51 +1,5 @@
 <template>
-  <div>
-    <b-sidebar id="sidebar-footer" v-model="isSideBarShowing" aria-label="Sidebar with custom footer" no-header shadow="shadow">
-      <b-list-group class="p-3">
-        <b-list-group-item v-for="route in adminLinks" :key="route.name" @click="toAdminLink(route)" v-bind:class="{ active: route.name === activeAdminLink }">
-          {{ route.name }}
-        </b-list-group-item>
-      </b-list-group>
-      <template v-slot:footer="{ hide }">
-        <div class="d-flex text-light align-items-center justify-content-end px-3 py-2">
-          <b-button size="md" @click="hide">Close</b-button>
-        </div>
-      </template>
-    </b-sidebar>
-    <b-navbar class="mainNavBar navbar-expand-lg" fixed="bottom" toggleable="true" type="light" variant="light">
-      <b-navbar-brand>Sandbaggers</b-navbar-brand>
-      <b-navbar-toggle target="navbar-toggle-collapse" @click="toggleNavBar(true)">
-        <template v-slot:default="{ expanded }">
-          <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
-          <b-icon v-else icon="chevron-bar-down"></b-icon>
-        </template>
-      </b-navbar-toggle>
-
-      <b-collapse id="navbar-toggle-collapse" v-model="show" v-bind:class="{ in: show }" is-nav>
-        <b-navbar-nav class="mainNavBar__nav ml-auto flex-lg-row align-items-lg-center">
-          <b-nav-item class="mainNavBar__item" v-on:click="toUserProfile">Profile</b-nav-item>
-          <b-nav-item class="mainNavBar__item" v-for="route in userLinks" v-bind:key="route.link" v-on:click="toUserLinks(route)">
-            {{ route.name }}
-          </b-nav-item>
-
-          <div class="mainNavBar__footerLogout">
-            <div>
-              <b-button
-                v-if="currentUser.roles.includes('Admin')"
-                variant="none"
-                aria-controls="sidebar-footer"
-                v-bind:aria-expanded="isSideBarShowing"
-                @click="toggleSideBar(true)"
-                >Admin
-              </b-button>
-            </div>
-
-            <b-button v-on:click="Logout">Logout</b-button>
-          </div>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
-  </div>
+  <div></div>
 </template>
 
 <script lang="ts">

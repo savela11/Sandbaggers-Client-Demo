@@ -1,33 +1,5 @@
 ﻿<template>
-  <div class="dashboard mt-2">
-    <div class="card border-0">
-      <div class="container-fluid card-header">
-        <div class="row no-gutters">
-          <div class="col-4"></div>
-          <div class="col-4">Name</div>
-          <div class="col-4 text-center">Handicap</div>
-        </div>
-      </div>
-      <div class="container-fluid card-body" v-if="Sandbaggers.length > 0">
-        <router-link
-          v-bind:to="{ name: 'Sandbagger', params: { profileId: sb.profile.profileId } }"
-          class="row text-black-50 no-gutters align-items-center mb-2 py-2 border-bottom"
-          v-for="sb in Sandbaggers"
-          v-bind:key="sb.id"
-        >
-          <div class="col-4">
-            <b-avatar variant="secondary" src="https://placekitten.com/300/300"></b-avatar>
-          </div>
-          <div class="col-4">
-            {{ sb.profile.firstName }}
-          </div>
-          <div class="col-4 text-center">
-            {{ sb.profile.handicap }}
-          </div>
-        </router-link>
-      </div>
-    </div>
-  </div>
+  <div></div>
 </template>
 
 <script lang="ts">

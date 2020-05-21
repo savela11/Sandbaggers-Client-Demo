@@ -1,27 +1,32 @@
 ﻿<template>
-  <div class="container">
-    <div v-if="!loading" class="mt-3">
-      <b-form @submit.prevent="onSubmit">
-        <b-form-group id="username" label="Username" label-for="username">
-          <b-form-input id="username" v-model="LoginForm.username" required></b-form-input>
-        </b-form-group>
-
-        <b-form-group id="password" label="Password" label-for="password">
-          <b-form-input id="password" type="password" v-model="LoginForm.password" required></b-form-input>
-        </b-form-group>
-
-        <b-button type="submit" class="px-4 mt-3" variant="secondary">Login</b-button>
-      </b-form>
-
-      <div class="mt-5 row no-gutters justify-content-end">
-        <b-link to="/register">Need an account?</b-link>
-      </div>
-    </div>
-
-    <div class="loading loading--half" v-if="loading">
-      <b-spinner class="loading__spinner" label="Large Spinner"></b-spinner>
+  <div>
+    <div class="v-card">
+      <h1>test</h1>
     </div>
   </div>
+  <!--  <div class="container">-->
+  <!--    <div v-if="!loading" class="mt-3">-->
+  <!--      <b-form @submit.prevent="onSubmit">-->
+  <!--        <b-form-group id="username" label="Username" label-for="username">-->
+  <!--          <b-form-input id="username" v-model="LoginForm.username" required></b-form-input>-->
+  <!--        </b-form-group>-->
+
+  <!--        <b-form-group id="password" label="Password" label-for="password">-->
+  <!--          <b-form-input id="password" type="password" v-model="LoginForm.password" required></b-form-input>-->
+  <!--        </b-form-group>-->
+
+  <!--        <b-button type="submit" class="px-4 mt-3" variant="secondary">Login</b-button>-->
+  <!--      </b-form>-->
+
+  <!--      <div class="mt-5 row no-gutters justify-content-end">-->
+  <!--        <b-link to="/register">Need an account?</b-link>-->
+  <!--      </div>-->
+  <!--    </div>-->
+
+  <!--    <div class="loading loading&#45;&#45;half" v-if="loading">-->
+  <!--      <b-spinner class="loading__spinner" label="Large Spinner"></b-spinner>-->
+  <!--    </div>-->
+  <!--  </div>-->
 </template>
 
 <script lang="ts">
