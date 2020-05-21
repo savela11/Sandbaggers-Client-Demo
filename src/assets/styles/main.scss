@@ -1,0 +1,67 @@
+﻿// $primary: #425a41;
+// $secondary: #17252a;
+// $danger: #8b2635;
+// $tester: #12ff90;
+
+// Bootstrap and its default variables
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+// BootstrapVue and its default variables
+@import '../../../node_modules/bootstrap-vue/src/index.scss';
+
+body {
+  margin-bottom: 56px;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a {
+    margin: 0;
+  }
+
+  a {
+    color: #007bff;
+  }
+
+  .w-80 {
+    width: 80%;
+  }
+
+  .w-90 {
+    width: 90%;
+  }
+
+  @media (min-width: 768px) {
+    .w-md-80 {
+      width: 80%;
+    }
+
+    .w-md-90 {
+      width: 90%;
+    }
+  }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+
+  &--half {
+    margin: 50% 0;
+  }
+  &--third {
+    margin: 33% 0;
+  }
+  &__spinner {
+    height: 125px;
+    width: 125px;
+  }
+}
+
+.createdOn {
+  font-size: 0.8rem;
+  color: rgba(128, 128, 128, 0.801);
+}

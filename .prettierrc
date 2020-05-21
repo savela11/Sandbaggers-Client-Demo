@@ -1,0 +1,8 @@
+{
+  "semi": false,
+  "arrowParens": "always",
+  "singleQuote": true,
+  "vueIndentScriptAndStyle": false,
+  "endOfLine": "auto",
+  "printWidth": 180
+}
