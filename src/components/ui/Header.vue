@@ -61,7 +61,7 @@ export default class HelloWorld extends Vue {
 .heading {
   display: flex;
   &__backgroundColor {
-    padding: 2rem 1rem 2rem 1rem;
+    padding: 2rem 1rem 2rem 2rem;
     background-color: $DarkGreen;
     position: relative;
     height: 100%;
@@ -80,7 +80,7 @@ export default class HelloWorld extends Vue {
   &__title {
     margin-top: 1rem;
     h1 {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       font-weight: 900;
       color: white;
       text-shadow: 2px 2px 5px #000;
@@ -111,7 +111,7 @@ export default class HelloWorld extends Vue {
 
     &__title {
       h1 {
-        font-size: 1.8rem;
+        font-size: 2rem;
       }
     }
   }
