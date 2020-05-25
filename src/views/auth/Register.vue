@@ -1,53 +1,10 @@
 ﻿<template>
-  <div class="container">
-    <div v-if="!loading" class="mt-3">
-      <b-form @submit.prevent="onSubmit" @reset.prevent="resetForm" v-if="show">
-        <b-form-group id="username" label="Username" label-for="username">
-          <b-form-input id="username" v-model="form.username" required></b-form-input>
-        </b-form-group>
-
-        <b-form-group id="password" label="Password" label-for="password">
-          <b-form-input id="password" type="password" v-model="form.password" required></b-form-input>
-        </b-form-group>
-        <b-form-group id="confirmPassword" label="Confirm Password" label-for="confirmPassword">
-          <b-form-input id="confirmPassword" type="password" v-model="form.confirmPassword" required></b-form-input>
-        </b-form-group>
-
-        <b-form-group id="email" label="Email address" label-for="email">
-          <b-form-input id="email" v-model="form.email" type="email" required></b-form-input>
-        </b-form-group>
-
-        <b-form-group id="firstName" label="First name" label-for="firstName">
-          <b-form-input id="firstName" v-model="form.firstName" required></b-form-input>
-        </b-form-group>
-        <b-form-group id="registrationCode" label="Registration Code" label-for="registrationCode">
-          <b-form-input id="registrationCode" v-model="form.registrationCode" required></b-form-input>
-        </b-form-group>
-
-        <b-form-group id="loginAfterRegister">
-          <b-form-checkbox unchecked-value="false" v-model="form.loginAfterRegister" value="true">
-            Login after registering?
-          </b-form-checkbox>
-        </b-form-group>
-
-        <b-button type="submit" class="mr-3" variant="secondary">Register</b-button>
-        <b-button type="reset" variant="danger">Reset</b-button>
-      </b-form>
-
-      <div class="mt-5 row no-gutters justify-content-end">
-        <b-link to="/login">Already have an account?</b-link>
-      </div>
-    </div>
-
-    <div class="loading loading--half" v-if="loading">
-      <b-spinner class="loading__spinner" label="Large Spinner"></b-spinner>
-    </div>
-  </div>
+  <div></div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { IRegisterUser } from '../../types/User/AuthUser'
+import { IRegisterUser } from '@/types/User/AuthUser'
 import AuthService from '../../services/AuthService'
 import UIStore from '../../store/modules/UIStore'
 import Toast from '@/utility/Toasts'

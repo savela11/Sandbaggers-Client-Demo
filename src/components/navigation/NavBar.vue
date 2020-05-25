@@ -1,5 +1,10 @@
 <template>
-  <div></div>
+  <div class="nav">
+    <div class="nav__bar">
+      <button @click="Logout">Logout</button>
+      <button>Sandbaggers</button>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -12,7 +17,8 @@ export default class Navigation extends Vue {
   @Prop() currentUser!: ICurrentUser
   isSideBarShowing = false
   isNavMenuShowing = false
-
+  activeBtn = 1
+  showNav = true
   userLinks: IUserLink[] = [
     { name: 'Dashboard', link: '/dashboard' },
     { name: 'Sandbaggers', link: '/sandbaggers' },
@@ -69,31 +75,25 @@ export default class Navigation extends Vue {
 </script>
 
 <style scoped lang="scss">
-.mainNavBar {
-  box-shadow: 0 -2px 5px 0px rgba(0, 0, 0, 0.2);
-  padding-bottom: 1rem;
-  &__nav {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-bottom: 0.5rem;
+  background-color: #ffffff;
 
-  &__item {
-    flex: 0 0 50%;
-  }
-
-  &__footerLogout {
-    flex: 1 0 100%;
+  &__bar {
+    box-shadow: 0 0 0 #888, 0 -3px 3px rgba(193, 193, 193, 0.99);
+    height: 56px;
     display: flex;
-    justify-content: space-between;
-  }
-}
+    justify-content: center;
+    align-items: center;
 
-.logoutButton {
-  .nav-link {
-    padding: 0;
-
-    .btn {
-      padding: 0.1rem 0.5rem;
+    button {
+      background-color: transparent;
+      border: none;
+      font-size: 1.6rem;
     }
   }
 }

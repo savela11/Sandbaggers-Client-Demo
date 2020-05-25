@@ -1,5 +1,11 @@
 ﻿<template>
-  <div></div>
+  <div class="login">
+    <form class="form">
+      <InputField v-bind="{ inputId: 'username', label: 'Username', inputValue: 'username' }" :inputValue.sync="LoginForm.username" />
+      <InputField v-bind="{ inputId: 'password', label: 'Password', inputType: 'password', inputValue: 'password' }" :inputValue.sync="LoginForm.password" />
+    </form>
+    <VBtn value="Login" :classes="'btn-secondary'" @btnClick="onSubmit" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -8,7 +14,10 @@ import { ILoginUser } from '@/types/User/AuthUser'
 import Toast from '@/utility/Toasts'
 import UIStore from '@/store/modules/UIStore'
 
-@Component({ name: 'Login' })
+@Component({
+  name: 'Login',
+  components: { InputField: (): Promise<object> => import('@/components/ui/Forms/InputField.vue'), VBtn: (): Promise<object> => import('@/components/ui/Buttons/VButton.vue') },
+})
 export default class Login extends Vue {
   loading = false
   LoginForm: ILoginUser = {
@@ -20,18 +29,16 @@ export default class Login extends Vue {
     UIStore._setHeaderTitle('Login')
   }
 
+  testClick() {
+    console.log('test')
+  }
+
   async onSubmit(): Promise<void> {
     this.loading = true
 
     try {
       await this.$store.dispatch('authStore/LoginUser', { vm: this, loginUser: this.LoginForm })
-      if (this.$store.state.authStore.currentUser) {
-        Toast.successToast({
-          vInstance: this,
-          message: `Welcome back ${this.$store.state.authStore.currentUser.profile.firstName}`,
-          title: 'Success',
-        })
-      }
+
       this.loading = false
     } catch (e) {
       console.log(e)
@@ -41,4 +48,8 @@ export default class Login extends Vue {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.login {
+  padding: 2rem 4rem;
+}
+</style>

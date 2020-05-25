@@ -45,7 +45,6 @@ const actions = {
         await router.push('/dashboard')
       }
     } catch (e) {
-      Toast.errorToast({ vInstance: vm, colorVariant: 'danger', title: 'Error', message: e })
       console.log(e)
     }
   },

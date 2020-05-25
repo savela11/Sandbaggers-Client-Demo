@@ -1,4 +1,4 @@
-import { IProfile, IUser } from './../../types/Test/TestStore'
+import { IProfile, IUser } from '@/types/Test/TestStore'
 import { VuexModule, Module, getModule, Mutation, Action } from 'vuex-module-decorators'
 import Store from '@/store'
 
