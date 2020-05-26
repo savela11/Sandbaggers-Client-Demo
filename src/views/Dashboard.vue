@@ -1,5 +1,14 @@
 ﻿<template>
-  <div></div>
+  <div>
+    <v-list rounded>
+      <v-subheader class="subtitle-1">Sandbaggers</v-subheader>
+      <v-list-item-group>
+        <router-link v-for="(sb, i) in Sandbaggers" :key="sb.id" class="sbLink" :to="{ name: 'Sandbagger', params: { profileId: sb.profile.profileId } }">
+          <SandbaggerItem :sb="sb" />
+        </router-link>
+      </v-list-item-group>
+    </v-list>
+  </div>
 </template>
 
 <script lang="ts">
@@ -38,14 +47,7 @@ export default class Dashboard extends Vue {
 </script>
 
 <style scoped lang="scss">
-td {
-  padding: 0;
-  vertical-align: middle;
-}
-
-.linker {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+.sbLink {
+  text-decoration: none;
 }
 </style>

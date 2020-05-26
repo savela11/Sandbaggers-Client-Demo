@@ -57,11 +57,6 @@ const actions = {
       ls.removeAll()
       localStorage.clear()
       await router.push('/login').catch(() => {})
-      // @ts-ignore
-      if (this._vm) {
-        // @ts-ignore
-        Toast.successToast({ vInstance: this._vm, title: 'Success', message: 'You have been logged out' })
-      }
     } catch (e) {
       console.log(e)
     }
@@ -73,11 +68,6 @@ const actions = {
       await context.commit('LogoutCurrentUser')
       ls.removeAll()
       localStorage.clear()
-      // @ts-ignore
-      if (this._vm) {
-        // @ts-ignore
-        Toast.successToast({ vInstance: this._vm, title: title, message: message, colorVariant: 'danger' })
-      }
     } catch (e) {
       console.log(e)
     }

@@ -1,11 +1,23 @@
 ﻿<template>
-  <div class="login">
-    <form class="form">
-      <InputField v-bind="{ inputId: 'username', label: 'Username', inputValue: 'username' }" :inputValue.sync="LoginForm.username" />
-      <InputField v-bind="{ inputId: 'password', label: 'Password', inputType: 'password', inputValue: 'password' }" :inputValue.sync="LoginForm.password" />
+  <v-container class="login pa-6 mt-5">
+    <form>
+      <v-text-field v-model="LoginForm.username" outlined label="Username" required></v-text-field>
+      <v-text-field
+        @click:append="showPassword = !showPassword"
+        v-model="LoginForm.password"
+        :type="showPassword ? 'text' : 'password'"
+        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+        outlined
+        label="Password"
+        required
+      ></v-text-field>
+      <v-btn color="secondary" large :loading="loading" @click="onSubmit">Login</v-btn>
     </form>
-    <VBtn value="Login" :classes="'btn-secondary'" @btnClick="onSubmit" />
-  </div>
+
+    <div class="mt-10 body-2">
+      <router-link to="/register">Need an account?</router-link>
+    </div>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -16,7 +28,7 @@ import UIStore from '@/store/modules/UIStore'
 
 @Component({
   name: 'Login',
-  components: { InputField: (): Promise<object> => import('@/components/ui/Forms/InputField.vue'), VBtn: (): Promise<object> => import('@/components/ui/Buttons/VButton.vue') },
+  components: {},
 })
 export default class Login extends Vue {
   loading = false
@@ -24,22 +36,18 @@ export default class Login extends Vue {
     username: '',
     password: '',
   }
+  showPassword = false
 
   mounted(): void {
     UIStore._setHeaderTitle('Login')
   }
 
-  testClick() {
-    console.log('test')
-  }
-
   async onSubmit(): Promise<void> {
     this.loading = true
-
     try {
-      await this.$store.dispatch('authStore/LoginUser', { vm: this, loginUser: this.LoginForm })
-
-      this.loading = false
+      setTimeout(() => {
+        this.$store.dispatch('authStore/LoginUser', { vm: this, loginUser: this.LoginForm })
+      }, 3000)
     } catch (e) {
       console.log(e)
       this.loading = false
@@ -50,6 +58,5 @@ export default class Login extends Vue {
 
 <style scoped lang="scss">
 .login {
-  padding: 2rem 4rem;
 }
 </style>

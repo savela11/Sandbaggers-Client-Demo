@@ -1,5 +1,36 @@
 ﻿<template>
-  <div></div>
+  <v-container class="register pa-6 mt-5">
+    <form>
+      <v-text-field v-model="form.username" outlined label="Username" required></v-text-field>
+      <v-text-field v-model="form.email" outlined label="Email" required></v-text-field>
+      <v-text-field v-model="form.firstName" outlined label="First Name" required></v-text-field>
+      <v-text-field
+        @click:append="showPassword = !showPassword"
+        v-model="form.password"
+        :type="showPassword ? 'text' : 'password'"
+        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+        outlined
+        label="Password"
+        required
+      ></v-text-field>
+      <v-text-field
+        @click:append="showConfirmPassword = !showConfirmPassword"
+        v-model="form.confirmPassword"
+        :type="showConfirmPassword ? 'text' : 'password'"
+        :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
+        outlined
+        label="Confirm Password"
+        required
+      ></v-text-field>
+      <v-text-field v-model="form.registrationCode" outlined label="Registration Code" required></v-text-field>
+      <v-checkbox v-model="form.loginAfterRegister" :label="`Login After Registering?`"></v-checkbox>
+      <v-btn color="secondary" :loading="loading" large @click="onSubmit">Register</v-btn>
+    </form>
+
+    <div class="mt-10 body-2">
+      <router-link to="/login">Already have an account?</router-link>
+    </div>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -7,7 +38,6 @@ import { Component, Vue } from 'vue-property-decorator'
 import { IRegisterUser } from '@/types/User/AuthUser'
 import AuthService from '../../services/AuthService'
 import UIStore from '../../store/modules/UIStore'
-import Toast from '@/utility/Toasts'
 
 @Component({ name: 'Register' })
 export default class Login extends Vue {
@@ -23,7 +53,8 @@ export default class Login extends Vue {
     loginAfterRegister: false,
   }
   show = true
-
+  showPassword = false
+  showConfirmPassword = false
   mounted(): void {
     UIStore._setHeaderTitle('Register')
   }
@@ -35,18 +66,11 @@ export default class Login extends Vue {
     }
     if (this.form.password !== this.form.confirmPassword) {
       this.loading = false
-      return Toast.errorToast({ vInstance: this, message: 'Passwords do not match', title: 'Password Error' })
     }
     try {
       const res = await AuthService.registerUser(this.form)
 
       if (this.form.loginAfterRegister && res.data.succeeded) {
-        Toast.successToast({
-          vInstance: this,
-          title: 'Redirecting to dashboard',
-          message: 'Account Created!',
-          colorVariant: 'success',
-        })
         const loginUser = {
           username: this.form.username,
           password: this.form.password,
@@ -56,19 +80,13 @@ export default class Login extends Vue {
           this.$store.dispatch('authStore/LoginUser', { vm: this, loginUser })
         }, 4000)
       } else {
-        Toast.successToast({
-          vInstance: this,
-          title: 'Redirecting to login',
-          message: 'Account Created!',
-          colorVariant: 'success',
-        })
         setTimeout(() => {
           this.loading = true
           this.$router.push('/login')
         }, 3000)
       }
     } catch (e) {
-      return Toast.errorToast({ vInstance: this, errors: e, title: 'Error', message: 'message' })
+      console.log(e)
     }
   }
 

@@ -1,9 +1,36 @@
 <template>
   <div class="nav">
-    <div class="nav__bar">
-      <button @click="Logout">Logout</button>
-      <button>Sandbaggers</button>
-    </div>
+    <!--    <div class="nav__bar">-->
+    <!--      <button @click="toggleNavBar(true)">Sandbaggers</button>-->
+    <!--    </div>-->
+
+    <!--    <transition name="fadeHeight" mode="out-in">-->
+    <!--      <div v-if="isNavMenuShowing">-->
+    <!--        <div class="profile">-->
+    <!--          <router-link to="/profile">Profile</router-link>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </transition>-->
+
+    <v-speed-dial :top="top" :bottom="bottom" :right="right" :left="left" :direction="direction" :open-on-hover="hover" :transition="transition">
+      <template v-slot:activator>
+        <v-btn color="secondary" fab @click="toggleNavBar(true)">
+          <v-icon>mdi-account-circle</v-icon>
+        </v-btn>
+      </template>
+    </v-speed-dial>
+
+    <v-bottom-sheet v-model="isNavMenuShowing">
+      <v-sheet class="navSheet">
+        <div class="userLinks">
+          <router-link class="userLinks__link" v-for="route in userLinks" :key="route.name" :to="route.link">{{ route.name }}</router-link>
+        </div>
+        <div class="profile">
+          <router-link to="/profile">Profile</router-link>
+          <v-btn @click="Logout">Logout</v-btn>
+        </div>
+      </v-sheet>
+    </v-bottom-sheet>
   </div>
 </template>
 
@@ -35,16 +62,25 @@ export default class Navigation extends Vue {
   ]
   show = false
 
+  direction = 'top'
+  fab = false
+  hover = false
+  top = false
+  right = true
+  bottom = true
+  left = false
+  transition = 'slide-y-reverse-transition'
+
   toggleSideBar(status: boolean): void {
     this.isSideBarShowing = status
   }
 
-  toggleNavBar(show: boolean): void {
-    if (this.show) {
-      this.show = false
+  toggleNavBar(status: boolean): void {
+    if (this.isNavMenuShowing) {
+      this.isNavMenuShowing = false
       return
     }
-    this.show = show
+    this.isNavMenuShowing = status
   }
 
   toAdminLink(route: IAdminLink): void {
@@ -64,7 +100,6 @@ export default class Navigation extends Vue {
   }
 
   toUserProfile(): void {
-    this.toggleNavBar(false)
     this.$router.push('/profile').catch(() => {})
   }
 
@@ -79,22 +114,33 @@ export default class Navigation extends Vue {
   position: fixed;
   bottom: 0;
   left: 0;
-  right: 0;
-  padding-bottom: 0.5rem;
-  background-color: #ffffff;
+  width: 100%;
+}
+.navSheet {
+  min-height: 300px;
+  padding: 1rem;
+}
 
-  &__bar {
-    box-shadow: 0 0 0 #888, 0 -3px 3px rgba(193, 193, 193, 0.99);
-    height: 56px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    button {
-      background-color: transparent;
-      border: none;
-      font-size: 1.6rem;
-    }
+.userLinks {
+  display: flex;
+  justify-content: space-evenly;
+  &__link {
   }
+}
+.v-btn--floating {
+  position: relative;
+}
+.v-speed-dial {
+  position: absolute;
+}
+.fadeHeight-enter-active,
+.fadeHeight-leave-active {
+  transition: all 0.5s;
+  max-height: 400px;
+}
+.fadeHeight-enter,
+.fadeHeight-leave-to {
+  opacity: 0;
+  max-height: 0;
 }
 </style>

@@ -29,7 +29,7 @@ export default class VBtn extends Vue {
 }
 
 .btn {
-  padding: 1rem 4rem;
+  padding: 0.5rem 4rem;
   font-size: 1.6rem;
   border: none;
   border-radius: 25px;

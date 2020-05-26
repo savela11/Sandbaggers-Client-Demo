@@ -61,7 +61,7 @@ export default class HelloWorld extends Vue {
 .heading {
   display: flex;
   &__backgroundColor {
-    padding: 3rem 2rem 2rem 3rem;
+    padding: 1rem;
     background-color: $DarkGreen;
     position: relative;
     height: 100%;
@@ -80,7 +80,7 @@ export default class HelloWorld extends Vue {
   &__title {
     margin-top: 1rem;
     h1 {
-      font-size: 2.5rem;
+      font-size: 1.6rem;
       font-weight: 900;
       color: white;
       text-shadow: 2px 2px 5px #000;
@@ -95,7 +95,6 @@ export default class HelloWorld extends Vue {
     position: relative;
     p {
       transform: rotate(90deg) translate(25px, 5px);
-      font-size: 1.3rem;
       color: #41425a;
       font-weight: 200;
       white-space: nowrap;
@@ -106,12 +105,10 @@ export default class HelloWorld extends Vue {
 @media (min-width: 375px) {
   .heading {
     &__backgroundColor {
-      padding: 2rem 1rem 2rem 2rem;
     }
 
     &__title {
       h1 {
-        font-size: 3rem;
       }
     }
   }

@@ -27,7 +27,7 @@ export default class InputField extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .form {
   &__field {
     display: flex;
@@ -35,13 +35,12 @@ export default class InputField extends Vue {
     padding: 0.5rem 0;
 
     label {
-      font-size: 1.6rem;
       margin-bottom: 0.5rem;
     }
     input {
-      font-size: 1.6rem;
+      font-size: 0.8rem;
       border-radius: 25px;
-      padding: 1.2rem 0 1rem 1.5rem;
+      padding: 0.5rem 0 0.5rem 1rem;
       border: 1px solid lightgrey;
       outline: none;
       background-color: transparent;
