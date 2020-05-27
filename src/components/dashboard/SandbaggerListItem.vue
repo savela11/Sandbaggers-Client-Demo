@@ -1,5 +1,6 @@
 <template>
-  <v-list-item >
+  <div></div>
+  <!-- <v-list-item>
     <v-list-item-icon>
       <v-icon>mdi-account</v-icon>
     </v-list-item-icon>
@@ -13,7 +14,7 @@
         </v-col>
       </v-row>
     </v-list-item-content>
-  </v-list-item>
+  </v-list-item> -->
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'

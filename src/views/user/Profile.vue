@@ -1,5 +1,20 @@
 <template>
-  <div class="profile"></div>
+  <div class="profile" v-if="currentUser">
+    <v-row class="my-4">
+      <v-col offset="5" cols="6" class="d-flex justify-end">
+        <v-select dense :items="buttonOptions" label="Options" v-model="currentOption" outlined></v-select>
+      </v-col>
+    </v-row>
+    <div v-if="currentOption === 'Profile' && currentUser.profile">
+      <v-form class="px-8">
+        <v-text-field label="First Name" v-model="currentUser.profile.firstName"></v-text-field>
+        <v-text-field label="Last Name" v-model="currentUser.profile.lastName"></v-text-field>
+        <v-text-field label="Email" v-model="currentUser.email"></v-text-field>
+        <v-text-field label="Handicap" type="number" step=".1" min="-10" max="100" v-model="currentUser.profile.handicap"></v-text-field>
+        <v-text-field label="Profile Image" v-model="currentUser.profile.image"></v-text-field>
+      </v-form>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -7,7 +22,6 @@ import { Component, Vue } from 'vue-property-decorator'
 import { ICurrentUser } from '@/types/User/AuthUser'
 import UIStore from '@/store/modules/UIStore'
 import UsersService from '@/services/UsersService'
-import Toast from '@/utility/Toasts'
 
 interface IOption {
   name: string
@@ -31,9 +45,7 @@ export default class Profile extends Vue {
     this.loading = true
     try {
       const res = await UsersService.updateUserProfileAndSettings(this.currentUser)
-      if (res.status === 200) {
-        Toast.successToast({ vInstance: this, title: 'Success', message: 'Your user settings have been updated' })
-      }
+
       setTimeout(() => {
         this.loading = false
       }, 3000)

@@ -23,7 +23,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { ILoginUser } from '@/types/User/AuthUser'
-import Toast from '@/utility/Toasts'
 import UIStore from '@/store/modules/UIStore'
 
 @Component({
@@ -56,7 +55,4 @@ export default class Login extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
-.login {
-}
-</style>
+<style scoped lang="scss"></style>

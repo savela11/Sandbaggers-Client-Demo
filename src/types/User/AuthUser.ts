@@ -19,6 +19,7 @@ export interface ICurrentUser {
   id: string
   username: string
   fullName: string
+  email: string
   profile: IUserProfile
   settings: IUserSettings
   token: string

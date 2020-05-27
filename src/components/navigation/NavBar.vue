@@ -1,36 +1,21 @@
 <template>
   <div class="nav">
-    <!--    <div class="nav__bar">-->
-    <!--      <button @click="toggleNavBar(true)">Sandbaggers</button>-->
-    <!--    </div>-->
+    <v-bottom-navigation id="mainNav" v-model="activeBtn" :input-value="showNav" color="secondary">
+      <v-btn active-class="activeButton">
+        <span>Bets</span>
+        <v-icon>mdi-cash-multiple</v-icon>
+      </v-btn>
 
-    <!--    <transition name="fadeHeight" mode="out-in">-->
-    <!--      <div v-if="isNavMenuShowing">-->
-    <!--        <div class="profile">-->
-    <!--          <router-link to="/profile">Profile</router-link>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </transition>-->
+      <v-btn to="/dashboard" active-class="activeButton">
+        <span>Dashboard</span>
+        <v-icon>mdi-view-dashboard</v-icon>
+      </v-btn>
 
-    <v-speed-dial :top="top" :bottom="bottom" :right="right" :left="left" :direction="direction" :open-on-hover="hover" :transition="transition">
-      <template v-slot:activator>
-        <v-btn color="secondary" fab @click="toggleNavBar(true)">
-          <v-icon>mdi-account-circle</v-icon>
-        </v-btn>
-      </template>
-    </v-speed-dial>
-
-    <v-bottom-sheet v-model="isNavMenuShowing">
-      <v-sheet class="navSheet">
-        <div class="userLinks">
-          <router-link class="userLinks__link" v-for="route in userLinks" :key="route.name" :to="route.link">{{ route.name }}</router-link>
-        </div>
-        <div class="profile">
-          <router-link to="/profile">Profile</router-link>
-          <v-btn @click="Logout">Logout</v-btn>
-        </div>
-      </v-sheet>
-    </v-bottom-sheet>
+      <v-btn to="/profile" active-class="activeButton">
+        <span>Account</span>
+        <v-icon>mdi-account-box-multiple</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
   </div>
 </template>
 
@@ -42,6 +27,7 @@ import { ICurrentUser } from '@/types/User/AuthUser'
 @Component
 export default class Navigation extends Vue {
   @Prop() currentUser!: ICurrentUser
+
   isSideBarShowing = false
   isNavMenuShowing = false
   activeBtn = 1
@@ -62,14 +48,7 @@ export default class Navigation extends Vue {
   ]
   show = false
 
-  direction = 'top'
-  fab = false
-  hover = false
   top = false
-  right = true
-  bottom = true
-  left = false
-  transition = 'slide-y-reverse-transition'
 
   toggleSideBar(status: boolean): void {
     this.isSideBarShowing = status
@@ -120,12 +99,22 @@ export default class Navigation extends Vue {
   min-height: 300px;
   padding: 1rem;
 }
+#mainNav {
+  height: 85px;
+}
 
+.toggleNavMenu {
+  position: absolute;
+  right: 1rem;
+  bottom: 4rem;
+}
+
+.hiddenNav {
+  bottom: 1rem;
+}
 .userLinks {
   display: flex;
   justify-content: space-evenly;
-  &__link {
-  }
 }
 .v-btn--floating {
   position: relative;
