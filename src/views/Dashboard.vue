@@ -10,7 +10,7 @@
       <v-row class="dashboard__heading">
         <v-col cols="3"></v-col>
         <v-col cols="5">Name</v-col>
-        <v-col cols="3" class="text-center" @click="toggleDescendingHandicaps">
+        <v-col cols="4" class="text-center" @click="toggleDescendingHandicaps">
           <v-row>
             Handicap
             <v-icon v-if="descendingHandicap">mdi-menu-up</v-icon>
@@ -121,7 +121,7 @@ export default class Dashboard extends Vue {
 
   .subHeader {
     display: flex;
-    margin: 1rem 0;
+    margin: 0 0 1rem 0;
     form {
       width: 100%;
     }

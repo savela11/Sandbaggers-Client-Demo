@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <HeaderComponent v-if="isHeaderShowing" :backgroundColor="headerColor" />
-    <v-content>
+    <v-content class="pa-6">
       <router-view />
     </v-content>
 

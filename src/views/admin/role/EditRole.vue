@@ -1,18 +1,26 @@
 <template>
-  <div class=""></div>
+  <div class="editRole">
+    <div v-if="!loading">
+      <v-form> <v-text-field label="Name" v-model="editRole.name" filled dense></v-text-field></v-form>
+      <v-btn @click.prevent.stop="updatedRoleName" color="secondary">Update</v-btn>
+    </div>
+    <div v-if="loading">
+      <Loading value="large" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { IRoleDto, IUserWithoutRole, IUserWithRole } from '@/types/Admin/Role'
-import Toast from '@/utility/Toasts'
 import UsersService from '@/services/UsersService'
 import { IUserWithProfile } from '@/types/User/User'
 import RoleService from '@/services/RoleService'
+import UIStore from '../../../store/modules/UIStore'
 
-@Component({ name: 'EditRole' })
+@Component({ name: 'EditRole', components: { Loading: (): Promise<object> => import('@/components/ui/Loading.vue') } })
 export default class EditRole extends Vue {
-  loading = false
+  loading = true
   editRole: IRoleDto = {
     id: '',
     name: '',
@@ -29,6 +37,7 @@ export default class EditRole extends Vue {
 
   mounted(): void {
     this.getRoleById()
+    UIStore._setHeaderTitle('Edit Role')
   }
 
   addSelectedUsers(): void {
@@ -70,13 +79,9 @@ export default class EditRole extends Vue {
       const res = await RoleService.getRoleById(this.$route.params.id)
       this.initialRoleName = res.data.name
       this.editRole = res.data
-      setTimeout(() => {
-        this.loading = false
-      }, 2000)
+      this.loading = false
     } catch (e) {
-      setTimeout(() => {
-        this.loading = false
-      }, 3000)
+      this.loading = false
       console.log(e)
     }
   }
@@ -118,11 +123,6 @@ export default class EditRole extends Vue {
       try {
         const res = await RoleService.editRole(this.editRole)
         if (res.status === 200) {
-          Toast.successToast({
-            vInstance: this,
-            message: `${this.initialRoleName} has been updated to ${this.editRole.name}.`,
-            title: `Success`,
-          })
           setTimeout(() => {
             this.$router.push('/admin/roles')
           }, 4000)
@@ -130,7 +130,6 @@ export default class EditRole extends Vue {
       } catch (e) {
         this.loading = false
         console.log(e)
-        Toast.errorToast({ vInstance: this, title: 'Error', message: 'There was an error', errors: e })
       }
     }
   }

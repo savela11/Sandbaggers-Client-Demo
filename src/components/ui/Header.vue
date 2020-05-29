@@ -104,9 +104,6 @@ export default class HelloWorld extends Vue {
 
 @media (min-width: 375px) {
   .heading {
-    &__backgroundColor {
-    }
-
     &__title {
       h1 {
         font-size: 1.8rem;
@@ -117,9 +114,6 @@ export default class HelloWorld extends Vue {
 
 @media (min-width: 768px) {
   .heading {
-    &__backgroundColor {
-    }
-
     &__title {
       h1 {
         font-size: 3rem;
