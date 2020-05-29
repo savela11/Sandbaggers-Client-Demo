@@ -9,7 +9,7 @@
         <span>Menu</span>
         <v-icon>mdi-menu-swap-outline</v-icon>
       </v-btn>
-      <v-btn to="/profile" active-class="activeButton" @click.stop.prevent="handleCloseMenu">
+      <v-btn active-class="activeButton" @click.stop.prevent="openUserSettings">
         <span>Account</span>
         <v-icon>mdi-account-box-multiple</v-icon>
       </v-btn>
@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import { IUserLink, IAdminLink } from '@/types/Navigation/INavBar'
 import { ICurrentUser } from '@/types/User/AuthUser'
 
@@ -87,9 +87,14 @@ export default class Navigation extends Vue {
     this.toggleNavBar(false)
   }
 
+  @Emit('openUserSettings')
+  openUserSettings(): boolean {
+    this.handleCloseMenu()
+    return true
+  }
+
   handleCloseMenu(): void {
     this.toggleNavBar(false)
-    // this.$router.push(route.link).catch(() => {})
   }
 
   toUserProfile(): void {
