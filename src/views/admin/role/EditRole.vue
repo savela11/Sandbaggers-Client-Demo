@@ -1,9 +1,38 @@
 <template>
   <div class="editRole">
     <div v-if="!loading">
-      <v-form> <v-text-field label="Name" v-model="editRole.name" filled dense></v-text-field></v-form>
-      <v-btn @click.prevent.stop="updatedRoleName" color="secondary">Update</v-btn>
+      <!-- Toggle Edit Mode -->
+      <div class="d-flex justify-end">
+        <v-btn @click="isEditMode = !isEditMode" color="primary" small outlined>{{ isEditMode ? 'Done' : 'Edit' }}</v-btn>
+      </div>
+
+      <!-- Form Edit Title -->
+      <v-form>
+        <v-text-field label="Name" v-model="editRole.name"></v-text-field>
+      </v-form>
+
+      <!-- List of Users in Role -->
+      <v-list subheader>
+        <v-subheader>Users</v-subheader>
+        <!-- Single User -->
+        <v-list-item v-for="user in editRole.users" :key="user.id" class="elevation-3 mb-4">
+          <v-list-item-content>
+            <v-list-item-title v-text="user.fullName"></v-list-item-title>
+          </v-list-item-content>
+          <!-- Delete User trash icon -->
+          <v-list-item-icon v-if="isEditMode">
+            <v-btn @click.prevent.stop="removeUserFromRole(user)" text>
+              <v-icon color="error">mdi-delete-empty</v-icon>
+            </v-btn>
+          </v-list-item-icon>
+        </v-list-item>
+      </v-list>
+      <!-- Update Button -->
+      <div class="mt-5">
+        <v-btn @click.prevent.stop="updatedRoleName" :disabled="isEditMode ? false : true" color="secondary">Update</v-btn>
+      </div>
     </div>
+    <!-- Loading Component -->
     <div v-if="loading">
       <Loading value="large" />
     </div>
@@ -21,6 +50,7 @@ import UIStore from '../../../store/modules/UIStore'
 @Component({ name: 'EditRole', components: { Loading: (): Promise<object> => import('@/components/ui/Loading.vue') } })
 export default class EditRole extends Vue {
   loading = true
+  isEditMode = false
   editRole: IRoleDto = {
     id: '',
     name: '',
@@ -28,7 +58,7 @@ export default class EditRole extends Vue {
   }
   showUsersListToAdd = false
   showConfirmModal = false
-  canEditUsersRole = false
+
   removedUsers: Array<IUserWithoutRole> = []
   addedUsers: Array<IUserWithRole> = []
   usersWithoutRole: Array<IUserWithoutRole> = []
@@ -55,12 +85,8 @@ export default class EditRole extends Vue {
     })
   }
 
-  editCurrentUsersWithRole(): void {
-    this.canEditUsersRole = !this.canEditUsersRole
-  }
-
   removeUserFromRole(user: IUserWithRole): void {
-    if (this.canEditUsersRole) {
+    if (this.isEditMode) {
       const foundUserIndex = this.editRole.users.findIndex((u) => {
         return u.id === user.id
       })

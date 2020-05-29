@@ -109,6 +109,7 @@ export default class Navigation extends Vue {
   left: 0;
   width: 100%;
   background-color: white;
+  box-shadow: 0px 0 10px rgba(102, 102, 102, 0.8);
   &__wrapper {
     padding: 0.8rem 1rem;
   }
