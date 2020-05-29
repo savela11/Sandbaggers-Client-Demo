@@ -119,25 +119,25 @@ export default class Navigation extends Vue {
     ul {
       padding: 0;
       list-style-type: none;
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.3rem;
     }
 
     li {
-      flex: 0 0 31%;
-      margin: 0 0.5rem 0.5rem 0;
       &:last-child {
         margin-right: 0;
       }
     }
 
     .link {
+      grid-column: span 1;
       display: flex;
       flex-direction: column;
       border: 1px solid lightgrey;
       text-align: center;
       text-decoration: none;
-      padding: 0.3rem 0;
+      padding: 0.3rem;
       border-radius: 5px;
       span {
         margin-top: 0.3rem;

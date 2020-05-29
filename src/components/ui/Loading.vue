@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="loading" :style="`marginTop: ${topMargin}`">
+  <div class="loading" :class="`loading--${value}`">
     <v-progress-circular :size="100" color="secondary" indeterminate></v-progress-circular>
   </div>
 </template>
@@ -10,7 +10,26 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 @Component({ name: 'Loading' })
 export default class Loading extends Vue {
   @Prop({ default: '5%' }) topMargin: string | undefined
+  @Prop({ default: 'small' }) value: string | undefined
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.loading {
+  &--small {
+    margin-top: 5%;
+  }
+
+  &--medium {
+    margin-top: 10%;
+  }
+
+  &--large {
+    margin-top: 15%;
+  }
+
+  &--xLarge {
+    margin-top: 20%;
+  }
+}
+</style>

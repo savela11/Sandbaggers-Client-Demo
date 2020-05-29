@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <HeaderComponent :backgroundColor="headerColor" />
+    <HeaderComponent v-if="isHeaderShowing" :backgroundColor="headerColor" />
     <v-content>
       <router-view />
     </v-content>
@@ -13,8 +13,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { ICurrentUser, ILoginUser } from '@/types/User/AuthUser'
-import UIStore from '@/store/modules/UIStore'
+import { ICurrentUser } from '@/types/User/AuthUser'
 
 @Component({
   name: 'App',
@@ -26,6 +25,15 @@ export default class App extends Vue {
       return '#17252a'
     } else {
       return '#425a41'
+    }
+  }
+
+  get isHeaderShowing(): boolean {
+    console.log(this.$route)
+    if (this.$route.name === 'Sandbagger') {
+      return false
+    } else {
+      return true
     }
   }
 

@@ -26,7 +26,7 @@
       </div>
       <v-btn class="mt-5 secondary" :loading="loading" @click="updateUserProfile">Update</v-btn>
     </div>
-    <Loading topMargin="25%" v-if="loading" />
+    <Loading value="large" v-if="loading" />
   </div>
 </template>
 

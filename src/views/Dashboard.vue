@@ -19,7 +19,7 @@
         </v-col>
       </v-row>
 
-      <Loading v-if="loading" topMargin="25%" />
+      <Loading v-if="loading" value="large" />
       <v-list-item-group v-if="!loading">
         <router-link v-for="sb in filteredSandbaggers" :key="sb.id" class="sbLink" :to="{ name: 'Sandbagger', params: { profileId: sb.profile.profileId } }">
           <v-row>

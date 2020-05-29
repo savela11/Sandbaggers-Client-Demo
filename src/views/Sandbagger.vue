@@ -1,6 +1,8 @@
 <template>
   <div class="Sandbagger">
-    <div></div>
+    <div>
+      <h1>{{ Sandbagger.fullName }}</h1>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -11,11 +13,10 @@ import { ICurrentUser } from '@/types/User/AuthUser'
 
 @Component({ name: 'Sandbagger' })
 export default class Sandbagger extends Vue {
-  private Sandbagger = {} as ICurrentUser
+  Sandbagger = {} as ICurrentUser
 
   mounted(): void {
     UIStore._setHeaderTitle('Users Page')
-
     this.getUserInfo()
   }
 

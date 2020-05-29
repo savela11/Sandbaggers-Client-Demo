@@ -15,26 +15,16 @@ export interface IUiState {
 })
 class UIModule extends VuexModule {
   headerTitle = 'Title'
-  isHeaderShowing = true
   toastTimer = 4000
 
   @Mutation
   SetHeaderTitle(headerTitle: string): void {
     this.headerTitle = headerTitle
   }
-  @Mutation
-  SetHeaderShowing(isHeaderShowing: boolean): void {
-    this.isHeaderShowing = isHeaderShowing
-  }
 
   @Action({ commit: 'SetHeaderTitle' })
   _setHeaderTitle(newHeaderTitle: string): string {
     return newHeaderTitle
-  }
-
-  @Action({ commit: 'SetHeaderShowing' })
-  setHeaderShowing(headerShowingStatus: boolean): boolean {
-    return headerShowingStatus
   }
 }
 
