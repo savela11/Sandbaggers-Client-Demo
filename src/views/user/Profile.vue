@@ -1,19 +1,32 @@
 <template>
   <div class="profile" v-if="currentUser">
-    <v-row class="my-4">
+    <v-row class="mt-4">
       <v-col offset="5" cols="6" class="d-flex justify-end">
         <v-select dense :items="buttonOptions" label="Options" v-model="currentOption" outlined></v-select>
       </v-col>
     </v-row>
-    <div v-if="currentOption === 'Profile' && currentUser.profile">
-      <v-form class="px-8">
-        <v-text-field label="First Name" v-model="currentUser.profile.firstName"></v-text-field>
-        <v-text-field label="Last Name" v-model="currentUser.profile.lastName"></v-text-field>
-        <v-text-field label="Email" v-model="currentUser.email"></v-text-field>
-        <v-text-field label="Handicap" type="number" step=".1" min="-10" max="100" v-model="currentUser.profile.handicap"></v-text-field>
-        <v-text-field label="Profile Image" v-model="currentUser.profile.image"></v-text-field>
-      </v-form>
+    <div class="optionContainer px-8" v-if="!loading">
+      <div v-if="currentOption === 'Profile' && currentUser.profile">
+        <div class="d-flex flex-column align-end mb-8">
+          <v-btn class="blue-grey white--text darken-3 mb-3" @click="previewImage = !previewImage" x-small>Image Preview</v-btn>
+          <v-card v-if="previewImage">
+            <v-img :src="currentUser.profile.image" contain class="grey darken-4"></v-img>
+          </v-card>
+        </div>
+        <v-form>
+          <v-text-field label="First Name" v-model="currentUser.profile.firstName"></v-text-field>
+          <v-text-field label="Last Name" v-model="currentUser.profile.lastName"></v-text-field>
+          <v-text-field label="Email" v-model="currentUser.email"></v-text-field>
+          <v-text-field label="Handicap" type="number" step=".1" min="-10" max="100" v-model.number="currentUser.profile.handicap"></v-text-field>
+          <v-text-field label="Profile Image" v-model="currentUser.profile.image"></v-text-field>
+        </v-form>
+      </div>
+      <div v-if="currentOption === 'Settings'">
+        <v-switch v-model="currentUser.settings.updateHandicapOnLogin" :label="`Update Handicap on login?`"></v-switch>
+      </div>
+      <v-btn class="mt-5 secondary" :loading="loading" @click="updateUserProfile">Update</v-btn>
     </div>
+    <Loading topMargin="25%" v-if="loading" />
   </div>
 </template>
 
@@ -27,10 +40,15 @@ interface IOption {
   name: string
 }
 
-@Component({ name: 'Profile' })
+@Component({
+  name: 'Profile',
+  components: {
+    Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
+  },
+})
 export default class Profile extends Vue {
   loading = false
-  // buttonOptions: IOption[] = [{name: 'Profile'}, {name: 'Settings'}, {name: 'Bets'}, {name: 'Posts'}]
+  previewImage = false
   buttonOptions = ['Profile', 'Settings', 'Bets', 'Posts']
   currentOption = 'Profile'
   currentUser = {} as ICurrentUser
@@ -45,10 +63,8 @@ export default class Profile extends Vue {
     this.loading = true
     try {
       const res = await UsersService.updateUserProfileAndSettings(this.currentUser)
-
-      setTimeout(() => {
-        this.loading = false
-      }, 3000)
+      console.log(res)
+      this.loading = false
     } catch (e) {
       console.log(e)
       setTimeout(() => {

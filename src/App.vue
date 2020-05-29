@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <HeaderComponent />
+    <HeaderComponent :backgroundColor="headerColor" />
     <v-content>
       <router-view />
     </v-content>
@@ -14,15 +14,20 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { ICurrentUser, ILoginUser } from '@/types/User/AuthUser'
-import Toast from '@/utility/Toasts'
 import UIStore from '@/store/modules/UIStore'
 
 @Component({
   name: 'App',
-  components: { HeaderComponent: () => import('@/components/ui/Header.vue'), NavBar: () => import('@/components/navigation/NavBar.vue') },
+  components: { HeaderComponent: (): Promise<object> => import('@/components/ui/Header.vue'), NavBar: (): Promise<object> => import('@/components/navigation/NavBar.vue') },
 })
 export default class App extends Vue {
-  mounted(): void {}
+  get headerColor(): string {
+    if (this.$route.path.startsWith('/admin')) {
+      return '#17252a'
+    } else {
+      return '#425a41'
+    }
+  }
 
   get CurrentUser(): ICurrentUser {
     return this.$store.getters['authStore/CurrentUser']

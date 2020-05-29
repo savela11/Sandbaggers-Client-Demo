@@ -18,7 +18,9 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-list-item-group>
+
+      <Loading v-if="loading" topMargin="25%" />
+      <v-list-item-group v-if="!loading">
         <router-link v-for="sb in filteredSandbaggers" :key="sb.id" class="sbLink" :to="{ name: 'Sandbagger', params: { profileId: sb.profile.profileId } }">
           <v-row>
             <v-col cols="3" class="text-center">
@@ -42,10 +44,11 @@ import UIStore from '@/store/modules/UIStore'
 @Component({
   name: 'Dashboard',
   components: {
-    SandbaggerItem: (): Promise<object> => import('@/components/dashboard/SandbaggerListItem.vue'),
+    Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
   },
 })
 export default class Dashboard extends Vue {
+  loading = false
   Sandbaggers: IUserWithProfile[] = []
   descendingHandicap = false
   searchInput = ''
@@ -95,11 +98,16 @@ export default class Dashboard extends Vue {
   }
 
   async GetUsers(): Promise<void> {
+    this.loading = true
     try {
       const res = await UsersService.getUsers()
-      this.Sandbaggers = this.sortSandbaggersAscending(res.data)
+      if (res.status === 200) {
+        this.Sandbaggers = this.sortSandbaggersAscending(res.data)
+      }
+      this.loading = false
     } catch (e) {
       console.log(e)
+      this.loading = false
     }
   }
 }

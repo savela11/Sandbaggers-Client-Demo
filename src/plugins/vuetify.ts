@@ -19,6 +19,7 @@ export default new Vuetify({
       light: {
         primary: '#425a41',
         secondary: '#17252a',
+        danger: '#8b2635',
       },
     },
   },
