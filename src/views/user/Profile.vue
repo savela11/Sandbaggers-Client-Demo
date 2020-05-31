@@ -52,7 +52,6 @@ export default class Profile extends Vue {
   buttonOptions = ['Profile', 'Settings', 'Bets', 'Posts']
   currentOption = 'Profile'
   currentUser = {} as ICurrentUser
-  show = true
 
   mounted(): void {
     UIStore._setHeaderTitle('Update Settings')

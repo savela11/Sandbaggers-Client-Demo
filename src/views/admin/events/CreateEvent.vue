@@ -1,35 +1,18 @@
 <template>
-  <div class="card p-1 border-0">
-    <div class="card-header bg-secondary text-white">
-      <h1 class="h3">Create Event</h1>
-    </div>
-    <div class="card-body">
-      <form v-if="!loading">
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" v-model="createEvent.name" class="form-control" id="name" />
-        </div>
-        <div class="form-group">
-          <label for="year">Year</label>
-          <input type="text" v-model="createEvent.year" class="form-control" id="year" />
-        </div>
-
-        <div class="btn-group-sm justify-content-end row no-gutters mt-5">
-          <router-link to="/admin/events" class="btn btn-danger">Cancel</router-link>
-          <button @click.prevent.stop="onSubmit" type="submit" class="ml-1 btn btn-primary">Create</button>
-        </div>
-      </form>
-      <div class="loading" v-if="loading">
-        <b-spinner class="loading__spinner" label="Large Spinner"></b-spinner>
-      </div>
-    </div>
-  </div>
+  <v-form>
+    <v-text-field label="Name" v-model="createEvent.name"></v-text-field>
+    <v-text-field label="Year" v-model="createEvent.year"></v-text-field>
+    <v-btn color="primary" class="mt-5" @click.stop.prevent="onSubmit">
+      Submit
+    </v-btn>
+  </v-form>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import AdminService from '@/services/AdminService'
 import { ICreateEvent } from '@/types/Admin/Event'
+import UIStore from '@/store/modules/UIStore'
 
 @Component({ name: 'CreateEvent' })
 export default class CreateEvent extends Vue {
@@ -40,6 +23,9 @@ export default class CreateEvent extends Vue {
     year: '',
   }
 
+  mounted(): void {
+    UIStore._setHeaderTitle('Create Event')
+  }
   async onSubmit(): Promise<void> {
     this.loading = true
     try {

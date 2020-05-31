@@ -10,8 +10,6 @@ interface ICreateRoleResponse {
 }
 
 class AdminService {
-
-
   static async createEvent(createEvent: ICreateEvent): Promise<AxiosResponse<any>> {
     return await apiClient.post(url + `/createEvent`, createEvent)
   }

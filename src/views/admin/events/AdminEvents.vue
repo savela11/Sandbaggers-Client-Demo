@@ -1,74 +1,50 @@
 ﻿<template>
   <div class="events p-1">
-    <div class="modal" tabindex="-1" role="dialog" v-if="showModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Confirm</h5>
-            <button type="button" @click="confirmModal(false)" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p v-if="selectedToDelete">Are you sure you want to delete {{ selectedToDelete.name }} role?</p>
-          </div>
-          <div class="modal-footer">
-            <!--            <button @click="deleteRole(selectedToDelete)" type="button" class="btn btn-danger">delete</button>-->
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header bg-secondary text-white">
-        <h1 class="h2">Events</h1>
-      </div>
-      <div v-if="!loading" class="card-body">
-        <div class="row justify-content-between align-items-center no-gutters">
-          <div class="col-7">
-            Name
-          </div>
-          <div class="col-3">
-            Year
-          </div>
-          <div class="col-2">
-            <div class="container">
-              <div class="row justify-content-end">
-                <router-link to="events/create" class="btn btn-sm btn-primary">Create</router-link>
+    <v-row class="justify-end">
+      <v-btn dark fab small color="primary" to="/admin/events/create">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </v-row>
+
+    <v-expansion-panels>
+      <v-expansion-panel v-for="event in Events" :key="event.eventId">
+        <v-expansion-panel-header>
+          <v-row no-gutters>
+            <v-col cols="4"
+              ><h2 class="subtitle-1 font-weight-bold">{{ event.name }}</h2></v-col
+            >
+          </v-row>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <hr />
+
+          <v-row no-gutters>
+            <v-col cols="6" class="d-flex align-center">
+              <div class="d-flex align-center">
+                <p class="body-2">
+                  Users
+                </p>
+                <p class="ml-2 caption">{{ `( ${role.users.length} )` }}</p>
               </div>
-            </div>
-          </div>
-        </div>
-        <hr />
-        <div class="mt-3" v-if="Events.length < 1">
-          <p>No events created....</p>
-        </div>
-        <div v-else>
-          <div class="row py-3 no-gutters justify-content-between align-items-center border-bottom" v-for="event in Events" v-bind:key="event.eventId">
-            <div class="col-7">
-              <p class="m-0">{{ event.name }}</p>
-            </div>
-            <div class="col-3">
-              <p class="m-0">{{ event.year }}</p>
-            </div>
-            <div class="col-2">
-              <div class="container">
-                <div class="row flex-column justify-content-end">
-                  <router-link :to="{ name: 'EditEvent', params: { id: event.eventId } }" class="btn btn-sm m-0 mb-1 btn-secondary">
-                    edit
-                  </router-link>
-                  <button @click="confirmModal(true, event)" class="btn btn-sm m-0 btn-danger">
-                    delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="loading" v-if="loading">
-      <b-spinner class="loading__spinner" label="Large Spinner"></b-spinner>
-    </div>
+            </v-col>
+            <v-col> </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn text color="secondary">
+                  Cancel
+                </v-btn>
+                <v-btn text color="primary" :to="`/admin/roles/editRole/${role.id}`">
+                  Edit
+                </v-btn>
+              </v-card-actions>
+            </v-col>
+          </v-row>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </div>
 </template>
 
