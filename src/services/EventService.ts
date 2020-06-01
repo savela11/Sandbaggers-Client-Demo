@@ -1,15 +1,12 @@
 import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
+import { IEventDto } from '@/types/Admin/Event'
 
-const url = '/users'
-
-// interface IEvent {
-//
-// }
+const url = '/events'
 
 class EventService {
-  public static async getEvents(): Promise<AxiosResponse<any>> {
-    return await apiClient.get(url + '/GetUsers')
+  static async eventList(): Promise<AxiosResponse<IEventDto[]>> {
+    return await apiClient.get(url + `/EventList`)
   }
 }
 

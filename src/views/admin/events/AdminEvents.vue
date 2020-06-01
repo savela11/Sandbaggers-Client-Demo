@@ -51,9 +51,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import UIStore from '@/store/modules/UIStore'
-import AdminService from '@/services/AdminService'
-import Toast from '@/utility/Toasts'
 import { IEventDto } from '@/types/Admin/Event'
+import EventService from '@/services/EventService'
 
 @Component({ name: 'AdminEvents' })
 export default class AdminEvents extends Vue {
@@ -78,7 +77,7 @@ export default class AdminEvents extends Vue {
 
   async getEvents(): Promise<void> {
     try {
-      const { data } = await AdminService.eventList()
+      const { data } = await EventService.eventList()
       this.Events = data
       console.log(data)
     } catch (e) {
