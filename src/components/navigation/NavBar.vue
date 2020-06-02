@@ -31,7 +31,7 @@
             <v-btn to="/admin" @click.stop.prevent="handleCloseMenu" small>
               Admin
             </v-btn>
-            <v-btn class="logoutBtn danger" small>Logout</v-btn>
+            <v-btn @click="Logout" class="logoutBtn danger" small>Logout</v-btn>
           </div>
         </div>
       </div>
@@ -53,7 +53,7 @@ export default class Navigation extends Vue {
   showNav = true
   userLinks: IUserLink[] = [
     { name: 'Dashboard', link: '/dashboard', icon: 'view-dashboard' },
-    { name: 'Sandbaggers', link: '/sandbaggers', icon: 'golf' },
+    { name: 'Sandbaggers', link: '/sandbaggerEvents', icon: 'golf' },
   ]
   activeAdminLink = 'Admin Dashboard'
   adminLinks: IAdminLink[] = [

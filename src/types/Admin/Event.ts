@@ -7,11 +7,19 @@ export interface IEventLocation {
   postalCode: string
 }
 
+export interface IRegisterUser {
+  eventId: string
+  id: string
+  username: string
+  fullName: string
+}
+
 export interface IEventDto {
   eventId: number
   name: string
   location: IEventLocation
   teams: IEventTeam[]
+  registeredUsers: IRegisterUser[]
   year: string
   createdOn: string
   isPublished: boolean
@@ -22,7 +30,7 @@ export interface IEventTeam {
   teamId: number
   name: string
   captain: string
-  // teamMembers: IUserDto[]
+  teamMembers: IRegisterUser[]
 }
 
 export interface ICreateEvent {

@@ -6,7 +6,7 @@
     </v-content>
 
     <div v-if="CurrentUser">
-      <UserProfile :dialog="isUserProfileShowing" @closeUserProfile="userSettings(false)" />
+      <UserProfile :dialog="isUserProfileShowing" @closeUserProfile="userSettings(false)"/>
       <NavBar @openUserSettings="userSettings" />
     </div>
   </v-app>
@@ -34,8 +34,7 @@ export default class App extends Vue {
     }
   }
 
-  get isHeaderShowing(): boolean {
-    console.log(this.$route)
+    get isHeaderShowing(): boolean {
     if (this.$route.name === 'Sandbagger') {
       return false
     } else {

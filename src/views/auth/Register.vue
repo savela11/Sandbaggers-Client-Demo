@@ -1,5 +1,5 @@
 ﻿<template>
-  <v-container class="register pa-6 mt-5">
+  <div class="register pa-2 mt-4">
     <form>
       <v-text-field v-model="form.username" outlined label="Username" required></v-text-field>
       <v-text-field v-model="form.email" outlined label="Email" required></v-text-field>
@@ -30,7 +30,7 @@
     <div class="mt-10 body-2">
       <router-link to="/login">Already have an account?</router-link>
     </div>
-  </v-container>
+  </div>
 </template>
 
 <script lang="ts">

@@ -1,7 +1,13 @@
 ﻿<template>
   <div class="roles">
+    <v-row class="justify-end mb-6">
+      <v-btn dark fab small color="primary" to="/admin/roles/createRole">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </v-row>
+
     <v-expansion-panels>
-      <v-expansion-panel v-for="role in Roles" :key="role.id">
+      <v-expansion-panel v-for="role in Roles" :key="role.id" class="mb-4">
         <v-expansion-panel-header>
           <v-row no-gutters>
             <v-col cols="4"

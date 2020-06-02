@@ -1,5 +1,5 @@
 ﻿<template>
-  <v-container class="login pa-6 mt-5">
+  <div class="login pa-2 mt-4">
     <form>
       <v-text-field v-model="LoginForm.username" outlined label="Username" required></v-text-field>
       <v-text-field
@@ -17,7 +17,7 @@
     <div class="mt-10 body-2">
       <router-link to="/register">Need an account?</router-link>
     </div>
-  </v-container>
+  </div>
 </template>
 
 <script lang="ts">
@@ -46,9 +46,9 @@ export default class Login extends Vue {
     try {
       setTimeout(() => {
         this.$store.dispatch('authStore/LoginUser', { vm: this, loginUser: this.LoginForm })
+        this.loading = false
       }, 3000)
     } catch (e) {
-      console.log(e)
       this.loading = false
     }
   }

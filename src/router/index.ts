@@ -64,6 +64,24 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
+    path: '/sandbaggerEvents',
+    name: 'SandbaggerEvents',
+    component: loadView('event/SandbaggerEvents'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+
+  {
+    path: '/sandbaggerEvents/:eventId',
+    name: 'SandbaggerEvent',
+    component: loadView('event/SandbaggerEvent'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+
+  {
     path: '/profile',
     name: 'Profile',
     component: loadView('user/Profile'),

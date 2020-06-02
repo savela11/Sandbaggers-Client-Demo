@@ -1,20 +1,28 @@
 <template>
-  <v-form>
-    <v-text-field label="Name" v-model="createEvent.name"></v-text-field>
-    <v-text-field label="Year" v-model="createEvent.year"></v-text-field>
-    <v-btn color="primary" class="mt-5" @click.stop.prevent="onSubmit">
-      Submit
-    </v-btn>
-  </v-form>
+  <div>
+    <v-form v-if="!loading">
+      <v-text-field label="Name" v-model="createEvent.name"></v-text-field>
+      <v-text-field label="Year" v-model="createEvent.year"></v-text-field>
+      <v-btn color="secondary" class="mt-5" @click.stop.prevent="onSubmit">
+        Submit
+      </v-btn>
+    </v-form>
+    <Loading v-if="loading" value="large" />
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import AdminService from '@/services/AdminService'
 import { ICreateEvent } from '@/types/Admin/Event'
 import UIStore from '@/store/modules/UIStore'
+import EventService from '@/services/EventService'
 
-@Component({ name: 'CreateEvent' })
+@Component({
+  name: 'CreateEvent',
+  components: {
+    Loading: () => import('@/components/ui/Loading.vue'),
+  },
+})
 export default class CreateEvent extends Vue {
   loading = false
 
@@ -29,7 +37,7 @@ export default class CreateEvent extends Vue {
   async onSubmit(): Promise<void> {
     this.loading = true
     try {
-      const res = await AdminService.createEvent(this.createEvent)
+      const res = await EventService.createEvent(this.createEvent)
       if (res.status === 200) {
         setTimeout(() => {
           this.$router.push('/admin/events')

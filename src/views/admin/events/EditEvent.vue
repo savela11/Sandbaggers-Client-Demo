@@ -1,82 +1,40 @@
 <template>
-  <div v-if="editEvent" class="card p-1 border-0">
-    <div v-if="!loading && editEvent">
-      <div class="card-header bg-secondary text-white">
-        <h1 class="h4">{{ editEvent.name }}</h1>
+  <div class="editEvent">
+    <div v-if="!loading">
+      <!-- Toggle Edit Mode -->
+      <div class="d-flex justify-end">
+        <v-btn @click="isEditMode = !isEditMode" color="primary" small outlined>{{ isEditMode ? 'Done' : 'Edit' }}</v-btn>
       </div>
-      <div class="card-body">
-        <div class="mb-3">
-          <p class="createdOn">{{ editEvent.createdOn | dateFilter }}</p>
-        </div>
-        <form>
-          <b-form-row class="align-items-center">
-            <b-col>
-              <b-form-group label="Current Year?">
-                <b-form-radio-group button-variant="outline-secondary" v-model="editEvent.isCurrentYear" buttons>
-                  <b-form-radio :value="true">Yes</b-form-radio>
-                  <b-form-radio :value="false">No</b-form-radio>
-                </b-form-radio-group>
-              </b-form-group>
-            </b-col>
-            <b-col>
-              <b-form-group label="Publish Event?">
-                <b-form-radio-group button-variant="outline-secondary" v-model="editEvent.isPublished" buttons>
-                  <b-form-radio :value="true">Yes</b-form-radio>
-                  <b-form-radio :value="false">No</b-form-radio>
-                </b-form-radio-group>
-              </b-form-group>
-            </b-col>
-          </b-form-row>
-          <!--NAME-->
-          <div class="form-group">
-            <label for="eventName" class="col-form-label">Name</label>
-            <div>
-              <input type="text" v-model="editEvent.name" class="form-control" id="eventName" />
-            </div>
-          </div>
-          <!--YEAR-->
-          <div class="form-group">
-            <label for="eventYear" class="col-form-label">Year</label>
-            <div>
-              <input type="text" v-model="editEvent.year" class="form-control" id="eventYear" />
-            </div>
-          </div>
-          <!--TEAMS-->
-          <div class="form-group">
-            <b-row class="align-items-center no-gutters justify-content-between">
-              <b-col>
-                <p>Teams</p>
-              </b-col>
-              <b-col class="d-flex justify-content-end">
-                <b-button size="sm" variant="secondary" @click="isAddTeam = !isAddTeam">
-                  Add Team
-                  <b-icon icon="plus-circle-fill"></b-icon>
-                </b-button>
-              </b-col>
-            </b-row>
-            <!--TEAM BUTTONS-->
-            <b-button-group class="btn-group-sm flex-wrap">
-              <b-button class="m-1 bg-transparent text-secondary">Button 1</b-button>
-            </b-button-group>
-          </div>
 
-          <!--ADD TEAM-->
-          <div class="form-group" v-if="isAddTeam">
-            <label for="teamName" class="col-form-label">Team Name</label>
-            <input id="teamName" v-model="team.name" class="form-control" />
-          </div>
-        </form>
-      </div>
-      <div class="card-footer border-0 bg-transparent">
-        <div class="d-flex justify-content-end">
-          <router-link to="/admin/events" class="btn btn-danger">cancel</router-link>
-          <button @click="updatedSelectedEvent" class="btn btn-primary ml-2">update</button>
-        </div>
+      <!-- Form Edit Title -->
+      <v-form>
+        <v-text-field label="Name" v-model="Event.name"></v-text-field>
+      </v-form>
+
+      <!-- List of Registered users in event -->
+      <v-list subheader>
+        <v-subheader>Registered Sandbaggers ({{ Event.registeredUsers ? Event.registeredUsers.length : 0 }})</v-subheader>
+        <!-- Single User -->
+        <v-list-item v-for="user in Event.registeredUsers" :key="user.id" class="elevation-3 mb-4">
+          <v-list-item-content>
+            <v-list-item-title v-text="user.fullName"></v-list-item-title>
+          </v-list-item-content>
+          <!-- Delete User trash icon -->
+          <v-list-item-icon v-if="isEditMode">
+            <v-btn @click.prevent.stop="removeUserFromEvent(user)" text>
+              <v-icon color="error">mdi-delete-empty</v-icon>
+            </v-btn>
+          </v-list-item-icon>
+        </v-list-item>
+      </v-list>
+      <!-- Update Button -->
+      <div class="mt-5">
+        <v-btn @click.prevent.stop="updatedSelectedEvent" :disabled="isEditMode ? false : true" color="secondary">Update</v-btn>
       </div>
     </div>
-
-    <div class="loading loading--half" v-if="loading">
-      <b-spinner class="loading__spinner" label="Large Spinner"></b-spinner>
+    <!-- Loading Component -->
+    <div v-if="loading">
+      <Loading value="large" />
     </div>
   </div>
 </template>
@@ -85,14 +43,17 @@
 import { Component, Vue } from 'vue-property-decorator'
 import AdminService from '@/services/AdminService'
 import { IEventDto } from '@/types/Admin/Event'
-import Toast from '@/utility/Toasts'
-
+import UIStore from '@/store/modules/UIStore'
+import EventService from '@/services/EventService'
 interface ICreateTeam {
   name: string
 }
 
 @Component({
   name: 'EditEvent',
+  components: {
+    Loading: () => import('@/components/ui/Loading.vue'),
+  },
   filters: {
     dateFilter(createdOn: string): string {
       const d = new Date(createdOn)
@@ -107,20 +68,23 @@ interface ICreateTeam {
 export default class EditEvent extends Vue {
   loading = false
   initialEventName = ''
-  editEvent = {} as IEventDto
+  Event = {} as IEventDto
   team = {} as ICreateTeam
   isAddTeam = false
+  isEditMode = false
 
   mounted(): void {
     this.getEventById()
+    UIStore._setHeaderTitle('Edit Event')
   }
 
   async getEventById(): Promise<void> {
     this.loading = true
     try {
-      const res = await AdminService.getEventById(this.$route.params.id)
+      const res = await EventService.getEventById(this.$route.params.id)
       this.initialEventName = res.data.name
-      this.editEvent = res.data
+      this.Event = res.data
+
       this.loading = false
     } catch (e) {
       this.loading = false
@@ -128,16 +92,15 @@ export default class EditEvent extends Vue {
     }
   }
 
+  removeUserFromEvent(user: object) {
+    console.log(user)
+  }
+
   async updatedSelectedEvent(): Promise<void> {
     this.loading = true
     try {
-      const res = await AdminService.editEvent(this.editEvent)
+      const res = await AdminService.editEvent(this.Event)
       if (res.status === 200) {
-        Toast.successToast({
-          vInstance: this,
-          message: `${this.initialEventName} has been updated to ${this.editEvent.name}.`,
-          title: `Success`,
-        })
         setTimeout(() => {
           this.$router.push('/admin/events')
         }, 4000)
@@ -145,7 +108,6 @@ export default class EditEvent extends Vue {
     } catch (e) {
       this.loading = false
       console.log(e)
-      Toast.errorToast({ vInstance: this, title: 'Error', message: 'There was an error', errors: e })
     }
   }
 }
