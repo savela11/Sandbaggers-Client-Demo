@@ -35,13 +35,9 @@ apiClient.interceptors.response.use(
   },
   async (error) => {
     if (error.response.status === 401 || error.response.statusText === 'Unauthorized') {
-      // @ts-ignore
-      await store.dispatch('authStore/LogoutWithError', { title: 'Session Expired', message: 'You must re-login.' })
+      await store.dispatch('authStore/Logout')
     }
     console.log('Response Error', error.response)
-    if (error.response.data.success === false) {
-      console.log('this is the Error response data', error.response.data)
-    }
 
     return Promise.reject(error.response)
   }

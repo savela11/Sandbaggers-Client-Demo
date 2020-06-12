@@ -7,6 +7,11 @@ export interface IUiState {
   toastTimer: number
 }
 
+interface IError {
+  message: string
+  showSnackBar: boolean
+}
+
 @Module({
   namespaced: true,
   name: 'uiStore',
@@ -15,7 +20,8 @@ export interface IUiState {
 })
 class UIModule extends VuexModule {
   headerTitle = 'Title'
-  toastTimer = 4000
+  message = ''
+  showSnackBar = false
 
   @Mutation
   SetHeaderTitle(headerTitle: string): void {
@@ -25,6 +31,21 @@ class UIModule extends VuexModule {
   @Action({ commit: 'SetHeaderTitle' })
   _setHeaderTitle(newHeaderTitle: string): string {
     return newHeaderTitle
+  }
+
+  @Mutation
+  SetSnackBar(error: IError): void {
+    if (error.showSnackBar === true) {
+      this.message = error.message
+    } else {
+      this.message = ''
+      this.showSnackBar = false
+    }
+  }
+
+  @Action({ commit: 'SetSnackBar' })
+  _errorMessage(error: IError): IError {
+    return error
   }
 }
 

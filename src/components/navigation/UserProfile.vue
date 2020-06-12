@@ -1,5 +1,5 @@
-!<template>
-  <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+<template>
+  <v-dialog class="userProfile" v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
     <v-card>
       <v-toolbar dark color="primary">
         <v-btn icon dark @click="closeUserProfile">
@@ -19,7 +19,7 @@
             </v-col>
           </v-row>
           <div v-if="currentOption === 'Profile'">
-            <div class="d-flex flex-column align-end mb-8">
+            <div v-if="currentUser.profile && currentUser.profile.image" class="d-flex flex-column align-end mb-8">
               <v-btn class="blue-grey white--text darken-3 mb-3" @click="previewImage = !previewImage" x-small>Image Preview</v-btn>
               <v-card v-if="previewImage">
                 <v-img :src="currentUser.profile.image" contain class="grey darken-4" max-width="250"></v-img>
@@ -32,39 +32,20 @@
               <v-text-field label="Handicap" type="number" step=".1" min="-10" max="100" v-model.number="currentUser.profile.handicap"></v-text-field>
               <v-text-field label="Profile Image" v-model="currentUser.profile.image"></v-text-field>
             </v-form>
+            <v-btn class="logoutButton danger">Logout</v-btn>
           </div>
+          <v-list v-if="currentOption === 'Settings'" three-line subheader>
+            <v-list-item>
+              <v-list-item-action>
+                <v-checkbox v-model="currentUser.settings.updateHandicapOnLogin"></v-checkbox>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Update Profile</v-list-item-title>
+                <v-list-item-subtitle>Open profile upon login to update handicap / settings.</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
         </v-container>
-        <v-divider></v-divider>
-        <v-list three-line subheader>
-          <v-subheader>General</v-subheader>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox v-model="notifications"></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Notifications</v-list-item-title>
-              <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox v-model="sound"></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Sound</v-list-item-title>
-              <v-list-item-subtitle>Auto-update apps at any time. Data charges may apply</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox v-model="widgets"></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Auto-add widgets</v-list-item-title>
-              <v-list-item-subtitle>Automatically add home screen widgets</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
       </div>
 
       <Loading value="large" v-if="loading" />
@@ -83,9 +64,6 @@ import { ICurrentUser } from '@/types/User/AuthUser'
 })
 export default class UserProfile extends Vue {
   @Prop({ default: false }) dialog!: boolean
-  notifications = false
-  sound = true
-  widgets = false
   loading = false
   previewImage = false
   buttonOptions = ['Profile', 'Settings', 'Bets', 'Posts']
@@ -132,4 +110,13 @@ export default class UserProfile extends Vue {
   }
 }
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.userProfile {
+  z-index: 1000;
+}
+
+.logoutButton {
+  color: white;
+  margin-top: 10rem;
+}
+</style>

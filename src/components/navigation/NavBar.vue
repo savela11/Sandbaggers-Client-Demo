@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
     <v-bottom-navigation id="mainNav" v-model="activeBtn" :input-value="showNav" color="secondary">
-      <v-btn active-class="activeButton" @click.stop.prevent="handleCloseMenu">
+      <v-btn to="/bets" active-class="activeButton" @click.stop.prevent="handleCloseMenu">
         <span class="linkName">Bets</span>
         <v-icon>mdi-cash-multiple</v-icon>
       </v-btn>

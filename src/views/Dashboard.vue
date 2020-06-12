@@ -2,8 +2,8 @@
   <div class="dashboard">
     <v-list rounded>
       <v-subheader class="subtitle-1 subHeader">
-        <v-icon color="secondary" large class="mr-4">mdi-account-search</v-icon>
-        <v-form>
+        <v-icon @click="showSearchInput = !showSearchInput" color="secondary" class="mr-4">mdi-account-search</v-icon>
+        <v-form v-if="showSearchInput">
           <v-text-field v-model="searchInput" label="Search Sandbaggers"></v-text-field>
         </v-form>
       </v-subheader>
@@ -52,6 +52,7 @@ export default class Dashboard extends Vue {
   loading = false
   Sandbaggers: IUserWithProfile[] = []
   descendingHandicap = false
+  showSearchInput = false
   searchInput = ''
   fields = [
     { key: 'profile.firstName', label: 'Name', sortable: true },

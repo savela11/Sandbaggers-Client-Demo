@@ -3,9 +3,9 @@ import { ICurrentUser } from '@/types/User/AuthUser'
 import SecureLS from 'secure-ls'
 import AuthService from '../../services/AuthService'
 import { ActionContext } from 'vuex'
-import { IRootState } from '..'
-import Toast from '@/utility/Toasts'
+import { IRootState } from '../index'
 import { ISuccessToastWithTitleAndMessage } from '@/types/UI/IToast'
+import UIStore from '@/store/modules/UIStore'
 
 const ls = new SecureLS({ isCompression: false })
 
@@ -46,6 +46,7 @@ const actions = {
       }
     } catch (e) {
       console.log(e)
+      await context.dispatch('uiStore/_errorMessage', 'here is the message', { root: true })
     }
   },
 

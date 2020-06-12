@@ -45,7 +45,6 @@ const routes: Array<RouteConfig> = [
     name: 'Login',
     component: loadView('auth/Login'),
   },
-
   {
     path: '/dashboard',
     name: 'Dashboard',
@@ -54,7 +53,6 @@ const routes: Array<RouteConfig> = [
       requiresAuth: true,
     },
   },
-
   {
     path: '/sandbagger/:profileId',
     name: 'Sandbagger',
@@ -71,7 +69,6 @@ const routes: Array<RouteConfig> = [
       requiresAuth: true,
     },
   },
-
   {
     path: '/sandbaggerEvents/:eventId',
     name: 'SandbaggerEvent',
@@ -80,11 +77,18 @@ const routes: Array<RouteConfig> = [
       requiresAuth: true,
     },
   },
-
   {
     path: '/profile',
     name: 'Profile',
     component: loadView('user/Profile'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/bets',
+    name: 'Bets',
+    component: loadView('Bets'),
     meta: {
       requiresAuth: true,
     },
