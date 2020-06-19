@@ -38,6 +38,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { IRegisterUser } from '@/types/User/AuthUser'
 import AuthService from '../../services/AuthService'
 import UIStore from '../../store/modules/UIStore'
+import { ISnackBar } from '@/types/UI/SnackBar'
 
 @Component({ name: 'Register' })
 export default class Login extends Vue {
@@ -61,35 +62,83 @@ export default class Login extends Vue {
 
   async onSubmit(): Promise<void> {
     this.loading = true
+    if (this.validateForm()) {
+      try {
+        const res = await AuthService.registerUser(this.form)
+
+        if (this.form.loginAfterRegister && res.data.succeeded && res.status === 200) {
+          const loginUser = {
+            username: this.form.username,
+            password: this.form.password,
+          }
+          setTimeout(() => {
+            this.loading = true
+            this.$store.dispatch('authStore/LoginUser', { loginUser })
+          }, 4000)
+        } else {
+          setTimeout(() => {
+            this.loading = true
+            this.$router.push('/login')
+          }, 3000)
+        }
+      } catch (e) {
+        console.log(e)
+        const snackBar: ISnackBar = {
+          message: e.data.message,
+          showSnackBar: true,
+          errorList: e.data.data.errors,
+        }
+        await this.$store.dispatch('messageStore/_setSnackBar', snackBar)
+        this.loading = false
+      }
+    }
+  }
+
+  validateForm(): boolean {
+    let validForm = true
+    const snackBar: ISnackBar = {
+      message: '',
+      showSnackBar: true,
+      errorList: [],
+    }
     if (this.form.loginAfterRegister === 'true') {
       this.form.loginAfterRegister = true
     }
     if (this.form.password !== this.form.confirmPassword) {
+      validForm = false
+      snackBar.errorList.push({ code: 'NonMatchingPasswords', description: 'Passwords must match' })
+    }
+    if (this.form.firstName === '') {
+      validForm = false
+      snackBar.errorList.push({ code: 'RequireFirstName', description: 'Must provide a first name' })
+    }
+
+    if (this.form.password === '') {
+      validForm = false
+      snackBar.errorList.push({ code: 'RequirePassword', description: 'Must provide a password' })
+    }
+    if (this.form.email === '') {
+      validForm = false
+      snackBar.errorList.push({ code: 'RequireEmail', description: 'Must Provide an email' })
+    }
+
+    if (this.form.registrationCode === '') {
+      validForm = false
+      snackBar.errorList.push({ code: 'RequireRegistrationCode', description: 'Must provide a registration code' })
+    }
+
+    if (validForm === false) {
       this.loading = false
-    }
-    try {
-      const res = await AuthService.registerUser(this.form)
-
-      if (this.form.loginAfterRegister && res.data.succeeded) {
-        const loginUser = {
-          username: this.form.username,
-          password: this.form.password,
-        }
-        setTimeout(() => {
-          this.loading = true
-          this.$store.dispatch('authStore/LoginUser', { vm: this, loginUser })
-        }, 4000)
+      if (snackBar.errorList.length > 1) {
+        snackBar.message = 'Multiple Registration Errors:'
       } else {
-        setTimeout(() => {
-          this.loading = true
-          this.$router.push('/login')
-        }, 3000)
+        snackBar.message = 'Registration Error'
       }
-    } catch (e) {
-      console.log(e)
     }
-  }
 
+    this.$store.dispatch('messageStore/_setSnackBar', snackBar)
+    return validForm
+  }
   resetForm(): void {
     this.form.email = ''
     this.form.username = ''

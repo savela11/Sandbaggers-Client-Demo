@@ -4,7 +4,7 @@
     <v-content class="pa-3">
       <router-view />
     </v-content>
-    <SnackBar message="this is a test" />
+    <SnackBar />
     <div v-if="CurrentUser">
       <UserProfile :dialog="isUserProfileShowing" @closeUserProfile="userSettings(false)" />
       <NavBar @openUserSettings="userSettings" />
@@ -27,6 +27,7 @@ import { ICurrentUser } from '@/types/User/AuthUser'
 })
 export default class App extends Vue {
   isUserProfileShowing = false
+  message = ''
 
   get headerColor(): string {
     if (this.$route.path.startsWith('/admin')) {

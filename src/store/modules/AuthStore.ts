@@ -4,8 +4,7 @@ import SecureLS from 'secure-ls'
 import AuthService from '../../services/AuthService'
 import { ActionContext } from 'vuex'
 import { IRootState } from '../index'
-import { ISuccessToastWithTitleAndMessage } from '@/types/UI/IToast'
-import UIStore from '@/store/modules/UIStore'
+import { ISnackBar } from '@/types/UI/SnackBar'
 
 const ls = new SecureLS({ isCompression: false })
 
@@ -36,7 +35,7 @@ const mutations = {
 }
 
 const actions = {
-  async LoginUser(context: ActionContext<IAuthState, IRootState>, { vm, loginUser }: any): Promise<void> {
+  async LoginUser(context: ActionContext<IAuthState, IRootState>, { loginUser }: any): Promise<void> {
     try {
       const res = await AuthService.loginUser(loginUser)
       if (res.status === 200) {
@@ -45,8 +44,13 @@ const actions = {
         await router.push('/dashboard')
       }
     } catch (e) {
-      console.log(e)
-      await context.dispatch('uiStore/_errorMessage', 'here is the message', { root: true })
+      const snackBar: ISnackBar = {
+        message: 'Error logging in',
+        showSnackBar: true,
+        errorList: [],
+      }
+      snackBar.errorList.push({ code: 'errorCode', description: e.data.message })
+      await context.dispatch('messageStore/_setSnackBar', snackBar, { root: true })
     }
   },
 
@@ -63,7 +67,7 @@ const actions = {
     }
   },
 
-  async LogoutWithError(context: ActionContext<IAuthState, IRootState>, { title, message }: ISuccessToastWithTitleAndMessage): Promise<void> {
+  async LogoutWithError(context: ActionContext<IAuthState, IRootState>): Promise<void> {
     try {
       await AuthService.logout()
       await context.commit('LogoutCurrentUser')

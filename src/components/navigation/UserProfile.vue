@@ -7,9 +7,7 @@
         </v-btn>
         <v-toolbar-title>Settings</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn dark text @click="updateUserProfile">Save</v-btn>
-        </v-toolbar-items>
+        <v-btn dark text @click="updateUserProfile">Save</v-btn>
       </v-toolbar>
       <div v-if="!loading">
         <v-container>
@@ -45,6 +43,12 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
+          <div v-if="currentOption === 'Bets'" class="bets">
+            <div class="bets__buttons">
+              <v-btn small>My Bets</v-btn>
+              <v-btn small color="secondary">Create Bet</v-btn>
+            </div>
+          </div>
         </v-container>
       </div>
 
@@ -118,5 +122,12 @@ export default class UserProfile extends Vue {
 .logoutButton {
   color: white;
   margin-top: 10rem;
+}
+
+.bets {
+  &__buttons {
+    display: flex;
+    justify-content: space-around;
+  }
 }
 </style>

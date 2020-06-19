@@ -40,7 +40,6 @@ import { Component, Vue } from 'vue-property-decorator'
 import UsersService from '../services/UsersService'
 import { IUserWithProfile } from '@/types/User/User'
 import UIStore from '@/store/modules/UIStore'
-import axios from 'axios'
 
 @Component({
   name: 'Dashboard',

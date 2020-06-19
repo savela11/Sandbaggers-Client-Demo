@@ -32,4 +32,24 @@ export default class Loading extends Vue {
     margin-top: 20%;
   }
 }
+
+@media (min-width: 1024px) {
+  .loading {
+    &--small {
+      margin-top: 2.5%;
+    }
+
+    &--medium {
+      margin-top: 5%;
+    }
+
+    &--large {
+      margin-top: 10%;
+    }
+
+    &--xLarge {
+      margin-top: 15%;
+    }
+  }
+}
 </style>

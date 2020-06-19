@@ -7,6 +7,7 @@ import createPersistedState from 'vuex-persistedstate'
 import SecureLS from 'secure-ls'
 import { IUiState as IUIState } from '@/store/modules/UIStore'
 import authStore, { IAuthState } from '@/store/modules/AuthStore'
+import messageStore, { IMessageState } from '@/store/modules/MessageStore'
 
 Vue.use(Vuex)
 const ls = new SecureLS({ isCompression: false })
@@ -19,6 +20,7 @@ export interface IRootState {
   authStore: IAuthState
   uiStore: IUIState
   testSTore: ITestStore
+  messageStore: IMessageState
 }
 
 export default new Vuex.Store({
@@ -42,6 +44,8 @@ export default new Vuex.Store({
   modules: {
     // uiStore,
     authStore,
+    messageStore,
+
     // TestStore,
   },
 }) as Store<IRootState>

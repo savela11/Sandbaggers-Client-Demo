@@ -7,7 +7,7 @@
       </v-btn>
       <v-btn @click.stop.prevent="toggleNavBar(true)" active-class="activeButton">
         <span>Menu</span>
-        <v-icon>mdi-menu-swap-outline</v-icon>
+        <v-icon>mdi-microsoft-xbox-controller-menu</v-icon>
       </v-btn>
       <v-btn active-class="activeButton" @click.stop.prevent="openUserSettings">
         <span>Account</span>
@@ -31,7 +31,6 @@
             <v-btn to="/admin" @click.stop.prevent="handleCloseMenu" small>
               Admin
             </v-btn>
-            <v-btn @click="Logout" class="logoutBtn danger" small>Logout</v-btn>
           </div>
         </div>
       </div>
@@ -116,7 +115,7 @@ export default class Navigation extends Vue {
   background-color: white;
   box-shadow: 0px 0 10px rgba(102, 102, 102, 0.8);
   &__wrapper {
-    padding: 0.8rem 1rem;
+    padding: 0 1rem 0.8rem 1rem;
   }
   &__menuContainer {
     position: relative;

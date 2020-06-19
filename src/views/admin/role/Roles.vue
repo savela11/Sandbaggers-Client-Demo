@@ -54,7 +54,6 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { IRoleDto } from '@/types/Admin/Role'
 import UIStore from '@/store/modules/UIStore'
-import Toast from '@/utility/Toasts'
 import RoleService from '@/services/RoleService'
 
 @Component({ name: 'Roles' })
