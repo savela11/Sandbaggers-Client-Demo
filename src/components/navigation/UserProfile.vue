@@ -32,23 +32,8 @@
             </v-form>
             <v-btn class="logoutButton danger">Logout</v-btn>
           </div>
-          <v-list v-if="currentOption === 'Settings'" three-line subheader>
-            <v-list-item>
-              <v-list-item-action>
-                <v-checkbox v-model="currentUser.settings.updateHandicapOnLogin"></v-checkbox>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>Update Profile</v-list-item-title>
-                <v-list-item-subtitle>Open profile upon login to update handicap / settings.</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-          <div v-if="currentOption === 'Bets'" class="bets">
-            <div class="bets__buttons">
-              <v-btn small>My Bets</v-btn>
-              <v-btn small color="secondary">Create Bet</v-btn>
-            </div>
-          </div>
+          <SettingsView v-if="currentOption === 'Settings'" :currentUser="currentUser" />
+          <BetsView v-if="currentOption === 'Bets'" class="bets" />
         </v-container>
       </div>
 
@@ -64,6 +49,8 @@ import { ICurrentUser } from '@/types/User/AuthUser'
   name: 'UserProfile',
   components: {
     Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
+    BetsView: (): Promise<object> => import('@/components/profile/BetsView.vue'),
+    SettingsView: (): Promise<object> => import('@/components/profile/SettingsView.vue'),
   },
 })
 export default class UserProfile extends Vue {
@@ -122,12 +109,5 @@ export default class UserProfile extends Vue {
 .logoutButton {
   color: white;
   margin-top: 10rem;
-}
-
-.bets {
-  &__buttons {
-    display: flex;
-    justify-content: space-around;
-  }
 }
 </style>

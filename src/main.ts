@@ -6,7 +6,8 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import '@/assets/styles/main.scss'
-import vuetify from './plugins/vuetify';
+import vuetify from './plugins/vuetify'
+import '@/assets/styles/tailwind.css'
 
 Vue.config.productionTip = false
 
@@ -14,5 +15,5 @@ new Vue({
   router,
   store,
   vuetify,
-  render: (h: any): any => h(App)
+  render: (h: any): any => h(App),
 }).$mount('#app')

@@ -1,10 +1,10 @@
 ﻿<template>
   <div class="bet">
-    <div class="bet__buttons">
+    <div class="bet__buttons flex">
       <v-text-field v-model="search" label="Search Bets"></v-text-field>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn class="btn" color="secondary" dark v-bind="attrs" v-on="on">
+          <v-btn class="btn" outlined color="secondary" small dark v-bind="attrs" v-on="on">
             {{ currentView }}
           </v-btn>
         </template>
@@ -15,6 +15,7 @@
         </v-list>
       </v-menu>
     </div>
+
     <div class="bet__list">
       <v-card class="mb-2" outlined v-for="bet in filterBets" :key="bet.betId">
         <v-list-item>
