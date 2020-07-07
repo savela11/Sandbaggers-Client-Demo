@@ -51,7 +51,7 @@ export default class HelloWorld extends Vue {
   @Prop() private fontSize: string | undefined
 
   get headerTitle(): string {
-    return UIStore.headerTitle
+    return this.$store.getters['uiStore/HeaderTitle']
   }
 }
 </script>
@@ -114,6 +114,9 @@ export default class HelloWorld extends Vue {
 
 @media (min-width: 768px) {
   .heading {
+    &__backgroundColor {
+      padding: 1rem 1rem 3rem 3rem;
+    }
     &__title {
       h1 {
         font-size: 3rem;

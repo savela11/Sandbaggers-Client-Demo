@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <PageLoading v-if="this.$store.state.uiStore.pageLoading" />
     <HeaderComponent v-if="isHeaderShowing" :backgroundColor="headerColor" />
     <v-content class="pa-3">
       <router-view />
@@ -23,6 +24,7 @@ import { ICurrentUser } from '@/types/User/AuthUser'
     NavBar: (): Promise<object> => import('@/components/navigation/NavBar.vue'),
     UserProfile: (): Promise<object> => import('@/components/navigation/UserProfile.vue'),
     SnackBar: (): Promise<object> => import('@/components/ui/SnackBar.vue'),
+    PageLoading: (): Promise<object> => import('@/components/ui/PageLoading.vue'),
   },
 })
 export default class App extends Vue {

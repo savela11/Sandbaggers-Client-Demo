@@ -16,7 +16,9 @@ export default class Sandbagger extends Vue {
   Sandbagger = {} as ICurrentUser
 
   mounted(): void {
-    UIStore._setHeaderTitle('Users Page')
+
+    this.$store.dispatch('uiStore/_setHeaderTitle', 'Users Page')
+
     this.getUserInfo()
   }
 

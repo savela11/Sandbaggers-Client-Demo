@@ -52,7 +52,7 @@ export default class Bets extends Vue {
   search = ''
   views = ['All', 'By Name']
   mounted() {
-    UIStore._setHeaderTitle('Bets')
+    this.$store.dispatch('uiStore/_setHeaderTitle', 'Bets')
     this.getBets()
   }
 
@@ -70,7 +70,7 @@ export default class Bets extends Vue {
 
   async getBets() {
     try {
-      const res = await BetService.Bets()
+      const res = await BetService.AllActiveBets()
       this.Bets = res.data
     } catch (e) {
       console.log(e)

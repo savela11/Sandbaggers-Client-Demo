@@ -54,7 +54,7 @@ export default class Profile extends Vue {
   currentUser = {} as ICurrentUser
 
   mounted(): void {
-    UIStore._setHeaderTitle('Update Settings')
+    this.$store.dispatch('uiStore/_setHeaderTitle', 'Update Settings')
     this.getUserWithSettings()
   }
 

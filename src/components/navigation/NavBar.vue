@@ -99,10 +99,6 @@ export default class Navigation extends Vue {
   toUserProfile(): void {
     this.$router.push('/profile').catch(() => {})
   }
-
-  Logout(): void {
-    this.$store.dispatch('authStore/Logout', { vm: this })
-  }
 }
 </script>
 
@@ -115,7 +111,7 @@ export default class Navigation extends Vue {
   background-color: white;
   box-shadow: 0px 0 10px rgba(102, 102, 102, 0.8);
   &__wrapper {
-    padding: 0 1rem 0.8rem 1rem;
+    padding: 0 0.8rem 0.8rem 0.8rem;
   }
   &__menuContainer {
     position: relative;

@@ -5,7 +5,10 @@ import { IBetDto } from '@/types/Bets/Bet'
 const url = '/bets'
 
 class BetService {
-  static async Bets(): Promise<AxiosResponse<Array<IBetDto>>> {
+  static async GetUserBets(id: string): Promise<AxiosResponse<Array<IBetDto>>> {
+    return await apiClient.get(`${url}/UserBets/${id}`)
+  }
+  static async AllActiveBets(): Promise<AxiosResponse<Array<IBetDto>>> {
     return await apiClient.get(url + `/AllBets`)
   }
 }

@@ -75,7 +75,8 @@ export default class EditEvent extends Vue {
 
   mounted(): void {
     this.getEventById()
-    UIStore._setHeaderTitle('Edit Event')
+
+    this.$store.dispatch('uiStore/_setHeaderTitle', 'Edit Event')
   }
 
   async getEventById(): Promise<void> {

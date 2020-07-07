@@ -63,7 +63,8 @@ export default class Roles extends Vue {
   showModal = false
   selectedToDelete = null as IRoleDto | null
   mounted(): void {
-    UIStore._setHeaderTitle('Roles')
+
+    this.$store.dispatch('uiStore/_setHeaderTitle', 'Roles')
     this.RoleList()
   }
 

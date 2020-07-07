@@ -57,7 +57,8 @@ export default class Login extends Vue {
   showPassword = false
   showConfirmPassword = false
   mounted(): void {
-    UIStore._setHeaderTitle('Register')
+
+    this.$store.dispatch('uiStore/_setHeaderTitle', 'Register')
   }
 
   async onSubmit(): Promise<void> {

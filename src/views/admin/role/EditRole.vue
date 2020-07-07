@@ -67,7 +67,7 @@ export default class EditRole extends Vue {
 
   mounted(): void {
     this.getRoleById()
-    UIStore._setHeaderTitle('Edit Role')
+    this.$store.dispatch('uiStore/_setHeaderTitle', 'Edit Role')
   }
 
   addSelectedUsers(): void {

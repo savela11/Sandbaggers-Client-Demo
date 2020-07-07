@@ -32,7 +32,8 @@ export default class CreateEvent extends Vue {
   }
 
   mounted(): void {
-    UIStore._setHeaderTitle('Create Event')
+
+    this.$store.dispatch('uiStore/_setHeaderTitle', 'Create Event')
   }
   async onSubmit(): Promise<void> {
     this.loading = true

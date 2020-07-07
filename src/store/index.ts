@@ -8,6 +8,7 @@ import SecureLS from 'secure-ls'
 import { IUiState as IUIState } from '@/store/modules/UIStore'
 import authStore, { IAuthState } from '@/store/modules/AuthStore'
 import messageStore, { IMessageState } from '@/store/modules/MessageStore'
+import uiStore from '@/store/modules/UIStore'
 
 Vue.use(Vuex)
 const ls = new SecureLS({ isCompression: false })
@@ -42,7 +43,7 @@ export default new Vuex.Store({
     }),
   ],
   modules: {
-    // uiStore,
+    uiStore,
     authStore,
     messageStore,
 

@@ -5,9 +5,14 @@
   amount: number
   createdBy: string
   canAcceptNumber: number
-  acceptedBy: [] | null
+  acceptedBy: IUserAcceptedBet[]
   createdOn: string
   updatedOn: string
   isActive: boolean
   doesRequirePasscode: boolean
+}
+
+export interface IUserAcceptedBet {
+  userId: string
+  name: string
 }

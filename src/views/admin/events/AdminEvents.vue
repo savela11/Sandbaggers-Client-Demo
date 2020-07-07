@@ -85,7 +85,8 @@ export default class AdminEvents extends Vue {
   selectedToDelete: IEventDto | null = null
 
   mounted(): void {
-    UIStore._setHeaderTitle('Events')
+
+    this.$store.dispatch('uiStore/_setHeaderTitle', 'Events')
     this.getEvents()
   }
 

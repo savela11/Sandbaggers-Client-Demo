@@ -1,33 +1,25 @@
 ﻿<template>
   <div class="dashboard">
     <v-list rounded>
-      <v-subheader class="subtitle-1 subHeader">
-        <v-icon @click="showSearchInput = !showSearchInput" color="secondary" class="mr-4">mdi-account-search</v-icon>
-        <v-form v-if="showSearchInput">
-          <v-text-field v-model="searchInput" label="Search Sandbaggers"></v-text-field>
-        </v-form>
-      </v-subheader>
-      <v-row class="dashboard__heading">
-        <v-col cols="3"></v-col>
-        <v-col cols="5">Name</v-col>
-        <v-col cols="4" class="text-center" @click="toggleDescendingHandicaps">
-          <v-row>
-            Handicap
-            <v-icon v-if="descendingHandicap">mdi-menu-up</v-icon>
-            <v-icon v-else-if="!descendingHandicap">mdi-menu-down</v-icon>
-          </v-row>
+      <v-row no-gutters class="pb-3 dashboard__heading">
+        <v-col class="col-3 col-sm-2 col-md-3"></v-col>
+        <v-col class="col-5">Name</v-col>
+        <v-col class="col-4 col-md-3 row no-gutters text-center" @click="toggleDescendingHandicaps">
+          Handicap
+          <v-icon v-if="descendingHandicap">mdi-menu-up</v-icon>
+          <v-icon v-else-if="!descendingHandicap">mdi-menu-down</v-icon>
         </v-col>
       </v-row>
 
       <Loading v-if="loading" value="large" />
       <v-list-item-group v-if="!loading">
-        <router-link v-for="sb in filteredSandbaggers" :key="sb.id" class="sbLink" :to="{ name: 'Sandbagger', params: { profileId: sb.profile.profileId } }">
+        <router-link v-for="sb in filteredSandbaggers" :key="sb.id" class="sbLink" :to="{ name: 'Sandbagger', params: { profileId: sb.profileId } }">
           <v-row>
-            <v-col cols="3" class="text-center">
+            <v-col class="col-3 col-sm-2 col-md-3 text-center">
               <v-icon>mdi-account</v-icon>
             </v-col>
-            <v-col cols="5">{{ sb.fullName }}</v-col>
-            <v-col cols="3" class="text-center">{{ sb.profile.handicap }}</v-col>
+            <v-col class="col-5">{{ sb.fullName }}</v-col>
+            <v-col class="col-4">{{ sb.handicap }}</v-col>
           </v-row>
         </router-link>
       </v-list-item-group>
@@ -37,9 +29,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import UsersService from '../services/UsersService'
-import { IUserWithProfile } from '@/types/User/User'
 import UIStore from '@/store/modules/UIStore'
+import DashboardService from '@/services/DashboardService'
+import { SandbaggerWithHandicap } from '@/types/DashboardTypes'
 
 @Component({
   name: 'Dashboard',
@@ -49,7 +41,7 @@ import UIStore from '@/store/modules/UIStore'
 })
 export default class Dashboard extends Vue {
   loading = false
-  Sandbaggers: IUserWithProfile[] = []
+  Sandbaggers: SandbaggerWithHandicap[] = []
   descendingHandicap = false
   showSearchInput = false
   searchInput = ''
@@ -59,21 +51,21 @@ export default class Dashboard extends Vue {
   ]
 
   mounted(): void {
-    UIStore._setHeaderTitle('Dashboard')
+    this.$store.dispatch('uiStore/_setHeaderTitle', 'Dashboard')
     this.GetUsers()
   }
 
-  get filteredSandbaggers(): IUserWithProfile[] {
+  get filteredSandbaggers(): SandbaggerWithHandicap[] {
     return this.Sandbaggers.filter((sb) => {
       return sb.fullName.toLowerCase().includes(this.searchInput.toLowerCase())
     })
   }
 
-  sortSandbaggersDescending(sandbaggers: Array<IUserWithProfile>): Array<IUserWithProfile> {
+  sortSandbaggersDescending(sandbaggers: Array<SandbaggerWithHandicap>): Array<SandbaggerWithHandicap> {
     return sandbaggers.sort((a, b) => {
-      if (a.profile.handicap > b.profile.handicap) {
+      if (a.handicap > b.handicap) {
         return -1
-      } else if (a.profile.handicap < b.profile.handicap) {
+      } else if (a.handicap < b.handicap) {
         return 1
       } else {
         return 0
@@ -81,11 +73,11 @@ export default class Dashboard extends Vue {
     })
   }
 
-  sortSandbaggersAscending(sandbaggers: Array<IUserWithProfile>): Array<IUserWithProfile> {
+  sortSandbaggersAscending(sandbaggers: Array<SandbaggerWithHandicap>): Array<SandbaggerWithHandicap> {
     return sandbaggers.sort((a, b) => {
-      if (a.profile.handicap > b.profile.handicap) {
+      if (a.handicap > b.handicap) {
         return 1
-      } else if (a.profile.handicap < b.profile.handicap) {
+      } else if (a.handicap < b.handicap) {
         return -1
       } else {
         return 0
@@ -101,7 +93,7 @@ export default class Dashboard extends Vue {
   async GetUsers(): Promise<void> {
     this.loading = true
     try {
-      const res = await UsersService.getUsers()
+      const res = await DashboardService.SandbaggersWithHandicaps()
       if (res.status === 200) {
         this.Sandbaggers = this.sortSandbaggersAscending(res.data)
       }

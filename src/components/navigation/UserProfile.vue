@@ -16,6 +16,7 @@
               <v-select dense :items="buttonOptions" label="Options" v-model="currentOption" outlined></v-select>
             </v-col>
           </v-row>
+          <hr class="divider" />
           <div v-if="currentOption === 'Profile'">
             <div v-if="currentUser.profile && currentUser.profile.image" class="d-flex flex-column align-end mb-8">
               <v-btn class="blue-grey white--text darken-3 mb-3" @click="previewImage = !previewImage" x-small>Image Preview</v-btn>
@@ -30,10 +31,10 @@
               <v-text-field label="Handicap" type="number" step=".1" min="-10" max="100" v-model.number="currentUser.profile.handicap"></v-text-field>
               <v-text-field label="Profile Image" v-model="currentUser.profile.image"></v-text-field>
             </v-form>
-            <v-btn class="logoutButton danger">Logout</v-btn>
+            <v-btn @click="Logout" class="logoutButton danger">Logout</v-btn>
           </div>
           <SettingsView v-if="currentOption === 'Settings'" :currentUser="currentUser" />
-          <BetsView v-if="currentOption === 'Bets'" class="bets" />
+          <BetsView v-if="currentOption === 'Bets'" class="bets" :currentUser="currentUser" />
         </v-container>
       </div>
 
@@ -73,7 +74,6 @@ export default class UserProfile extends Vue {
     this.loading = true
     try {
       const res = await UsersService.updateUserProfileAndSettings(this.currentUser)
-      console.log(res)
       if (res.status === 200) {
         this.closeUserProfile()
       }
@@ -93,11 +93,18 @@ export default class UserProfile extends Vue {
       this.currentUser = res.data
       this.loading = false
     } catch (e) {
-      console.log(e)
+      if (e.status === 404) {
+        await this.$store.dispatch('authStore/Logout')
+      }
       setTimeout(() => {
         this.loading = false
       }, 3000)
     }
+  }
+
+  Logout(): void {
+    this.$store.dispatch('authStore/Logout', { vm: this })
+    this.closeUserProfile()
   }
 }
 </script>

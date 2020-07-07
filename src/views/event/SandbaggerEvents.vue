@@ -53,7 +53,8 @@ export default class SandbaggerEvents extends Vue {
   Events = [] as IEventDto[]
 
   mounted(): void {
-    UIStore._setHeaderTitle('Events')
+
+    this.$store.dispatch('uiStore/_setHeaderTitle', 'Events')
     this.getEvents()
   }
 
