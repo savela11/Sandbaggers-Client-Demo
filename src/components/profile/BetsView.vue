@@ -22,10 +22,10 @@
             <p class="ma-0">Last Updated: {{ formatDate(bet.updatedOn) }}</p>
             <p class="ma-0">Accepted by: {{ bet.acceptedBy.length > 0 ? bet.acceptedBy.length : 0 }}</p>
           </div>
-          <div class="betStatus" v-if="isEditMode && bet.betId === editSelectedBet.betId">
+          <div class="betStatus" v-if="editSelectedBet && bet.betId === editSelectedBet.betId">
             <p>Active</p>
             <div class="betStatusButtons">
-              <button :class="{ isActive: bet.isActive === true && bet.betId === editSelectedBet.betId }" @click="toggleActiveStatus(true)">Yes</button>
+              <button :class="{ isActive: bet.isActive === true && bet.betId === editSelectedBet.betId }">Yes</button>
               <button :class="{ notActive: bet.isActive === false && bet.betId === editSelectedBet.betId }">No</button>
             </div>
           </div>
@@ -34,14 +34,14 @@
         <v-card-actions>
           <div>
             <v-btn color="red" text @click="toggleEditBet(bet)">
-              {{ isEditMode && bet.betId === editSelectedBet.betId ? 'Done' : 'Edit' }}
+              {{ editSelectedBet && bet.betId === editSelectedBet.betId ? 'Done' : 'Edit' }}
             </v-btn>
           </div>
 
           <v-spacer></v-spacer>
 
           <v-btn icon @click="selectBet(bet.betId)">
-            <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            <v-icon>{{ bet.betId === selectedBet ? 'mdi-chevron-down' : 'mdi-chevron-up' }}</v-icon>
           </v-btn>
         </v-card-actions>
 
@@ -50,14 +50,14 @@
             <v-divider></v-divider>
 
             <v-card-text>
-              <div v-if="!isEditMode">
+              <div v-if="!editSelectedBet" class="notEditMode">
                 <p class="ma-0">
                   {{ bet.description }}
                 </p>
               </div>
 
-              <div v-if="isEditMode" class="editMode editMode--description">
-                <input type="text" v-model="editSelectedBet.description" />
+              <div v-if="editSelectedBet && editSelectedBet.betId === bet.betId" class="editMode editMode--description">
+                <textarea class="textArea" type="text" ref="textRef" v-model="editSelectedBet.description" :style="resizeTextArea"> </textarea>
               </div>
             </v-card-text>
           </div>
@@ -73,22 +73,32 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import BetService from '../../services/BetService'
 import { ICurrentUser } from '@/types/User/AuthUser'
-import { IBetDto, IUserAcceptedBet } from '@/types/Bets/Bet'
-
-@Component({ name: 'BetsView', components: { Loading: () => import('@/components/ui/Loading.vue') } })
+import { IBetDto } from '@/types/Bets/Bet'
+@Component({ name: 'BetsView', components: { Loading: (): Promise<object> => import('@/components/ui/Loading.vue') } })
 export default class BetsView extends Vue {
   activeButton = 'All'
   show = false
-  isEditMode = false
   viewButtons = ['All', 'Accepted', 'Not Accepted']
-  editSelectedBet = {} as IBetDto | null
+  editSelectedBet = null as IBetDto | null
   selectedBet: number | null = null
   loading = false
   @Prop() currentUser!: ICurrentUser
   Bets = [] as IBetDto[]
-
+  textAreaHeight = '0'
   mounted(): void {
     this.getUserBets()
+  }
+
+  get resizeTextArea() {
+    return {
+      'min-height': this.textAreaHeight,
+    }
+  }
+  resizeEditTextArea() {
+    this.$nextTick(() => {
+      const textArea = this.$refs.textRef as HTMLElement[]
+      this.textAreaHeight = `${textArea[0].scrollHeight}px`
+    })
   }
 
   get filterBets(): IBetDto[] {
@@ -121,15 +131,15 @@ export default class BetsView extends Vue {
     return [month, day, year].join('-')
   }
 
-  toggleActiveStatus(status: boolean) {}
-
   toggleEditBet(bet: IBetDto): void {
-    this.isEditMode = !this.isEditMode
-
-    if (this.isEditMode) {
-      this.editSelectedBet = bet
-    } else {
+    this.textAreaHeight = '0'
+    if (this.editSelectedBet && this.editSelectedBet.betId === bet.betId) {
       this.editSelectedBet = null
+      this.selectedBet = null
+    } else {
+      this.editSelectedBet = bet
+      this.resizeEditTextArea()
+      this.selectedBet = bet.betId
     }
   }
 
@@ -177,17 +187,20 @@ export default class BetsView extends Vue {
   }
   .editMode {
     &--description {
-      background-color: lightgrey;
-      padding: 0.5rem 0.8rem;
+      background-color: rgba(211, 211, 211, 0.6);
+      padding: 0.2rem 0.5rem;
 
-      input {
+      input,
+      textarea {
         width: 100%;
-        height: 100%;
         padding: 0.3rem 0.5rem;
         outline: none;
+        resize: none;
+        height: 0;
       }
     }
   }
+
   .betStatus {
     p {
       margin: 0;
@@ -200,7 +213,7 @@ export default class BetsView extends Vue {
         border: 1px solid $DarkBlue;
         height: auto;
         flex: 0 1 50%;
-        padding: 0.1rem 0.6rem;
+        padding: 0.1rem 0.4rem;
         border-radius: 5px;
 
         &:disabled {
@@ -233,11 +246,11 @@ export default class BetsView extends Vue {
 
       .circle {
         border: 1px solid black;
-        padding: 0.3rem 0.2rem;
+        padding: 0.1rem 0.2rem;
         border-radius: 100%;
         p {
           margin: 0;
-          font-size: 1rem;
+          font-size: 0.8rem;
         }
       }
     }
@@ -269,9 +282,6 @@ export default class BetsView extends Vue {
         height: 100%;
         padding: 0.3rem 0.5rem;
         outline: none;
-      }
-
-      .search {
       }
     }
   }

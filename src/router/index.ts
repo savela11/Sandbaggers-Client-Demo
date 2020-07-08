@@ -105,9 +105,12 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
-  scrollBehavior: (): any => {
+  scrollBehavior(to, from, savedPosition) {
     return { x: 0, y: 0 }
   },
+  // scrollBehavior: (): any => {
+  //   return { x: 0, y: 0 }
+  // },
 })
 
 router.beforeEach(async (to, from, next) => {
