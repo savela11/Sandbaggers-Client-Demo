@@ -32,6 +32,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import UIStore from '@/store/modules/UIStore'
 import DashboardService from '@/services/DashboardService'
 import { SandbaggerWithHandicap } from '@/types/DashboardTypes'
+import { IPageLoadStatus } from '@/types/UI/UIStoreTypes'
 
 @Component({
   name: 'Dashboard',
@@ -52,7 +53,7 @@ export default class Dashboard extends Vue {
 
   mounted(): void {
     this.$store.dispatch('uiStore/_setHeaderTitle', 'Dashboard')
-    this.GetUsers()
+    this.getUsers()
   }
 
   get filteredSandbaggers(): SandbaggerWithHandicap[] {
@@ -90,12 +91,13 @@ export default class Dashboard extends Vue {
     this.descendingHandicap ? (this.Sandbaggers = this.sortSandbaggersDescending(this.Sandbaggers)) : (this.Sandbaggers = this.sortSandbaggersAscending(this.Sandbaggers))
   }
 
-  async GetUsers(): Promise<void> {
+  async getUsers(): Promise<void> {
     this.loading = true
     try {
       const res = await DashboardService.SandbaggersWithHandicaps()
       if (res.status === 200) {
         this.Sandbaggers = this.sortSandbaggersAscending(res.data)
+        await this.$store.dispatch('uiStore/_setPageLoading', false)
       }
       this.loading = false
     } catch (e) {

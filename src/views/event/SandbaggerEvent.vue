@@ -12,7 +12,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import UIStore from '@/store/modules/UIStore'
 import EventService from '@/services/EventService'
 import { IEventDto, IRegisterUser } from '@/types/Admin/Event'
 
@@ -68,7 +67,7 @@ export default class SandbaggerEvent extends Vue {
         fullName: this.$store.state.authStore.currentUser.fullName,
       }
 
-    await  this.$store.dispatch('uiStore/_setHeaderTitle', res.data.name)
+      await this.$store.dispatch('uiStore/_setHeaderTitle', res.data.name)
 
       this.loading = false
     } catch (e) {

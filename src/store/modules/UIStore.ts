@@ -1,39 +1,44 @@
-﻿import Store, { IRootState } from '@/store'
+﻿import { IRootState } from '@/store'
 import { ActionContext } from 'vuex'
+import { IUIState } from '@/types/UI/UIStoreTypes'
 
-export interface IUiState {
-  headerTitle: string | null
-  pageLoading: boolean
-}
-
-const state: IUiState = {
+const state: IUIState = {
   headerTitle: null,
   pageLoading: false,
 }
 
 const getters = {
-  HeaderTitle: (state: IUiState): string | null => state.headerTitle,
+  HeaderTitle: (state: IUIState): string | null => state.headerTitle,
 }
 
 const mutations = {
-  SetHeaderTitle(state: IUiState, title: string): void {
+  SetHeaderTitle(state: IUIState, title: string): void {
     state.headerTitle = title
   },
 
-  SetLoadingStatus(state: IUiState, loadingStatus: boolean): void {
-    state.pageLoading = loadingStatus
-    setTimeout(() => {
-      state.pageLoading = false
-    }, 3000)
+  SetLoadingStatus(state: IUIState, loadingStatus: boolean): void {
+    let loadingTime = Math.floor(Math.random() * 5000)
+
+    if (loadingStatus === false) {
+      if (loadingTime < 1500) {
+        loadingTime = loadingTime + 1000
+      }
+      setTimeout(() => {
+        state.pageLoading = loadingStatus
+      }, loadingTime)
+      console.log(loadingTime)
+    } else {
+      state.pageLoading = loadingStatus
+    }
   },
 }
 
 const actions = {
-  _setHeaderTitle(context: ActionContext<IUiState, IRootState>, title: string) {
+  _setHeaderTitle(context: ActionContext<IUIState, IRootState>, title: string) {
     context.commit('SetHeaderTitle', title)
   },
 
-  _setPageLoading(context: ActionContext<IUiState, IRootState>, loadingStatus: boolean) {
+  _setPageLoading(context: ActionContext<IUIState, IRootState>, loadingStatus: boolean) {
     context.commit('SetLoadingStatus', loadingStatus)
   },
 }

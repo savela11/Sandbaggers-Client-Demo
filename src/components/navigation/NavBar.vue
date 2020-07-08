@@ -147,7 +147,7 @@ export default class Navigation extends Vue {
   }
 
   &__bottomMenuBar {
-    margin: 1rem 0;
+    margin: 1rem 0 0 0;
     display: flex;
     justify-content: space-between;
     align-items: center;

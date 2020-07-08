@@ -6,13 +6,15 @@
       </div>
 
       <v-card class="mx-auto mb-5" max-width="344" v-for="bet in filterBets" :key="bet.betId">
-        <div class="betAmount">
-          <div class="circle">
-            <p>{{ bet.amount }}</p>
+        <v-card-title class="titleContainer">
+          <div>
+            {{ bet.title }}
           </div>
-        </div>
-        <v-card-title class="pt-0">
-          {{ bet.title }}
+          <div class="betAmount">
+            <div class="circle">
+              <p>${{ bet.amount }}</p>
+            </div>
+          </div>
         </v-card-title>
 
         <v-card-subtitle class="d-flex justify-space-between">
@@ -20,7 +22,7 @@
             <p class="ma-0">Last Updated: {{ formatDate(bet.updatedOn) }}</p>
             <p class="ma-0">Accepted by: {{ bet.acceptedBy.length > 0 ? bet.acceptedBy.length : 0 }}</p>
           </div>
-          <div class="betStatus" v-if="isEditMode">
+          <div class="betStatus" v-if="isEditMode && bet.betId === editSelectedBet.betId">
             <p>Active</p>
             <div class="betStatusButtons">
               <button :class="{ isActive: bet.isActive === true && bet.betId === editSelectedBet.betId }" @click="toggleActiveStatus(true)">Yes</button>
@@ -32,7 +34,7 @@
         <v-card-actions>
           <div>
             <v-btn color="red" text @click="toggleEditBet(bet)">
-              {{ isEditMode ? 'Done' : 'Edit' }}
+              {{ isEditMode && bet.betId === editSelectedBet.betId ? 'Done' : 'Edit' }}
             </v-btn>
           </div>
 
@@ -214,20 +216,33 @@ export default class BetsView extends Vue {
       }
     }
   }
-  .betAmount {
-    display: flex;
-    justify-content: flex-end;
-    padding: 0.8rem 0.8rem 0 0;
 
-    .circle {
-      border: 1px solid black;
-      padding: 0.3rem;
-      border-radius: 100%;
-      p {
-        margin: 0;
+  .titleContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+
+    & > div:nth-child(1) {
+      font-size: 1rem;
+    }
+    .betAmount {
+      display: flex;
+      justify-content: flex-end;
+      flex: 1 0 20%;
+
+      .circle {
+        border: 1px solid black;
+        padding: 0.3rem 0.2rem;
+        border-radius: 100%;
+        p {
+          margin: 0;
+          font-size: 1rem;
+        }
       }
     }
   }
+
   &__searchBar {
     display: flex;
     justify-content: flex-end;

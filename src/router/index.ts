@@ -4,9 +4,15 @@ import store from '../store/index'
 import AdminRoutes from './admin/AdminRoutes'
 import AuthErrorRoutes from './errors/AuthErrorRoutes'
 import { ICurrentUser } from '@/types/User/AuthUser'
+import { IPageLoadStatus } from '@/types/UI/UIStoreTypes'
 
 function loadView(view: string) {
   return (): Promise<object> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`)
+}
+
+const loadingStatus: IPageLoadStatus = {
+  status: true,
+  timeout: null,
 }
 
 Vue.use(VueRouter)
@@ -106,7 +112,7 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
   const currentUser: ICurrentUser = store.getters['authStore/CurrentUser']
-  await store.dispatch('uiStore/_setPageLoading', true)
+  await store.dispatch('uiStore/_setPageLoading', loadingStatus)
 
   if (to.name === 'Login') {
     if (currentUser) {

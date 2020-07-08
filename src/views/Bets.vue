@@ -71,9 +71,14 @@ export default class Bets extends Vue {
   async getBets() {
     try {
       const res = await BetService.AllActiveBets()
-      this.Bets = res.data
+      if (res.status === 200) {
+        await this.$store.dispatch('uiStore/_setPageLoading', false)
+        this.Bets = res.data
+      }
     } catch (e) {
       console.log(e)
+
+      await this.$store.dispatch('uiStore/_setPageLoading', false)
     }
   }
 }

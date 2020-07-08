@@ -38,7 +38,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import UIStore from '@/store/modules/UIStore'
 import EventService from '@/services/EventService'
 import { IEventDto } from '@/types/Admin/Event'
 
@@ -53,7 +52,6 @@ export default class SandbaggerEvents extends Vue {
   Events = [] as IEventDto[]
 
   mounted(): void {
-
     this.$store.dispatch('uiStore/_setHeaderTitle', 'Events')
     this.getEvents()
   }
@@ -69,9 +67,12 @@ export default class SandbaggerEvents extends Vue {
   async getEvents(): Promise<void> {
     this.loading = true
     try {
-      const { data } = await EventService.eventList()
-      this.Events = data
-      this.loading = false
+      const res = await EventService.eventList()
+      if (res.status === 200) {
+        this.Events = res.data
+        this.loading = false
+        await this.$store.dispatch('uiStore/_setPageLoading', false)
+      }
     } catch (e) {
       this.loading = false
       console.log(e)
