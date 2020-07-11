@@ -10,7 +10,7 @@
         <v-btn dark text @click="updateUserProfile">Save</v-btn>
       </v-toolbar>
       <div v-if="!loading">
-        <v-container>
+        <v-container class="pb-2 pr-2 pl-2 pt-4">
           <v-row class="justify-end">
             <v-col cols="6" class="py-0">
               <v-select dense :items="buttonOptions" label="Options" v-model="currentOption" outlined></v-select>

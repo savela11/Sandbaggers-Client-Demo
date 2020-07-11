@@ -17,10 +17,10 @@ const mutations = {
   },
 
   SetLoadingStatus(state: IUIState, loadingStatus: boolean): void {
-    let loadingTime = Math.floor(Math.random() * 5000)
+    let loadingTime = Math.floor(Math.random() * 4000)
 
     if (loadingStatus === false) {
-      if (loadingTime < 1500) {
+      if (loadingTime < 1000) {
         loadingTime = loadingTime + 1000
       }
       setTimeout(() => {

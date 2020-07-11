@@ -1,4 +1,4 @@
-﻿<template>
+﻿﻿<template>
   <div class="userBets">
     <div v-if="!loading">
       <div class="buttons">
@@ -17,30 +17,34 @@
           </div>
         </v-card-title>
 
-        <v-card-subtitle class="d-flex justify-space-between">
+        <v-card-subtitle class="">
           <div>
             <p class="ma-0">Last Updated: {{ formatDate(bet.updatedOn) }}</p>
             <p class="ma-0">Accepted by: {{ bet.acceptedBy.length > 0 ? bet.acceptedBy.length : 0 }}</p>
           </div>
-          <div class="betStatus" v-if="editSelectedBet && bet.betId === editSelectedBet.betId">
-            <p>Active</p>
+          <div class="betStatus" v-if="isEditMode && bet.betId === selectedBet">
+            <p>Active:</p>
             <div class="betStatusButtons">
-              <button :class="{ isActive: bet.isActive === true && bet.betId === editSelectedBet.betId }">Yes</button>
-              <button :class="{ notActive: bet.isActive === false && bet.betId === editSelectedBet.betId }">No</button>
+              <button :class="{ isActive: bet.isActive === true && bet.betId === selectedBet }" @click="bet.isActive = true">Yes</button>
+              <button :class="{ notActive: bet.isActive === false && bet.betId === selectedBet }" @click="bet.isActive = false">No</button>
             </div>
           </div>
         </v-card-subtitle>
 
         <v-card-actions>
           <div>
-            <v-btn color="red" text @click="toggleEditBet(bet)">
-              {{ editSelectedBet && bet.betId === editSelectedBet.betId ? 'Done' : 'Edit' }}
+            <v-btn color="red" text @click.prevent.stop="toggleEditBet(bet)" v-if="!isEditMode">
+              Edit
             </v-btn>
+            <div v-if="isEditMode && bet.betId === selectedBet" class="d-flex">
+              <v-btn color="green" text @click="updateBet(bet)">Update</v-btn>
+              <v-btn color="black" text @click="cancelBet">Cancel</v-btn>
+            </div>
           </div>
 
           <v-spacer></v-spacer>
 
-          <v-btn icon @click="selectBet(bet.betId)">
+          <v-btn icon @click="selectBet(bet.betId)" v-if="!isEditMode">
             <v-icon>{{ bet.betId === selectedBet ? 'mdi-chevron-down' : 'mdi-chevron-up' }}</v-icon>
           </v-btn>
         </v-card-actions>
@@ -49,15 +53,34 @@
           <div v-show="selectedBet === bet.betId">
             <v-divider></v-divider>
 
-            <v-card-text>
-              <div v-if="!editSelectedBet" class="notEditMode">
+            <v-card-text class="pa-2">
+              <div v-if="!isEditMode" class="notEditMode">
                 <p class="ma-0">
                   {{ bet.description }}
                 </p>
               </div>
 
-              <div v-if="editSelectedBet && editSelectedBet.betId === bet.betId" class="editMode editMode--description">
-                <textarea class="textArea" type="text" ref="textRef" v-model="editSelectedBet.description" :style="resizeTextArea"> </textarea>
+              <div class="formField" v-if="isEditMode && selectedBet === bet.betId">
+                <div class="withErrorMessage">
+                  <label for="amount">Amount</label>
+                  <p v-if="bet.acceptedBy.length > 0" class="formField__message">Unable to change amount when bet has been accepted.</p>
+                </div>
+                <div class="editMode editMode--description">
+                  <input id="amount" class="inputField" type="number" v-bind:disabled="bet.acceptedBy.length > 0" ref="textRef" v-model="bet.amount" :style="resizeTextArea" />
+                </div>
+              </div>
+
+              <div class="formField" v-if="isEditMode && selectedBet === bet.betId">
+                <label for="title">Title</label>
+                <div class="editMode editMode--description">
+                  <textarea id="title" class="textArea" type="text" ref="textRef" v-model="bet.title" :style="resizeTextArea"> </textarea>
+                </div>
+              </div>
+              <div class="formField" v-if="isEditMode && selectedBet === bet.betId">
+                <label for="description">Description</label>
+                <div class="editMode editMode--description">
+                  <textarea id="description" class="textArea" type="text" ref="textRef" v-model="bet.description" :style="resizeTextArea"> </textarea>
+                </div>
               </div>
             </v-card-text>
           </div>
@@ -77,11 +100,10 @@ import { IBetDto } from '@/types/Bets/Bet'
 @Component({ name: 'BetsView', components: { Loading: (): Promise<object> => import('@/components/ui/Loading.vue') } })
 export default class BetsView extends Vue {
   activeButton = 'All'
-  show = false
   viewButtons = ['All', 'Accepted', 'Not Accepted']
-  editSelectedBet = null as IBetDto | null
   selectedBet: number | null = null
   loading = false
+  isEditMode = false
   @Prop() currentUser!: ICurrentUser
   Bets = [] as IBetDto[]
   textAreaHeight = '0'
@@ -133,13 +155,15 @@ export default class BetsView extends Vue {
 
   toggleEditBet(bet: IBetDto): void {
     this.textAreaHeight = '0'
-    if (this.editSelectedBet && this.editSelectedBet.betId === bet.betId) {
-      this.editSelectedBet = null
+
+    if (this.isEditMode === true) {
+      this.isEditMode = false
       this.selectedBet = null
     } else {
-      this.editSelectedBet = bet
-      this.resizeEditTextArea()
       this.selectedBet = bet.betId
+      this.isEditMode = true
+
+      this.resizeEditTextArea()
     }
   }
 
@@ -162,11 +186,41 @@ export default class BetsView extends Vue {
       console.log(error)
     }
   }
+
+  async updateBet(bet: IBetDto): Promise<void> {
+    this.loading = true
+    try {
+      this.selectedBet = null
+      this.isEditMode = false
+      const res = await BetService.UpdateBet(bet)
+      if (res.status === 200) {
+        this.loading = false
+      }
+      console.log(res.data)
+    } catch (e) {
+      console.log(e)
+      this.loading = false
+    }
+  }
+
+  cancelBet() {
+    this.selectedBet = null
+    this.isEditMode = false
+  }
 }
 </script>
 
 <style scoped lang="scss">
 .userBets {
+  .formField {
+    margin-bottom: 1rem;
+
+    &__message {
+      font-size: 0.7rem;
+      color: red;
+      margin: 0;
+    }
+  }
   .buttons {
     display: flex;
     margin-bottom: 1rem;
@@ -193,28 +247,48 @@ export default class BetsView extends Vue {
       input,
       textarea {
         width: 100%;
-        padding: 0.3rem 0.5rem;
+        padding: 0.3rem 0.2rem;
         outline: none;
         resize: none;
         height: 0;
+
+        &:disabled {
+          opacity: 0.1;
+          background-color: rgba(211, 211, 211, 0.2);
+        }
       }
     }
   }
 
   .betStatus {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
     p {
       margin: 0;
       text-align: center;
     }
     .betStatusButtons {
+      margin-left: 1rem;
       display: flex;
       align-items: center;
       button {
         border: 1px solid $DarkBlue;
         height: auto;
         flex: 0 1 50%;
-        padding: 0.1rem 0.4rem;
+        padding: 0.1rem 0.6rem;
         border-radius: 5px;
+
+        &.isActive {
+          color: white;
+
+          background-color: green;
+        }
+        &.notActive {
+          color: white;
+
+          background-color: #8b2635;
+        }
 
         &:disabled {
           opacity: 0.2;
@@ -223,8 +297,6 @@ export default class BetsView extends Vue {
 
         &:first-child {
           margin-right: 0.3rem;
-          background-color: green;
-          color: white;
         }
       }
     }
@@ -239,6 +311,7 @@ export default class BetsView extends Vue {
     & > div:nth-child(1) {
       font-size: 1rem;
     }
+
     .betAmount {
       display: flex;
       justify-content: flex-end;
@@ -246,42 +319,72 @@ export default class BetsView extends Vue {
 
       .circle {
         border: 1px solid black;
-        padding: 0.1rem 0.2rem;
+        padding: 0.2rem 0.2rem;
+        min-width: 40px;
+        min-height: 40px;
         border-radius: 100%;
         p {
           margin: 0;
           font-size: 0.8rem;
+          text-align: center;
         }
       }
     }
   }
+}
 
-  &__searchBar {
-    display: flex;
-    justify-content: flex-end;
+@media (min-width: 375px) {
+  .userBets {
+    .formField {
+      &__message {
+      }
+    }
+    .buttons {
+      button {
+        &:last-child {
+        }
+      }
+    }
+    &__card {
+    }
+    .editMode {
+      &--description {
+        input,
+        textarea {
+          &:disabled {
+          }
+        }
+      }
+    }
 
-    .bar {
-      border: 1px solid $DarkBlue;
-      padding: 0.2rem 0.8rem;
-      border-radius: 5px;
-      flex: 0 1 60%;
-      position: relative;
-      height: 40px;
-      display: flex;
+    .betStatus {
+      p {
+      }
+      .betStatusButtons {
+        button {
+          &.isActive {
+          }
+          &.notActive {
+          }
 
-      .search {
-        position: relative;
-        flex: 1;
+          &:disabled {
+          }
+
+          &:first-child {
+          }
+        }
+      }
+    }
+
+    .titleContainer {
+      & > div:nth-child(1) {
       }
 
-      input {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        padding: 0.3rem 0.5rem;
-        outline: none;
+      .betAmount {
+        .circle {
+          p {
+          }
+        }
       }
     }
   }

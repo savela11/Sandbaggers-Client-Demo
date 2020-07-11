@@ -9,7 +9,11 @@ class BetService {
     return await apiClient.get(`${url}/UserBets/${id}`)
   }
   static async AllActiveBets(): Promise<AxiosResponse<Array<IBetDto>>> {
-    return await apiClient.get(url + `/AllBets`)
+    return await apiClient.get(url + `/AllActiveBets`)
+  }
+
+  static async UpdateBet(bet: IBetDto): Promise<AxiosResponse<void>> {
+    return await apiClient.post(url + '/UpdateBet', bet)
   }
 }
 

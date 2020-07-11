@@ -10,11 +10,6 @@ function loadView(view: string) {
   return (): Promise<object> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`)
 }
 
-const loadingStatus: IPageLoadStatus = {
-  status: true,
-  timeout: null,
-}
-
 Vue.use(VueRouter)
 
 function guardRoute(to: Route, from: Route, next: any): any {
@@ -115,9 +110,10 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
   const currentUser: ICurrentUser = store.getters['authStore/CurrentUser']
-  await store.dispatch('uiStore/_setPageLoading', loadingStatus)
+  await store.dispatch('uiStore/_setPageLoading', true)
 
-  if (to.name === 'Login') {
+  if (to.name === 'Login' || to.name === 'Register') {
+    await store.dispatch('uiStore/_setPageLoading', false)
     if (currentUser) {
       return next({ path: '/dashboard' })
     }
