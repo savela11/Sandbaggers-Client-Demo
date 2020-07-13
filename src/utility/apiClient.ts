@@ -1,5 +1,5 @@
 ﻿import axios from 'axios'
-const url = '/api'
+const url = process.env.VUE_APP_URL
 import SecureLS from 'secure-ls'
 const ls = new SecureLS({ isCompression: false })
 import store from '@/store'
