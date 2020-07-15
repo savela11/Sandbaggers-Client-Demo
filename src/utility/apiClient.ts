@@ -5,7 +5,7 @@ const ls = new SecureLS({ isCompression: false })
 import store from '@/store'
 
 const apiClient = axios.create({
-  baseURL: url,
+  baseURL: process.env.NODE_ENV === 'development' ? `${url}/api` : url,
 })
 
 apiClient.interceptors.request.use(

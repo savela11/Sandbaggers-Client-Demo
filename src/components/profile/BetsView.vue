@@ -5,7 +5,7 @@
         <v-btn class="caption" v-for="button in viewButtons" :key="button" :class="{ secondary: button === activeButton }" @click="activeButton = button">{{ button }} </v-btn>
       </div>
 
-      <v-card class="mx-auto mb-5" max-width="344" v-for="bet in filterBets" :key="bet.betId">
+      <v-card class="card" v-for="bet in filterBets" :key="bet.betId">
         <v-card-title class="titleContainer">
           <div>
             {{ bet.title }}
@@ -234,99 +234,99 @@ export default class BetsView extends Vue {
       }
     }
   }
-  &__card {
-    border: 1px solid grey;
-    height: 100px;
-    border-radius: 10px;
-  }
-  .editMode {
-    &--description {
-      background-color: rgba(211, 211, 211, 0.6);
-      padding: 0.2rem 0.5rem;
+  .card {
+    max-width: 344px;
+    margin: 0 auto 1.4rem auto;
+    box-shadow: 3px 3px 10px $DarkGreen;
+    .editMode {
+      &--description {
+        background-color: rgba(211, 211, 211, 0.6);
+        padding: 0.2rem 0.5rem;
 
-      input,
-      textarea {
-        width: 100%;
-        padding: 0.3rem 0.2rem;
-        outline: none;
-        resize: none;
-        height: 0;
+        input,
+        textarea {
+          width: 100%;
+          padding: 0.3rem 0.2rem;
+          outline: none;
+          resize: none;
+          height: 0;
 
-        &:disabled {
-          opacity: 0.1;
-          background-color: rgba(211, 211, 211, 0.2);
+          &:disabled {
+            opacity: 0.1;
+            background-color: rgba(211, 211, 211, 0.2);
+          }
         }
       }
     }
-  }
 
-  .betStatus {
-    display: flex;
-    align-items: center;
-    margin-top: 1rem;
-    p {
-      margin: 0;
-      text-align: center;
-    }
-    .betStatusButtons {
-      margin-left: 1rem;
+    .betStatus {
       display: flex;
       align-items: center;
-      button {
-        border: 1px solid $DarkBlue;
-        height: auto;
-        flex: 0 1 50%;
-        padding: 0.1rem 0.6rem;
-        border-radius: 5px;
+      margin-top: 1rem;
+      p {
+        margin: 0;
+        text-align: center;
+      }
+      .betStatusButtons {
+        margin-left: 1rem;
+        display: flex;
+        align-items: center;
+        button {
+          border: 1px solid $DarkBlue;
+          height: auto;
+          flex: 0 1 50%;
+          padding: 0.1rem 0.6rem;
+          border-radius: 5px;
 
-        &.isActive {
-          color: white;
+          &.isActive {
+            color: white;
 
-          background-color: green;
-        }
-        &.notActive {
-          color: white;
+            background-color: green;
+          }
+          &.notActive {
+            color: white;
 
-          background-color: #8b2635;
-        }
+            background-color: #8b2635;
+          }
 
-        &:disabled {
-          opacity: 0.2;
-          cursor: not-allowed;
-        }
+          &:disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
+          }
 
-        &:first-child {
-          margin-right: 0.3rem;
+          &:first-child {
+            margin-right: 0.3rem;
+          }
         }
       }
     }
-  }
 
-  .titleContainer {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-
-    & > div:nth-child(1) {
-      font-size: 1rem;
-    }
-
-    .betAmount {
+    .titleContainer {
       display: flex;
-      justify-content: flex-end;
-      flex: 1 0 20%;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+      align-items: flex-start;
 
-      .circle {
-        border: 1px solid black;
-        padding: 0.2rem 0.2rem;
-        min-width: 40px;
-        min-height: 40px;
-        border-radius: 100%;
-        p {
-          margin: 0;
-          font-size: 0.8rem;
-          text-align: center;
+      & > div:nth-child(1) {
+        font-size: 1rem;
+      }
+
+      .betAmount {
+        display: flex;
+        justify-content: flex-end;
+        flex: 1 0 20%;
+
+        .circle {
+          border: 1px solid black;
+          padding: 0.2rem 0.2rem;
+          min-width: 40px;
+          min-height: 40px;
+          border-radius: 100%;
+          p {
+            margin: 0;
+            font-size: 0.8rem;
+            text-align: center;
+          }
         }
       }
     }

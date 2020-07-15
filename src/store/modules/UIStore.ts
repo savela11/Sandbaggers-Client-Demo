@@ -26,7 +26,6 @@ const mutations = {
       setTimeout(() => {
         state.pageLoading = loadingStatus
       }, loadingTime)
-      console.log(loadingTime)
     } else {
       state.pageLoading = loadingStatus
     }

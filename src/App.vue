@@ -31,9 +31,7 @@ export default class App extends Vue {
   isUserProfileShowing = false
   message = ''
 
-  mounted(): void {
-    console.log(process.env.VUE_APP_URL)
-  }
+  mounted(): void {}
   get headerColor(): string {
     if (this.$route.path.startsWith('/admin')) {
       return '#17252a'
