@@ -1,29 +1,25 @@
 ﻿<template>
   <div class="dashboard">
-    <v-list rounded>
-      <v-row no-gutters class="pb-3 dashboard__heading">
-        <v-col class="col-3 col-sm-2 col-md-3"></v-col>
-        <v-col class="col-5">Name</v-col>
-        <v-col class="col-4 col-md-3 row no-gutters text-center" @click="toggleDescendingHandicaps">
-          Handicap
-          <v-icon v-if="descendingHandicap">mdi-menu-up</v-icon>
-          <v-icon v-else-if="!descendingHandicap">mdi-menu-down</v-icon>
-        </v-col>
-      </v-row>
-
-      <Loading v-if="loading" value="large" />
-      <v-list-item-group v-if="!loading">
-        <router-link v-for="sb in filteredSandbaggers" :key="sb.id" class="sbLink" :to="{ name: 'Sandbagger', params: { profileId: sb.profileId } }">
-          <v-row>
-            <v-col class="col-3 col-sm-2 col-md-3 text-center">
-              <v-icon>mdi-account</v-icon>
-            </v-col>
-            <v-col class="col-5">{{ sb.fullName }}</v-col>
-            <v-col class="col-4">{{ sb.handicap }}</v-col>
-          </v-row>
+    <div class="titleBar">
+      <div><p></p></div>
+      <div><p>Name</p></div>
+      <div><p>Handicap</p></div>
+    </div>
+    <div class="sandbaggerList">
+      <div class="sandbagger" v-for="bagger in filteredSandbaggers" :key="bagger.id">
+        <router-link :to="'/sandbagger/' + bagger.profileId">
+          <div><img src="@/assets/icons/accountCircle.svg" alt="account icon" /></div>
+          <div>
+            <p>
+              {{ bagger.fullName }}
+            </p>
+          </div>
+          <div>
+            <p>{{ bagger.handicap }}</p>
+          </div>
         </router-link>
-      </v-list-item-group>
-    </v-list>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -110,24 +106,46 @@ export default class Dashboard extends Vue {
 
 <style scoped lang="scss">
 .dashboard {
-  &__heading {
-    border-bottom: 1px solid lightgrey;
+  padding: 1rem;
+  & > div {
+    padding: 0.5rem;
   }
+  .titleBar {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    margin-top: 3rem;
+    border-bottom: 1px solid lightgrey;
 
-  .subHeader {
-    display: flex;
-    margin: 0 0 1rem 0;
-    form {
-      width: 100%;
+    & > div {
+      padding: 5px;
+      &:last-child {
+        justify-content: center;
+      }
     }
   }
-}
 
-.sbLink {
-  text-decoration: none;
+  .sandbagger {
+    margin-bottom: 1rem;
+    border: 1px solid grey;
+    border-radius: 5px;
 
-  .row {
-    align-items: center;
+    a {
+      padding: 1rem 0;
+      color: black;
+      text-decoration: none;
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+
+      & > div {
+        padding: 5px;
+        display: flex;
+        align-items: center;
+
+        &:last-child {
+          justify-content: center;
+        }
+      }
+    }
   }
 }
 </style>

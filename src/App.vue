@@ -1,16 +1,14 @@
 <template>
-  <v-app>
+  <div class="app">
     <PageLoading v-if="this.$store.state.uiStore.pageLoading" />
     <HeaderComponent v-if="isHeaderShowing" :backgroundColor="headerColor" />
-    <v-content class="pa-3">
-      <router-view />
-    </v-content>
+    <router-view />
     <SnackBar />
     <div v-if="CurrentUser">
       <UserProfile :dialog="isUserProfileShowing" @closeUserProfile="userSettings(false)" />
       <NavBar @openUserSettings="userSettings" />
     </div>
-  </v-app>
+  </div>
 </template>
 
 <script lang="ts">

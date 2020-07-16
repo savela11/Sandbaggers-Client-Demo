@@ -1,46 +1,5 @@
 <template>
-  <v-dialog class="userProfile" v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-    <v-card>
-      <v-toolbar dark color="primary">
-        <v-btn icon dark @click="closeUserProfile">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <v-toolbar-title>Settings</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn dark text @click="updateUserProfile">Save</v-btn>
-      </v-toolbar>
-      <div v-if="!loading">
-        <v-container class="pb-2 pr-2 pl-2 pt-4">
-          <v-row class="justify-end">
-            <v-col cols="6" class="py-0">
-              <v-select dense :items="buttonOptions" label="Options" v-model="currentOption" outlined></v-select>
-            </v-col>
-          </v-row>
-          <hr class="divider" />
-          <div v-if="currentOption === 'Profile'">
-            <div v-if="currentUser.profile && currentUser.profile.image" class="d-flex flex-column align-end mb-8">
-              <v-btn class="blue-grey white--text darken-3 mb-3" @click="previewImage = !previewImage" x-small>Image Preview</v-btn>
-              <v-card v-if="previewImage">
-                <v-img :src="currentUser.profile.image" contain class="grey darken-4" max-width="250"></v-img>
-              </v-card>
-            </div>
-            <v-form v-if="currentUser && currentUser.profile">
-              <v-text-field label="First Name" v-model="currentUser.profile.firstName"></v-text-field>
-              <v-text-field label="Last Name" v-model="currentUser.profile.lastName"></v-text-field>
-              <v-text-field label="Email" v-model="currentUser.email"></v-text-field>
-              <v-text-field label="Handicap" type="number" step=".1" min="-10" max="100" v-model.number="currentUser.profile.handicap"></v-text-field>
-              <v-text-field label="Profile Image" v-model="currentUser.profile.image"></v-text-field>
-            </v-form>
-            <v-btn @click="Logout" class="logoutButton danger">Logout</v-btn>
-          </div>
-          <SettingsView v-if="currentOption === 'Settings'" :currentUser="currentUser" />
-          <BetsView v-if="currentOption === 'Bets'" class="bets" :currentUser="currentUser" />
-        </v-container>
-      </div>
-
-      <Loading value="large" v-if="loading" />
-    </v-card>
-  </v-dialog>
+  <div class="userProfile"></div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator'

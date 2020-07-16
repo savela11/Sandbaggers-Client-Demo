@@ -16,7 +16,6 @@ export default class Sandbagger extends Vue {
   Sandbagger = {} as ICurrentUser
 
   mounted(): void {
-
     this.$store.dispatch('uiStore/_setHeaderTitle', 'Users Page')
 
     this.getUserInfo()
@@ -27,6 +26,7 @@ export default class Sandbagger extends Vue {
       const res = await UserService.getUserByProfileId(this.$route.params.profileId.toString())
       if (res.data) {
         this.Sandbagger = res.data
+        await this.$store.dispatch('uiStore/_setPageLoading', false)
       }
     } catch (error) {
       console.log(error)

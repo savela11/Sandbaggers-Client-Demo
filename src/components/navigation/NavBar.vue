@@ -1,41 +1,5 @@
 <template>
-  <div class="nav">
-    <v-bottom-navigation id="mainNav" v-model="activeBtn" :input-value="showNav" color="secondary">
-      <v-btn to="/bets" active-class="activeButton" @click.stop.prevent="handleCloseMenu">
-        <span class="linkName">Bets</span>
-        <v-icon>mdi-cash-multiple</v-icon>
-      </v-btn>
-      <v-btn @click.stop.prevent="toggleNavBar(true)" active-class="activeButton">
-        <span>Menu</span>
-        <v-icon>mdi-microsoft-xbox-controller-menu</v-icon>
-      </v-btn>
-      <v-btn active-class="activeButton" @click.stop.prevent="openUserSettings">
-        <span>Account</span>
-        <v-icon>mdi-account-box-multiple</v-icon>
-      </v-btn>
-    </v-bottom-navigation>
-    <transition name="fadeHeight" mode="out-in">
-      <div class="nav__menuContainer" v-if="isNavMenuShowing">
-        <div class="nav__wrapper">
-          <nav class="nav__userLinks">
-            <ul>
-              <li v-for="link in userLinks" :key="link.name" @click.stop.prevent="handleCloseMenu">
-                <router-link class="link" :to="link.link">
-                  <v-icon>{{ `mdi-${link.icon}` }}</v-icon>
-                  <span class="link__name overline">{{ link.name }}</span>
-                </router-link>
-              </li>
-            </ul>
-          </nav>
-          <div class="nav__bottomMenuBar">
-            <v-btn to="/admin" @click.stop.prevent="handleCloseMenu" small>
-              Admin
-            </v-btn>
-          </div>
-        </div>
-      </div>
-    </transition>
-  </div>
+  <div class="nav"></div>
 </template>
 
 <script lang="ts">

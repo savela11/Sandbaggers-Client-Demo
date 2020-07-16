@@ -1,7 +1,5 @@
 ﻿<template>
-  <div class="loading" :class="`loading--${value}`">
-    <v-progress-circular :size="100" color="secondary" indeterminate></v-progress-circular>
-  </div>
+  <div class="loading" :class="`loading--${value}`"></div>
 </template>
 
 <script lang="ts">

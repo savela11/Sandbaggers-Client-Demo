@@ -1,15 +1,5 @@
 ﻿<template>
-  <v-list three-line subheader>
-    <v-list-item>
-      <v-list-item-action>
-        <v-checkbox v-model="currentUser.settings.updateHandicapOnLogin"></v-checkbox>
-      </v-list-item-action>
-      <v-list-item-content>
-        <v-list-item-title>Update Profile</v-list-item-title>
-        <v-list-item-subtitle>Open profile upon login to update handicap / settings.</v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
-  </v-list>
+  <div class="settingsView"></div>
 </template>
 
 <script lang="ts">
