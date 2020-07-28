@@ -50,7 +50,6 @@ const actions = {
         errorList: [],
       }
       snackBar.errorList.push({ code: 'errorCode', description: e.data.message })
-      await context.dispatch('messageStore/_setSnackBar', snackBar, { root: true })
     }
   },
 

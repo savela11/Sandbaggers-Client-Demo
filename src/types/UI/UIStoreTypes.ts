@@ -1,6 +1,7 @@
 ﻿export interface IUIState {
   headerTitle: string | null
   pageLoading: boolean
+  isNavBarShowing: boolean
 }
 
 export interface IPageLoadStatus {

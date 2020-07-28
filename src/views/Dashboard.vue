@@ -1,23 +1,37 @@
 ﻿<template>
   <div class="dashboard">
-    <div class="titleBar">
-      <div><p></p></div>
-      <div><p>Name</p></div>
-      <div><p>Handicap</p></div>
+    <div class="viewButtons">
+      <h2>Latest</h2>
+      <div class="buttons">
+        <button v-for="view in dashboardViews" :key="view" @click="handleViewChange(view)" :class="{ active: view === currentView }">{{ view }}</button>
+      </div>
     </div>
-    <div class="sandbaggerList">
-      <div class="sandbagger" v-for="bagger in filteredSandbaggers" :key="bagger.id">
-        <router-link :to="'/sandbagger/' + bagger.profileId">
-          <div><img src="@/assets/icons/accountCircle.svg" alt="account icon" /></div>
-          <div>
-            <p>
-              {{ bagger.fullName }}
-            </p>
-          </div>
-          <div>
-            <p>{{ bagger.handicap }}</p>
-          </div>
-        </router-link>
+    <div v-if="currentView === 'Handicaps'" class="handicaps">
+      <div class="titleBar">
+        <div>
+          <button @click="toggleSearch" class="searchButton"><img src="@/assets/icons/search.svg" alt="search icon" /></button>
+        </div>
+        <div><p>Name</p></div>
+        <div @click="toggleDescendingHandicaps"><p>Handicap</p></div>
+      </div>
+      <div v-if="isSearchInputShowing" class="searchBar">
+        <label for="searchSB">Search</label>
+        <input id="searchSB" class="input" type="text" v-model="searchInput" />
+      </div>
+      <div class="sandbaggerList">
+        <div class="sandbagger" v-for="bagger in filteredSandbaggers" :key="bagger.id">
+          <router-link :to="'/sandbagger/' + bagger.profileId">
+            <div><img src="@/assets/icons/accountCircle.svg" alt="account icon" /></div>
+            <div>
+              <p>
+                {{ bagger.fullName }}
+              </p>
+            </div>
+            <div>
+              <p>{{ bagger.handicap }}</p>
+            </div>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -38,9 +52,11 @@ import { IPageLoadStatus } from '@/types/UI/UIStoreTypes'
 })
 export default class Dashboard extends Vue {
   loading = false
+  currentView = 'Handicaps'
+  dashboardViews = ['Handicaps', 'Rounds', 'Bets']
   Sandbaggers: SandbaggerWithHandicap[] = []
   descendingHandicap = false
-  showSearchInput = false
+  isSearchInputShowing = false
   searchInput = ''
   fields = [
     { key: 'profile.firstName', label: 'Name', sortable: true },
@@ -56,6 +72,10 @@ export default class Dashboard extends Vue {
     return this.Sandbaggers.filter((sb) => {
       return sb.fullName.toLowerCase().includes(this.searchInput.toLowerCase())
     })
+  }
+
+  handleViewChange(view: string) {
+    this.currentView = view
   }
 
   sortSandbaggersDescending(sandbaggers: Array<SandbaggerWithHandicap>): Array<SandbaggerWithHandicap> {
@@ -87,6 +107,10 @@ export default class Dashboard extends Vue {
     this.descendingHandicap ? (this.Sandbaggers = this.sortSandbaggersDescending(this.Sandbaggers)) : (this.Sandbaggers = this.sortSandbaggersAscending(this.Sandbaggers))
   }
 
+  toggleSearch(): void {
+    this.isSearchInputShowing = !this.isSearchInputShowing
+  }
+
   async getUsers(): Promise<void> {
     this.loading = true
     try {
@@ -101,48 +125,122 @@ export default class Dashboard extends Vue {
       this.loading = false
     }
   }
+
+  Logout(): void {
+    this.$store.dispatch('authStore/Logout', { vm: this })
+  }
 }
 </script>
 
 <style scoped lang="scss">
 .dashboard {
   padding: 1rem;
+
   & > div {
-    padding: 0.5rem;
   }
+
+  .viewButtons {
+    h2 {
+      font-size: 1.2rem;
+      color: $DarkBlue;
+    }
+    .buttons {
+      overflow-x: scroll;
+      overflow-y: hidden;
+      white-space: nowrap;
+      padding: 0.2rem 0.2rem 0.8rem 0.2rem;
+      margin: 0.5rem 0 1rem 0;
+    }
+    button {
+      margin-right: 0.5rem;
+      display: inline-block;
+      height: 30px;
+      min-width: 75px;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.8rem;
+      border: none;
+      border-bottom: 2px solid $DarkBlue;
+      &.active {
+        background-color: $DarkBlue;
+        color: white;
+      }
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+
   .titleBar {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    margin-top: 3rem;
+    grid-template-columns: 50px 2fr 1fr;
+    margin-top: 1rem;
     border-bottom: 1px solid lightgrey;
 
+    .searchButton {
+      border: none;
+      padding: 0;
+      height: 25px;
+      width: 25px;
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        margin-top: 0.2rem;
+      }
+    }
+
     & > div {
+      display: flex;
+      align-items: center;
       padding: 5px;
+
       &:last-child {
         justify-content: center;
       }
     }
   }
 
-  .sandbagger {
-    margin-bottom: 1rem;
-    border: 1px solid grey;
-    border-radius: 5px;
+  .searchBar {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
 
-    a {
-      padding: 1rem 0;
-      color: black;
-      text-decoration: none;
-      display: grid;
-      grid-template-columns: 1fr 2fr 1fr;
+    label {
+      margin-right: 1rem;
+    }
+  }
 
-      & > div {
-        padding: 5px;
-        display: flex;
-        align-items: center;
+  .sandbaggerList {
+    margin-top: 1rem;
+    padding: 0.5rem 0;
 
-        &:last-child {
-          justify-content: center;
+    .sandbagger {
+      margin-bottom: 1rem;
+      border: 1px solid grey;
+      border-radius: 5px;
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+      }
+
+      a {
+        padding: 0.5rem 0;
+        color: black;
+        text-decoration: none;
+        display: grid;
+        grid-template-columns: 50px 2fr 1fr;
+
+        & > div {
+          padding: 5px;
+          display: flex;
+          align-items: center;
+
+          &:last-child {
+            justify-content: center;
+          }
         }
       }
     }

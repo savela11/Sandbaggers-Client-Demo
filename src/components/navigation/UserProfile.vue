@@ -21,7 +21,7 @@ export default class UserProfile extends Vue {
   currentOption = 'Profile'
   currentUser = {} as ICurrentUser
   mounted(): void {
-    this.getUserWithSettings()
+    // this.getUserWithSettings()
   }
 
   @Emit('closeUserProfile')

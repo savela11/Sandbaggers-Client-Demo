@@ -1,6 +1,6 @@
 <template>
   <div class="admin">
-    <v-btn v-for="route in adminLinks" :key="route.name" outlined color="primary" :to="route.link">{{ route.name }}</v-btn>
+    <router-link v-for="route in adminLinks" :key="route.name" outlined color="primary" class="btn btn--xs btn--borderBlue" :to="route.link">{{ route.name }}</router-link>
   </div>
 </template>
 
@@ -18,12 +18,14 @@ export default class Admin extends Vue {
   ]
   mounted(): void {
     this.$store.dispatch('uiStore/_setHeaderTitle', 'Admin')
+    this.$store.dispatch('uiStore/_setPageLoading', false)
   }
 }
 </script>
 
 <style scoped lang="scss">
 .admin {
+  padding: 1rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.5rem;

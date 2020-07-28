@@ -121,8 +121,10 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
     if (currentUser === null) {
       await store.dispatch('authStore/LogoutWithError', { title: 'Session Expired', message: 'You must re-login.' })
+      await store.dispatch('uiStore/_setPageLoading', false)
       return next({ path: '/login' })
     } else {
+      await store.dispatch('uiStore/_setPageLoading', false)
       return next()
     }
   }

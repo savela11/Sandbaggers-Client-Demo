@@ -1,22 +1,22 @@
 ﻿<template>
-  <div class="login pa-2 mt-4">
-    <form>
-      <v-text-field v-model="LoginForm.username" outlined label="Username" required></v-text-field>
-      <v-text-field
-        @click:append="showPassword = !showPassword"
-        v-model="LoginForm.password"
-        :type="showPassword ? 'text' : 'password'"
-        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-        outlined
-        label="Password"
-        required
-      ></v-text-field>
-      <v-btn color="secondary" large :loading="loading" @click="onSubmit">Login</v-btn>
+  <div class="login">
+    <form v-if="!loading" class="form form--login">
+      <div class="form__field">
+        <label for="username">Username</label>
+        <input type="text" id="username" v-model="LoginForm.username" />
+      </div>
+      <div class="form__field">
+        <label for="password">Password</label>
+        <input type="password" id="password" v-model="LoginForm.password" />
+      </div>
+      <div class="btnContainer">
+        <button @click.prevent.stop="onSubmit" class="btn btn--blue" id="loginBTN">Login</button>
+      </div>
     </form>
-
-    <div class="mt-10 body-2">
-      <router-link to="/register">Need an account?</router-link>
+    <div class="greyLinks" v-if="!loading">
+      <p>Need an account? <router-link to="/register">Register</router-link></p>
     </div>
+    <Loading v-if="loading" />
   </div>
 </template>
 
@@ -24,10 +24,11 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { ILoginUser } from '@/types/User/AuthUser'
 import UIStore from '@/store/modules/UIStore'
+import Helper from '@/utility/Helper'
 
 @Component({
   name: 'Login',
-  components: {},
+  components: { Loading: () => import('@/components/ui/Loading.vue') },
 })
 export default class Login extends Vue {
   loading = false
@@ -42,11 +43,11 @@ export default class Login extends Vue {
   }
 
   async onSubmit(): Promise<void> {
+    Helper.clickedButton('loginBTN')
     this.loading = true
     try {
       setTimeout(() => {
         this.$store.dispatch('authStore/LoginUser', { vm: this, loginUser: this.LoginForm })
-        this.loading = false
       }, 3000)
     } catch (e) {
       this.loading = false
@@ -55,4 +56,10 @@ export default class Login extends Vue {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.login {
+  .btn {
+    border-radius: 25px;
+  }
+}
+</style>

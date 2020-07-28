@@ -1,22 +1,47 @@
 <template>
-  <div class="nav"></div>
+  <div class="nav">
+    <div class="nav__bar">
+      <button @click="toggleMenu" id="menuButton">
+        <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
+      </button>
+    </div>
+    <transition name="fadeHeight">
+      <div class="nav__menu" v-show="isMenuShowing">
+        <div class="nav__menu--top" id="menu">
+          <div v-for="route in userLinks" :key="route.name" class="route" @click="toggleMenu">
+            <router-link :to="route.link">
+              <img :src="userLinkImg(route.icon)" :alt="route.icon" />
+              <p>{{ route.name }}</p>
+            </router-link>
+          </div>
+        </div>
+        <div class="nav__menu--bottom" :class="{ between: currentUser.roles.includes('Admin') }">
+          <router-link to="/admin" class="btn btn--sm btn--blue" id="adminBTN" @click="testClick($event)">Admin</router-link>
+          <button class="btn btn--sm btn--red" id="logoutBTN" @click="logout">Logout</button>
+        </div>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import { IUserLink, IAdminLink } from '@/types/Navigation/INavBar'
 import { ICurrentUser } from '@/types/User/AuthUser'
+import Helper from '@/utility/Helper'
 
 @Component
 export default class Navigation extends Vue {
   @Prop() currentUser!: ICurrentUser
   isSideBarShowing = false
-  isNavMenuShowing = false
+  isMenuShowing = false
   activeBtn = 1
   showNav = true
   userLinks: IUserLink[] = [
-    { name: 'Dashboard', link: '/dashboard', icon: 'view-dashboard' },
+    { name: 'Dashboard', link: '/dashboard', icon: 'dashboard' },
     { name: 'Sandbaggers', link: '/sandbaggerEvents', icon: 'golf' },
+    { name: 'Bets', link: '/bets', icon: 'bets' },
+    { name: 'Ideas', link: '/ideas', icon: 'ideas' },
   ]
   activeAdminLink = 'Admin Dashboard'
   adminLinks: IAdminLink[] = [
@@ -28,16 +53,25 @@ export default class Navigation extends Vue {
 
   top = false
 
+  userLinkImg(iconName: string) {
+    return require('@/assets/icons/' + iconName + '.svg')
+  }
+  testClick(): void {
+    Helper.clickedButton('adminBTN')
+  }
+
+  logout(): void {
+    Helper.clickedButton('logoutBTN')
+
+    this.$store.dispatch('authStore/Logout')
+  }
+
   toggleSideBar(status: boolean): void {
     this.isSideBarShowing = status
   }
 
-  toggleNavBar(status: boolean): void {
-    if (this.isNavMenuShowing) {
-      this.isNavMenuShowing = false
-      return
-    }
-    this.isNavMenuShowing = status
+  toggleMenu(): void {
+    this.isMenuShowing = !this.isMenuShowing
   }
 
   toAdminLink(route: IAdminLink): void {
@@ -47,17 +81,11 @@ export default class Navigation extends Vue {
       this.toggleSideBar(false)
     }
     this.$router.push(route.link).catch(() => {})
-    this.toggleNavBar(false)
   }
 
   @Emit('openUserSettings')
   openUserSettings(): boolean {
-    this.handleCloseMenu()
     return true
-  }
-
-  handleCloseMenu(): void {
-    this.toggleNavBar(false)
   }
 
   toUserProfile(): void {
@@ -74,80 +102,89 @@ export default class Navigation extends Vue {
   width: 100%;
   background-color: white;
   box-shadow: 0px 0 10px rgba(102, 102, 102, 0.8);
-  &__wrapper {
-    padding: 0 0.8rem 0.8rem 0.8rem;
-  }
-  &__menuContainer {
-    position: relative;
-  }
-  &__userLinks {
-    ul {
+  &__bar {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+    padding: 0.5rem 0 1rem 0;
+
+    button {
+      border: none;
       padding: 0;
-      list-style-type: none;
+      width: 60px;
+      outline: none;
+      flex: 1;
+      background-color: white;
+      border-bottom: 1px solid $DarkBlue;
+      z-index: 21;
+      height: 40px;
+      max-width: 100px;
+      position: relative;
+      border-radius: 20px;
+      box-shadow: 0 3px 3px rgba(170, 170, 170, 0.3), 0 3px 3px rgba(170, 170, 170, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        object-fit: cover;
+        height: 35px;
+        width: 35px;
+      }
+    }
+  }
+  &__menu {
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &--top {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 0.3rem;
-    }
+      grid-auto-rows: 60px;
+      grid-gap: 10px;
+      padding: 0.5rem;
+      .route {
+        grid-column: span 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
 
-    li {
-      &:last-child {
-        margin-right: 0;
+        a {
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          align-items: center;
+          box-shadow: 0px 1px 3px grey;
+          border-radius: 5px;
+          text-decoration: none;
+          color: $DarkBlue;
+          width: 100%;
+          height: 100%;
+        }
+
+        p {
+          margin-top: 0.2rem;
+          font-size: 0.8rem;
+        }
+
+        img {
+          height: 30px;
+          width: 30px;
+          object-fit: contain;
+        }
       }
     }
-
-    .link {
-      grid-column: span 1;
+    &--bottom {
       display: flex;
-      flex-direction: column;
-      border: 1px solid lightgrey;
-      text-align: center;
-      text-decoration: none;
-      padding: 0.3rem;
-      border-radius: 5px;
-      span {
-        margin-top: 0.3rem;
+      padding: 0.5rem;
+      justify-content: flex-end;
+      &.between {
+        justify-content: space-between;
       }
     }
   }
-
-  &__bottomMenuBar {
-    margin: 1rem 0 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .logoutBtn {
-    color: white;
-  }
-}
-.navSheet {
-  min-height: 300px;
-  padding: 1rem;
-}
-#mainNav {
-  min-height: 70px;
-  box-shadow: none;
-}
-
-.toggleNavMenu {
-  position: absolute;
-  right: 1rem;
-  bottom: 4rem;
-}
-
-.hiddenNav {
-  bottom: 1rem;
-}
-.userLinks {
-  display: flex;
-  justify-content: space-evenly;
-}
-.v-btn--floating {
-  position: relative;
-}
-.v-speed-dial {
-  position: absolute;
 }
 .fadeHeight-enter-active,
 .fadeHeight-leave-active {

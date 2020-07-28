@@ -1,35 +1,42 @@
 ﻿<template>
-  <div class="register pa-2 mt-4">
-    <form>
-      <v-text-field v-model="form.username" outlined label="Username" required></v-text-field>
-      <v-text-field v-model="form.email" outlined label="Email" required></v-text-field>
-      <v-text-field v-model="form.firstName" outlined label="First Name" required></v-text-field>
-      <v-text-field
-        @click:append="showPassword = !showPassword"
-        v-model="form.password"
-        :type="showPassword ? 'text' : 'password'"
-        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-        outlined
-        label="Password"
-        required
-      ></v-text-field>
-      <v-text-field
-        @click:append="showConfirmPassword = !showConfirmPassword"
-        v-model="form.confirmPassword"
-        :type="showConfirmPassword ? 'text' : 'password'"
-        :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
-        outlined
-        label="Confirm Password"
-        required
-      ></v-text-field>
-      <v-text-field v-model="form.registrationCode" outlined label="Registration Code" required></v-text-field>
-      <v-checkbox v-model="form.loginAfterRegister" :label="`Login After Registering?`"></v-checkbox>
-      <v-btn color="secondary" :loading="loading" large @click="onSubmit">Register</v-btn>
+  <div class="register">
+    <form v-if="!loading" class="form form--login">
+      <div class="form__field">
+        <label for="username">Username</label>
+        <input type="text" id="username" v-model="registerForm.username" />
+      </div>
+      <div class="form__field">
+        <label for="email">Email</label>
+        <input type="email" id="email" v-model="registerForm.email" />
+      </div>
+      <div class="form__field">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" v-model="registerForm.firstName" />
+      </div>
+      <div class="form__field">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" v-model="registerForm.lastName" />
+      </div>
+      <div class="form__field">
+        <label for="password">Password</label>
+        <input type="password" id="password" v-model="registerForm.password" />
+      </div>
+      <div class="form__field">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" v-model="registerForm.confirmPassword" />
+      </div>
+      <div class="form__field">
+        <label for="registrationCode">Registration Code</label>
+        <input type="text" id="registrationCode" v-model="registerForm.registrationCode" />
+      </div>
+      <div class="btnContainer">
+        <button @click.prevent.stop="onSubmit" class="btn btn--blue">Register</button>
+      </div>
     </form>
-
-    <div class="mt-10 body-2">
-      <router-link to="/login">Already have an account?</router-link>
+    <div class="greyLinks" v-if="!loading">
+      <p>Already have an account? <router-link to="/login">Login</router-link></p>
     </div>
+    <Loading v-if="loading" />
   </div>
 </template>
 
@@ -40,16 +47,17 @@ import AuthService from '../../services/AuthService'
 import UIStore from '../../store/modules/UIStore'
 import { ISnackBar } from '@/types/UI/SnackBar'
 
-@Component({ name: 'Register' })
+@Component({ name: 'Register', components: { Loading: () => import('@/components/ui/Loading.vue') } })
 export default class Login extends Vue {
   loading = false
 
-  form: IRegisterUser = {
+  registerForm: IRegisterUser = {
     email: '',
     username: '',
     password: '',
     confirmPassword: '',
     firstName: '',
+    lastName: '',
     registrationCode: '',
     loginAfterRegister: false,
   }
@@ -57,7 +65,6 @@ export default class Login extends Vue {
   showPassword = false
   showConfirmPassword = false
   mounted(): void {
-
     this.$store.dispatch('uiStore/_setHeaderTitle', 'Register')
   }
 
@@ -65,12 +72,12 @@ export default class Login extends Vue {
     this.loading = true
     if (this.validateForm()) {
       try {
-        const res = await AuthService.registerUser(this.form)
+        const res = await AuthService.registerUser(this.registerForm)
 
-        if (this.form.loginAfterRegister && res.data.succeeded && res.status === 200) {
+        if (this.registerForm.loginAfterRegister && res.data.succeeded && res.status === 200) {
           const loginUser = {
-            username: this.form.username,
-            password: this.form.password,
+            username: this.registerForm.username,
+            password: this.registerForm.password,
           }
           setTimeout(() => {
             this.loading = true
@@ -83,13 +90,6 @@ export default class Login extends Vue {
           }, 3000)
         }
       } catch (e) {
-        console.log(e)
-        const snackBar: ISnackBar = {
-          message: e.data.message,
-          showSnackBar: true,
-          errorList: e.data.data.errors,
-        }
-        await this.$store.dispatch('messageStore/_setSnackBar', snackBar)
         this.loading = false
       }
     }
@@ -102,28 +102,28 @@ export default class Login extends Vue {
       showSnackBar: true,
       errorList: [],
     }
-    if (this.form.loginAfterRegister === 'true') {
-      this.form.loginAfterRegister = true
+    if (this.registerForm.loginAfterRegister === 'true') {
+      this.registerForm.loginAfterRegister = true
     }
-    if (this.form.password !== this.form.confirmPassword) {
+    if (this.registerForm.password !== this.registerForm.confirmPassword) {
       validForm = false
       snackBar.errorList.push({ code: 'NonMatchingPasswords', description: 'Passwords must match' })
     }
-    if (this.form.firstName === '') {
+    if (this.registerForm.firstName === '') {
       validForm = false
       snackBar.errorList.push({ code: 'RequireFirstName', description: 'Must provide a first name' })
     }
 
-    if (this.form.password === '') {
+    if (this.registerForm.password === '') {
       validForm = false
       snackBar.errorList.push({ code: 'RequirePassword', description: 'Must provide a password' })
     }
-    if (this.form.email === '') {
+    if (this.registerForm.email === '') {
       validForm = false
       snackBar.errorList.push({ code: 'RequireEmail', description: 'Must Provide an email' })
     }
 
-    if (this.form.registrationCode === '') {
+    if (this.registerForm.registrationCode === '') {
       validForm = false
       snackBar.errorList.push({ code: 'RequireRegistrationCode', description: 'Must provide a registration code' })
     }
@@ -141,13 +141,13 @@ export default class Login extends Vue {
     return validForm
   }
   resetForm(): void {
-    this.form.email = ''
-    this.form.username = ''
-    this.form.password = ''
-    this.form.confirmPassword = ''
-    this.form.firstName = ''
-    this.form.registrationCode = ''
-    this.form.loginAfterRegister = false
+    this.registerForm.email = ''
+    this.registerForm.username = ''
+    this.registerForm.password = ''
+    this.registerForm.confirmPassword = ''
+    this.registerForm.firstName = ''
+    this.registerForm.registrationCode = ''
+    this.registerForm.loginAfterRegister = false
     this.show = false
     this.$nextTick(() => {
       this.show = true
@@ -156,4 +156,10 @@ export default class Login extends Vue {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.register {
+  .btn {
+    border-radius: 25px;
+  }
+}
+</style>

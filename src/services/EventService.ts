@@ -1,6 +1,6 @@
 import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
-import { ICreateEvent, IEventDto, IRegisterUser } from '@/types/Admin/Event'
+import { ICreateEvent, IEventDto } from '@/types/Admin/Event'
 
 const url = '/events'
 
@@ -15,10 +15,6 @@ class EventService {
 
   static async getEventById(id: string): Promise<AxiosResponse<IEventDto>> {
     return await apiClient.get(`${url}/GetEventById/${id}`)
-  }
-
-  static async RegisterUserForEvent(currentUser: IRegisterUser): Promise<AxiosResponse<IEventDto>> {
-    return await apiClient.post(`${url}/RegisterUserForEvent`, currentUser)
   }
 }
 

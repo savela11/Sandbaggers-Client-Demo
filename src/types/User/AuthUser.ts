@@ -11,6 +11,7 @@ export interface IRegisterUser {
   password: string
   confirmPassword: string
   firstName: string
+  lastName: string
   registrationCode: string
   loginAfterRegister: boolean | string
 }

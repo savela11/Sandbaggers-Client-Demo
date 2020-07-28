@@ -3,6 +3,7 @@
 // $danger: #8b2635;
 // $tester: #12ff90;
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
+@import '_button.scss';
 html {
   font-family: 'Roboto', sans-serif;
   word-spacing: 1px;
@@ -18,7 +19,6 @@ html {
 }
 
 body {
-  margin-bottom: 75px;
   overflow-x: hidden;
   right: 0;
   top: 0;
@@ -26,6 +26,7 @@ body {
   left: 0;
   height: 100%;
   width: 100%;
+  margin: 0 0 75px 0;
 }
 h1,
 h2,
@@ -52,4 +53,49 @@ a {
   width: 100%;
   margin: 0 0 1rem 0;
   height: 1px;
+}
+
+.greyLinks {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  p {
+    color: grey;
+    font-size: 0.8rem;
+  }
+
+  a {
+    text-decoration: none;
+    color: blue;
+    margin-left: 0.5rem;
+  }
+}
+
+.form {
+  padding: 1rem 2rem;
+  &__field {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0;
+
+    label {
+      margin: 0 0 0.5rem 0.5rem;
+    }
+    input {
+      font-size: 1rem;
+      border-radius: 25px;
+      padding: 0.5rem 0 0.5rem 1rem;
+      border: 1px solid lightgrey;
+      outline: none;
+      background-color: transparent;
+    }
+  }
+}
+
+.input {
+  width: 100%;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid lightgrey;
+  border-radius: 25px;
+  font-size: 1rem;
 }

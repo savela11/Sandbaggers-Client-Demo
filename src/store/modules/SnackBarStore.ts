@@ -3,11 +3,15 @@ import { ActionContext } from 'vuex'
 import { IRootState } from '@/store'
 import { IAuthState } from '@/store/modules/AuthStore'
 
-export interface IMessageState {
+export interface ISnackBarState {
+  title: string
+  isSnackBarShowing: boolean
   snackBar: ISnackBar
 }
 
-const state: IMessageState = {
+const state: ISnackBarState = {
+  title: 'test',
+  isSnackBarShowing: false,
   snackBar: {
     message: '',
     showSnackBar: false,
@@ -16,13 +20,13 @@ const state: IMessageState = {
 }
 
 const getters = {
-  showSnackBar(state: IMessageState): ISnackBar {
+  showSnackBar(state: ISnackBarState): ISnackBar {
     return state.snackBar
   },
 }
 
 const mutations = {
-  SetSnackBar(state: IMessageState, snackBar: ISnackBar): void {
+  SetSnackBar(state: ISnackBarState, snackBar: ISnackBar): void {
     if (snackBar.showSnackBar === true) {
       state.snackBar.message = snackBar.message
       state.snackBar.showSnackBar = true

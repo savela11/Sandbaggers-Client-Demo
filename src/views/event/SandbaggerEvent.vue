@@ -14,6 +14,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import EventService from '@/services/EventService'
 import { IEventDto, IRegisterUser } from '@/types/Admin/Event'
+import SandbaggerEventService from '@/services/SandbaggerEventService'
 
 @Component({
   name: 'SandbaggerEvent',
@@ -44,7 +45,7 @@ export default class SandbaggerEvent extends Vue {
   async registerForEvent(): Promise<void> {
     this.loading = true
     try {
-      const res = await EventService.RegisterUserForEvent(this.currentUser)
+      const res = await SandbaggerEventService.RegisterUserForEvent(this.currentUser)
       if (res.status === 200) {
         this.Event.registeredUsers.push(this.currentUser)
       }

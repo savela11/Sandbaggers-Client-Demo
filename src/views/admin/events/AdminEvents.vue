@@ -1,68 +1,18 @@
 ﻿<template>
   <div class="events">
-    <v-row class="justify-end mb-6" v-if="!loading">
-      <v-btn dark fab small color="primary" to="/admin/events/create">
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
-    </v-row>
-
-    <v-expansion-panels v-if="!loading">
-      <v-expansion-panel v-for="event in Events" :key="event.eventId" class="mb-4">
-        <v-expansion-panel-header>
-          <v-row no-gutters class="align-end">
-            <v-col cols="7"
-              ><h2 class="subtitle-1 font-weight-bold">{{ event.name }}</h2></v-col
-            >
-            <v-col cols="3"
-              ><h2 class="subtitle-2">{{ event.year }}</h2></v-col
-            >
-          </v-row>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <hr />
-          <v-row no-gutters class="py-3">
-            <v-col cols="10" class="d-flex align-center">
-              <div class="d-flex align-center">
-                <p class="body-2">
-                  Registered Sandbaggers
-                </p>
-                <p class="ml-2 caption">{{ `( ${event.registeredUsers ? event.registeredUsers.length : 0} )` }}</p>
-              </div>
-            </v-col>
-            <v-col> </v-col>
-          </v-row>
-          <v-row no-gutters class="py-3">
-            <v-col cols="6" class="d-flex align-center">
-              <div class="d-flex align-center">
-                <p class="body-2">Teams</p>
-              </div>
-            </v-col>
-            <v-col>
-              <div class="d-flex align-center">
-                <p>TeamOne</p>
-                <p class="ml-2">TeamTwo</p>
-                <p class="ml-2">TeamThree</p>
-              </div>
-            </v-col>
-          </v-row>
-
-          <v-row>
-            <v-col>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn text color="secondary">
-                  Cancel
-                </v-btn>
-                <v-btn text color="primary" :to="`/admin/events/editEvent/${event.eventId}`">
-                  Edit
-                </v-btn>
-              </v-card-actions>
-            </v-col>
-          </v-row>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
     <Loading v-if="loading" value="large" />
+
+    <div v-if="!loading">
+      <div class="selectYear">
+        <h2>{{ selectedEvent.name }}</h2>
+        <div>
+          <span>Year</span>
+          <select id="events" v-model="selectedEvent">
+            <option v-for="event in Events" :key="event.eventId" :value="event">{{ event.year }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -83,9 +33,9 @@ export default class AdminEvents extends Vue {
   Events = [] as IEventDto[]
   showModal = false
   selectedToDelete: IEventDto | null = null
+  selectedEvent = {} as IEventDto
 
   mounted(): void {
-
     this.$store.dispatch('uiStore/_setHeaderTitle', 'Events')
     this.getEvents()
   }
@@ -111,8 +61,10 @@ export default class AdminEvents extends Vue {
     this.loading = true
     try {
       const { data } = await EventService.eventList()
+
       this.Events = data
       this.loading = false
+      await this.$store.dispatch('uiStore/_setPageLoading', false)
     } catch (e) {
       this.loading = false
       console.log(e)
@@ -150,9 +102,36 @@ export default class AdminEvents extends Vue {
 
 <style scoped lang="scss">
 .events {
-  .modal {
-    display: block;
-    background-color: rgba(168, 164, 164, 0.7);
+  padding: 0.5rem 1rem;
+  .selectYear {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    h2 {
+      font-size: 1.2rem;
+      color: $DarkBlue;
+    }
+    select {
+      font-size: 0.8rem;
+      display: block;
+      padding: 0.6em 1.4em 0.5em 0.8em;
+      width: 75px;
+      max-width: 100%; /* useful when width is set to anything other than 100% */
+      box-sizing: border-box;
+      margin: 0;
+      border: 1px solid rgba(211, 211, 211, 0.8);
+      border-radius: 3px;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
+      background-color: #fff;
+
+      option {
+      }
+    }
+    span {
+      font-size: 0.8rem;
+    }
   }
 }
 </style>

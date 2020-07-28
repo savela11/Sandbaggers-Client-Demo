@@ -5,10 +5,12 @@ import { IUIState } from '@/types/UI/UIStoreTypes'
 const state: IUIState = {
   headerTitle: null,
   pageLoading: false,
+  isNavBarShowing: true,
 }
 
 const getters = {
   HeaderTitle: (state: IUIState): string | null => state.headerTitle,
+  IsNavBarShowing: (state: IUIState): boolean => state.isNavBarShowing,
 }
 
 const mutations = {
@@ -30,6 +32,10 @@ const mutations = {
       state.pageLoading = loadingStatus
     }
   },
+
+  SetNavBarShowingStatus(state: IUIState, showingStatus: boolean): void {
+    state.isNavBarShowing = showingStatus
+  },
 }
 
 const actions = {
@@ -39,6 +45,10 @@ const actions = {
 
   _setPageLoading(context: ActionContext<IUIState, IRootState>, loadingStatus: boolean) {
     context.commit('SetLoadingStatus', loadingStatus)
+  },
+
+  _setNavBarShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean) {
+    context.commit('SetNavBarShowingStatus', showingStatus)
   },
 }
 
