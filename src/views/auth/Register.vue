@@ -3,31 +3,31 @@
     <form v-if="!loading" class="form form--login">
       <div class="form__field">
         <label for="username">Username</label>
-        <input type="text" id="username" v-model="registerForm.username" />
+        <input type="text" id="username" v-model.trim="registerForm.username" />
       </div>
       <div class="form__field">
         <label for="email">Email</label>
-        <input type="email" id="email" v-model="registerForm.email" />
+        <input type="email" id="email" v-model.trim="registerForm.email" />
       </div>
       <div class="form__field">
         <label for="firstName">First Name</label>
-        <input type="text" id="firstName" v-model="registerForm.firstName" />
+        <input type="text" id="firstName" v-model.trim="registerForm.firstName" />
       </div>
       <div class="form__field">
         <label for="lastName">Last Name</label>
-        <input type="text" id="lastName" v-model="registerForm.lastName" />
+        <input type="text" id="lastName" v-model.trim="registerForm.lastName" />
       </div>
       <div class="form__field">
         <label for="password">Password</label>
-        <input type="password" id="password" v-model="registerForm.password" />
+        <input type="password" id="password" v-model.trim="registerForm.password" />
       </div>
       <div class="form__field">
         <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" v-model="registerForm.confirmPassword" />
+        <input type="password" id="confirmPassword" v-model.trim="registerForm.confirmPassword" />
       </div>
       <div class="form__field">
         <label for="registrationCode">Registration Code</label>
-        <input type="text" id="registrationCode" v-model="registerForm.registrationCode" />
+        <input type="text" id="registrationCode" v-model.trim="registerForm.registrationCode" />
       </div>
       <div class="btnContainer">
         <button @click.prevent.stop="onSubmit" class="btn btn--blue">Register</button>
@@ -44,10 +44,9 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { IRegisterUser } from '@/types/User/AuthUser'
 import AuthService from '../../services/AuthService'
-import UIStore from '../../store/modules/UIStore'
 import { ISnackBar } from '@/types/UI/SnackBar'
 
-@Component({ name: 'Register', components: { Loading: () => import('@/components/ui/Loading.vue') } })
+@Component({ name: 'Register', components: { Loading: (): Promise<object> => import('@/components/ui/Loading.vue') } })
 export default class Login extends Vue {
   loading = false
 

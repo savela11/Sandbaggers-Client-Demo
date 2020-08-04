@@ -6,7 +6,7 @@ const url = '/profile'
 
 class ProfileService {
   static async UpdateCurrentUserProfile(userProfile: ICurrentUser): Promise<AxiosResponse<ICurrentUser>> {
-    return await apiClient.put(`${url}/UpdateProfile`, userProfile)
+    return await apiClient.post(`${url}/UpdateProfile`, userProfile)
   }
 }
 

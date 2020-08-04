@@ -3,16 +3,16 @@
     <form class="form form--profile">
       <div class="form__field">
         <label for="fName">First name</label>
-        <input type="text" id="fName" v-model="profileForm.firstName" />
+        <input type="text" id="fName" v-model.trim="profileForm.firstName" />
       </div>
       <div class="form__field">
         <label for="lName">Last name</label>
-        <input type="text" id="lName" v-model="profileForm.lastName" />
+        <input type="text" id="lName" v-model.trim="profileForm.lastName" />
       </div>
 
       <div class="form__field">
         <label for="email">Email</label>
-        <input type="email" id="email" v-model="profileForm.email" />
+        <input type="email" id="email" v-model.trim="profileForm.email" />
       </div>
 
       <div class="btnContainer">
@@ -38,7 +38,7 @@ export default class ProfileView extends Vue {
     email: '',
   }
 
-  mounted() {
+  mounted(): void {
     this.setCurrentUser()
   }
 
@@ -50,21 +50,24 @@ export default class ProfileView extends Vue {
   }
 
   @Emit('updateCurrentUserProfile')
-  updateCurrentUserProfile(): IUserProfile {
-    return this.profileForm
+  updateCurrentUserProfile(): ICurrentUser {
+    const updatedUser = this.cUser
+    updatedUser.profile.firstName = this.profileForm.firstName
+    updatedUser.profile.lastName = this.profileForm.lastName
+    updatedUser.email = this.profileForm.email
+    return updatedUser
   }
 }
 </script>
 
 <style scoped lang="scss">
 .profileView {
-  background-color: white;
-
   .btnContainer {
     display: flex;
     justify-content: flex-end;
   }
   .form {
+    padding: 0;
     &__field {
       padding: 0 0 0.5rem 0;
       label {

@@ -4,7 +4,6 @@ import SecureLS from 'secure-ls'
 import AuthService from '../../services/AuthService'
 import { ActionContext } from 'vuex'
 import { IRootState } from '../index'
-import { ISnackBar } from '@/types/UI/SnackBar'
 import { IUserProfile } from '@/types/Profile'
 
 const ls = new SecureLS({ isCompression: false })
@@ -34,12 +33,14 @@ const mutations = {
     state.isLoggedIn = false
   },
 
-  UpdateCurrentUserProfile(state: IAuthState, currentUser: IUserProfile): void {
+  UpdateCurrentUserProfile(state: IAuthState, updatedUser: ICurrentUser): void {
     if (state.currentUser) {
-      state.currentUser.fullName = currentUser.firstName + ' ' + currentUser.lastName
-      state.currentUser.profile.firstName = currentUser.firstName
-      state.currentUser.profile.lastName = currentUser.lastName
-      state.currentUser.email = currentUser.email
+      // state.currentUser.fullName = currentUser.profile.firstName + ' ' + currentUser.profile.lastName
+      // state.currentUser.profile.firstName = currentUser.profile.firstName
+      // state.currentUser.profile.lastName = currentUser.lastName
+      // state.currentUser.email = currentUser.email
+      state.currentUser = updatedUser
+      state.currentUser.fullName = updatedUser.profile.firstName + ' ' + updatedUser.profile.lastName
     } else {
       return
     }
@@ -47,26 +48,10 @@ const mutations = {
 }
 
 const actions = {
-  async LoginUser(context: ActionContext<IAuthState, IRootState>, { loginUser }: any): Promise<void> {
-    try {
-      const res = await AuthService.loginUser(loginUser)
-      if (res.status === 200) {
-        console.log('store', res.data)
-        localStorage.setItem('token', res.data.token)
-        await context.commit('SetCurrentUser', res.data)
-        await router.push('/dashboard')
-      }
-    } catch (e) {
-      const snackBar: ISnackBar = {
-        title: 'Login Error',
-        message: e.data.message,
-        isSnackBarShowing: true,
-        class: 'error',
-        errors: [],
-      }
-      await context.dispatch('uiStore/_setSnackBar', snackBar, { root: true })
-      await context.dispatch('uiStore/_setDataLoading', false, { root: true })
-    }
+  async SetCurrentUser(context: ActionContext<IAuthState, IRootState>, currentUser: ICurrentUser): Promise<void> {
+    localStorage.setItem('token', currentUser.token)
+    context.commit('SetCurrentUser', currentUser)
+    await router.push('/dashboard')
   },
 
   async Logout(context: ActionContext<IAuthState, IRootState>): Promise<void> {
@@ -95,8 +80,8 @@ const actions = {
     return
   },
 
-  async updateCurrentUserProfile(context: ActionContext<IAuthState, IRootState>, currentUserProfile: IUserProfile): Promise<void> {
-    context.commit('UpdateCurrentUserProfile', currentUserProfile)
+  async updateCurrentUser(context: ActionContext<IAuthState, IRootState>, updatedUser: ICurrentUser): Promise<void> {
+    context.commit('UpdateCurrentUserProfile', updatedUser)
   },
 }
 

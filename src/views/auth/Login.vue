@@ -3,11 +3,11 @@
     <form v-if="!DataLoading" class="form form--login">
       <div class="form__field">
         <label for="username">Username</label>
-        <input type="text" id="username" v-model="LoginForm.username" />
+        <input type="text" id="username" v-model.trim="LoginForm.username" />
       </div>
       <div class="form__field">
         <label for="password">Password</label>
-        <input type="password" id="password" v-model="LoginForm.password" />
+        <input type="password" id="password" v-model.trim="LoginForm.password" />
       </div>
       <div class="btnContainer">
         <button @click.prevent.stop="onSubmit" class="btn btn--blue" id="loginBTN">Login</button>
@@ -23,13 +23,13 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { ILoginUser } from '@/types/User/AuthUser'
-import UIStore from '@/store/modules/UIStore'
 import Helper from '@/utility/Helper'
 import { ISnackBar } from '@/types/UI/SnackBar'
+import AuthService from '@/services/AuthService'
 
 @Component({
   name: 'Login',
-  components: { Loading: () => import('@/components/ui/Loading.vue') },
+  components: { Loading: (): Promise<object> => import('@/components/ui/Loading.vue') },
 })
 export default class Login extends Vue {
   loading = false
@@ -69,13 +69,28 @@ export default class Login extends Vue {
     if (validForm) {
       await this.$store.dispatch('uiStore/_setDataLoading', true)
       try {
-        setTimeout(() => {
-          this.$store.dispatch('authStore/LoginUser', { vm: this, loginUser: this.LoginForm })
-        }, 3000)
+        const res = await AuthService.loginUser(this.LoginForm)
+        if (res.status === 200) {
+          await this.$store.dispatch('authStore/SetCurrentUser', res.data)
+        } else {
+          await this.$store.dispatch('uiStore/_setDataLoading', false)
+        }
       } catch (e) {
-        console.log(e)
+        if (e.data) {
+          const snackBar: ISnackBar = {
+            title: 'Login Error',
+            message: e.data.message,
+            isSnackBarShowing: true,
+            class: 'error',
+            errors: [],
+          }
+          await this.$store.dispatch('uiStore/_setSnackBar', snackBar, { root: true })
+        }
+
+        await this.$store.dispatch('uiStore/_setDataLoading', false, { root: true })
       }
     } else {
+      await this.$store.dispatch('uiStore/_setDataLoading', false)
       return
     }
   }

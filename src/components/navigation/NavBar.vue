@@ -23,7 +23,7 @@
             <router-link to="/admin" class="btn btn--sm btn--blue" id="adminBTN">Admin</router-link>
           </div>
           <div>
-            <button class="btn btn--sm btn--red" id="logoutBTN" @click="logout">Logout</button>
+            <button class="btn btn--xs btn--red" id="logoutBTN" @click="logout">Logout</button>
           </div>
         </div>
       </div>
@@ -93,11 +93,10 @@ export default class Navigation extends Vue {
 
   @Emit('openUserProfile')
   openUserProfile(): boolean {
+    if (this.isMenuShowing) {
+      this.isMenuShowing = false
+    }
     return true
-  }
-
-  toUserProfile(): void {
-    this.$router.push('/profile').catch(() => {})
   }
 }
 </script>
