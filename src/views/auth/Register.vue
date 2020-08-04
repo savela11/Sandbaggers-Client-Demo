@@ -90,6 +90,22 @@ export default class Login extends Vue {
           }, 3000)
         }
       } catch (e) {
+        const errorList: string[] = []
+        const snackBar: ISnackBar = {
+          title: e.data.message,
+          message: '',
+          isSnackBarShowing: true,
+          class: 'error',
+          errors: [],
+        }
+        if (e.data.data) {
+          e.data.data.errors.forEach((e: any) => {
+            errorList.push(e.description)
+          })
+          snackBar.errors = errorList
+        }
+
+        await this.$store.dispatch('uiStore/_setSnackBar', snackBar)
         this.loading = false
       }
     }
@@ -97,47 +113,57 @@ export default class Login extends Vue {
 
   validateForm(): boolean {
     let validForm = true
+    const errorList: string[] = []
     const snackBar: ISnackBar = {
+      title: '',
       message: '',
-      showSnackBar: true,
-      errorList: [],
+      isSnackBarShowing: true,
+      class: 'error',
+      errors: [],
+    }
+
+    if (this.registerForm.username === '') {
+      validForm = false
+      errorList.push('Must provide a username')
     }
     if (this.registerForm.loginAfterRegister === 'true') {
       this.registerForm.loginAfterRegister = true
     }
     if (this.registerForm.password !== this.registerForm.confirmPassword) {
       validForm = false
-      snackBar.errorList.push({ code: 'NonMatchingPasswords', description: 'Passwords must match' })
+      errorList.push('Passwords must match')
     }
     if (this.registerForm.firstName === '') {
       validForm = false
-      snackBar.errorList.push({ code: 'RequireFirstName', description: 'Must provide a first name' })
+      errorList.push('Must provide a first name')
     }
 
     if (this.registerForm.password === '') {
       validForm = false
-      snackBar.errorList.push({ code: 'RequirePassword', description: 'Must provide a password' })
+      errorList.push('Must provide a password')
     }
     if (this.registerForm.email === '') {
       validForm = false
-      snackBar.errorList.push({ code: 'RequireEmail', description: 'Must Provide an email' })
+      errorList.push('Must Provide an email')
     }
 
     if (this.registerForm.registrationCode === '') {
       validForm = false
-      snackBar.errorList.push({ code: 'RequireRegistrationCode', description: 'Must provide a registration code' })
+      errorList.push('Must provide a registration code')
     }
 
     if (validForm === false) {
       this.loading = false
-      if (snackBar.errorList.length > 1) {
-        snackBar.message = 'Multiple Registration Errors:'
+      if (errorList.length > 1) {
+        snackBar.title = 'Registration Errors'
       } else {
-        snackBar.message = 'Registration Error'
+        snackBar.title = 'Registration Error'
       }
     }
-
-    this.$store.dispatch('messageStore/_setSnackBar', snackBar)
+    snackBar.errors = errorList
+    if (validForm === false) {
+      this.$store.dispatch('uiStore/_setSnackBar', snackBar)
+    }
     return validForm
   }
   resetForm(): void {

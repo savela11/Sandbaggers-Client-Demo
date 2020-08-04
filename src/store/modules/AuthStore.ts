@@ -5,6 +5,7 @@ import AuthService from '../../services/AuthService'
 import { ActionContext } from 'vuex'
 import { IRootState } from '../index'
 import { ISnackBar } from '@/types/UI/SnackBar'
+import { IUserProfile } from '@/types/Profile'
 
 const ls = new SecureLS({ isCompression: false })
 
@@ -32,6 +33,17 @@ const mutations = {
     state.currentUser = null
     state.isLoggedIn = false
   },
+
+  UpdateCurrentUserProfile(state: IAuthState, currentUser: IUserProfile): void {
+    if (state.currentUser) {
+      state.currentUser.fullName = currentUser.firstName + ' ' + currentUser.lastName
+      state.currentUser.profile.firstName = currentUser.firstName
+      state.currentUser.profile.lastName = currentUser.lastName
+      state.currentUser.email = currentUser.email
+    } else {
+      return
+    }
+  },
 }
 
 const actions = {
@@ -39,17 +51,21 @@ const actions = {
     try {
       const res = await AuthService.loginUser(loginUser)
       if (res.status === 200) {
+        console.log('store', res.data)
         localStorage.setItem('token', res.data.token)
         await context.commit('SetCurrentUser', res.data)
         await router.push('/dashboard')
       }
     } catch (e) {
       const snackBar: ISnackBar = {
-        message: 'Error logging in',
-        showSnackBar: true,
-        errorList: [],
+        title: 'Login Error',
+        message: e.data.message,
+        isSnackBarShowing: true,
+        class: 'error',
+        errors: [],
       }
-      snackBar.errorList.push({ code: 'errorCode', description: e.data.message })
+      await context.dispatch('uiStore/_setSnackBar', snackBar, { root: true })
+      await context.dispatch('uiStore/_setDataLoading', false, { root: true })
     }
   },
 
@@ -77,6 +93,10 @@ const actions = {
     }
 
     return
+  },
+
+  async updateCurrentUserProfile(context: ActionContext<IAuthState, IRootState>, currentUserProfile: IUserProfile): Promise<void> {
+    context.commit('UpdateCurrentUserProfile', currentUserProfile)
   },
 }
 

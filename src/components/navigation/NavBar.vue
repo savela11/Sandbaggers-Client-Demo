@@ -1,6 +1,9 @@
 <template>
   <div class="nav">
     <div class="nav__bar">
+      <div class="userProfileLink">
+        <button @click="openUserProfile">Profile</button>
+      </div>
       <button @click="toggleMenu" id="menuButton">
         <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
       </button>
@@ -16,8 +19,12 @@
           </div>
         </div>
         <div class="nav__menu--bottom" :class="{ between: currentUser.roles.includes('Admin') }">
-          <router-link to="/admin" class="btn btn--sm btn--blue" id="adminBTN" @click="testClick($event)">Admin</router-link>
-          <button class="btn btn--sm btn--red" id="logoutBTN" @click="logout">Logout</button>
+          <div v-if="currentUser.roles.includes('Admin')">
+            <router-link to="/admin" class="btn btn--sm btn--blue" id="adminBTN">Admin</router-link>
+          </div>
+          <div>
+            <button class="btn btn--sm btn--red" id="logoutBTN" @click="logout">Logout</button>
+          </div>
         </div>
       </div>
     </transition>
@@ -56,8 +63,9 @@ export default class Navigation extends Vue {
   userLinkImg(iconName: string) {
     return require('@/assets/icons/' + iconName + '.svg')
   }
-  testClick(): void {
+  toAdminPage(): void {
     Helper.clickedButton('adminBTN')
+    this.toggleMenu()
   }
 
   logout(): void {
@@ -83,8 +91,8 @@ export default class Navigation extends Vue {
     this.$router.push(route.link).catch(() => {})
   }
 
-  @Emit('openUserSettings')
-  openUserSettings(): boolean {
+  @Emit('openUserProfile')
+  openUserProfile(): boolean {
     return true
   }
 
@@ -101,15 +109,16 @@ export default class Navigation extends Vue {
   left: 0;
   width: 100%;
   background-color: white;
-  box-shadow: 0px 0 10px rgba(102, 102, 102, 0.8);
+  box-shadow: 0 0 10px rgba(102, 102, 102, 0.8);
   &__bar {
     display: flex;
     justify-content: center;
     height: 100%;
     align-items: center;
     padding: 0.5rem 0 1rem 0;
+    position: relative;
 
-    button {
+    #menuButton {
       border: none;
       padding: 0;
       width: 60px;
@@ -130,6 +139,24 @@ export default class Navigation extends Vue {
         object-fit: cover;
         height: 35px;
         width: 35px;
+      }
+    }
+
+    .userProfileLink {
+      position: absolute;
+      left: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      button {
+        padding: 0.5rem 0.8rem;
+        display: block;
+        text-decoration: none;
+        color: $DarkGreen;
+        font-weight: bold;
+        border: none;
+        border-bottom: 1px solid $DarkGreen;
+        border-radius: 5px;
+        font-size: 0.7rem;
       }
     }
   }
@@ -159,12 +186,13 @@ export default class Navigation extends Vue {
           box-shadow: 0px 1px 3px grey;
           border-radius: 5px;
           text-decoration: none;
-          color: $DarkBlue;
           width: 100%;
           height: 100%;
+          -webkit-tap-highlight-color: transparent;
         }
 
         p {
+          color: $DarkBlue;
           margin-top: 0.2rem;
           font-size: 0.8rem;
         }
@@ -180,8 +208,21 @@ export default class Navigation extends Vue {
       display: flex;
       padding: 0.5rem;
       justify-content: flex-end;
+      align-items: center;
       &.between {
         justify-content: space-between;
+      }
+    }
+  }
+}
+
+@media (min-width: 375px) {
+  .nav {
+    .userProfileLink {
+      left: 1rem;
+
+      button {
+        font-size: 0.8rem;
       }
     }
   }

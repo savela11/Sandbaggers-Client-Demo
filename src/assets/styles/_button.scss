@@ -21,7 +21,7 @@
   padding: 0.8rem 3rem;
   border-radius: 5px;
   border: none;
-  box-shadow: 0 3px rgba(154, 154, 154, 0.81);
+  box-shadow: 0 2px rgba(154, 154, 154, 0.8);
   outline: none;
   text-decoration: none;
   color: $DarkBlue;
@@ -48,6 +48,11 @@
     border: 1px solid $DarkBlue;
   }
 
+  &--white {
+    color: $DarkBlue;
+    background-color: white;
+  }
+
   &--green {
     color: white;
     background-color: $primary;
@@ -57,6 +62,18 @@
   &--borderBlue {
     background-color: white;
     border: 1px solid $DarkBlue;
+  }
+
+  &--borderGreen {
+    background-color: white;
+    border: 1px solid $DarkGreen;
+  }
+
+  &--borderBottom {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    box-shadow: 0 1px rgba(154, 154, 154, 0.8);
   }
 
   &--red {

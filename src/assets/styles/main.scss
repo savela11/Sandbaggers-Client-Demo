@@ -4,6 +4,7 @@
 // $tester: #12ff90;
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
 @import '_button.scss';
+@import '_text.scss';
 html {
   font-family: 'Roboto', sans-serif;
   word-spacing: 1px;
@@ -81,13 +82,18 @@ a {
     label {
       margin: 0 0 0.5rem 0.5rem;
     }
-    input {
+    input,
+    textarea {
       font-size: 1rem;
       border-radius: 25px;
       padding: 0.5rem 0 0.5rem 1rem;
       border: 1px solid lightgrey;
       outline: none;
       background-color: transparent;
+    }
+
+    textarea {
+      padding: 0.8rem 0 0.8rem 1rem;
     }
   }
 }

@@ -1,16 +1,27 @@
 ﻿import { IRootState } from '@/store'
 import { ActionContext } from 'vuex'
 import { IUIState } from '@/types/UI/UIStoreTypes'
+import { ISnackBar } from '@/types/UI/SnackBar'
 
 const state: IUIState = {
   headerTitle: null,
+  dataLoading: false,
   pageLoading: false,
   isNavBarShowing: true,
+  snackBar: {
+    title: '',
+    message: '',
+    errors: '',
+    class: '',
+    isSnackBarShowing: false,
+  } as ISnackBar,
 }
 
 const getters = {
   HeaderTitle: (state: IUIState): string | null => state.headerTitle,
   IsNavBarShowing: (state: IUIState): boolean => state.isNavBarShowing,
+  SnackBarClass: (state: IUIState): string | undefined => state.snackBar.class,
+  DataLoadingStatus: (state: IUIState): boolean => state.dataLoading,
 }
 
 const mutations = {
@@ -18,7 +29,7 @@ const mutations = {
     state.headerTitle = title
   },
 
-  SetLoadingStatus(state: IUIState, loadingStatus: boolean): void {
+  SetPageLoadingStatus(state: IUIState, loadingStatus: boolean): void {
     let loadingTime = Math.floor(Math.random() * 4000)
 
     if (loadingStatus === false) {
@@ -33,8 +44,39 @@ const mutations = {
     }
   },
 
+  SetDataLoadingStatus(state: IUIState, dataLoadingStatus: boolean): void {
+    state.dataLoading = dataLoadingStatus
+  },
+
   SetNavBarShowingStatus(state: IUIState, showingStatus: boolean): void {
     state.isNavBarShowing = showingStatus
+  },
+
+  SetSnackBar(state: IUIState, snackBar: ISnackBar) {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+    if (snackBar.isSnackBarShowing === false) {
+      state.snackBar = {
+        title: '',
+        message: '',
+        class: '',
+        errors: [],
+        isSnackBarShowing: false,
+      }
+    } else {
+      state.snackBar = snackBar
+      setTimeout(() => {
+        state.snackBar = {
+          title: '',
+          message: '',
+          class: '',
+          errors: [],
+          isSnackBarShowing: false,
+        }
+      }, 6000)
+    }
   },
 }
 
@@ -43,12 +85,20 @@ const actions = {
     context.commit('SetHeaderTitle', title)
   },
 
+  _setDataLoading(context: ActionContext<IUIState, IRootState>, dataLoadingStatus: boolean) {
+    context.commit('SetDataLoadingStatus', dataLoadingStatus)
+  },
+
   _setPageLoading(context: ActionContext<IUIState, IRootState>, loadingStatus: boolean) {
-    context.commit('SetLoadingStatus', loadingStatus)
+    context.commit('SetPageLoadingStatus', loadingStatus)
   },
 
   _setNavBarShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean) {
     context.commit('SetNavBarShowingStatus', showingStatus)
+  },
+
+  _setSnackBar(context: ActionContext<IUIState, IRootState>, snackBar: ISnackBar) {
+    context.commit('SetSnackBar', snackBar)
   },
 }
 

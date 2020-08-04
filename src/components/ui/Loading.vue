@@ -19,7 +19,7 @@ export default class Loading extends Vue {
 .loadingContainer {
   display: flex;
   justify-content: center;
-  margin-top: 15%;
+  padding-top: 15%;
 }
 .loading {
   display: inline-block;

@@ -19,11 +19,11 @@
       </template>
       <template v-slot:footer>
         <div class="registerButton">
-          <button v-if="!isCurrentUserRegistered" @click="registerUserForEvent" class="btn btn--blue btn--sm">Register</button>
+          <button v-if="!IsUserRegistered" @click="registerUserForEvent" class="btn btn--blue btn--sm">Register</button>
         </div>
       </template>
     </Modal>
-    <div v-if="!loading">
+    <div v-if="!loading && selectedEvent">
       <div class="selectYear">
         <h2>{{ selectedEvent.name }}</h2>
         <div>
@@ -41,21 +41,15 @@
             <div>
               <p></p>
             </div>
-            <button @click="toggleShowRegisteredUsers(true)">{{ showRegisterOrListRegistered }}</button>
+            <button @click="toggleShowRegisteredUsers(true)" v-if="!IsUserRegistered">Register</button>
+            <button @click="toggleShowRegisteredUsers(true)" v-if="IsUserRegistered">Show Registered ({{ selectedEvent.registeredUsers.length }})</button>
           </div>
-
-          <!--          <div class="registeredUsers__cards">-->
-          <!--            <p class="registeredCount">Registered: {{ selectedEvent.registeredUsers ? selectedEvent.registeredUsers.length : 0 }}</p>-->
-          <!--            <div class="cardsContainer">-->
-          <!--              <div class="card" v-for="user in selectedEvent.registeredUsers" :key="user.id">-->
-          <!--                <p>{{ user.fullName }}</p>-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </div>-->
         </div>
       </div>
     </div>
-
+    <div class="NoEvents" v-else>
+      <p>No Sandbagger Events created.....</p>
+    </div>
     <Loading v-if="loading" />
   </div>
 </template>
@@ -79,26 +73,24 @@ export default class SandbaggerEvents extends Vue {
   Events = [] as IEventDto[]
   selectedEvent = {} as IEventDto
   showRegistered = false
-  isCurrentUserRegistered = false
+  test = {}
   modalLoading = false
   mounted(): void {
     this.$store.dispatch('uiStore/_setHeaderTitle', 'Events')
     this.getEvents()
   }
 
-  get showRegisterOrListRegistered() {
-    if (this.selectedEvent.registeredUsers) {
+  get IsUserRegistered() {
+    if (this.selectedEvent) {
       const foundIndex = this.selectedEvent.registeredUsers.findIndex((u) => u.id === this.$store.state.authStore.currentUser.id)
       if (foundIndex === -1) {
-        this.isCurrentUserRegistered = false
-        return 'Register'
+        return false
       } else {
-        this.isCurrentUserRegistered = true
-        return `See Registered  (${this.selectedEvent.registeredUsers.length || 0})`
+        return true
       }
     }
-    this.isCurrentUserRegistered = false
-    return 'Register'
+
+    return
   }
 
   async registerUserForEvent() {
@@ -132,6 +124,7 @@ export default class SandbaggerEvents extends Vue {
       this.$store.dispatch('uiStore/_setNavBarShowingStatus', true)
     }
   }
+
   eventTeams(event: IEventDto) {
     if (!event.teams) {
       return 0
@@ -272,6 +265,13 @@ export default class SandbaggerEvents extends Vue {
   .registerButton {
     display: flex;
     justify-content: center;
+  }
+
+  .NoEvents {
+    margin-top: 2rem;
+    padding: 1rem;
+    p {
+    }
   }
 }
 </style>

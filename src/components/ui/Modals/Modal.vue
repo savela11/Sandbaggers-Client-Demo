@@ -2,27 +2,31 @@
   <div class="modal">
     <div class="modal__background"></div>
     <div class="modal__container">
-      <div class="modal__header section">
+      <div class="modal__header section" v-if="isHeader">
         <div class="modal__closeButton">
           <button class="btn btn--xs" v-on="$listeners">Close</button>
         </div>
-        <slot name="header"><h2>Header</h2></slot>
+        <slot name="header"></slot>
       </div>
-      <div class="modal__body section">
-        <slot name="body"><h3>Body</h3></slot>
+      <div class="modal__body section" v-if="isBody">
+        <slot name="body"></slot>
       </div>
-      <div class="modal__footer section">
-        <slot name="footer"><h4>Footer</h4></slot>
+      <div class="modal__footer section" v-if="isFooter">
+        <slot name="footer"></slot>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component({ name: 'Modal' })
-export default class Modal extends Vue {}
+export default class Modal extends Vue {
+  @Prop({ default: true }) isHeader?: boolean
+  @Prop({ default: true }) isBody?: boolean
+  @Prop({ default: true }) isFooter?: boolean
+}
 </script>
 
 <style scoped lang="scss">
@@ -35,7 +39,7 @@ export default class Modal extends Vue {}
   padding: 0.3rem;
 
   h2 {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
   &__closeButton {
@@ -53,15 +57,15 @@ export default class Modal extends Vue {}
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.8);
   }
 
   &__container {
     background-color: white;
     height: 100%;
     padding: 1rem;
-    border: 5px solid $DarkBlue;
-    border-radius: 20px;
+    border: 2px solid $DarkBlue;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -74,7 +78,6 @@ export default class Modal extends Vue {}
 
   &__body {
     height: 100%;
-    max-height: 330px;
     overflow-y: scroll;
   }
 }

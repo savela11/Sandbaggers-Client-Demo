@@ -94,6 +94,14 @@ const routes: Array<RouteConfig> = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/ideas',
+    name: 'Ideas',
+    component: loadView('Ideas'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ]
 
 const router = new VueRouter({

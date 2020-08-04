@@ -6,34 +6,37 @@
         <button v-for="view in dashboardViews" :key="view" @click="handleViewChange(view)" :class="{ active: view === currentView }">{{ view }}</button>
       </div>
     </div>
-    <div v-if="currentView === 'Handicaps'" class="handicaps">
-      <div class="titleBar">
-        <div>
-          <button @click="toggleSearch" class="searchButton"><img src="@/assets/icons/search.svg" alt="search icon" /></button>
+    <div v-if="!loading">
+      <div v-if="currentView === 'Handicaps'" class="handicaps">
+        <div class="titleBar">
+          <div>
+            <button @click="toggleSearch" class="searchButton"><img src="@/assets/icons/search.svg" alt="search icon" /></button>
+          </div>
+          <div><p>Name</p></div>
+          <div @click="toggleDescendingHandicaps"><p>Handicap</p></div>
         </div>
-        <div><p>Name</p></div>
-        <div @click="toggleDescendingHandicaps"><p>Handicap</p></div>
-      </div>
-      <div v-if="isSearchInputShowing" class="searchBar">
-        <label for="searchSB">Search</label>
-        <input id="searchSB" class="input" type="text" v-model="searchInput" />
-      </div>
-      <div class="sandbaggerList">
-        <div class="sandbagger" v-for="bagger in filteredSandbaggers" :key="bagger.id">
-          <router-link :to="'/sandbagger/' + bagger.profileId">
-            <div><img src="@/assets/icons/accountCircle.svg" alt="account icon" /></div>
-            <div>
-              <p>
-                {{ bagger.fullName }}
-              </p>
-            </div>
-            <div>
-              <p>{{ bagger.handicap }}</p>
-            </div>
-          </router-link>
+        <div v-if="isSearchInputShowing" class="searchBar">
+          <label for="searchSB">Search</label>
+          <input id="searchSB" class="input" type="text" v-model="searchInput" />
+        </div>
+        <div class="sandbaggerList">
+          <div class="sandbagger" v-for="bagger in filteredSandbaggers" :key="bagger.id">
+            <router-link :to="'/sandbagger/' + bagger.profileId">
+              <div><img src="@/assets/icons/accountCircle.svg" alt="account icon" /></div>
+              <div>
+                <p>
+                  {{ bagger.fullName }}
+                </p>
+              </div>
+              <div>
+                <p>{{ bagger.handicap }}</p>
+              </div>
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
+    <Loading v-if="loading" />
   </div>
 </template>
 
@@ -51,7 +54,7 @@ import { IPageLoadStatus } from '@/types/UI/UIStoreTypes'
   },
 })
 export default class Dashboard extends Vue {
-  loading = false
+  loading = true
   currentView = 'Handicaps'
   dashboardViews = ['Handicaps', 'Rounds', 'Bets']
   Sandbaggers: SandbaggerWithHandicap[] = []
@@ -125,10 +128,6 @@ export default class Dashboard extends Vue {
       this.loading = false
     }
   }
-
-  Logout(): void {
-    this.$store.dispatch('authStore/Logout', { vm: this })
-  }
 }
 </script>
 
@@ -145,11 +144,11 @@ export default class Dashboard extends Vue {
       color: $DarkBlue;
     }
     .buttons {
-      overflow-x: scroll;
+      overflow-x: auto;
       overflow-y: hidden;
       white-space: nowrap;
       padding: 0.2rem 0.2rem 0.8rem 0.2rem;
-      margin: 0.5rem 0 1rem 0;
+      margin: 0.5rem 0 0 0;
     }
     button {
       margin-right: 0.5rem;
@@ -212,8 +211,8 @@ export default class Dashboard extends Vue {
   }
 
   .sandbaggerList {
-    margin-top: 1rem;
-    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    padding: 0 0 0.5rem 0;
 
     .sandbagger {
       margin-bottom: 1rem;

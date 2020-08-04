@@ -1,12 +1,13 @@
 <template>
   <div class="app">
-    <SnackBar />
+    <SnackBar v-if="this.$store.state.uiStore.snackBar.isSnackBarShowing" />
+
     <PageLoading v-if="this.$store.state.uiStore.pageLoading" />
     <HeaderComponent v-if="isHeaderShowing" :backgroundColor="headerColor" />
     <router-view />
     <div v-if="CurrentUser && IsNavBarShowing">
-      <UserProfile v-if="isUserProfileShowing" :dialog="isUserProfileShowing" @closeUserProfile="userSettings(false)" />
-      <NavBar @openUserSettings="userSettings" :currentUser="CurrentUser" />
+      <UserProfile v-if="isUserProfileShowing" :dialog="isUserProfileShowing" @closeUserProfile="openUserProfile(false)" />
+      <NavBar @openUserProfile="openUserProfile" :currentUser="CurrentUser" />
     </div>
   </div>
 </template>
@@ -26,7 +27,7 @@ import { ICurrentUser } from '@/types/User/AuthUser'
   },
 })
 export default class App extends Vue {
-  isUserProfileShowing = true
+  isUserProfileShowing = false
   message = ''
 
   mounted(): void {}
@@ -53,7 +54,7 @@ export default class App extends Vue {
     return this.$store.getters['authStore/CurrentUser']
   }
 
-  userSettings(status: boolean): void {
+  openUserProfile(status: boolean): void {
     this.isUserProfileShowing = status
     const body = document.body
     if (status === true) {

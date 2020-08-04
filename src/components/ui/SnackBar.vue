@@ -1,27 +1,39 @@
 ﻿<template>
-  <div class="snackBar" v-if="this.$store.state.snackBar.isSnackBarShowing">
-    <div class="snackBar__wrapper">
+  <div class="snackBar" @click="closeSnackBar">
+    <div class="snackBar__wrapper" :class="snackBarClass">
       <div class="title">
-        <strong>{{ this.$store.state.snackBar.title }}</strong>
+        <strong>{{ this.$store.state.uiStore.snackBar.title }}</strong>
       </div>
-      <div class="content">this is some content</div>
+      <div class="content">
+        <p>{{ this.$store.state.uiStore.snackBar.message }}</p>
+
+        <ul>
+          <li v-for="(error, index) in this.$store.state.uiStore.snackBar.errors" :key="index">{{ error }}</li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
+import { ISnackBar } from '@/types/UI/SnackBar'
 
 @Component({ name: 'SnackBar' })
 export default class SnackBar extends Vue {
-  vertical = true
-
-  get showSnackBar() {
-    return this.$store.getters['snackBarStore/showSnackBar']
+  closeSnackBar() {
+    const snackBar: ISnackBar = {
+      title: '',
+      message: '',
+      isSnackBarShowing: false,
+      class: '',
+      errors: [],
+    }
+    this.$store.dispatch('uiStore/_setSnackBar', snackBar)
   }
 
-  closeSnackBar() {
-    this.$store.dispatch('snackBar/_setSnackBar', { showSnackBar: false })
+  get snackBarClass() {
+    return this.$store.getters['uiStore/SnackBarClass']
   }
 }
 </script>
@@ -31,24 +43,24 @@ export default class SnackBar extends Vue {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  min-height: 200px;
+  right: 0;
+  bottom: 0;
   padding: 0 0.5rem;
   z-index: 1;
 
   &__wrapper {
     overflow: hidden;
     font-size: 0.875rem;
-    background-color: rgba(255, 255, 255, 0.85);
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
     background-color: grey;
     border-radius: 0.25rem;
     max-width: 350px;
+    z-index: 2;
 
     & > div {
-      padding: 0.5rem 0.75rem;
+      padding: 0.8rem 0.75rem;
       font-size: 0.875rem;
     }
 
@@ -60,6 +72,19 @@ export default class SnackBar extends Vue {
 
     .content {
       background-color: rgba(255, 255, 255, 0.85);
+      ul {
+        padding: 0 0 0 1.5rem;
+        margin: 0.3rem 0;
+        li {
+          margin-bottom: 0.3rem;
+        }
+      }
+    }
+  }
+  .error {
+    .title {
+      background-color: rgba(165, 1, 1, 0.8);
+      color: white;
     }
   }
 }
