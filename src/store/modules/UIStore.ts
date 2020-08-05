@@ -49,6 +49,9 @@ const mutations = {
   },
 
   SetNavBarShowingStatus(state: IUIState, showingStatus: boolean): void {
+    if (showingStatus === false) {
+      document.body.style.margin = '0'
+    }
     state.isNavBarShowing = showingStatus
   },
 
