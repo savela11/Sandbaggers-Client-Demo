@@ -1,5 +1,5 @@
 import apiClient from '../utility/apiClient'
-import { IUserWithProfile, IUserWithSettings } from '@/types/User/User'
+import { IUserWithHistory, IUserWithProfile, IUserWithSettings } from '@/types/User/User'
 import { AxiosResponse } from 'axios'
 import { ICurrentUser } from '@/types/User/AuthUser'
 
@@ -23,6 +23,10 @@ class UsersService {
 
   static async updateUserProfileAndSettings(userWithSettings: IUserWithSettings): Promise<AxiosResponse<ICurrentUser>> {
     return await apiClient.post(`${url}/UpdateUserProfileAndSettings`, userWithSettings)
+  }
+
+  public static async getUserWithHistory(id: string): Promise<AxiosResponse<IUserWithHistory>> {
+    return await apiClient.get(`${url}/GetUserWithHistory/${id}`)
   }
 }
 

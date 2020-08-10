@@ -16,6 +16,10 @@ class EventService {
   static async getEventById(id: string): Promise<AxiosResponse<IEventDto>> {
     return await apiClient.get(`${url}/GetEventById/${id}`)
   }
+
+  static async UpdateEvent(editEvent: IEventDto): Promise<AxiosResponse<IEventDto>> {
+    return await apiClient.put(url + `/UpdateEvent`, editEvent)
+  }
 }
 
 export default EventService

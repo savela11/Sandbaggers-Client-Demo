@@ -1,5 +1,36 @@
 ﻿<template>
   <div class="dashboard">
+    <div class="scrambleChamps">
+      <div class="title">
+        <h2>Scramble Champs</h2>
+      </div>
+      <div class="flexContainer">
+        <div class="champ">
+          <div class="imgContainer">
+            <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
+          </div>
+          <p>Sandbagger #1</p>
+        </div>
+        <div class="champ">
+          <div class="imgContainer">
+            <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
+          </div>
+          <p>Sandbagger #2</p>
+        </div>
+        <div class="champ">
+          <div class="imgContainer">
+            <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
+          </div>
+          <p>Sandbagger #3</p>
+        </div>
+        <div class="champ">
+          <div class="imgContainer">
+            <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
+          </div>
+          <p>Sandbagger #4</p>
+        </div>
+      </div>
+    </div>
     <div class="viewButtons">
       <h2>Latest</h2>
       <div class="buttons">
@@ -21,7 +52,7 @@
         </div>
         <div class="sandbaggerList">
           <div class="sandbagger" v-for="bagger in filteredSandbaggers" :key="bagger.id">
-            <router-link :to="'/sandbagger/' + bagger.profileId">
+            <router-link :to="'/sandbagger/' + bagger.id">
               <div><img src="@/assets/icons/accountCircle.svg" alt="account icon" /></div>
               <div>
                 <p>
@@ -135,20 +166,54 @@ export default class Dashboard extends Vue {
 .dashboard {
   padding: 1rem;
 
-  & > div {
-  }
+  .scrambleChamps {
+    margin-bottom: 1rem;
 
+    .title {
+      margin-bottom: 0.2rem;
+      h2 {
+        font-size: 1.1rem;
+        color: $DarkBlue;
+      }
+    }
+
+    .flexContainer {
+      display: flex;
+      justify-content: space-between;
+    }
+    .champ {
+      margin-right: 0.2rem;
+
+      .imgContainer {
+        box-shadow: 2px 2px 2px grey;
+        border-radius: 5px;
+        padding: 0.3rem;
+        height: 50px;
+        margin-bottom: 0.2rem;
+      }
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+      }
+
+      p {
+        font-size: 0.7rem;
+        text-align: center;
+      }
+    }
+  }
   .viewButtons {
     h2 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: $DarkBlue;
     }
     .buttons {
       overflow-x: auto;
       overflow-y: hidden;
       white-space: nowrap;
-      padding: 0.2rem 0.2rem 0.8rem 0.2rem;
-      margin: 0.5rem 0 0 0;
+      padding: 0.2rem;
+      margin: 0;
     }
     button {
       margin-right: 0.5rem;

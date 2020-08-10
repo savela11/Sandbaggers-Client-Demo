@@ -21,7 +21,7 @@ apiClient.interceptors.request.use(
         config.headers.common.Authorization = `Bearer ${token}`
       }
     }
-    console.log('Request: ', config)
+    // console.log('Request: ', config)
     return config
   },
   (error) => Promise.reject(error)
@@ -29,15 +29,15 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response) => {
-    console.log('Response: ', response)
+    // console.log('Response: ', response)
 
     return response
   },
   async (error) => {
-    if (error.response.status === 401 || error.response.statusText === 'Unauthorized') {
+    if (error.response.status === 401 || error.response.statusText === 'Unauthorized' || error.response.status === 500) {
       await store.dispatch('authStore/Logout')
     }
-    console.log('Response Error', error.response)
+    // console.log('Response Error', error.response)
 
     return Promise.reject(error.response)
   }

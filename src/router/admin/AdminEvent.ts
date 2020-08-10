@@ -14,9 +14,4 @@ export default [
     name: 'CreateEvent',
     component: loadView('admin/events/CreateEvent'),
   },
-  {
-    path: '/admin/events/editEvent/:id',
-    name: 'EditEvent',
-    component: loadView('admin/events/EditEvent'),
-  },
 ]

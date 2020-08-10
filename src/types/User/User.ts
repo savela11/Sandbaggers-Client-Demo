@@ -1,4 +1,4 @@
-﻿import { IRoleDto } from '@/types/Admin/Role'
+﻿import { IBetHistoryDto } from '@/types/Bets/Bet'
 
 export interface IUserWithProfile {
   id: string
@@ -26,4 +26,19 @@ export interface IUserProfile {
 
 export interface IUserSettings {
   updateHandicapOnLogin: boolean
+}
+
+export interface IHandicapHistory {
+  handicap: number
+  date: string
+}
+
+export interface IUserWithHistory {
+  id: string
+  username: string
+  fullName: string
+  email: string
+  profile: IUserProfile
+  handicapHistory: IHandicapHistory[]
+  betHistory: IBetHistoryDto[]
 }

@@ -55,7 +55,7 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: '/sandbagger/:profileId',
+    path: '/sandbagger/:id',
     name: 'Sandbagger',
     component: loadView('Sandbagger'),
     meta: {
@@ -98,6 +98,23 @@ const routes: Array<RouteConfig> = [
     path: '/ideas',
     name: 'Ideas',
     component: loadView('Ideas'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/powerRankings',
+    name: 'PowerRankings',
+    component: loadView('PowerRankings'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+
+  {
+    path: '/mockDrafts',
+    name: 'MockDrafts',
+    component: loadView('MockDrafts'),
     meta: {
       requiresAuth: true,
     },

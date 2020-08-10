@@ -20,9 +20,7 @@ class AdminService {
     return await apiClient.get(url + `/GetEventById/${id}`)
   }
 
-  static async editEvent(editEvent: IEventDto): Promise<AxiosResponse<IEventDto>> {
-    return await apiClient.post(url + `/EditEvent`, editEvent)
-  }
+
 }
 
 export default AdminService

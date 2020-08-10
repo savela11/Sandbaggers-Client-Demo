@@ -19,8 +19,8 @@
           </div>
         </div>
         <div class="nav__menu--bottom" :class="{ between: currentUser.roles.includes('Admin') }">
-          <div v-if="currentUser.roles.includes('Admin')">
-            <router-link to="/admin" class="btn btn--sm btn--blue" id="adminBTN">Admin</router-link>
+          <div v-if="currentUser.roles.includes('Admin')" @click="toAdminPage">
+            <router-link to="/admin" class="btn btn--xs btn--blue" id="adminBTN">Admin</router-link>
           </div>
           <div>
             <button class="btn btn--xs btn--red" id="logoutBTN" @click="logout">Logout</button>
@@ -40,7 +40,6 @@ import Helper from '@/utility/Helper'
 @Component
 export default class Navigation extends Vue {
   @Prop() currentUser!: ICurrentUser
-  isSideBarShowing = false
   isMenuShowing = false
   activeBtn = 1
   showNav = true
@@ -49,6 +48,8 @@ export default class Navigation extends Vue {
     { name: 'Sandbaggers', link: '/sandbaggerEvents', icon: 'golf' },
     { name: 'Bets', link: '/bets', icon: 'bets' },
     { name: 'Ideas', link: '/ideas', icon: 'ideas' },
+    { name: 'Power Rankings', link: '/powerRankings', icon: 'powerRankings' },
+    { name: 'Mock Drafts', link: '/mockDrafts', icon: 'mockDraft' },
   ]
   activeAdminLink = 'Admin Dashboard'
   adminLinks: IAdminLink[] = [
@@ -74,21 +75,8 @@ export default class Navigation extends Vue {
     this.$store.dispatch('authStore/Logout')
   }
 
-  toggleSideBar(status: boolean): void {
-    this.isSideBarShowing = status
-  }
-
   toggleMenu(): void {
     this.isMenuShowing = !this.isMenuShowing
-  }
-
-  toAdminLink(route: IAdminLink): void {
-    this.activeAdminLink = route.name
-    this.toggleSideBar(false)
-    if (this.activeAdminLink === route.name) {
-      this.toggleSideBar(false)
-    }
-    this.$router.push(route.link).catch(() => {})
   }
 
   @Emit('openUserProfile')
@@ -193,7 +181,7 @@ export default class Navigation extends Vue {
         p {
           color: $DarkBlue;
           margin-top: 0.2rem;
-          font-size: 0.8rem;
+          font-size: 0.7rem;
         }
 
         img {
