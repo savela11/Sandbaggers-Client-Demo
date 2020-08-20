@@ -1,8 +1,4 @@
-﻿// $primary: #425a41;
-// $secondary: #17252a;
-// $danger: #8b2635;
-// $tester: #12ff90;
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
+﻿@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
 @import '_button.scss';
 @import '_text.scss';
 html {
@@ -96,6 +92,10 @@ a {
       padding: 0.8rem 0 0.8rem 1rem;
     }
   }
+}
+
+.hideLabel {
+  display: none;
 }
 
 .input {

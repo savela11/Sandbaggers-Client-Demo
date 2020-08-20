@@ -6,7 +6,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import UIStore from '@/store/modules/UIStore'
 import { IAdminLink } from '@/types/Navigation/INavBar'
 @Component({ name: 'Admin' })
 export default class Admin extends Vue {
@@ -20,6 +19,8 @@ export default class Admin extends Vue {
     this.$store.dispatch('uiStore/_setHeaderTitle', 'Admin')
     this.$store.dispatch('uiStore/_setPageLoading', false)
   }
+
+  setHeader(): void {}
 }
 </script>
 
@@ -27,7 +28,11 @@ export default class Admin extends Vue {
 .admin {
   padding: 1rem;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
+
+  a {
+    text-align: center;
+  }
 }
 </style>

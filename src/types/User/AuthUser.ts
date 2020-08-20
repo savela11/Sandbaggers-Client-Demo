@@ -23,7 +23,6 @@ export interface ICurrentUser {
   email: string
   profile: IUserProfile
   settings: IUserSettings
-  token: string
   roles: Array<string>
 }
 
@@ -37,4 +36,15 @@ export interface ILoginUserResponse {
   userName: string
   email: string
   token: string
+}
+
+export interface ILoggedInUser {
+  id: string
+  username: string
+  fullName: string
+  email: string
+  profile: IUserProfile
+  settings: IUserSettings
+  token: string
+  roles: Array<string>
 }

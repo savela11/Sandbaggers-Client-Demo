@@ -5,10 +5,17 @@ export interface IUIState {
   dataLoading: boolean
   pageLoading: boolean
   isNavBarShowing: boolean
+  isHeaderShowing: boolean
   snackBar: ISnackBar
 }
 
 export interface IPageLoadStatus {
   status: boolean
   timeout: number | null
+}
+
+
+export interface IHeaderInfo {
+  isHeaderShowing: boolean
+  title: string | null
 }

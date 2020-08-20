@@ -1,3 +1,5 @@
+import { IEventResults } from '@/types/Events/EventResults'
+
 export interface IEventLocation {
   name: string
   locationId: number
@@ -14,12 +16,21 @@ export interface IRegisterUser {
   fullName: string
 }
 
+export interface IRegisteredUser {
+  id: string
+  username: string
+  fullName: string
+  isCurrentChamp?: boolean
+  image: string
+}
+
 export interface IEventDto {
   eventId: number
   name: string
   location: IEventLocation
   teams: IEventTeam[]
-  registeredUsers: IRegisterUser[]
+  registeredUsers: IRegisteredUser[]
+  eventResults?: IEventResults | null
   year: string
   createdOn: string
   isPublished: boolean

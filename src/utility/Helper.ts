@@ -32,4 +32,16 @@
     text = text.substring(0, last)
     return text + '...'
   }
+
+  // static debounce(n: number, fn: (...params: any[]) => any, immediately = false) {
+  //   let timer: number | undefined = undefined
+  //   return function (this: any, ...args: any[]) {
+  //     if (timer === undefined && immediately) {
+  //       fn.apply(this, args)
+  //     }
+  //     clearTimeout(timer)
+  //     timer = setTimeout(() => fn.apply(this, args), n)
+  //     return timer
+  //   }
+  // }
 }

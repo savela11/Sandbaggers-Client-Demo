@@ -3,7 +3,7 @@
     <SnackBar v-if="this.$store.state.uiStore.snackBar.isSnackBarShowing" />
 
     <PageLoading v-if="this.$store.state.uiStore.pageLoading" />
-    <HeaderComponent v-if="isHeaderShowing" :backgroundColor="headerColor" />
+    <HeaderComponent v-if="IsHeaderShowing" :backgroundColor="headerColor" />
     <router-view />
     <div v-if="CurrentUser && IsNavBarShowing">
       <UserProfile v-if="isUserProfileShowing" :dialog="isUserProfileShowing" @closeUserProfile="openUserProfile(false)" />
@@ -42,12 +42,9 @@ export default class App extends Vue {
   get IsNavBarShowing(): boolean {
     return this.$store.getters['uiStore/IsNavBarShowing']
   }
-  get isHeaderShowing(): boolean {
-    if (this.$route.name === 'Sandbagger') {
-      return false
-    } else {
-      return true
-    }
+
+  get IsHeaderShowing(): boolean {
+    return this.$store.getters['uiStore/IsHeaderShowing']
   }
 
   get CurrentUser(): ICurrentUser {

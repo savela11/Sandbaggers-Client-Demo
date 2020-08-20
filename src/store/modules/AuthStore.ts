@@ -1,10 +1,9 @@
 ﻿import router from '../../router'
-import { ICurrentUser } from '@/types/User/AuthUser'
+import { ICurrentUser, ILoggedInUser } from '@/types/User/AuthUser'
 import SecureLS from 'secure-ls'
 import AuthService from '../../services/AuthService'
 import { ActionContext } from 'vuex'
-import { IRootState } from '../index'
-import { IUserProfile } from '@/types/Profile'
+import { IRootState } from '@/store'
 
 const ls = new SecureLS({ isCompression: false })
 
@@ -23,8 +22,8 @@ const getters = {
 }
 
 const mutations = {
-  SetCurrentUser(state: IAuthState, currentUser: ICurrentUser): void {
-    state.currentUser = currentUser
+  SetLoggedInUser(state: IAuthState, loggedInUser: ILoggedInUser): void {
+    state.currentUser = loggedInUser
     state.isLoggedIn = true
   },
 
@@ -48,9 +47,9 @@ const mutations = {
 }
 
 const actions = {
-  async SetCurrentUser(context: ActionContext<IAuthState, IRootState>, currentUser: ICurrentUser): Promise<void> {
-    localStorage.setItem('token', currentUser.token)
-    context.commit('SetCurrentUser', currentUser)
+  async SetLoggedInUser(context: ActionContext<IAuthState, IRootState>, loggedInUser: ILoggedInUser): Promise<void> {
+    localStorage.setItem('token', loggedInUser.token)
+    context.commit('SetLoggedInUser', loggedInUser)
     await router.push('/dashboard')
   },
 

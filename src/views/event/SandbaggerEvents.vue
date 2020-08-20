@@ -27,7 +27,7 @@
       <div class="selectYear">
         <h2>{{ selectedEvent.name }}</h2>
         <div>
-          <span>Year</span>
+          <label for="events">Year</label>
           <select id="events" v-model="selectedEvent">
             <option v-for="event in Events" :key="event.eventId" :value="event">{{ event.year }}</option>
           </select>
@@ -57,15 +57,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import EventService from '@/services/EventService'
-import { IEventDto } from '@/types/Admin/Event'
+import { IEventDto, IRegisteredUser } from '@/types/Admin/Event'
 import { RegisterUserForEvent } from '@/types/Events/SandbaggerEvents'
-import SandbaggerEventService from '@/services/SandbaggerEventService'
 
 @Component({
   name: 'SandbaggerEvents',
   components: {
-    Loading: () => import('@/components/ui/Loading.vue'),
-    Modal: () => import('@/components/ui/Modals/Modal.vue'),
+    Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
+    Modal: (): Promise<object> => import('@/components/ui/Modals/Modal.vue'),
   },
 })
 export default class SandbaggerEvents extends Vue {
@@ -73,14 +72,14 @@ export default class SandbaggerEvents extends Vue {
   Events = [] as IEventDto[]
   selectedEvent = {} as IEventDto
   showRegistered = false
-  test = {}
+
   modalLoading = false
   mounted(): void {
     this.$store.dispatch('uiStore/_setHeaderTitle', 'Events')
     this.getEvents()
   }
 
-  get IsUserRegistered() {
+  get IsUserRegistered(): boolean {
     if (this.selectedEvent) {
       const foundIndex = this.selectedEvent.registeredUsers.findIndex((u) => u.id === this.$store.state.authStore.currentUser.id)
       if (foundIndex === -1) {
@@ -93,7 +92,7 @@ export default class SandbaggerEvents extends Vue {
     return
   }
 
-  async registerUserForEvent() {
+  async registerUserForEvent(): Promise<void> {
     this.modalLoading = true
     const currentUser: RegisterUserForEvent = {
       eventId: this.selectedEvent.eventId.toString(),
@@ -102,7 +101,7 @@ export default class SandbaggerEvents extends Vue {
       fullName: this.$store.state.authStore.currentUser.fullName,
     }
     try {
-      const res = await SandbaggerEventService.RegisterUserForEvent(currentUser)
+      const res = await EventService.RegisterUserForEvent(currentUser)
 
       if (res.status === 200) {
         this.selectedEvent.registeredUsers.push(currentUser)
@@ -125,7 +124,7 @@ export default class SandbaggerEvents extends Vue {
     }
   }
 
-  eventTeams(event: IEventDto) {
+  eventTeams(event: IEventDto): number {
     if (!event.teams) {
       return 0
     } else {
@@ -201,7 +200,7 @@ export default class SandbaggerEvents extends Vue {
       option {
       }
     }
-    span {
+    label {
       font-size: 0.8rem;
     }
   }

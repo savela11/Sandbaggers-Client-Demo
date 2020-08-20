@@ -1,33 +1,15 @@
 ﻿<template>
   <div class="dashboard">
-    <div class="scrambleChamps">
+    <div class="scrambleChamps" v-if="ScrambleChamps.length > 0">
       <div class="title">
         <h2>Scramble Champs</h2>
       </div>
       <div class="flexContainer">
-        <div class="champ">
+        <div class="champ" v-for="champ in ScrambleChamps" :key="champ.userId">
           <div class="imgContainer">
             <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
           </div>
-          <p>Sandbagger #1</p>
-        </div>
-        <div class="champ">
-          <div class="imgContainer">
-            <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
-          </div>
-          <p>Sandbagger #2</p>
-        </div>
-        <div class="champ">
-          <div class="imgContainer">
-            <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
-          </div>
-          <p>Sandbagger #3</p>
-        </div>
-        <div class="champ">
-          <div class="imgContainer">
-            <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
-          </div>
-          <p>Sandbagger #4</p>
+          <p>{{ champ.fullName }}</p>
         </div>
       </div>
     </div>
@@ -51,16 +33,16 @@
           <input id="searchSB" class="input" type="text" v-model="searchInput" />
         </div>
         <div class="sandbaggerList">
-          <div class="sandbagger" v-for="bagger in filteredSandbaggers" :key="bagger.id">
-            <router-link :to="'/sandbagger/' + bagger.id">
+          <div class="sandbagger" v-for="sb in filteredSandbaggers" :key="sb.id">
+            <router-link :to="'/sandbagger/' + sb.id">
               <div><img src="@/assets/icons/accountCircle.svg" alt="account icon" /></div>
               <div>
                 <p>
-                  {{ bagger.fullName }}
+                  {{ sb.fullName }}
                 </p>
               </div>
               <div>
-                <p>{{ bagger.handicap }}</p>
+                <p>{{ sb.handicap }}</p>
               </div>
             </router-link>
           </div>
@@ -73,10 +55,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import UIStore from '@/store/modules/UIStore'
-import DashboardService from '@/services/DashboardService'
 import { SandbaggerWithHandicap } from '@/types/DashboardTypes'
-import { IPageLoadStatus } from '@/types/UI/UIStoreTypes'
+import EventResultsService from '@/services/EventResultsService'
+import UsersService from '@/services/UsersService'
+import { IScrambleChamp } from '@/models/ScrambleChamp'
 
 @Component({
   name: 'Dashboard',
@@ -89,13 +71,10 @@ export default class Dashboard extends Vue {
   currentView = 'Handicaps'
   dashboardViews = ['Handicaps', 'Rounds', 'Bets']
   Sandbaggers: SandbaggerWithHandicap[] = []
+  ScrambleChamps: IScrambleChamp[] = []
   descendingHandicap = false
   isSearchInputShowing = false
   searchInput = ''
-  fields = [
-    { key: 'profile.firstName', label: 'Name', sortable: true },
-    { key: 'profile.handicap', label: 'Handicap', sortable: true },
-  ]
 
   mounted(): void {
     this.$store.dispatch('uiStore/_setHeaderTitle', 'Dashboard')
@@ -108,7 +87,7 @@ export default class Dashboard extends Vue {
     })
   }
 
-  handleViewChange(view: string) {
+  handleViewChange(view: string): void {
     this.currentView = view
   }
 
@@ -148,15 +127,27 @@ export default class Dashboard extends Vue {
   async getUsers(): Promise<void> {
     this.loading = true
     try {
-      const res = await DashboardService.SandbaggersWithHandicaps()
+      const res = await UsersService.SandbaggersWithHandicaps()
       if (res.status === 200) {
         this.Sandbaggers = this.sortSandbaggersAscending(res.data)
+        await this.scrambleChamps()
         await this.$store.dispatch('uiStore/_setPageLoading', false)
       }
       this.loading = false
     } catch (e) {
       console.log(e)
       this.loading = false
+    }
+  }
+
+  async scrambleChamps(): Promise<void> {
+    try {
+      const res = await EventResultsService.ScrambleChamps()
+      if (res.status === 200) {
+        this.ScrambleChamps = res.data
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
 }
@@ -183,6 +174,7 @@ export default class Dashboard extends Vue {
     }
     .champ {
       margin-right: 0.2rem;
+      flex: 0 0 25%;
 
       .imgContainer {
         box-shadow: 2px 2px 2px grey;

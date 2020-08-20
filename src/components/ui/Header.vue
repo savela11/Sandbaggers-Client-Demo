@@ -80,8 +80,9 @@ export default class HelloWorld extends Vue {
   &__title {
     margin-top: 1rem;
     h1 {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: 900;
+      line-height: 1.3;
       color: white;
       text-shadow: 2px 2px 5px #000;
     }
@@ -109,7 +110,7 @@ export default class HelloWorld extends Vue {
     }
     &__title {
       h1 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
       }
     }
   }

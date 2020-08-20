@@ -1,5 +1,5 @@
 import apiClient from '../utility/apiClient'
-import { IRegisterUser, ILoginUser, ILoginUserResponse, IRegisterResponse, ICurrentUser } from '@/types/User/AuthUser'
+import { IRegisterUser, ILoginUser, IRegisterResponse, ILoggedInUser } from '@/types/User/AuthUser'
 import { AxiosResponse } from 'axios'
 
 const url = '/auth'
@@ -9,7 +9,7 @@ class AuthService {
     return await apiClient.post(url + '/Register', registerUser)
   }
 
-  static async loginUser(loginUser: ILoginUser): Promise<AxiosResponse<ICurrentUser>> {
+  static async loginUser(loginUser: ILoginUser): Promise<AxiosResponse<ILoggedInUser>> {
     return await apiClient.post(url + '/Login', loginUser)
   }
 

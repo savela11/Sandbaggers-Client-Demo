@@ -71,7 +71,7 @@ export default class Login extends Vue {
       try {
         const res = await AuthService.loginUser(this.LoginForm)
         if (res.status === 200) {
-          await this.$store.dispatch('authStore/SetCurrentUser', res.data)
+          await this.$store.dispatch('authStore/SetLoggedInUser', res.data)
         }
         await this.$store.dispatch('uiStore/_setDataLoading', false)
       } catch (e) {

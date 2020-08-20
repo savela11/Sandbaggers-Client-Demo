@@ -1,6 +1,6 @@
 ﻿import { IRootState } from '@/store'
 import { ActionContext } from 'vuex'
-import { IUIState } from '@/types/UI/UIStoreTypes'
+import { IHeaderInfo, IUIState } from '@/types/UI/UIStoreTypes'
 import { ISnackBar } from '@/types/UI/SnackBar'
 
 const state: IUIState = {
@@ -8,6 +8,7 @@ const state: IUIState = {
   dataLoading: false,
   pageLoading: false,
   isNavBarShowing: true,
+  isHeaderShowing: true,
   snackBar: {
     title: '',
     message: '',
@@ -20,11 +21,21 @@ const state: IUIState = {
 const getters = {
   HeaderTitle: (state: IUIState): string | null => state.headerTitle,
   IsNavBarShowing: (state: IUIState): boolean => state.isNavBarShowing,
+  IsHeaderShowing: (state: IUIState): boolean => state.isHeaderShowing,
   SnackBarClass: (state: IUIState): string | undefined => state.snackBar.class,
   DataLoadingStatus: (state: IUIState): boolean => state.dataLoading,
 }
 
 const mutations = {
+  SetHeader(state: IUIState, headerInfo: IHeaderInfo): void {
+    if (headerInfo.isHeaderShowing) {
+      state.isHeaderShowing = true
+      state.headerTitle = headerInfo.title
+    } else {
+      state.isHeaderShowing = false
+      state.headerTitle = null
+    }
+  },
   SetHeaderTitle(state: IUIState, title: string): void {
     state.headerTitle = title
   },
@@ -50,6 +61,10 @@ const mutations = {
 
   SetNavBarShowingStatus(state: IUIState, showingStatus: boolean): void {
     state.isNavBarShowing = showingStatus
+  },
+
+  SetHeaderShowingStatus(state: IUIState, showingStatus: boolean): void {
+    state.isHeaderShowing = showingStatus
   },
 
   SetSnackBar(state: IUIState, snackBar: ISnackBar) {
@@ -81,6 +96,10 @@ const mutations = {
 }
 
 const actions = {
+  _setHeader(context: ActionContext<IUIState, IRootState>, headerInfo: IHeaderInfo) {
+    context.commit('SetHeader', headerInfo)
+  },
+
   _setHeaderTitle(context: ActionContext<IUIState, IRootState>, title: string) {
     context.commit('SetHeaderTitle', title)
   },
@@ -95,6 +114,9 @@ const actions = {
 
   _setNavBarShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean) {
     context.commit('SetNavBarShowingStatus', showingStatus)
+  },
+  _setHeaderShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean) {
+    context.commit('SetHeaderShowingStatus', showingStatus)
   },
 
   _setSnackBar(context: ActionContext<IUIState, IRootState>, snackBar: ISnackBar) {

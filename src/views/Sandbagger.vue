@@ -40,7 +40,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import UserService from '../services/UsersService'
-import { ICurrentUser } from '@/types/User/AuthUser'
 import FormatMixins from '@/mixins/FormatMixins.vue'
 import { IHandicapHistory, IUserWithHistory } from '@/types/User/User'
 
@@ -53,7 +52,8 @@ export default class Sandbagger extends Vue {
     this.getUserInfo()
   }
 
-  setBackToDashboard() {
+  setBackToDashboard(): void {
+    this.$store.dispatch('uiStore/_setHeaderShowingStatus', true)
     this.$store.dispatch('uiStore/_setNavBarShowingStatus', true)
   }
 
@@ -71,14 +71,16 @@ export default class Sandbagger extends Vue {
       const res = await UserService.getUserWithHistory(this.$route.params.id.toString())
       if (res.data) {
         this.Sandbagger = res.data
-        await this.$store.dispatch('uiStore/_setPageLoading', false)
       }
     } catch (error) {
       console.log(error)
+    } finally {
+      await this.$store.dispatch('uiStore/_setHeaderShowingStatus', false)
+      await this.$store.dispatch('uiStore/_setPageLoading', false)
     }
   }
 
-  setCurrentView(view: string) {
+  setCurrentView(view: string): void {
     this.currentView = view
   }
 }

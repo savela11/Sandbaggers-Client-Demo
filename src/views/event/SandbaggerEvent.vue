@@ -1,11 +1,5 @@
 ﻿<template>
   <div class="sandbaggerEvent">
-    <v-row v-if="!isCurrentUserAlreadyRegistered" no-gutters class="justify-end">
-      <v-btn @click="registerForEvent" dark color="secondary">
-        <span>Register</span>
-      </v-btn>
-    </v-row>
-
     <Loading v-if="loading" value="large" />
   </div>
 </template>
@@ -14,12 +8,11 @@
 import { Component, Vue } from 'vue-property-decorator'
 import EventService from '@/services/EventService'
 import { IEventDto, IRegisterUser } from '@/types/Admin/Event'
-import SandbaggerEventService from '@/services/SandbaggerEventService'
 
 @Component({
   name: 'SandbaggerEvent',
   components: {
-    Loading: () => import('@/components/ui/Loading.vue'),
+    Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
   },
 })
 export default class SandbaggerEvent extends Vue {
@@ -45,7 +38,7 @@ export default class SandbaggerEvent extends Vue {
   async registerForEvent(): Promise<void> {
     this.loading = true
     try {
-      const res = await SandbaggerEventService.RegisterUserForEvent(this.currentUser)
+      const res = await EventService.RegisterUserForEvent(this.currentUser)
       if (res.status === 200) {
         this.Event.registeredUsers.push(this.currentUser)
       }

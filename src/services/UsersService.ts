@@ -2,6 +2,7 @@ import apiClient from '../utility/apiClient'
 import { IUserWithHistory, IUserWithProfile, IUserWithSettings } from '@/types/User/User'
 import { AxiosResponse } from 'axios'
 import { ICurrentUser } from '@/types/User/AuthUser'
+import { SandbaggerWithHandicap } from '@/types/DashboardTypes'
 
 const url = '/users'
 
@@ -27,6 +28,10 @@ class UsersService {
 
   public static async getUserWithHistory(id: string): Promise<AxiosResponse<IUserWithHistory>> {
     return await apiClient.get(`${url}/GetUserWithHistory/${id}`)
+  }
+
+  static async SandbaggersWithHandicaps(): Promise<AxiosResponse<SandbaggerWithHandicap[]>> {
+    return await apiClient.get(`${url}/SandBaggersWithHandicaps`)
   }
 }
 
