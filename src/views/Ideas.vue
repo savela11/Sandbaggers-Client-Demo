@@ -2,11 +2,11 @@
   <div class="ideas">
     <Modal v-if="isAddingIdea" @click="toggleAddIdea(false)" :isFooter="false">
       <template v-slot:header>
-        <h2>Add Idea</h2>
+        <h2 v-if="!loading">Add Idea</h2>
       </template>
 
       <template v-slot:body>
-        <form class="form form--addIdea">
+        <form v-if="!loading" class="form form--addIdea">
           <div class="form__field">
             <label for="title">Title</label>
             <input type="text" id="title" v-model="addIdea.title" />
@@ -16,20 +16,21 @@
             <textarea type="text" rows="10" id="description" v-model="addIdea.description" />
           </div>
           <div class="btnContainer">
-            <button class="btn btn--sm btn--blue" id="addIdeaBTN">Add</button>
+            <button class="btn btn--sm btn--blue" id="addIdeaBTN" @click.prevent.stop="createIdea">Add</button>
           </div>
         </form>
+        <Loading v-if="loading" />
       </template>
     </Modal>
     <div class="addIdea">
       <button @click="toggleAddIdea(true)" class="btn btn--borderBlue btn--xs">Add</button>
     </div>
-
+    <hr />
     <div class="ideas__list">
       <div class="idea" v-for="idea in Ideas" :key="idea.id" :class="{ autoHeight: showDescriptionById === idea.id }">
         <div class="idea__section">
           <h2>{{ formatLongString(idea.title, 30) }}</h2>
-          <p class="text--grey text--sm">{{ formatDate(idea.updatedOn) }}</p>
+          <p class="text--grey text--sm nowrap">{{ formatDate(idea.updatedOn) }}</p>
         </div>
         <div class="idea__createdBy idea__section">
           <p class="text--grey text--sm">By: {{ idea.createdBy.fullName }}</p>
@@ -48,23 +49,30 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { IAddIdea, IIdea } from '@/types/Idea'
+import { IAddIdea, ICreatedBy, IIdea } from '@/types/Idea'
 import IdeaService from '@/services/IdeaService'
 import Helper from '@/utility/Helper'
 import FormatMixins from '@/mixins/FormatMixins.vue'
 
-@Component({ name: 'Ideas', components: { Modal: () => import('../components/ui/Modals/Modal.vue') }, mixins: [FormatMixins] })
+@Component({
+  name: 'Ideas',
+  components: { Modal: () => import('../components/ui/Modals/Modal.vue'), Loading: (): Promise<object> => import('@/components/ui/Loading.vue') },
+  mixins: [FormatMixins],
+})
 export default class Ideas extends Vue {
-  private addIdea = {} as IAddIdea
+  private addIdea = {
+    title: '',
+    description: '',
+  } as IAddIdea
   private isAddingIdea = false
   private Ideas = [] as IIdea[]
   showDescriptionById: number | null = null
+  loading = false
 
   mounted(): void {
-    this.$store.dispatch('uiStore/_setHeaderTitle', 'Ideas')
-  }
-  created(): void {
     this.getIdeas()
+
+    this.$store.dispatch('uiStore/_setHeaderTitle', 'Ideas')
   }
 
   toggleAddIdea(status: boolean) {
@@ -76,6 +84,29 @@ export default class Ideas extends Vue {
       this.$store.dispatch('uiStore/_setNavBarShowingStatus', true)
     }
   }
+
+  async createIdea(): Promise<void> {
+    this.loading = true
+    const createdBy: ICreatedBy = {
+      fullName: this.$store.state.authStore.currentUser.fullName,
+      id: this.$store.state.authStore.currentUser.id,
+      username: this.$store.state.authStore.currentUser.username,
+    }
+    try {
+      this.addIdea.createdBy = createdBy
+      const res = await IdeaService.AddIdea(this.addIdea)
+      if (res.status === 200) {
+        this.Ideas.push(res.data)
+      }
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setTimeout(() => {
+        this.loading = false
+      }, 3000)
+    }
+  }
+
   toggleShowDescription(id: number) {
     if (this.showDescriptionById === id) {
       return (this.showDescriptionById = null)
@@ -101,18 +132,23 @@ export default class Ideas extends Vue {
   .addIdea {
     display: flex;
     justify-content: flex-end;
-    margin: 0 0 2rem 0;
   }
   .form--addIdea {
-    padding: 0 0.5rem;
+    padding: 0;
+    input,
+    textarea {
+      border-radius: 5px;
+    }
   }
 
   &__list {
+    padding: 0.8rem;
+
     .idea {
       padding: 0.5rem 0.8rem;
       border-radius: 5px;
       margin-bottom: 1rem;
-      box-shadow: 1px 1px 1px lightgrey;
+      box-shadow: 3px 3px 5px lightgrey;
       height: 75px;
       display: flex;
       flex-direction: column;
@@ -123,14 +159,14 @@ export default class Ideas extends Vue {
       }
 
       h2 {
-        font-size: 1.2rem;
+        font-size: 1rem;
       }
 
       &__section {
         &:nth-child(1) {
           display: flex;
           justify-content: space-between;
-          align-items: center;
+          align-items: flex-start;
         }
       }
 
@@ -140,7 +176,9 @@ export default class Ideas extends Vue {
         overflow: hidden;
         opacity: 0;
         p {
-          font-size: 0.9rem;
+          font-size: 0.8rem;
+          white-space: pre;
+          color: grey;
         }
         &.show {
           animation: slideDown 1s linear forwards;

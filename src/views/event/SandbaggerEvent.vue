@@ -7,7 +7,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import EventService from '@/services/EventService'
-import { IEventDto, IRegisterUser } from '@/types/Admin/Event'
+import { IEventDto, IRegisteredUser, IRegisterUser } from '@/types/Admin/Event'
 
 @Component({
   name: 'SandbaggerEvent',
@@ -40,7 +40,13 @@ export default class SandbaggerEvent extends Vue {
     try {
       const res = await EventService.RegisterUserForEvent(this.currentUser)
       if (res.status === 200) {
-        this.Event.registeredUsers.push(this.currentUser)
+        const registeredUser: IRegisteredUser = {
+          fullName: this.currentUser.fullName,
+          id: this.currentUser.id,
+          username: this.currentUser.username,
+          image: this.$store.state.authStore.currentUser.profile.image
+        }
+        this.Event.registeredUsers.push(registeredUser)
       }
       this.loading = false
     } catch (e) {

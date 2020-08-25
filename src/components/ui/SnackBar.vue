@@ -18,18 +18,12 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { ISnackBar } from '@/types/UI/SnackBar'
+import UIHelper from '@/utility/UIHelper'
 
 @Component({ name: 'SnackBar' })
 export default class SnackBar extends Vue {
   closeSnackBar() {
-    const snackBar: ISnackBar = {
-      title: '',
-      message: '',
-      isSnackBarShowing: false,
-      class: '',
-      errors: [],
-    }
-    this.$store.dispatch('uiStore/_setSnackBar', snackBar)
+    UIHelper.SnackBar()
   }
 
   get snackBarClass() {
@@ -87,5 +81,13 @@ export default class SnackBar extends Vue {
       color: white;
     }
   }
+  .primary {
+    .title {
+      background-color: #425a41;
+      color: white;
+    }
+
+  }
+
 }
 </style>

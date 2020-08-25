@@ -97,6 +97,7 @@ const mutations = {
 
 const actions = {
   _setHeader(context: ActionContext<IUIState, IRootState>, headerInfo: IHeaderInfo) {
+    console.log(headerInfo)
     context.commit('SetHeader', headerInfo)
   },
 

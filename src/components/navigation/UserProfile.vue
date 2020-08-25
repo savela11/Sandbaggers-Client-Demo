@@ -49,6 +49,7 @@
       <div class="currentView" v-if="isBottomMenuShowing">
         <ProfileView v-if="currentView === 'Profile' && !loading" :cUser="currentUser" @updateCurrentUserProfile="updateCurrentUser" />
         <BetsView v-if="currentView === 'Bets' && !loading" :cUser="currentUser" />
+        <IdeasView v-if="currentView === 'Ideas' && !loading" :cUser="currentUser" />
         <Loading v-if="loading" />
       </div>
     </div>
@@ -67,12 +68,13 @@ import { IUserProfile } from '@/types/Profile'
     ProfileView: (): Promise<object> => import('@/components/profile/ProfileView.vue'),
     BetsView: (): Promise<object> => import('@/components/profile/BetsView.vue'),
     SettingsView: (): Promise<object> => import('@/components/profile/SettingsView.vue'),
+    IdeasView: (): Promise<object> => import('@/components/profile/IdeasView.vue'),
   },
 })
 export default class UserProfile extends Vue {
   @Prop({ default: false }) dialog!: boolean
   loading = false
-  viewOptions = ['Profile', 'Settings', 'Bets', 'Posts']
+  viewOptions = ['Profile', 'Settings', 'Bets', 'Ideas', 'Posts']
   currentView: string | null = null
   isEditMode = false
   currentUser = {} as ICurrentUser
@@ -352,7 +354,7 @@ export default class UserProfile extends Vue {
       overflow-x: scroll;
       overflow-y: hidden;
       white-space: nowrap;
-      padding: 0 0.5rem 0.5rem 0.5rem;
+      padding: 0 0.5rem 0.8rem 0.5rem;
       scroll-behavior: smooth;
       max-width: 100%;
       button {

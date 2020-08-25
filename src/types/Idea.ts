@@ -12,7 +12,7 @@ export interface IAddIdea {
   createdBy: ICreatedBy
 }
 
-interface ICreatedBy {
+export interface ICreatedBy {
   id: string
   username: string
   fullName: string

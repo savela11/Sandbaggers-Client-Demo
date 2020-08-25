@@ -34,7 +34,7 @@
     </div>
     <!-- Loading Component -->
     <div v-if="loading">
-      <Loading value="large" />
+      <Loading  />
     </div>
   </div>
 </template>

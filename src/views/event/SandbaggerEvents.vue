@@ -1,4 +1,4 @@
-﻿﻿<template>
+﻿<template>
   <div class="sandbaggerEvents">
     <Modal v-if="showRegistered && selectedEvent" @click="toggleShowRegisteredUsers(false)">
       <template v-slot:header>
@@ -89,7 +89,7 @@ export default class SandbaggerEvents extends Vue {
       }
     }
 
-    return
+    return false
   }
 
   async registerUserForEvent(): Promise<void> {
@@ -104,7 +104,13 @@ export default class SandbaggerEvents extends Vue {
       const res = await EventService.RegisterUserForEvent(currentUser)
 
       if (res.status === 200) {
-        this.selectedEvent.registeredUsers.push(currentUser)
+        const registeredUser: IRegisteredUser = {
+          fullName: currentUser.fullName,
+          id: currentUser.id,
+          username: currentUser.username,
+          image: this.$store.state.authStore.currentUser.profile.image
+        }
+        this.selectedEvent.registeredUsers.push(registeredUser)
         setTimeout(() => {
           this.modalLoading = false
         }, 4000)

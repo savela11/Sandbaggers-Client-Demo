@@ -2,13 +2,10 @@
   <header class="heading">
     <div class="heading__backgroundColor" v-bind:style="{ backgroundColor: backgroundColor }">
       <div class="heading__image">
-        <svg width="34" height="72" viewBox="0 0 34 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="34" height="60" viewBox="0 0 34 72" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="31.6004" cy="2.4" r="2.4" fill="white" />
-          <circle cx="31.6004" cy="69.6" r="2.4" fill="white" />
           <circle cx="17.2004" cy="2.4" r="2.4" fill="white" />
-          <circle cx="17.2004" cy="69.6" r="2.4" fill="white" />
           <circle cx="2.80039" cy="2.4" r="2.4" fill="white" />
-          <circle cx="2.80039" cy="69.6" r="2.4" fill="white" />
           <circle cx="2.80039" cy="12" r="2.4" fill="white" />
           <circle cx="17.2004" cy="12" r="2.4" fill="white" />
           <circle cx="31.6004" cy="12" r="2.4" fill="white" />
@@ -64,7 +61,7 @@ export default class HelloWorld extends Vue {
     padding: 0.8rem 0.8rem 0.8rem 1.5rem;
     background-color: $DarkGreen;
     position: relative;
-    height: 100%;
+    //height: 100%;
     min-height: 150px;
     width: 90%;
     border-bottom-right-radius: 25px;
@@ -78,7 +75,7 @@ export default class HelloWorld extends Vue {
   }
 
   &__title {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     h1 {
       font-size: 1.4rem;
       font-weight: 900;

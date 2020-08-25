@@ -1,9 +1,9 @@
 ﻿export interface ISnackBar {
   title: string
-  class: string
+  class?: string
   message: string
   isSnackBarShowing: boolean
-  errors: Array<string> | string
+  errors?: Array<string> | string
 }
 
 export interface IError {

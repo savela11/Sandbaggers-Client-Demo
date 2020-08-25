@@ -1,6 +1,6 @@
 ﻿<template>
   <div class="events">
-    <Loading v-if="loading" />
+    <Loading v-if="loading"/>
     <!--    EVENTS VIEW-->
     <div v-if="!loading && view === 'Events'" class="eventsView">
       <!--select box-->
@@ -22,26 +22,27 @@
           <div v-if="isEditMode">
             <div class="field">
               <label for="locationName">Name</label>
-              <input id="locationName" type="text" class="input" v-model.trim="selectedEvent.location.name" />
+              <input id="locationName" type="text" class="input" v-model.trim="selectedEvent.location.name"/>
             </div>
             <div class="flexField">
               <div class="field streetNumbers">
                 <label for="streetNumbers">Street Numbers</label>
-                <input id="streetNumbers" type="text" class="input" v-model.trim="selectedEvent.location.streetNumbers" />
+                <input id="streetNumbers" type="text" class="input"
+                       v-model.trim="selectedEvent.location.streetNumbers"/>
               </div>
               <div class="field">
                 <label for="streetName">Street Name</label>
-                <input id="streetName" type="text" class="input" v-model.trim="selectedEvent.location.streetName" />
+                <input id="streetName" type="text" class="input" v-model.trim="selectedEvent.location.streetName"/>
               </div>
             </div>
             <div class="flexField">
               <div class="field">
                 <label for="city">City</label>
-                <input id="city" type="text" class="input" v-model.trim="selectedEvent.location.city" />
+                <input id="city" type="text" class="input" v-model.trim="selectedEvent.location.city"/>
               </div>
               <div class="field">
                 <label for="zip">Zip Code</label>
-                <input id="zip" type="tel" class="input" v-model.trim="selectedEvent.location.postalCode" />
+                <input id="zip" type="tel" class="input" v-model.trim="selectedEvent.location.postalCode"/>
               </div>
             </div>
           </div>
@@ -61,28 +62,30 @@
         <div class="cancelButton">
           <button class="btn btn--xs btn--borderRed" @click="toggleAddEvent(false)">Cancel</button>
         </div>
-        <AddEvent @addEvent="addEvent" />
+        <AddEvent @addEvent="addEvent"/>
       </div>
     </div>
     <!--    RESULTS VIEW-->
     <div v-if="!loading && view === 'Results' && selectedEvent" class="resultsView">
       <div class="viewButtons">
-        <button v-for="resultView in resultsView.viewButtons" :key="resultView" :class="{ active: resultsView.currentView === resultView }">{{ resultView }}</button>
+        <button v-for="resultView in resultsView.viewButtons" :key="resultView"
+                :class="{ active: resultsView.currentView === resultView }">{{ resultView }}
+        </button>
       </div>
       <div class="currentChamps section">
         <div>
           <h3>Current Scramble Champs?</h3>
           <button
-            :class="{ activeChamps: selectedEvent.eventResults.isActive === true }"
-            @click="toggleActiveScrambleChamps(true)"
-            class="btn btn--xs btn--borderBottom btn--borderBlue"
+              :class="{ activeChamps: selectedEvent.eventResults.isActive === true }"
+              @click="toggleActiveScrambleChamps(true)"
+              class="btn btn--xs btn--borderBottom btn--borderBlue"
           >
             Yes
           </button>
           <button
-            :class="{ notActiveChamps: selectedEvent.eventResults.isActive === false }"
-            @click="toggleActiveScrambleChamps(false)"
-            class="btn btn--xs btn--borderBottom btn--borderBlue"
+              :class="{ notActiveChamps: selectedEvent.eventResults.isActive === false }"
+              @click="toggleActiveScrambleChamps(false)"
+              class="btn btn--xs btn--borderBottom btn--borderBlue"
           >
             No
           </button>
@@ -91,7 +94,7 @@
         <div class="champList">
           <div v-for="champ in selectedEvent.eventResults.scrambleChamps" :key="champ.userId" class="champ">
             <div class="imgContainer">
-              <img :src="setScrambleChampProfileImage(champ.image)" :alt="champ.name + 'Profile picture.'" />
+              <img :src="setScrambleChampProfileImage(champ.image)" :alt="champ.name + 'Profile picture.'"/>
             </div>
             <p>{{ champ.fullName }}</p>
           </div>
@@ -106,7 +109,7 @@
             </div>
             <div>
               <label class="hideLabel" for="user">{{ user.fullName }}</label>
-              <input type="checkbox" id="user" v-model="user.isCurrentChamp" @change="updateScrambleChamp(user)" />
+              <input type="checkbox" id="user" v-model="user.isCurrentChamp" @change="updateScrambleChamp(user)"/>
             </div>
           </div>
         </div>
@@ -114,8 +117,11 @@
     </div>
     <!--    TOGGLE VIEWS-->
     <div class="changeViewButton">
-      <button id="resultsBTN" v-if="view === 'Events'" class="btn btn--circle btn--borderBlue btn--borderBottom" @click="toggleView('Results')">Results</button>
-      <button id="eventsBTN" v-if="view === 'Results'" class="btn btn--circle" @click="toggleView('Events')">Events</button>
+      <button id="resultsBTN" v-if="view === 'Events'" class="btn btn--circle btn--borderBlue btn--borderBottom"
+              @click="toggleView('Results')">Results
+      </button>
+      <button id="eventsBTN" v-if="view === 'Results'" class="btn btn--circle" @click="toggleView('Events')">Events
+      </button>
     </div>
   </div>
 </template>
@@ -131,13 +137,15 @@ import { IEventResults } from '@/types/Events/EventResults'
 import { IHeaderInfo } from '@/types/UI/UIStoreTypes'
 import { IScrambleChamp, ScrambleChamp } from '@/models/ScrambleChamp'
 import { AxiosResponse } from 'axios'
+import UIHelper from '@/utility/UIHelper'
+
 
 @Component({
   name: 'AdminEvents',
   components: {
     Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
-    AddEvent: (): Promise<object> => import('@/components/admin/event/AddEvent.vue'),
-  },
+    AddEvent: (): Promise<object> => import('@/components/admin/event/AddEvent.vue')
+  }
 })
 export default class AdminEvents extends Vue {
   loading = false
@@ -150,11 +158,12 @@ export default class AdminEvents extends Vue {
 
   resultsView = {
     currentView: 'Scramble Champs',
-    viewButtons: ['Scramble Champs', 'Teams'],
+    viewButtons: ['Scramble Champs', 'Teams']
   }
 
   mounted(): void {
     this.getEvents()
+    UIHelper.Header({title: "Manage Events", isHeaderShowing: true})
   }
 
   // @Watch('selectedEvent')
@@ -187,7 +196,10 @@ export default class AdminEvents extends Vue {
       const res = await this.eventResults(this.selectedEvent.eventId)
       if (res.status === 200) {
         this.selectedEvent.eventResults = res.data
-        await this.$store.dispatch('uiStore/_setHeader', { isHeaderShowing: true, title: this.selectedEvent.name + ' Results' } as IHeaderInfo)
+        await this.$store.dispatch('uiStore/_setHeader', {
+          isHeaderShowing: true,
+          title: this.selectedEvent.name + ' Results'
+        } as IHeaderInfo)
         this.checkIfScrambleChamp(res.data.scrambleChamps)
       }
     } else if (view === 'Events') {
@@ -285,20 +297,30 @@ export default class AdminEvents extends Vue {
 
   async updateScrambleChamp(sChamp: IRegisteredUser): Promise<void> {
     const scrambleChamp = new ScrambleChamp(sChamp.id, sChamp.fullName, sChamp.image)
+    let snackBarMessage = ''
+
     if (this.selectedEvent?.eventResults) {
       if (sChamp.isCurrentChamp) {
         this.selectedEvent?.eventResults?.scrambleChamps.push(scrambleChamp)
-        console.log(scrambleChamp)
+        snackBarMessage = `${sChamp.fullName} was added as a Scramble Champ!`
       } else if (sChamp.isCurrentChamp === false) {
         const foundChampIndex = this.selectedEvent.eventResults.scrambleChamps.findIndex((champ) => {
           return champ.id === sChamp.id
         })
-        console.log(foundChampIndex)
-
+        snackBarMessage = `${sChamp.fullName} is no longer a Scramble Champ.`
         this.selectedEvent.eventResults.scrambleChamps.splice(foundChampIndex, 1)
       }
-
-      await this.updateEventResults(this.selectedEvent.eventResults)
+      const res = await this.updateEventResults(this.selectedEvent.eventResults)
+      if (res.status === 200) {
+        await UIHelper.SnackBar({ isSnackBarShowing: true, title: 'Scramble Champ Updated', message: snackBarMessage, class: 'primary' })
+      } else {
+        await UIHelper.SnackBar({
+          isSnackBarShowing: true,
+          title: 'Error updating Scramble Champ',
+          message: `There was an error when trying to update ${sChamp.fullName} as a Scramble Champ.`,
+          class: 'error'
+        })
+      }
     }
   }
 
