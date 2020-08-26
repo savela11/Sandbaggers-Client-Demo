@@ -4,7 +4,7 @@
 
     <PageLoading v-if="this.$store.state.uiStore.pageLoading" />
     <HeaderComponent v-if="IsHeaderShowing" :backgroundColor="headerColor" />
-    <router-view />
+    <router-view class="routerView" />
     <div v-if="CurrentUser && IsNavBarShowing">
       <UserProfile v-if="isUserProfileShowing" :dialog="isUserProfileShowing" @closeUserProfile="openUserProfile(false)" />
       <NavBar @openUserProfile="openUserProfile" :currentUser="CurrentUser" />
@@ -60,7 +60,7 @@ export default class App extends Vue {
       body.style.overflowY = 'hidden'
     } else {
       body.style.position = 'static'
-      body.style.marginBottom = '75px'
+      body.style.marginBottom = '65px'
       body.style.overflowY = 'auto'
     }
   }
@@ -69,9 +69,8 @@ export default class App extends Vue {
 
 <style lang="scss">
 .app {
-  height: calc(100vh - 65px);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  .routerView {
+    padding: 1rem;
+  }
 }
 </style>

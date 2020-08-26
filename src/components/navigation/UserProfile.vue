@@ -321,18 +321,17 @@ export default class UserProfile extends Vue {
 
   &__bottom {
     background-color: $DarkBlue;
-    height: 100%;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     padding: 1rem 0 0 0;
-    max-height: 100px;
+    max-height: 125px;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
 
     &.show {
-      max-height: 450px;
+      max-height: 550px;
       animation: showBottomMenu 0.3s linear forwards;
     }
 
@@ -354,7 +353,7 @@ export default class UserProfile extends Vue {
       overflow-x: scroll;
       overflow-y: hidden;
       white-space: nowrap;
-      padding: 0 0.5rem 0.8rem 0.5rem;
+      padding: 0 0.5rem 1rem 0.5rem;
       scroll-behavior: smooth;
       max-width: 100%;
       button {
@@ -373,7 +372,7 @@ export default class UserProfile extends Vue {
         outline: none;
 
         &.active {
-          border-bottom: 1px outset white;
+          border-bottom: 2px outset white;
         }
 
         &:last-child {
@@ -383,13 +382,13 @@ export default class UserProfile extends Vue {
     }
 
     .currentView {
-      padding: 0.5rem 0.5rem 0 0.5rem;
       height: 100%;
+      padding: 0.8rem;
+
       & > div {
-        padding: 1rem;
+        padding: 2rem;
         background-color: white;
         max-height: 280px;
-        overflow-y: scroll;
         border-radius: 10px;
         height: 100%;
         overflow-y: auto;
@@ -412,13 +411,13 @@ export default class UserProfile extends Vue {
     max-height: 125px;
   }
   100% {
-    max-height: 450px;
+    max-height: 550px;
   }
 }
 
 @keyframes hideBottomMenu {
   0% {
-    max-height: 450px;
+    max-height: 550px;
   }
   100% {
     max-height: 125px;

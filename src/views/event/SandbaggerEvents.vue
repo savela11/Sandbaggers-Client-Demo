@@ -38,9 +38,6 @@
 
         <div class="registeredUsers">
           <div class="registeredUsersButton">
-            <div>
-              <p></p>
-            </div>
             <button @click="toggleShowRegisteredUsers(true)" v-if="!IsUserRegistered">Register</button>
             <button @click="toggleShowRegisteredUsers(true)" v-if="IsUserRegistered">Show Registered ({{ selectedEvent.registeredUsers.length }})</button>
           </div>
@@ -211,53 +208,51 @@ export default class SandbaggerEvents extends Vue {
     }
   }
 
-  .selectedEvent {
-    margin-top: 1rem;
-    border-radius: 5px;
+  .registeredUsers {
+    display: flex;
+    align-items: center;
+    .registeredUsersButton {
+      button {
+        border-radius: 5px;
+        border: 1px solid lightgrey;
+        font-size: 0.8rem;
+        padding: 0.2rem 0.5rem;
+      }
+    }
 
-    .registeredUsers {
-      .registeredUsersButton {
-        margin-bottom: 0.2rem;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        button {
-          border-radius: 5px;
-          border: 1px solid lightgrey;
-          font-size: 0.8rem;
-          padding: 0.2rem 0.5rem;
-        }
+    &__cards {
+      border: 1px solid rgba(128, 128, 128, 0.3);
+      height: 200px;
+      border-radius: 5px;
+      padding: 0.5rem;
+      overflow-y: scroll;
+
+      .registeredCount {
+        font-size: 0.8rem;
+        color: rgba(128, 128, 128, 0.6);
+        margin-bottom: 1rem;
       }
 
-      &__cards {
-        border: 1px solid rgba(128, 128, 128, 0.3);
-        height: 200px;
-        border-radius: 5px;
+      .cardsContainer {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+        grid-auto-rows: 75px;
+      }
+      .card {
         padding: 0.5rem;
-        overflow-y: scroll;
-
-        .registeredCount {
+        box-shadow: 0 3px 5px rgba(128, 128, 128, 0.6);
+        border-radius: 5px;
+        p {
           font-size: 0.8rem;
-          color: rgba(128, 128, 128, 0.6);
-          margin-bottom: 1rem;
-        }
-
-        .cardsContainer {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 0.8rem;
-          grid-auto-rows: 75px;
-        }
-        .card {
-          padding: 0.5rem;
-          box-shadow: 0 3px 5px rgba(128, 128, 128, 0.6);
-          border-radius: 5px;
-          p {
-            font-size: 0.8rem;
-          }
         }
       }
     }
+  }
+
+  .selectedEvent {
+    margin-top: 1rem;
+    border-radius: 5px;
   }
 
   .sandbaggerList {

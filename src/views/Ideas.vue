@@ -127,8 +127,6 @@ export default class Ideas extends Vue {
 
 <style scoped lang="scss">
 .ideas {
-  padding: 1rem;
-
   .addIdea {
     display: flex;
     justify-content: flex-end;
@@ -142,8 +140,6 @@ export default class Ideas extends Vue {
   }
 
   &__list {
-    padding: 0.8rem;
-
     .idea {
       padding: 0.5rem 0.8rem;
       border-radius: 5px;

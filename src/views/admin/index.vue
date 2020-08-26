@@ -1,6 +1,8 @@
 <template>
   <div class="admin">
-    <router-link v-for="route in adminLinks" :key="route.name" outlined color="primary" class="btn btn--xs btn--borderBlue" :to="route.link">{{ route.name }}</router-link>
+    <div class="linkGrid">
+      <router-link v-for="route in adminLinks" :key="route.name" outlined color="primary" class="btn btn--xs btn--borderBlue" :to="route.link">{{ route.name }}</router-link>
+    </div>
   </div>
 </template>
 
@@ -26,13 +28,13 @@ export default class Admin extends Vue {
 
 <style scoped lang="scss">
 .admin {
-  padding: 1rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
-
-  a {
-    text-align: center;
+  .linkGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    a {
+      text-align: center;
+    }
   }
 }
 </style>

@@ -38,7 +38,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import UIStore from '@/store/modules/UIStore'
 @Component({ name: 'Header' })
 export default class HelloWorld extends Vue {
   @Prop({ default: 'Sandbaggers' }) private smallText: string | undefined
@@ -68,6 +67,7 @@ export default class HelloWorld extends Vue {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    box-shadow: 0 2px 10px rgba(102, 102, 102, 0.6);
   }
 
   &__image {

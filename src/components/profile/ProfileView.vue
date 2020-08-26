@@ -16,7 +16,7 @@
       </div>
 
       <div class="btnContainer">
-        <button @click.prevent.stop="updateCurrentUserProfile" class="btn btn--sm btn--blue" id="updateBtn">Update</button>
+        <button @click.prevent.stop="updateCurrentUserProfile" class="btn btn--xs btn--blue" id="updateBtn">Update</button>
       </div>
     </form>
   </div>
@@ -63,6 +63,7 @@ export default class ProfileView extends Vue {
 <style scoped lang="scss">
 .profileView {
   .btnContainer {
+    margin-top: 1rem;
     display: flex;
     justify-content: flex-end;
   }
