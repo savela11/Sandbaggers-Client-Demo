@@ -1,6 +1,8 @@
 ﻿@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
 @import '_button.scss';
 @import '_text.scss';
+@import '_flex.scss';
+
 html {
   font-family: 'Roboto', sans-serif;
   word-spacing: 1px;
@@ -39,7 +41,10 @@ a {
 a {
   color: #007bff;
 }
-
+input {
+  box-sizing: border-box;
+  width: 100%;
+}
 .loading {
   display: flex;
   justify-content: center;
@@ -69,7 +74,7 @@ a {
 }
 
 .form {
-  padding: 1rem 2rem;
+  padding: 1rem;
   &__field {
     display: flex;
     flex-direction: column;

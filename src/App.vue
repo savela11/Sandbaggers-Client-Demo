@@ -30,7 +30,8 @@ export default class App extends Vue {
   isUserProfileShowing = false
   message = ''
 
-  mounted(): void {}
+  created(): void {}
+
   get headerColor(): string {
     if (this.$route.path.startsWith('/admin')) {
       return '#17252a'
@@ -54,7 +55,7 @@ export default class App extends Vue {
   openUserProfile(status: boolean): void {
     this.isUserProfileShowing = status
     const body = document.body
-    if (status === true) {
+    if (status) {
       body.style.position = 'fixed'
       body.style.marginBottom = '0'
       body.style.overflowY = 'hidden'

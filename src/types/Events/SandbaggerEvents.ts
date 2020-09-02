@@ -9,3 +9,8 @@ export interface AddEventDto {
   name: string
   year: string
 }
+
+export interface AddTeamForm {
+  teamName: string
+  eventId: string
+}

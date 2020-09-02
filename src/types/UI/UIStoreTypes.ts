@@ -7,13 +7,13 @@ export interface IUIState {
   isNavBarShowing: boolean
   isHeaderShowing: boolean
   snackBar: ISnackBar
+  deviceSize: string
 }
 
 export interface IPageLoadStatus {
   status: boolean
   timeout: number | null
 }
-
 
 export interface IHeaderInfo {
   isHeaderShowing: boolean

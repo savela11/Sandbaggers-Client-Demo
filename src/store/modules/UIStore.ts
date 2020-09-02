@@ -16,6 +16,7 @@ const state: IUIState = {
     class: '',
     isSnackBarShowing: false,
   } as ISnackBar,
+  deviceSize: '',
 }
 
 const getters = {
@@ -43,7 +44,7 @@ const mutations = {
   SetPageLoadingStatus(state: IUIState, loadingStatus: boolean): void {
     let loadingTime = Math.floor(Math.random() * 4000)
 
-    if (loadingStatus === false) {
+    if (!loadingStatus) {
       if (loadingTime < 1000) {
         loadingTime = loadingTime + 1000
       }
@@ -67,12 +68,12 @@ const mutations = {
     state.isHeaderShowing = showingStatus
   },
 
-  SetSnackBar(state: IUIState, snackBar: ISnackBar) {
+  SetSnackBar(state: IUIState, snackBar: ISnackBar): void {
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
     })
-    if (snackBar.isSnackBarShowing === false) {
+    if (!snackBar.isSnackBarShowing) {
       state.snackBar = {
         title: '',
         message: '',
@@ -93,35 +94,42 @@ const mutations = {
       }, 6000)
     }
   },
+
+  SetDeviceSize(state: IUIState, deviceSize: string): void {
+    state.deviceSize = deviceSize
+  },
 }
 
 const actions = {
-  _setHeader(context: ActionContext<IUIState, IRootState>, headerInfo: IHeaderInfo) {
-    console.log(headerInfo)
+  _setHeader(context: ActionContext<IUIState, IRootState>, headerInfo: IHeaderInfo): void {
     context.commit('SetHeader', headerInfo)
   },
 
-  _setHeaderTitle(context: ActionContext<IUIState, IRootState>, title: string) {
+  _setHeaderTitle(context: ActionContext<IUIState, IRootState>, title: string): void {
     context.commit('SetHeaderTitle', title)
   },
 
-  _setDataLoading(context: ActionContext<IUIState, IRootState>, dataLoadingStatus: boolean) {
+  _setDataLoading(context: ActionContext<IUIState, IRootState>, dataLoadingStatus: boolean): void {
     context.commit('SetDataLoadingStatus', dataLoadingStatus)
   },
 
-  _setPageLoading(context: ActionContext<IUIState, IRootState>, loadingStatus: boolean) {
+  _setPageLoading(context: ActionContext<IUIState, IRootState>, loadingStatus: boolean): void {
     context.commit('SetPageLoadingStatus', loadingStatus)
   },
 
-  _setNavBarShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean) {
+  _setNavBarShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean): void {
     context.commit('SetNavBarShowingStatus', showingStatus)
   },
-  _setHeaderShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean) {
+  _setHeaderShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean): void {
     context.commit('SetHeaderShowingStatus', showingStatus)
   },
 
-  _setSnackBar(context: ActionContext<IUIState, IRootState>, snackBar: ISnackBar) {
+  _setSnackBar(context: ActionContext<IUIState, IRootState>, snackBar: ISnackBar): void {
     context.commit('SetSnackBar', snackBar)
+  },
+
+  _setDeviceSize(context: ActionContext<IUIState, IRootState>, deviceSize: string): void {
+    context.commit('SetDeviceSize', deviceSize)
   },
 }
 

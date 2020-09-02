@@ -1,10 +1,21 @@
 ﻿<template>
-  <div class="events">
+  <div class="adminEvents">
     <Loading v-if="loading" />
     <!--    EVENTS VIEW-->
     <div v-if="!loading && view === 'Events'" class="eventsView">
       <!--select box-->
-      <div class="selectBox" v-if="!isAddingEvent">
+      <div class="selectBox" v-if="!isAddingEvent && !isEditMode">
+        <div class="flexWrapper">
+          <div class="addEventButton container">
+            <button @click="toggleAddEvent(true)"><img src="@/assets/icons/addCircle.svg" alt="Add Event Button" /></button>
+            <p>Add Event</p>
+          </div>
+          <div class="editEventButton container">
+            <button @click="isEditMode = true"><img src="@/assets/icons/editPencil.svg" alt="Edit Button" /></button>
+            <p>Edit Event</p>
+          </div>
+        </div>
+
         <div>
           <label for="events">Year</label>
           <select id="events" v-model="selectedEvent">
@@ -12,12 +23,17 @@
           </select>
         </div>
       </div>
+      <!--      HR-->
+      <hr v-if="!isAddingEvent && !isEditMode" />
+
       <!--selected year-->
-      <div class="selectedYear" v-if="selectedEvent">
+      <div class="selectedYear" v-if="selectedEvent && !isAddingEvent">
         <div class="eventName">
           <h2>{{ selectedEvent.name }}</h2>
         </div>
-        <div class="location" v-if="selectedEvent.location">
+
+        <!--        EVENT LOCATION-->
+        <div class="location" v-if="selectedEvent">
           <h3>Location</h3>
           <div v-if="isEditMode">
             <div class="field">
@@ -46,20 +62,23 @@
             </div>
           </div>
           <div v-else>
+            <p>{{ selectedEvent.location.name }}</p>
             <p>{{ selectedEvent.location.streetNumbers }} {{ selectedEvent.location.streetName }}</p>
             <p>{{ selectedEvent.location.city }} {{ selectedEvent.location.postalCode }}</p>
           </div>
         </div>
+        <!--        EVENT TEAMS-->
+        <Teams v-if="selectedEvent && !isEditMode" v-bind="{ eventId: selectedEvent.eventId, teams: selectedEvent.teams }" />
         <div class="btnContainer" v-if="isEditMode">
           <button @click="updateEvent" class="btn btn--xs btn--green">update</button>
-          <button @click="selectedEvent = null" class="btn btn--xs btn--red">cancel</button>
+          <button @click="isEditMode = false" class="btn btn--xs btn--red">cancel</button>
         </div>
       </div>
 
       <!--add event-->
       <div class="addEvent" v-if="isAddingEvent">
         <div class="cancelButton">
-          <button class="btn btn--xs btn--borderRed" @click="toggleAddEvent(false)">Cancel</button>
+          <button class="btn btn--xs btn--red" @click="toggleAddEvent(false)">Cancel</button>
         </div>
         <AddEvent @addEvent="addEvent" />
       </div>
@@ -113,7 +132,7 @@
       </div>
     </div>
     <!--    TOGGLE VIEWS-->
-    <div class="changeViewButton" v-if="selectedEvent">
+    <div class="changeViewButton" v-if="selectedEvent && !isEditMode">
       <button id="resultsBTN" v-if="view === 'Events'" class="btn btn--circle btn--borderBlue btn--borderBottom" @click="toggleView('Results')">Results</button>
       <button id="eventsBTN" v-if="view === 'Results'" class="btn btn--circle" @click="toggleView('Events')">Events</button>
     </div>
@@ -138,6 +157,7 @@ import UIHelper from '@/utility/UIHelper'
   components: {
     Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
     AddEvent: (): Promise<object> => import('@/components/admin/event/AddEvent.vue'),
+    Teams: (): Promise<object> => import('@/components/admin/event/Teams.vue'),
   },
 })
 export default class AdminEvents extends Vue {
@@ -248,6 +268,7 @@ export default class AdminEvents extends Vue {
   }
 
   async updateEvent(): Promise<void> {
+    this.loading = true
     if (this.selectedEvent) {
       try {
         const res = await EventService.UpdateEvent(this.selectedEvent)
@@ -255,6 +276,10 @@ export default class AdminEvents extends Vue {
       } catch (e) {
         console.log(e)
       } finally {
+        setTimeout(() => {
+          this.isEditMode = false
+          this.loading = false
+        }, 3000)
       }
     } else {
       return
@@ -327,6 +352,257 @@ export default class AdminEvents extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
-@import '../../../assets/styles/_adminEvents.scss';
+<style lang="scss">
+//@import '../../../assets/styles/_adminEvents.scss';
+
+.adminEvents {
+  padding: 1rem;
+  hr {
+    margin: 1rem 0;
+    border: 1px solid lightgrey;
+  }
+  .selectBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+
+    .flexWrapper {
+      display: flex;
+    }
+    button {
+      border: none;
+
+      img {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+      }
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &:first-child {
+        margin-right: 1rem;
+      }
+      p {
+        font-size: 0.7rem;
+        color: grey;
+      }
+    }
+    .editEventButton {
+    }
+    select {
+      font-size: 0.8rem;
+      display: block;
+      padding: 0.3rem 0.5rem;
+      width: 75px;
+      max-width: 100%; /* useful when width is set to anything other than 100% */
+      box-sizing: border-box;
+      margin: 0;
+      border: 1px solid rgba(211, 211, 211, 0.8);
+      border-radius: 3px;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
+      background-color: #fff;
+
+      option {
+      }
+    }
+
+    label {
+      font-size: 0.8rem;
+    }
+  }
+
+  .selectedYear {
+    & > div {
+      margin-bottom: 1rem;
+    }
+
+    .eventName {
+    }
+
+    h2 {
+      font-size: 1.2rem;
+    }
+
+    h2 {
+      color: $DarkBlue;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: normal;
+      text-decoration: underline;
+    }
+
+    .location {
+      .flexField {
+        display: flex;
+
+        .streetNumbers {
+          flex: 0 0 33%;
+        }
+      }
+
+      .field {
+        padding: 0 0.3rem;
+        margin-top: 0.5rem;
+
+        label {
+          margin-left: 0.5rem;
+          color: grey;
+          font-size: 0.7rem;
+        }
+      }
+
+      p {
+        font-size: 0.9rem;
+        color: grey;
+      }
+    }
+
+    .btnContainer {
+      display: flex;
+      justify-content: flex-end;
+
+      .btn {
+        &:first-child {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+
+  .addEvent {
+    .cancelButton {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  .eventsView {
+  }
+
+  .resultsView {
+    h2 {
+      font-size: 1.2rem;
+      color: $DarkBlue;
+    }
+
+    h3 {
+      font-size: 0.8rem;
+    }
+
+    .section {
+      margin: 0 0 1rem 0;
+    }
+    .viewButtons {
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      padding: 0.2rem;
+      margin: 0 0 1rem 0;
+
+      button {
+        margin-right: 0.5rem;
+        display: inline-block;
+        height: 30px;
+        min-width: 75px;
+        font-size: 0.8rem;
+        padding: 0.3rem 0.8rem;
+        border: none;
+        border-bottom: 2px solid $DarkBlue;
+
+        &.active {
+          background-color: $DarkBlue;
+          color: white;
+        }
+
+        &:last-child {
+          margin: 0;
+        }
+      }
+    }
+
+    .currentChamps {
+      button {
+        margin: 0.5rem 0.3rem 0 0;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        &.activeChamps {
+          background-color: $DarkBlue;
+          color: white;
+        }
+
+        &.notActiveChamps {
+          background-color: $danger;
+          border-bottom: 1px solid $danger;
+          color: white;
+        }
+      }
+
+      .champList {
+        margin: 1rem 0;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+
+        .champ {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          padding: 0.2rem;
+          .imgContainer {
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+          p {
+            font-size: 0.7rem;
+          }
+        }
+      }
+    }
+
+    .registeredUsers {
+      .list {
+        margin-top: 0.4rem;
+        min-height: 250px;
+        border-radius: 5px;
+        .user {
+          box-shadow: 3px 3px 3px grey;
+          padding: 0.5rem 0.5rem;
+          border-radius: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
+    }
+  }
+
+  .changeViewButton {
+    position: fixed;
+    bottom: 75px;
+    right: 10px;
+
+    .btn {
+      font-size: 0.7rem;
+
+      width: 50px;
+      height: 50px;
+      background-color: white;
+    }
+  }
+}
 </style>

@@ -105,7 +105,7 @@ export default class SandbaggerEvents extends Vue {
           fullName: currentUser.fullName,
           id: currentUser.id,
           username: currentUser.username,
-          image: this.$store.state.authStore.currentUser.profile.image
+          image: this.$store.state.authStore.currentUser.profile.image,
         }
         this.selectedEvent.registeredUsers.push(registeredUser)
         setTimeout(() => {

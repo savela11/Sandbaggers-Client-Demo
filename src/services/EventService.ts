@@ -1,7 +1,7 @@
 import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
-import { ICreateEvent, IEventDto } from '@/types/Admin/Event'
-import { RegisterUserForEvent } from '@/types/Events/SandbaggerEvents'
+import { ICreateEvent, IEventDto, IEventTeam } from '@/types/Admin/Event'
+import { AddTeamForm, RegisterUserForEvent } from '@/types/Events/SandbaggerEvents'
 
 const url = '/events'
 
@@ -24,6 +24,17 @@ class EventService {
 
   static async RegisterUserForEvent(currentUser: RegisterUserForEvent): Promise<AxiosResponse<IEventDto>> {
     return await apiClient.post(`${url}/RegisterUserForEvent`, currentUser)
+  }
+  static async CreateEventTeam(addTeam: AddTeamForm): Promise<AxiosResponse<IEventTeam>> {
+    return await apiClient.post(`${url}/CreateTeamForEvent`, addTeam)
+  }
+
+  static async EventTeams(eventId: string): Promise<AxiosResponse<IEventTeam[]>> {
+    return apiClient.get(`${url}/EventTeams/${eventId}`)
+  }
+
+  static async UpdateTeam(teamId: string): Promise<AxiosResponse<IEventTeam>> {
+    return apiClient.put(`${url}/UpdateTeam/`, teamId)
   }
 }
 

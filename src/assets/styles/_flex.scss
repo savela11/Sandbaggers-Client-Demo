@@ -1,0 +1,28 @@
+.flex {
+  display: flex;
+
+  &--iCenter {
+    align-items: center;
+  }
+
+  // flex direction
+  &--column {
+    flex-direction: column;
+  }
+
+  &--row {
+    flex-direction: row;
+  }
+
+  // flex wrap
+
+  &--noWrap {
+    flex-wrap: nowrap;
+  }
+
+  // justify-content
+  &--between {
+    justify-content: space-between;
+  }
+}
+

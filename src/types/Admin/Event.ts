@@ -41,6 +41,7 @@ export interface IEventTeam {
   teamId: number
   name: string
   captain: string
+  eventId: number
   teamMembers: IRegisterUser[]
 }
 

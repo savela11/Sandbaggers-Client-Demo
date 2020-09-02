@@ -29,4 +29,9 @@ export default [
     name: 'AdminEvents',
     component: loadView('admin/events/AdminEvents'),
   },
+  {
+    path: '/admin/events/eventTeams/:eventId',
+    name: 'EventTeams',
+    component: loadView('admin/events/EventTeams'),
+  },
 ]
