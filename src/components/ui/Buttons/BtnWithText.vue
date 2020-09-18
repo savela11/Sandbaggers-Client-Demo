@@ -26,12 +26,24 @@ button {
   background-color: transparent;
   padding: 0.2rem;
   img {
-    height: 100%;
-    width: 100%;
+    height: 20px;
+    width: 20px;
     object-fit: contain;
   }
 }
 p {
-  font-size: 0.7rem;
+  font-size: 0.6rem;
+}
+
+@media (min-width: 375px) {
+  button {
+    img {
+      height: 25px;
+      width: 25px;
+    }
+  }
+  p {
+    font-size: 0.7rem;
+  }
 }
 </style>

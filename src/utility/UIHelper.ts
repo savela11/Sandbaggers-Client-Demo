@@ -1,6 +1,6 @@
 ﻿import store from '@/store/index'
 import { ISnackBar } from '@/types/UI/SnackBar'
-import { IHeaderInfo } from '@/types/UI/UIStoreTypes'
+import { IHeader } from '@/types/UI/UIStoreTypes'
 
 export default class UIHelper {
   static async SnackBar(snackBarData?: ISnackBar): Promise<void> {
@@ -16,8 +16,8 @@ export default class UIHelper {
     await store.dispatch('uiStore/_setSnackBar', snackBarData)
   }
 
-  static async Header(headerData: IHeaderInfo): Promise<void> {
-    await store.dispatch('uiStore/_setHeader', headerData)
+  static async Header(headerInfo: IHeader): Promise<void> {
+    await store.dispatch('uiStore/_setHeader', headerInfo)
   }
 
   static async PageLoading(status: boolean): Promise<void> {

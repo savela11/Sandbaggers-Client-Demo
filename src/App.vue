@@ -1,9 +1,11 @@
 <template>
   <div class="app">
     <SnackBar v-if="this.$store.state.uiStore.snackBar.isSnackBarShowing" />
-
     <PageLoading v-if="this.$store.state.uiStore.pageLoading" />
-    <HeaderComponent v-if="IsHeaderShowing" :backgroundColor="headerColor" />
+    <div v-if="Header.isShowing">
+      <AuthHeader v-if="Header.current === 'auth'" :backgroundColor="headerColor" :title="Header.title" />
+      <MainHeader />
+    </div>
     <router-view class="routerView" />
     <div v-if="CurrentUser && IsNavBarShowing">
       <UserProfile v-if="isUserProfileShowing" :dialog="isUserProfileShowing" @closeUserProfile="openUserProfile(false)" />
@@ -15,15 +17,17 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { ICurrentUser } from '@/types/User/AuthUser'
+import { IHeader } from './types/UI/UIStoreTypes'
 
 @Component({
   name: 'App',
   components: {
-    HeaderComponent: (): Promise<object> => import('@/components/ui/Header.vue'),
-    NavBar: (): Promise<object> => import('@/components/navigation/NavBar.vue'),
-    UserProfile: (): Promise<object> => import('@/components/navigation/UserProfile.vue'),
-    SnackBar: (): Promise<object> => import('@/components/ui/SnackBar.vue'),
-    PageLoading: (): Promise<object> => import('@/components/ui/PageLoading.vue'),
+    MainHeader: (): Promise<typeof import('*.vue')> => import('@/components/ui/Headers/MainHeader.vue'),
+    AuthHeader: (): Promise<typeof import('*.vue')> => import('@/components/ui/Headers/AuthHeader.vue'),
+    NavBar: (): Promise<typeof import('*.vue')> => import('@/components/navigation/NavBar.vue'),
+    UserProfile: (): Promise<typeof import('*.vue')> => import('@/components/navigation/UserProfile.vue'),
+    SnackBar: (): Promise<typeof import('*.vue')> => import('@/components/ui/SnackBar.vue'),
+    PageLoading: (): Promise<typeof import('*.vue')> => import('@/components/ui/PageLoading.vue'),
   },
 })
 export default class App extends Vue {
@@ -40,12 +44,12 @@ export default class App extends Vue {
     }
   }
 
-  get IsNavBarShowing(): boolean {
-    return this.$store.getters['uiStore/IsNavBarShowing']
+  get Header(): IHeader {
+    return this.$store.getters['uiStore/Header']
   }
 
-  get IsHeaderShowing(): boolean {
-    return this.$store.getters['uiStore/IsHeaderShowing']
+  get IsNavBarShowing(): boolean {
+    return this.$store.getters['uiStore/IsNavBarShowing']
   }
 
   get CurrentUser(): ICurrentUser {

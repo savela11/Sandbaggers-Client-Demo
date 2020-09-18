@@ -84,53 +84,12 @@
       </div>
     </div>
     <!--    RESULTS VIEW-->
-    <div v-if="!loading && view === 'Results' && selectedEvent" class="resultsView">
-      <div class="viewButtons">
-        <button v-for="resultView in resultsView.viewButtons" :key="resultView" :class="{ active: resultsView.currentView === resultView }">{{ resultView }}</button>
-      </div>
-      <div class="currentChamps section">
-        <div>
-          <h3>Current Scramble Champs?</h3>
-          <button
-            :class="{ activeChamps: selectedEvent.eventResults.isActive === true }"
-            @click="toggleActiveScrambleChamps(true)"
-            class="btn btn--xs btn--borderBottom btn--borderBlue"
-          >
-            Yes
-          </button>
-          <button
-            :class="{ notActiveChamps: selectedEvent.eventResults.isActive === false }"
-            @click="toggleActiveScrambleChamps(false)"
-            class="btn btn--xs btn--borderBottom btn--borderBlue"
-          >
-            No
-          </button>
-        </div>
-
-        <div class="champList">
-          <div v-for="champ in selectedEvent.eventResults.scrambleChamps" :key="champ.userId" class="champ">
-            <div class="imgContainer">
-              <img :src="setScrambleChampProfileImage(champ.image)" :alt="champ.name + 'Profile picture.'" />
-            </div>
-            <p>{{ champ.fullName }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="registeredUsers section">
-        <h3>Registered Sandbaggers</h3>
-        <div class="list">
-          <div class="user" v-for="user in selectedEvent.registeredUsers" :key="user.id">
-            <div>
-              <p>{{ user.fullName }}</p>
-            </div>
-            <div>
-              <label class="hideLabel" for="user">{{ user.fullName }}</label>
-              <input type="checkbox" id="user" v-model="user.isCurrentChamp" @change="updateScrambleChamp(user)" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <ResultsView
+      v-if="!loading && view === 'Results' && selectedEvent"
+      :selectedEvent="selectedEvent"
+      @updateScrambleChamp="updateScrambleChamp"
+      @toggleActiveScrambleChamps="toggleActiveScrambleChamps"
+    />
     <!--    TOGGLE VIEWS-->
     <div class="changeViewButton" v-if="selectedEvent && !isEditMode">
       <button id="resultsBTN" v-if="view === 'Events'" class="btn btn--circle btn--borderBlue btn--borderBottom" @click="toggleView('Results')">Results</button>
@@ -158,6 +117,7 @@ import UIHelper from '@/utility/UIHelper'
     Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
     AddEvent: (): Promise<object> => import('@/components/admin/event/AddEvent.vue'),
     Teams: (): Promise<object> => import('@/components/admin/event/Teams.vue'),
+    ResultsView: (): Promise<object> => import('@/components/admin/event/ResultsView.vue'),
   },
 })
 export default class AdminEvents extends Vue {
@@ -169,10 +129,7 @@ export default class AdminEvents extends Vue {
   isEditMode = false
   view = 'Events'
 
-  resultsView = {
-    currentView: 'Scramble Champs',
-    viewButtons: ['Scramble Champs', 'Teams'],
-  }
+  resultsView = {}
 
   mounted(): void {
     this.getEvents()
@@ -289,7 +246,19 @@ export default class AdminEvents extends Vue {
   async toggleActiveScrambleChamps(status: boolean): Promise<void> {
     if (this.selectedEvent && this.selectedEvent.eventResults) {
       this.selectedEvent.eventResults.isActive = status
-      await EventResultsService.UpdateEventResults(this.selectedEvent.eventResults as IEventResults)
+      const res = await EventResultsService.UpdateEventResults(this.selectedEvent.eventResults as IEventResults)
+
+      if (res.status === 200) {
+        let snackBarMessage
+        if (status) {
+          const champNames = this.selectedEvent.eventResults.scrambleChamps.map((champ) => champ.fullName + ',')
+          snackBarMessage = `Active Scramble Champs have been set to ${champNames}`
+        } else {
+          snackBarMessage = ``
+        }
+
+        await UIHelper.SnackBar({ isSnackBarShowing: true, title: 'Scramble Champ Status Updated!', message: snackBarMessage, class: 'primary' })
+      }
     } else {
       return
     }
@@ -339,14 +308,6 @@ export default class AdminEvents extends Vue {
           class: 'error',
         })
       }
-    }
-  }
-
-  setScrambleChampProfileImage(img: string | null): string {
-    if (img === null) {
-      return require('@/assets/SBLogo.png')
-    } else {
-      return img
     }
   }
 }
@@ -440,6 +401,11 @@ export default class AdminEvents extends Vue {
       text-decoration: underline;
     }
 
+    h4 {
+      font-size: 0.8rem;
+      font-weight: normal;
+    }
+
     .location {
       .flexField {
         display: flex;
@@ -486,109 +452,6 @@ export default class AdminEvents extends Vue {
   }
 
   .eventsView {
-  }
-
-  .resultsView {
-    h2 {
-      font-size: 1.2rem;
-      color: $DarkBlue;
-    }
-
-    h3 {
-      font-size: 0.8rem;
-    }
-
-    .section {
-      margin: 0 0 1rem 0;
-    }
-    .viewButtons {
-      overflow-x: auto;
-      overflow-y: hidden;
-      white-space: nowrap;
-      padding: 0.2rem;
-      margin: 0 0 1rem 0;
-
-      button {
-        margin-right: 0.5rem;
-        display: inline-block;
-        height: 30px;
-        min-width: 75px;
-        font-size: 0.8rem;
-        padding: 0.3rem 0.8rem;
-        border: none;
-        border-bottom: 2px solid $DarkBlue;
-
-        &.active {
-          background-color: $DarkBlue;
-          color: white;
-        }
-
-        &:last-child {
-          margin: 0;
-        }
-      }
-    }
-
-    .currentChamps {
-      button {
-        margin: 0.5rem 0.3rem 0 0;
-
-        &:last-child {
-          margin-right: 0;
-        }
-
-        &.activeChamps {
-          background-color: $DarkBlue;
-          color: white;
-        }
-
-        &.notActiveChamps {
-          background-color: $danger;
-          border-bottom: 1px solid $danger;
-          color: white;
-        }
-      }
-
-      .champList {
-        margin: 1rem 0;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-
-        .champ {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-
-          padding: 0.2rem;
-          .imgContainer {
-            img {
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-            }
-          }
-          p {
-            font-size: 0.7rem;
-          }
-        }
-      }
-    }
-
-    .registeredUsers {
-      .list {
-        margin-top: 0.4rem;
-        min-height: 250px;
-        border-radius: 5px;
-        .user {
-          box-shadow: 3px 3px 3px grey;
-          padding: 0.5rem 0.5rem;
-          border-radius: 5px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-      }
-    }
   }
 
   .changeViewButton {

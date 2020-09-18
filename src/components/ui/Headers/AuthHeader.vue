@@ -27,7 +27,7 @@
         </svg>
       </div>
       <div class="heading__title">
-        <h1>{{ headerTitle }}</h1>
+        <h1>{{ title }}</h1>
       </div>
     </div>
     <div class="heading__smallText">
@@ -41,14 +41,9 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 @Component({ name: 'Header' })
 export default class HelloWorld extends Vue {
   @Prop({ default: 'Sandbaggers' }) private smallText: string | undefined
-
+  @Prop({ default: 'Default' }) private title!: string
   @Prop({ default: '#425a41' }) private backgroundColor: string | undefined
-
   @Prop() private fontSize: string | undefined
-
-  get headerTitle(): string {
-    return this.$store.getters['uiStore/HeaderTitle']
-  }
 }
 </script>
 
@@ -60,7 +55,6 @@ export default class HelloWorld extends Vue {
     padding: 0.8rem 0.8rem 0.8rem 1.5rem;
     background-color: $DarkGreen;
     position: relative;
-    //height: 100%;
     min-height: 150px;
     width: 90%;
     border-bottom-right-radius: 25px;

@@ -29,7 +29,7 @@
     <div class="ideas__list">
       <div class="idea" v-for="idea in Ideas" :key="idea.id" :class="{ autoHeight: showDescriptionById === idea.id }">
         <div class="idea__section">
-          <h2>{{ formatLongString(idea.title, 30) }}</h2>
+          <h2>{{ longString(idea.title, 30) }}</h2>
           <p class="text--grey text--sm nowrap">{{ formatDate(idea.updatedOn) }}</p>
         </div>
         <div class="idea__createdBy idea__section">
@@ -56,7 +56,10 @@ import FormatMixins from '@/mixins/FormatMixins.vue'
 
 @Component({
   name: 'Ideas',
-  components: { Modal: () => import('../components/ui/Modals/Modal.vue'), Loading: (): Promise<object> => import('@/components/ui/Loading.vue') },
+  components: {
+    Modal: (): Promise<typeof import('*.vue')> => import('../components/ui/Modals/Modal.vue'),
+    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
+  },
   mixins: [FormatMixins],
 })
 export default class Ideas extends Vue {
@@ -74,8 +77,10 @@ export default class Ideas extends Vue {
 
     this.$store.dispatch('uiStore/_setHeaderTitle', 'Ideas')
   }
-
-  toggleAddIdea(status: boolean) {
+  longString(str: string, num: number): string {
+    return Helper.formatLongString(str, num)
+  }
+  toggleAddIdea(status: boolean): void {
     this.isAddingIdea = status
 
     if (status) {
@@ -107,9 +112,10 @@ export default class Ideas extends Vue {
     }
   }
 
-  toggleShowDescription(id: number) {
+  toggleShowDescription(id: number): void {
     if (this.showDescriptionById === id) {
-      return (this.showDescriptionById = null)
+      this.showDescriptionById = null
+      return
     }
 
     this.showDescriptionById = id
@@ -166,8 +172,6 @@ export default class Ideas extends Vue {
         }
       }
 
-      &__createdBy {
-      }
       &__description {
         overflow: hidden;
         opacity: 0;

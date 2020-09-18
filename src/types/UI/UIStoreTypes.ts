@@ -1,11 +1,10 @@
 ﻿import { ISnackBar } from '@/types/UI/SnackBar'
 
 export interface IUIState {
-  headerTitle: string | null
+  header: IHeader
   dataLoading: boolean
   pageLoading: boolean
   isNavBarShowing: boolean
-  isHeaderShowing: boolean
   snackBar: ISnackBar
   deviceSize: string
 }
@@ -15,7 +14,8 @@ export interface IPageLoadStatus {
   timeout: number | null
 }
 
-export interface IHeaderInfo {
-  isHeaderShowing: boolean
-  title: string | null
+export interface IHeader {
+  current: string
+  title: string
+  isShowing: boolean
 }

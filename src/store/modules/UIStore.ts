@@ -1,14 +1,18 @@
 ﻿import { IRootState } from '@/store'
 import { ActionContext } from 'vuex'
-import { IHeaderInfo, IUIState } from '@/types/UI/UIStoreTypes'
+import { IHeader, IUIState } from '@/types/UI/UIStoreTypes'
 import { ISnackBar } from '@/types/UI/SnackBar'
 
 const state: IUIState = {
-  headerTitle: null,
+  header: {
+    current: '',
+    title: 'Test',
+    isShowing: true,
+  },
+
   dataLoading: false,
   pageLoading: false,
   isNavBarShowing: true,
-  isHeaderShowing: true,
   snackBar: {
     title: '',
     message: '',
@@ -20,25 +24,26 @@ const state: IUIState = {
 }
 
 const getters = {
-  HeaderTitle: (state: IUIState): string | null => state.headerTitle,
+  Header: (state: IUIState): IHeader => state.header,
   IsNavBarShowing: (state: IUIState): boolean => state.isNavBarShowing,
-  IsHeaderShowing: (state: IUIState): boolean => state.isHeaderShowing,
   SnackBarClass: (state: IUIState): string | undefined => state.snackBar.class,
   DataLoadingStatus: (state: IUIState): boolean => state.dataLoading,
 }
 
 const mutations = {
-  SetHeader(state: IUIState, headerInfo: IHeaderInfo): void {
-    if (headerInfo.isHeaderShowing) {
-      state.isHeaderShowing = true
-      state.headerTitle = headerInfo.title
+  SetHeader(state: IUIState, headerInfo: IHeader): void {
+    if (headerInfo.isShowing) {
+      state.header.isShowing = true
+      state.header.title = headerInfo.title
+      state.header.current = headerInfo.current
     } else {
-      state.isHeaderShowing = false
-      state.headerTitle = null
+      state.header.isShowing = false
+      state.header.title = ''
+      state.header.current = ''
     }
   },
   SetHeaderTitle(state: IUIState, title: string): void {
-    state.headerTitle = title
+    state.header.title = title
   },
 
   SetPageLoadingStatus(state: IUIState, loadingStatus: boolean): void {
@@ -65,7 +70,7 @@ const mutations = {
   },
 
   SetHeaderShowingStatus(state: IUIState, showingStatus: boolean): void {
-    state.isHeaderShowing = showingStatus
+    state.header.isShowing = showingStatus
   },
 
   SetSnackBar(state: IUIState, snackBar: ISnackBar): void {
@@ -101,12 +106,15 @@ const mutations = {
 }
 
 const actions = {
-  _setHeader(context: ActionContext<IUIState, IRootState>, headerInfo: IHeaderInfo): void {
+  _setHeader(context: ActionContext<IUIState, IRootState>, headerInfo: IHeader): void {
     context.commit('SetHeader', headerInfo)
   },
 
   _setHeaderTitle(context: ActionContext<IUIState, IRootState>, title: string): void {
     context.commit('SetHeaderTitle', title)
+  },
+  _setHeaderShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean): void {
+    context.commit('SetHeaderShowingStatus', showingStatus)
   },
 
   _setDataLoading(context: ActionContext<IUIState, IRootState>, dataLoadingStatus: boolean): void {
@@ -119,9 +127,6 @@ const actions = {
 
   _setNavBarShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean): void {
     context.commit('SetNavBarShowingStatus', showingStatus)
-  },
-  _setHeaderShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean): void {
-    context.commit('SetHeaderShowingStatus', showingStatus)
   },
 
   _setSnackBar(context: ActionContext<IUIState, IRootState>, snackBar: ISnackBar): void {

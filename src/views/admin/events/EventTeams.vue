@@ -1,6 +1,6 @@
 ﻿<template>
   <div class="eventTeams">
-    <div class="top" v-if="!isAddingTeam">
+    <div class="topPage" v-if="!isAddingTeam">
       <div class="container">
         <button @click="backOne" class="back"><img src="@/assets/icons/backArrow.svg" alt="Back Button" /></button>
         <p>Back</p>
@@ -26,8 +26,8 @@
 
     <div class="teamList" v-if="!isAddingTeam && !loading">
       <div class="team" :style="`borderRight: 3px solid ${teamColor(team.name)}`" v-for="team in teams" :key="team.teamId">
-        <div class="flex flex--between">
-          <div class="flex nameWithForm">
+        <div class="top">
+          <div class="nameWithForm">
             <h2>Team</h2>
             <p :style="`color: ${teamColor(team.name)}`" v-if="editTeamId !== team.teamId">{{ team.name }}</p>
             <form class="editTeamName" v-if="editTeamId === team.teamId">
@@ -35,27 +35,20 @@
               <input type="text" id="cTeam" v-model="team.name" />
             </form>
           </div>
-          <div :class="flexDirection" class="buttons">
-            <BtnWithText v-if="editTeamId !== team.teamId" @click="editTeam(team.teamId)" v-bind="{ img: 'editPencil', altText: 'Edit Team Button', text: 'Edit' }" />
-            <BtnWithText class="cancelButton" v-if="editTeamId === team.teamId" @click="editTeamId = null" v-bind="{ img: 'cancel', altText: 'Cancel Button', text: 'Cancel' }" />
-            <BtnWithText v-if="editTeamId === team.teamId" @click="updateTeamInfo(team)" v-bind="{ img: 'cloudSave', altText: 'Save Button', text: 'Save' }" />
-
-            <!--            <div class="flex flex&#45;&#45;column flex&#45;&#45;iCenter">-->
-            <!--              <button @click="editTeam(team.teamId)">-->
-            <!--                <img src="@/assets/icons/editPencil.svg" alt="Edit Team Button" />-->
-            <!--              </button>-->
-            <!--              <p>Edit</p>-->
-            <!--            </div>-->
-            <!--            <div v-if="editTeamId === team.teamId" class="flex flex&#45;&#45;column flex&#45;&#45;iCenter">-->
-            <!--              <button @click="editTeamId = null">-->
-            <!--                <img src="@/assets/icons/cancel.svg" alt="Cancel Button" />-->
-            <!--              </button>-->
-            <!--              <p>Cancel</p>-->
-            <!--            </div>-->
-            <!--            <div v-if="editTeamId === team.teamId" class="flex flex&#45;&#45;column flex&#45;&#45;iCenter">-->
-            <!--              <button @click="editTeam(team.teamId)"><img src="@/assets/icons/cloudSave.svg" alt="Save Button" /></button>-->
-            <!--              <p>Save</p>-->
-            <!--            </div>-->
+          <div class="buttons">
+            <BtnWithText
+              class="button"
+              v-if="editTeamId !== team.teamId"
+              @click="editTeam(team.teamId)"
+              v-bind="{ img: 'editPencil', altText: 'Edit Team Button', text: 'Edit' }"
+            />
+            <BtnWithText
+              class="button button--cancel"
+              v-if="editTeamId === team.teamId"
+              @click="editTeamId = null"
+              v-bind="{ img: 'cancel', altText: 'Cancel Button', text: 'Cancel' }"
+            />
+            <BtnWithText class="button" v-if="editTeamId === team.teamId" @click="updateTeamInfo(team)" v-bind="{ img: 'cloudSave', altText: 'Save Button', text: 'Save' }" />
           </div>
         </div>
       </div>
@@ -170,7 +163,7 @@ export default class EventTeams extends Vue {
 
 <style scoped lang="scss">
 .eventTeams {
-  .top {
+  .topPage {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -210,7 +203,6 @@ export default class EventTeams extends Vue {
 
   .teamList {
     margin-top: 2rem;
-    padding: 0.5rem;
 
     .team {
       box-shadow: 5px 5px 5px lightgrey;
@@ -224,35 +216,28 @@ export default class EventTeams extends Vue {
         font-weight: normal;
       }
 
-      .nameWithForm {
-        p {
-          font-weight: bold;
-        }
-      }
-
-      &.red {
-        border-right: 3px solid red;
-
-        p {
-          color: red;
-        }
-      }
-
-      .buttons {
-        &.flex--column {
-          .cancelButton {
-            margin-bottom: 0.3rem;
+      .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .nameWithForm {
+          display: flex;
+          align-items: center;
+          p {
+            font-size: 1rem;
+            font-weight: bold;
           }
         }
+        .buttons {
+          display: flex;
+          flex-direction: row;
 
-        &.flex--row {
-          .cancelButton {
-            margin-right: 0.3rem;
+          .button {
+            &--cancel {
+              margin: 0 0.3rem 0 0;
+            }
           }
         }
-      }
-
-      .nameWithForm {
       }
 
       .editSave {
@@ -274,6 +259,73 @@ export default class EventTeams extends Vue {
           background-color: lightgrey;
           color: $DarkBlue;
           font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 375px) {
+  .eventTeams {
+    .topPage {
+      p {
+      }
+
+      button {
+        img {
+        }
+      }
+
+      .container {
+      }
+    }
+
+    .addEventTeam {
+      .btnContainer {
+        button:first-child {
+        }
+      }
+    }
+
+    .teamList {
+      .team {
+        h2 {
+        }
+
+        .top {
+          .nameWithForm {
+            p {
+            }
+          }
+          .buttons {
+            .button {
+              &--cancel {
+                margin: 0 1rem 0 0;
+              }
+            }
+          }
+        }
+
+        .editSave {
+          p {
+            color: grey;
+            font-size: 0.6rem;
+          }
+        }
+
+        .editTeamName {
+          margin: 0 0.3rem;
+
+          input {
+            border: none;
+            border-bottom: 1px solid grey;
+            padding: 0.3rem 0.5rem;
+            font-size: 0.8rem;
+            border-radius: 3px;
+            background-color: lightgrey;
+            color: $DarkBlue;
+            font-weight: bold;
+          }
         }
       }
     }

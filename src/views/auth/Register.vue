@@ -45,6 +45,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { IRegisterUser } from '@/types/User/AuthUser'
 import AuthService from '../../services/AuthService'
 import { ISnackBar } from '@/types/UI/SnackBar'
+import UIHelper from '@/utility/UIHelper'
 
 @Component({ name: 'Register', components: { Loading: (): Promise<object> => import('@/components/ui/Loading.vue') } })
 export default class Login extends Vue {
@@ -64,7 +65,7 @@ export default class Login extends Vue {
   showPassword = false
   showConfirmPassword = false
   mounted(): void {
-    this.$store.dispatch('uiStore/_setHeaderTitle', 'Register')
+    UIHelper.Header({ isShowing: true, title: 'Register', current: 'auth' })
   }
 
   async onSubmit(): Promise<void> {
