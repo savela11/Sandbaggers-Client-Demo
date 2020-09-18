@@ -85,7 +85,7 @@ export default class EventTeams extends Vue {
   mounted(): void {
     this.eventId = this.$route.params.eventId
     this.eventTeams()
-    UIHelper.Header({ title: 'Teams', isHeaderShowing: true })
+    UIHelper.Header({ title: 'Teams', isShowing: true })
     window.addEventListener('resize', this.handleFlexDirection)
     this.handleFlexDirection()
   }
@@ -267,36 +267,9 @@ export default class EventTeams extends Vue {
 
 @media (min-width: 375px) {
   .eventTeams {
-    .topPage {
-      p {
-      }
-
-      button {
-        img {
-        }
-      }
-
-      .container {
-      }
-    }
-
-    .addEventTeam {
-      .btnContainer {
-        button:first-child {
-        }
-      }
-    }
-
     .teamList {
       .team {
-        h2 {
-        }
-
         .top {
-          .nameWithForm {
-            p {
-            }
-          }
           .buttons {
             .button {
               &--cancel {

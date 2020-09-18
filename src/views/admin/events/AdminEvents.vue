@@ -106,7 +106,6 @@ import { AddEventDto } from '@/types/Events/SandbaggerEvents'
 import Helper from '@/utility/Helper'
 import EventResultsService from '@/services/EventResultsService'
 import { IEventResults } from '@/types/Events/EventResults'
-import { IHeaderInfo } from '@/types/UI/UIStoreTypes'
 import { IScrambleChamp, ScrambleChamp } from '@/models/ScrambleChamp'
 import { AxiosResponse } from 'axios'
 import UIHelper from '@/utility/UIHelper'
@@ -133,7 +132,7 @@ export default class AdminEvents extends Vue {
 
   mounted(): void {
     this.getEvents()
-    UIHelper.Header({ title: 'Manage Events', isHeaderShowing: true })
+    UIHelper.Header({ title: 'Manage Events', isShowing: true })
   }
 
   // @Watch('selectedEvent')
@@ -166,10 +165,8 @@ export default class AdminEvents extends Vue {
       const res = await this.eventResults(this.selectedEvent.eventId)
       if (res.status === 200) {
         this.selectedEvent.eventResults = res.data
-        await this.$store.dispatch('uiStore/_setHeader', {
-          isHeaderShowing: true,
-          title: this.selectedEvent.name + ' Results',
-        } as IHeaderInfo)
+        UIHelper.Header({ title: `${this.selectedEvent.name} Results`, isShowing: true })
+
         this.checkIfScrambleChamp(res.data.scrambleChamps)
       }
     } else if (view === 'Events') {
@@ -353,8 +350,7 @@ export default class AdminEvents extends Vue {
         color: grey;
       }
     }
-    .editEventButton {
-    }
+
     select {
       font-size: 0.8rem;
       display: block;
@@ -369,9 +365,6 @@ export default class AdminEvents extends Vue {
       -webkit-appearance: none;
       appearance: none;
       background-color: #fff;
-
-      option {
-      }
     }
 
     label {
@@ -382,9 +375,6 @@ export default class AdminEvents extends Vue {
   .selectedYear {
     & > div {
       margin-bottom: 1rem;
-    }
-
-    .eventName {
     }
 
     h2 {
@@ -449,9 +439,6 @@ export default class AdminEvents extends Vue {
       display: flex;
       justify-content: flex-end;
     }
-  }
-
-  .eventsView {
   }
 
   .changeViewButton {

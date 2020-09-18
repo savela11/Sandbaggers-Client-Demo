@@ -15,7 +15,7 @@ export interface IPageLoadStatus {
 }
 
 export interface IHeader {
-  current: string
+  current?: string
   title: string
   isShowing: boolean
 }
