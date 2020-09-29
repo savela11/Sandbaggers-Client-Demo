@@ -4,6 +4,7 @@ import store from '../store/index'
 import AdminRoutes from './admin/AdminRoutes'
 import AuthErrorRoutes from './errors/AuthErrorRoutes'
 import { ICurrentUser } from '@/types/User/AuthUser'
+import UIHelper from '@/utility/UIHelper'
 
 function loadView(view: string) {
   return (): Promise<object> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`)
@@ -127,15 +128,13 @@ const router = new VueRouter({
   scrollBehavior(to, from, savedPosition) {
     return { x: 0, y: 0 }
   },
-  // scrollBehavior: (): any => {
-  //   return { x: 0, y: 0 }
-  // },
 })
 
 router.beforeEach(async (to, from, next) => {
   const currentUser: ICurrentUser = store.getters['authStore/CurrentUser']
   await store.dispatch('uiStore/_setPageLoading', true)
   if (to.name === 'Login' || to.name === 'Register') {
+    await UIHelper.Header({ current: 'auth', isShowing: true, title: to.name })
     await store.dispatch('uiStore/_setPageLoading', false)
     if (currentUser) {
       return next({ path: '/dashboard' })

@@ -1,46 +1,59 @@
 ﻿<template>
-  <div class="mainHeader">
+  <header class="mainHeader">
     <div class="mainHeader__container">
-      <div class="top">
-        <div class="sbLogo"><img src="@/assets/SBLogo.png" alt="Sandbagger Logo" /></div>
-      </div>
+      <div class="sbLogo"><img src="@/assets/SBLogo.png" alt="Sandbagger Logo" /></div>
+      <div class="profile"><img :src="currentUserImage" alt="Profile Image" /></div>
     </div>
-  </div>
+  </header>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { ICurrentUser } from '@/types/User/AuthUser'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component({ name: 'MainHeader' })
-export default class MainHeader extends Vue {}
+export default class MainHeader extends Vue {
+  @Prop() currentUser!: ICurrentUser
+
+  get currentUserImage(): string {
+    if (this.currentUser.profile.image === null) {
+      return require('@/assets/SBLogo.png')
+    } else {
+      return this.currentUser.profile.image
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
 .mainHeader {
+  box-shadow: 0 1px 6px rgba(102, 102, 102, 0.8);
+
   &__container {
-    padding: 0.5rem;
-    box-shadow: 0 1px 10px rgba(102, 102, 102, 0.8);
-    .top {
-      display: flex;
-      height: 40px;
-      justify-content: space-between;
+    padding: 0.6rem 1rem;
+    background-color: white;
+    border-bottom: 1px solid $DarkBlue;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    h1 {
+      font-size: 0.9rem;
+      font-weight: normal;
+      color: lightgrey;
+    }
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: scale-down;
+    }
+    .sbLogo {
+      width: 60px;
+      img {
+      }
+    }
 
-      h1 {
-        font-size: 0.9rem;
-        font-weight: normal;
-        color: lightgrey;
-      }
-      & > div {
-      }
-
-      .sbLogo {
-        width: 40px;
-        img {
-          height: 100%;
-          width: 100%;
-          object-fit: contain;
-        }
-      }
+    .profile {
+      width: 80px;
     }
   }
 }

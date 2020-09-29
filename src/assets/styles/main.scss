@@ -16,7 +16,9 @@ html {
   -webkit-font-variant-ligatures: none;
   text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
 }
-
+* {
+  box-sizing: border-box;
+}
 body {
   overflow-x: hidden;
   right: 0;

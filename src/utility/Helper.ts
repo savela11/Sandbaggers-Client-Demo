@@ -33,7 +33,13 @@
     return text + '...'
   }
 
-
+  static randomNumber(num: number): number {
+    let loadingTime = Math.floor(Math.random() * 4000)
+    if (loadingTime < 1000) {
+      loadingTime = loadingTime + num
+    }
+    return loadingTime
+  }
 
   // static debounce(n: number, fn: (...params: any[]) => any, immediately = false) {
   //   let timer: number | undefined = undefined

@@ -26,8 +26,6 @@ import { ILoginUser } from '@/types/User/AuthUser'
 import Helper from '@/utility/Helper'
 import { ISnackBar } from '@/types/UI/SnackBar'
 import AuthService from '@/services/AuthService'
-import { IHeader } from '@/types/UI/UIStoreTypes'
-import UIHelper from '@/utility/UIHelper'
 
 @Component({
   name: 'Login',
@@ -41,9 +39,7 @@ export default class Login extends Vue {
   }
   showPassword = false
 
-  mounted(): void {
-    UIHelper.Header({ isShowing: true, title: 'Login', current: 'auth' })
-  }
+  mounted(): void {}
 
   get DataLoading(): boolean {
     return this.$store.getters['uiStore/DataLoadingStatus']

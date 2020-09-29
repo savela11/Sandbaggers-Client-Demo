@@ -59,6 +59,8 @@ import { SandbaggerWithHandicap } from '@/types/DashboardTypes'
 import EventResultsService from '@/services/EventResultsService'
 import UsersService from '@/services/UsersService'
 import { IScrambleChamp } from '@/models/ScrambleChamp'
+import UIHelper from '@/utility/UIHelper'
+import Helper from '@/utility/Helper'
 
 @Component({
   name: 'Dashboard',
@@ -77,7 +79,7 @@ export default class Dashboard extends Vue {
   searchInput = ''
 
   mounted(): void {
-    this.$store.dispatch('uiStore/_setHeaderTitle', 'Dashboard')
+    UIHelper.Header({ title: 'Dashboard', isShowing: true, current: 'main' })
     this.getUsers()
   }
 
@@ -133,10 +135,12 @@ export default class Dashboard extends Vue {
         await this.scrambleChamps()
         await this.$store.dispatch('uiStore/_setPageLoading', false)
       }
-      this.loading = false
     } catch (e) {
       console.log(e)
-      this.loading = false
+    } finally {
+      setTimeout(() => {
+        this.loading = false
+      }, Helper.randomNumber(3000))
     }
   }
 
@@ -235,14 +239,14 @@ export default class Dashboard extends Vue {
     .searchButton {
       border: none;
       padding: 0;
-      height: 25px;
-      width: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       img {
         height: 100%;
         width: 100%;
         object-fit: contain;
-        margin-top: 0.2rem;
       }
     }
 

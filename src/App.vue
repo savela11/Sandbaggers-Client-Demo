@@ -4,12 +4,13 @@
     <PageLoading v-if="this.$store.state.uiStore.pageLoading" />
     <div v-if="Header.isShowing">
       <AuthHeader v-if="Header.current === 'auth'" :backgroundColor="headerColor" :title="Header.title" />
-      <MainHeader />
+      <MainHeader v-if="Header.current === 'main' && CurrentUser" :currentUser="CurrentUser" />
     </div>
-    <router-view class="routerView" />
-    <div v-if="CurrentUser && IsNavBarShowing">
-      <UserProfile v-if="isUserProfileShowing" :dialog="isUserProfileShowing" @closeUserProfile="openUserProfile(false)" />
-      <NavBar @openUserProfile="openUserProfile" :currentUser="CurrentUser" />
+
+    <router-view v-if="!isNavigationMenuShowing" class="routerView" />
+    <div v-if="CurrentUser">
+      <NavMenu v-if="isNavigationMenuShowing" />
+      <NavBar v-if="IsNavBarShowing" @showNavigationMenu="showNavigationMenu" :currentUser="CurrentUser" />
     </div>
   </div>
 </template>
@@ -25,6 +26,7 @@ import { IHeader } from './types/UI/UIStoreTypes'
     MainHeader: (): Promise<typeof import('*.vue')> => import('@/components/ui/Headers/MainHeader.vue'),
     AuthHeader: (): Promise<typeof import('*.vue')> => import('@/components/ui/Headers/AuthHeader.vue'),
     NavBar: (): Promise<typeof import('*.vue')> => import('@/components/navigation/NavBar.vue'),
+    NavMenu: (): Promise<typeof import('*.vue')> => import('@/components/navigation/NavMenu.vue'),
     UserProfile: (): Promise<typeof import('*.vue')> => import('@/components/navigation/UserProfile.vue'),
     SnackBar: (): Promise<typeof import('*.vue')> => import('@/components/ui/SnackBar.vue'),
     PageLoading: (): Promise<typeof import('*.vue')> => import('@/components/ui/PageLoading.vue'),
@@ -32,6 +34,7 @@ import { IHeader } from './types/UI/UIStoreTypes'
 })
 export default class App extends Vue {
   isUserProfileShowing = false
+  isNavigationMenuShowing = false
   message = ''
 
   created(): void {}
@@ -54,6 +57,10 @@ export default class App extends Vue {
 
   get CurrentUser(): ICurrentUser {
     return this.$store.getters['authStore/CurrentUser']
+  }
+
+  showNavigationMenu(status: boolean): void {
+    this.isNavigationMenuShowing = status
   }
 
   openUserProfile(status: boolean): void {
