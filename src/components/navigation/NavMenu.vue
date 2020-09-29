@@ -42,7 +42,6 @@ export default class NavMenu extends Vue {
     grid-template-columns: 1fr 1fr;
 
     li {
-
     }
   }
 }
