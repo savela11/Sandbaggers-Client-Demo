@@ -1,9 +1,13 @@
 <template>
   <div class="nav">
     <div class="nav__bar">
-      <div><button id="logoutBTN" @click="logout">Logout</button></div>
+      <div class="nav__bar--favorites">
+        <button>fav1</button>
+        <button>fav2</button>
+        <button>fav3</button>
+      </div>
       <div class="nav__bar--menu">
-        <button @click="showNavigationMenu"><img src="@/assets/icons/bottomBar-menu.svg" alt="menu" /></button>
+        <button @click="toggleNavMenu"><img src="@/assets/icons/bottomBar-menu.svg" alt="menu" /></button>
       </div>
     </div>
   </div>
@@ -11,30 +15,23 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
-import { IUserLink, IAdminLink } from '@/types/Navigation/INavBar'
 import { ICurrentUser } from '@/types/User/AuthUser'
 import Helper from '@/utility/Helper'
 
 @Component
 export default class Navigation extends Vue {
   @Prop() currentUser!: ICurrentUser
+  @Prop() isNavMenuShowing!: boolean
   activeBtn = 1
-  isNavigationMenuShowing = false
 
   activeAdminLink = 'Admin Dashboard'
-  adminLinks: IAdminLink[] = [
-    { name: 'Admin Dashboard', link: '/admin', icon: 'golf' },
-    { name: 'Roles', link: '/admin/roles', icon: 'golf' },
-    { name: 'Events', link: '/admin/events', icon: 'golf' },
-  ]
   show = false
 
   top = false
 
-  @Emit('showNavigationMenu')
-  showNavigationMenu(): boolean {
-    this.isNavigationMenuShowing = !this.isNavigationMenuShowing
-    return this.isNavigationMenuShowing
+  @Emit('toggleNavMenu')
+  toggleNavMenu(): boolean {
+    return !this.isNavMenuShowing
   }
 
   toAdminPage(): void {
@@ -66,7 +63,20 @@ export default class Navigation extends Vue {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 1.5rem;
+    padding: 0.2rem 1.5rem;
+
+    button {
+      border: none;
+      background-color: transparent;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+      }
+    }
 
     &--menu {
       width: 60px;
@@ -85,16 +95,13 @@ export default class Navigation extends Vue {
         background-color: #17252a;
       }
     }
-    button {
-      border: none;
-      padding: 0.1rem;
-      background-color: transparent;
-      width: 40px;
-      img {
-        object-fit: cover;
-        height: 100%;
-        width: 100%;
-      }
+
+    &--favorites {
+      flex: 1 1 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem 0 0;
     }
   }
 }

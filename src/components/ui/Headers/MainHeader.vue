@@ -2,7 +2,7 @@
   <header class="mainHeader">
     <div class="mainHeader__container">
       <div class="sbLogo"><img src="@/assets/SBLogo.png" alt="Sandbagger Logo" /></div>
-      <div class="profile"><img :src="currentUserImage" alt="Profile Image" /></div>
+      <router-link to="/UserProfile" class="profile"><img :src="currentUserImage" alt="Profile Image" /></router-link>
     </div>
   </header>
 </template>
@@ -17,7 +17,7 @@ export default class MainHeader extends Vue {
 
   get currentUserImage(): string {
     if (this.currentUser.profile.image === null) {
-      return require('@/assets/SBLogo.png')
+      return require('@/assets/icons/avatar.svg')
     } else {
       return this.currentUser.profile.image
     }
@@ -48,12 +48,11 @@ export default class MainHeader extends Vue {
     }
     .sbLogo {
       width: 60px;
-      img {
-      }
     }
 
     .profile {
       width: 80px;
+      height: 80px;
     }
   }
 }

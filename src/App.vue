@@ -9,8 +9,8 @@
 
     <router-view v-if="!isNavigationMenuShowing" class="routerView" />
     <div v-if="CurrentUser">
-      <NavMenu v-if="isNavigationMenuShowing" />
-      <NavBar v-if="IsNavBarShowing" @showNavigationMenu="showNavigationMenu" :currentUser="CurrentUser" />
+      <NavMenu v-if="isNavigationMenuShowing" :isAdmin="CurrentUser.roles.includes('Admin')" @closeNavMenu="toggleNavigationMenu" />
+      <NavBar v-if="IsNavBarShowing" @toggleNavMenu="toggleNavigationMenu" :isNavMenuShowing="isNavigationMenuShowing" :currentUser="CurrentUser" />
     </div>
   </div>
 </template>
@@ -37,8 +37,6 @@ export default class App extends Vue {
   isNavigationMenuShowing = false
   message = ''
 
-  created(): void {}
-
   get headerColor(): string {
     if (this.$route.path.startsWith('/admin')) {
       return '#17252a'
@@ -59,7 +57,7 @@ export default class App extends Vue {
     return this.$store.getters['authStore/CurrentUser']
   }
 
-  showNavigationMenu(status: boolean): void {
+  toggleNavigationMenu(status: boolean): void {
     this.isNavigationMenuShowing = status
   }
 

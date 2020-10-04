@@ -47,6 +47,15 @@ const routes: Array<RouteConfig> = [
     component: loadView('auth/Login'),
   },
   {
+    path: '/userProfile',
+    name: 'UserProfile',
+    component: loadView('UserProfile'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+
+  {
     path: '/dashboard',
     name: 'Dashboard',
     component: loadView('Dashboard'),
