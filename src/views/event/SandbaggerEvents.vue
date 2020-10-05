@@ -160,8 +160,6 @@ export default class SandbaggerEvents extends Vue {
 
 <style scoped lang="scss">
 .sandbaggerEvents {
-  padding: 0.5rem 1rem;
-
   .registeredModal {
     position: fixed;
     top: 0;

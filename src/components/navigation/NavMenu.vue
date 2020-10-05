@@ -68,7 +68,7 @@ export default class NavMenu extends Vue {
 
 <style scoped lang="scss">
 .navMenu {
-  padding: 1rem;
+  padding: 2rem 1rem;
 
   .adminButtons {
     display: flex;

@@ -80,7 +80,7 @@ export default class App extends Vue {
 <style lang="scss">
 .app {
   .routerView {
-    padding: 1rem;
+    padding: 2rem 1rem;
   }
 }
 </style>

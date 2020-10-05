@@ -159,8 +159,6 @@ export default class Dashboard extends Vue {
 
 <style scoped lang="scss">
 .dashboard {
-  padding: 1rem;
-
   .scrambleChamps {
     margin-bottom: 1rem;
 

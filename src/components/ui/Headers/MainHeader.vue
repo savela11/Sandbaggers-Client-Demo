@@ -2,7 +2,9 @@
   <header class="mainHeader">
     <div class="mainHeader__container">
       <div class="sbLogo"><img src="@/assets/SBLogo.png" alt="Sandbagger Logo" /></div>
-      <router-link to="/UserProfile" class="profile"><img :src="currentUserImage" alt="Profile Image" /></router-link>
+      <div class="profile">
+        <router-link to="/UserProfile"><img :src="currentUserImage" alt="Profile Image" /></router-link>
+      </div>
     </div>
   </header>
 </template>
@@ -30,7 +32,8 @@ export default class MainHeader extends Vue {
   box-shadow: 0 1px 6px rgba(102, 102, 102, 0.8);
 
   &__container {
-    padding: 0.6rem 1rem;
+    position: relative;
+    padding: 0.4rem 1rem;
     background-color: white;
     border-bottom: 1px solid $DarkBlue;
     height: 60px;
@@ -44,15 +47,31 @@ export default class MainHeader extends Vue {
     img {
       height: 100%;
       width: 100%;
-      object-fit: scale-down;
+      object-fit: contain;
     }
     .sbLogo {
       width: 60px;
     }
 
     .profile {
-      width: 80px;
-      height: 80px;
+      position: relative;
+      transform: translateY(5px);
+      width: 60px;
+      height: 60px;
+      padding: 0.3rem;
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 3px 5px rgba(102, 102, 102, 0.5);
+      a {
+        display: block;
+        height: 100%;
+        width: 100%;
+
+        img {
+          object-fit: cover;
+          border-radius: 3px;
+        }
+      }
     }
   }
 }
