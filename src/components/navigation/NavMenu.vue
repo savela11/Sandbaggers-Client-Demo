@@ -24,7 +24,7 @@
     </nav>
     <div class="extra">
       <div>
-        <button class="btn btn--xs btn--borderRed">Logout</button>
+        <button id="logoutBTN" @click="logout" class="btn btn--xs btn--borderRed">Logout</button>
       </div>
     </div>
   </div>
@@ -33,6 +33,7 @@
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import { IAdminLink, IUserLink } from '@/types/Navigation/INavBar'
+import Helper from '@/utility/Helper'
 
 @Component({ name: 'NavMenu' })
 export default class NavMenu extends Vue {
@@ -55,7 +56,11 @@ export default class NavMenu extends Vue {
   closeNavMenu(): boolean {
     return false
   }
+  logout(): void {
+    Helper.clickedButton('logoutBTN')
 
+    this.$store.dispatch('authStore/Logout')
+  }
   userLinkImg(iconName: string): string {
     return require('@/assets/icons/' + iconName + '.svg')
   }

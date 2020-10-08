@@ -7,6 +7,6 @@
     "\\src\\views\\admin\\role",
     "\\src\\views\\auth"
   ],
-  "SelectedNode": "\\src\\types",
+  "SelectedNode": "\\src\\views\\Dashboard.vue",
   "PreviewInSolutionExplorer": false
 }

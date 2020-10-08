@@ -1,4 +1,4 @@
-﻿﻿<template>
+﻿<template>
   <div class="betsView">
     <div class="bet" v-for="bet in Bets" :key="bet.betId">
       <div class="bet__title">
@@ -36,7 +36,7 @@ export default class BetsView extends Vue {
   selectedBet: number | null = null
   loading = false
   isEditMode = false
-  @Prop() cUser!: ICurrentUser
+  @Prop() cUserID!: string
   Bets = [] as IBetDto[]
   textAreaHeight = '0'
   mounted(): void {
@@ -110,7 +110,7 @@ export default class BetsView extends Vue {
   async getUserBets(): Promise<void> {
     this.loading = true
     try {
-      const res = await BetService.GetUserBets(this.cUser.id)
+      const res = await BetService.GetUserBets(this.cUserID)
       this.Bets = res.data
       this.loading = false
     } catch (error) {

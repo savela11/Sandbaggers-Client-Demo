@@ -26,8 +26,13 @@ export interface IUserProfile {
 
 export interface IUserSettings {
   updateHandicapOnLogin: boolean
+  favoriteLinks: IFavoriteLink[]
 }
 
+export interface IFavoriteLink {
+  name: string
+  link: string
+}
 export interface IHandicapHistory {
   handicap: number
   date: string

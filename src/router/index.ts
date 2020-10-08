@@ -115,8 +115,10 @@ const routes: Array<RouteConfig> = [
     path: '/powerRankings',
     name: 'PowerRankings',
     component: loadView('PowerRankings'),
+
     meta: {
       requiresAuth: true,
+      canFavorite: true,
     },
   },
 
@@ -147,25 +149,23 @@ router.beforeEach(async (to, from, next) => {
     await store.dispatch('uiStore/_setPageLoading', false)
     if (currentUser) {
       return next({ path: '/dashboard' })
-    }
-  }
-  if (to.meta.requiresAuth) {
-    if (currentUser === null) {
-      await store.dispatch('authStore/LogoutWithError', { title: 'Session Expired', message: 'You must re-login.' })
-      await store.dispatch('uiStore/_setPageLoading', false)
-      return next({ path: '/login' })
     } else {
-      await store.dispatch('uiStore/_setPageLoading', false)
       return next()
     }
   }
-  if (to.path.startsWith('/admin')) {
-    if (currentUser.roles.includes('Admin')) {
-      return next()
-    } else {
-      await store.dispatch('authStore/LogoutWithError', { title: 'Authorization Error', message: 'You do not have access to admin section' })
-      return next({ path: '/login' })
-    }
+  if (to.meta.requiresAuth && currentUser !== null) {
+    await store.dispatch('uiStore/_setPageLoading', false)
+    return next()
+  } else {
+    await store.dispatch('authStore/LogoutWithError', { title: 'Session Expired', message: 'You must re-login.' })
+    await store.dispatch('uiStore/_setPageLoading', false)
+    return next({ path: '/login' })
+  }
+  if (to.path.startsWith('/admin') && currentUser.roles.includes('Admin')) {
+    return next()
+  } else {
+    await store.dispatch('authStore/LogoutWithError', { title: 'Authorization Error', message: 'You do not have access to admin section' })
+    return next({ path: '/login' })
   }
 
   return next()

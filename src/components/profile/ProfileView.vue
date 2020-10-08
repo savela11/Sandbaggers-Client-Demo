@@ -73,6 +73,12 @@ export default class ProfileView extends Vue {
       padding: 0 0 0.5rem 0;
       label {
         margin: 0 0 0.3rem 0.3rem;
+        font-size: 0.9rem;
+        font-weight: bold;
+      }
+
+      input {
+        font-size: 0.9rem;
       }
     }
   }

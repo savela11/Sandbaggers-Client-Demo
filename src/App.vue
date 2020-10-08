@@ -4,10 +4,10 @@
     <PageLoading v-if="this.$store.state.uiStore.pageLoading" />
     <div v-if="Header.isShowing">
       <AuthHeader v-if="Header.current === 'auth'" :backgroundColor="headerColor" :title="Header.title" />
-      <MainHeader v-if="Header.current === 'main' && CurrentUser" :currentUser="CurrentUser" />
+      <MainHeader v-if="Header.current === 'main' && CurrentUser" :currentUser="CurrentUser" @closeNavMenu="toggleNavigationMenu" />
     </div>
 
-    <router-view v-if="!isNavigationMenuShowing" class="routerView" />
+    <router-view class="routerView" />
     <div v-if="CurrentUser">
       <NavMenu v-if="isNavigationMenuShowing" :isAdmin="CurrentUser.roles.includes('Admin')" @closeNavMenu="toggleNavigationMenu" />
       <NavBar v-if="IsNavBarShowing" @toggleNavMenu="toggleNavigationMenu" :isNavMenuShowing="isNavigationMenuShowing" :currentUser="CurrentUser" />

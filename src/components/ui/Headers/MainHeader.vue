@@ -2,7 +2,7 @@
   <header class="mainHeader">
     <div class="mainHeader__container">
       <div class="sbLogo"><img src="@/assets/SBLogo.png" alt="Sandbagger Logo" /></div>
-      <div class="profile">
+      <div class="profile" @click.prevent.stop="closeNavMenu">
         <router-link to="/UserProfile"><img :src="currentUserImage" alt="Profile Image" /></router-link>
       </div>
     </div>
@@ -11,12 +11,16 @@
 
 <script lang="ts">
 import { ICurrentUser } from '@/types/User/AuthUser'
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 
 @Component({ name: 'MainHeader' })
 export default class MainHeader extends Vue {
   @Prop() currentUser!: ICurrentUser
 
+  @Emit('closeNavMenu')
+  closeNavMenu(): boolean {
+    return false
+  }
   get currentUserImage(): string {
     if (this.currentUser.profile.image === null) {
       return require('@/assets/icons/avatar.svg')

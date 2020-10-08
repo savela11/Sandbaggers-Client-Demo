@@ -6,14 +6,14 @@
 
     <div class="userProfile__top">
       <button class="editButton" @click="toggleEditMode">
-        <div v-if="!isEditMode">
+        <span v-if="!isEditMode">
           <img src="@/assets/icons/editPencil.svg" alt="Edit Pencil" />
           <span> Edit</span>
-        </div>
-        <div v-if="isEditMode">
+        </span>
+        <span v-if="isEditMode">
           <img src="@/assets/icons/cloudSave.svg" alt="Cloud Save" />
           Save
-        </div>
+        </span>
       </button>
       <div class="img">
         <img v-if="currentUser.profile.image" :src="currentUser.profile.image" alt="User Profile Image" />
@@ -28,7 +28,8 @@
         <div class="handicap">
           <p>Handicap</p>
           <span v-if="!isEditMode">{{ currentUser.profile.handicap }}</span>
-          <input v-else type="number" step=".1" v-model.number="handicap" />
+          <label v-if="isEditMode" for="handicap" class="hideLabel">Handicap</label>
+          <input v-if="isEditMode" id="handicap" type="number" step=".1" v-model.number="handicap" />
         </div>
       </div>
     </div>
@@ -47,9 +48,10 @@
       </div>
 
       <div class="currentView" v-if="isBottomMenuShowing">
-        <ProfileView v-if="currentView === 'Profile' && !loading" :cUser="currentUser" @updateCurrentUserProfile="updateCurrentUser" />
-        <BetsView v-if="currentView === 'Bets' && !loading" :cUser="currentUser" />
-        <IdeasView v-if="currentView === 'Ideas' && !loading" :cUser="currentUser" />
+        <ProfileView v-if="currentView === 'Profile'" :cUser="currentUser" @updateCurrentUserProfile="updateCurrentUser" />
+        <SettingsView v-if="currentView === 'Settings'" :cUserSettings="currentUser.settings" :cUserRoles="currentUser.roles" />
+        <BetsView v-if="currentView === 'Bets'" :cUserID="currentUser.id" />
+        <!--        <IdeasView v-if="currentView === 'Ideas' && !loading" :cUser="currentUser" />-->
         <Loading v-if="loading" />
       </div>
     </div>
@@ -57,23 +59,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import UIHelper from '@/utility/UIHelper'
 import { ICurrentUser } from '@/types/User/AuthUser'
 import ProfileService from '@/services/ProfileService'
 
-@Component({ name: 'UserProfile' })
+@Component({
+  name: 'UserProfile',
+  components: {
+    ProfileView: (): Promise<object> => import('@/components/profile/ProfileView.vue'),
+    SettingsView: (): Promise<object> => import('@/components/profile/SettingsView.vue'),
+    BetsView: (): Promise<object> => import('@/components/profile/BetsView.vue'),
+    Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
+  },
+})
 export default class UserProfile extends Vue {
-  mounted(): void {
-    this.getCurrentUser()
-
-    UIHelper.PageLoading(false)
-    UIHelper.Header({ title: 'Dashboard', isShowing: true, current: 'main' })
-  }
-
   @Prop({ default: false }) dialog!: boolean
   loading = false
-  viewOptions = ['Profile', 'Settings', 'Bets', 'Ideas', 'Posts']
+  viewOptions = ['Profile', 'Settings', 'Bets']
   currentView: string | null = null
   isEditMode = false
   currentUser = {} as ICurrentUser
@@ -82,7 +85,14 @@ export default class UserProfile extends Vue {
   debounce: number | undefined
   isBottomMenuShowing = false
 
-  updateHandicap(e: any) {
+  mounted(): void {
+    this.getCurrentUser()
+
+    UIHelper.PageLoading(false)
+    UIHelper.Header({ title: 'Dashboard', isShowing: true, current: 'main' })
+  }
+
+  updateHandicap(e: any): void {
     this.handicap = null
     clearTimeout(this.debounce)
     this.debounce = setTimeout(() => {
@@ -95,7 +105,7 @@ export default class UserProfile extends Vue {
     }, 5000)
   }
 
-  updateProfileImage(e: any) {
+  updateProfileImage(e: any): void {
     this.profileImage = null
     clearTimeout(this.debounce)
     this.debounce = setTimeout(() => {
@@ -108,8 +118,9 @@ export default class UserProfile extends Vue {
     }, 5000)
   }
 
-  setCurrentViewOption(view: string | null) {
+  setCurrentViewOption(view: string | null): void {
     this.currentView = view
+
     const bottom = document.querySelector('.userProfile__bottom') as HTMLElement
 
     if (view) {
@@ -122,13 +133,14 @@ export default class UserProfile extends Vue {
       setTimeout(() => {
         bottom.classList.remove('hide')
         this.isBottomMenuShowing = false
+        this.currentView = view
       }, 300)
     }
   }
 
   toggleEditMode(): void {
     this.isEditMode = !this.isEditMode
-    if (this.isEditMode === true) {
+    if (this.isEditMode) {
       this.handicap = this.currentUser.profile.handicap
       this.profileImage = this.currentUser.profile.image
     } else {
@@ -172,7 +184,7 @@ export default class UserProfile extends Vue {
     }
   }
 
-  getCurrentUser() {
+  getCurrentUser(): void {
     this.currentUser = this.$store.state.authStore.currentUser
   }
 }
@@ -211,7 +223,7 @@ export default class UserProfile extends Vue {
       position: absolute;
       top: 1rem;
       left: 1rem;
-      & > div {
+      & > span {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -246,6 +258,7 @@ export default class UserProfile extends Vue {
       justify-content: center;
       flex-direction: column;
       align-items: center;
+      margin-top: 1rem;
       label {
         margin-bottom: 0.3rem;
         font-size: 0.8rem;
@@ -370,12 +383,13 @@ export default class UserProfile extends Vue {
 
     .currentView {
       height: 100%;
-      padding: 0.8rem;
+      padding: 0.5rem;
 
       & > div {
-        padding: 2rem;
+        padding: 0.8rem;
         background-color: white;
-        max-height: 280px;
+        min-height: 350px;
+        max-height: 400px;
         border-radius: 10px;
         height: 100%;
         overflow-y: auto;
@@ -401,6 +415,7 @@ export default class UserProfile extends Vue {
   0% {
     max-height: 550px;
   }
+
   100% {
     max-height: 125px;
   }

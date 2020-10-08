@@ -22,9 +22,6 @@ import Helper from '@/utility/Helper'
 export default class Navigation extends Vue {
   @Prop() currentUser!: ICurrentUser
   @Prop() isNavMenuShowing!: boolean
-  activeBtn = 1
-
-  activeAdminLink = 'Admin Dashboard'
   show = false
 
   top = false
@@ -36,12 +33,6 @@ export default class Navigation extends Vue {
 
   toAdminPage(): void {
     Helper.clickedButton('adminBTN')
-  }
-
-  logout(): void {
-    Helper.clickedButton('logoutBTN')
-
-    this.$store.dispatch('authStore/Logout')
   }
 }
 </script>
