@@ -103,7 +103,6 @@ import { Component, Vue } from 'vue-property-decorator'
 import { IEventDto, IRegisteredUser } from '@/types/Admin/Event'
 import EventService from '@/services/EventService'
 import { AddEventDto } from '@/types/Events/SandbaggerEvents'
-import Helper from '@/utility/Helper'
 import EventResultsService from '@/services/EventResultsService'
 import { IEventResults } from '@/types/Events/EventResults'
 import { IScrambleChamp, ScrambleChamp } from '@/models/ScrambleChamp'
@@ -165,7 +164,7 @@ export default class AdminEvents extends Vue {
       const res = await this.eventResults(this.selectedEvent.eventId)
       if (res.status === 200) {
         this.selectedEvent.eventResults = res.data
-       await UIHelper.Header({ title: `${this.selectedEvent.name} Results`, isShowing: true })
+        await UIHelper.Header({ title: `${this.selectedEvent.name} Results`, isShowing: true })
 
         this.checkIfScrambleChamp(res.data.scrambleChamps)
       }
