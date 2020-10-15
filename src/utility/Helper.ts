@@ -1,13 +1,4 @@
 ﻿export default class Helper {
-  static clickedButton(elementId: string): void {
-    const clickedBTN = document.getElementById(elementId) as HTMLButtonElement
-    clickedBTN.classList.add('clicked')
-
-    setTimeout(() => {
-      clickedBTN.classList.remove('clicked')
-    }, 100)
-  }
-
   static formatDate(date: string): string {
     const d = new Date(date)
     let month = '' + (d.getMonth() + 1)

@@ -23,9 +23,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { ILoginUser } from '@/types/User/AuthUser'
-import Helper from '@/utility/Helper'
 import { ISnackBar } from '@/types/UI/SnackBar'
 import AuthService from '@/services/AuthService'
+import UIHelper from '@/utility/UIHelper'
 
 @Component({
   name: 'Login',
@@ -62,7 +62,7 @@ export default class Login extends Vue {
     }
   }
   async onSubmit(): Promise<void> {
-    Helper.clickedButton('loginBTN')
+    UIHelper.clickedButton('loginBTN')
     const validForm = this.validateForm()
     if (validForm) {
       await this.$store.dispatch('uiStore/_setDataLoading', true)

@@ -29,32 +29,34 @@ export default class SettingsView extends Vue {
   @Prop() cUserSettings!: IUserSettings
   @Prop() cUserRoles!: string[]
 
-  mounted(): void {
-    console.log(this.$router)
-  }
+  mounted(): void {}
 
   get favoriteRoutes(): void {
-    // let routes
-    // if (this.cUserRoles.includes('Admin')) {
-    //   routes = this.$router.options.routes.map((route) => {
-    //     if (route.meta && route.meta.canFavorite) {
-    //       return route
-    //     } else {
-    //       return
-    //     }
-    //   })
-    // } else {
-    //   routes = this.$router.options.routes.map((route) => {
-    //     if (route.meta && route.meta.canFavorite) {
-    //       return route
-    //     } else {
-    //       return
-    //     }
-    //   })
-    // }
-    // return routes.filter((route) => {
-    //   return route !== undefined
-    // })
+    let routes
+    // @ts-ignore
+    if (this.cUserRoles.includes('Admin')) {
+      // @ts-ignore
+      routes = this.$router.options.routes.map((route) => {
+        if (route.meta && route.meta.canFavorite) {
+          return route
+        } else {
+          return
+        }
+      })
+    } else {
+      // @ts-ignore
+      routes = this.$router.options.routes.map((route) => {
+        if (route.meta && route.meta.canFavorite) {
+          return route
+        } else {
+          return
+        }
+      })
+    }
+    // @ts-ignore
+    return routes.filter((route) => {
+      return route !== undefined
+    })
   }
 }
 </script>

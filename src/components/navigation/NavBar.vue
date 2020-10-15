@@ -7,16 +7,17 @@
         <button>fav3</button>
       </div>
       <div class="nav__bar--menu">
-        <button @click="toggleNavMenu"><img src="@/assets/icons/bottomBar-menu.svg" alt="menu" /></button>
+        <button class="toggleMenuBtn" @click="toggleNavMenu"><img src="@/assets/icons/bottomBar-menu.svg" alt="menu" /></button>
+        <button class="hideNavBarBtn" @click="hideNavBar"><img src="@/assets/icons/hideEye.svg" alt="hide navbar red eye." /></button>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import { ICurrentUser } from '@/types/User/AuthUser'
-import Helper from '@/utility/Helper'
+import UIHelper from '@/utility/UIHelper'
 
 @Component
 export default class Navigation extends Vue {
@@ -26,13 +27,16 @@ export default class Navigation extends Vue {
 
   top = false
 
-  @Emit('toggleNavMenu')
-  toggleNavMenu(): boolean {
-    return !this.isNavMenuShowing
+  hideNavBar(): void {
+    UIHelper.ToggleNavBar(false)
+  }
+
+  toggleNavMenu(): void {
+    UIHelper.ToggleNavMenu(!this.isNavMenuShowing)
   }
 
   toAdminPage(): void {
-    Helper.clickedButton('adminBTN')
+    UIHelper.clickedButton('adminBTN')
   }
 }
 </script>
@@ -45,7 +49,13 @@ export default class Navigation extends Vue {
   width: 100%;
   background-color: transparent;
   padding: 1rem;
+  &.show {
+    animation: showNavBar 0.3s linear forwards;
+  }
 
+  &.hide {
+    animation: hideNavBar 0.3s linear forwards;
+  }
   &__bar {
     height: 50px;
     background-color: white;
@@ -55,8 +65,9 @@ export default class Navigation extends Vue {
     align-items: center;
     justify-content: space-between;
     padding: 0.2rem 1.5rem;
+    position: relative;
 
-    button {
+    .toggleMenuBtn {
       border: none;
       background-color: transparent;
       width: 40px;
@@ -66,6 +77,21 @@ export default class Navigation extends Vue {
         object-fit: cover;
         height: 100%;
         width: 100%;
+      }
+    }
+    .hideNavBarBtn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      transform: translate(35px, -35px);
+      border: none;
+      height: 40px;
+      width: 40px;
+      padding: 0.3rem;
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
       }
     }
 
@@ -94,6 +120,24 @@ export default class Navigation extends Vue {
       align-items: center;
       padding: 0 1rem 0 0;
     }
+  }
+}
+
+@keyframes showNavBar {
+  0% {
+    transform: translateY(125%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes hideNavBar {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(125%);
   }
 }
 </style>

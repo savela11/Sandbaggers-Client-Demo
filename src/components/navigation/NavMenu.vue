@@ -33,7 +33,7 @@
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import { IAdminLink, IUserLink } from '@/types/Navigation/INavBar'
-import Helper from '@/utility/Helper'
+import UIHelper from '@/utility/UIHelper'
 
 @Component({ name: 'NavMenu' })
 export default class NavMenu extends Vue {
@@ -57,8 +57,8 @@ export default class NavMenu extends Vue {
     return false
   }
   logout(): void {
-    Helper.clickedButton('logoutBTN')
-
+    UIHelper.clickedButton('logoutBTN')
+    UIHelper.ToggleNavMenu(false)
     this.$store.dispatch('authStore/Logout')
   }
   userLinkImg(iconName: string): string {
@@ -74,7 +74,15 @@ export default class NavMenu extends Vue {
 <style scoped lang="scss">
 .navMenu {
   padding: 2rem 1rem;
+  position: relative;
+  transform: translateY(100%);
+  &.show {
+    animation: showMenu 0.3s linear forwards;
+  }
 
+  &.hide {
+    animation: hideMenu 0.3s linear forwards;
+  }
   .adminButtons {
     display: flex;
     justify-content: flex-end;
@@ -133,6 +141,38 @@ export default class NavMenu extends Vue {
         }
       }
     }
+  }
+}
+
+@keyframes showMenu {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(50%);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes hideMenu {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(50%);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
   }
 }
 

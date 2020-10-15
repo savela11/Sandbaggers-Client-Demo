@@ -161,16 +161,16 @@ export default class AdminEvents extends Vue {
       return
     }
     if (view === 'Results') {
-      Helper.clickedButton('resultsBTN')
+      UIHelper.clickedButton('resultsBTN')
       const res = await this.eventResults(this.selectedEvent.eventId)
       if (res.status === 200) {
         this.selectedEvent.eventResults = res.data
-        UIHelper.Header({ title: `${this.selectedEvent.name} Results`, isShowing: true })
+       await UIHelper.Header({ title: `${this.selectedEvent.name} Results`, isShowing: true })
 
         this.checkIfScrambleChamp(res.data.scrambleChamps)
       }
     } else if (view === 'Events') {
-      Helper.clickedButton('eventsBTN')
+      UIHelper.clickedButton('eventsBTN')
     }
     this.view = view
   }
@@ -180,7 +180,7 @@ export default class AdminEvents extends Vue {
   }
 
   async addEvent(event: AddEventDto): Promise<void> {
-    Helper.clickedButton('addEvent')
+    UIHelper.clickedButton('addEvent')
     this.loading = true
     try {
       const res = await EventService.createEvent(event)

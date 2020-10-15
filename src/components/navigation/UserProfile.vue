@@ -57,10 +57,8 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
-import UsersService from '@/services/UsersService'
 import { ICurrentUser } from '@/types/User/AuthUser'
 import ProfileService from '@/services/ProfileService'
-import { IUserProfile } from '@/types/Profile'
 @Component({
   name: 'UserProfile',
   components: {
@@ -92,7 +90,7 @@ export default class UserProfile extends Vue {
     return false
   }
 
-  updateHandicap(e: any) {
+  updateHandicap(e: any): void {
     this.handicap = null
     clearTimeout(this.debounce)
     this.debounce = setTimeout(() => {
@@ -105,7 +103,7 @@ export default class UserProfile extends Vue {
     }, 5000)
   }
 
-  updateProfileImage(e: any) {
+  updateProfileImage(e: any): void {
     this.profileImage = null
     clearTimeout(this.debounce)
     this.debounce = setTimeout(() => {
@@ -118,7 +116,7 @@ export default class UserProfile extends Vue {
     }, 5000)
   }
 
-  setCurrentViewOption(view: string | null) {
+  setCurrentViewOption(view: string | null): void {
     this.currentView = view
     const bottom = document.querySelector('.userProfile__bottom') as HTMLElement
 
@@ -138,7 +136,7 @@ export default class UserProfile extends Vue {
 
   toggleEditMode(): void {
     this.isEditMode = !this.isEditMode
-    if (this.isEditMode === true) {
+    if (this.isEditMode) {
       this.handicap = this.currentUser.profile.handicap
       this.profileImage = this.currentUser.profile.image
     } else {
@@ -182,12 +180,8 @@ export default class UserProfile extends Vue {
     }
   }
 
-  getCurrentUser() {
+  getCurrentUser(): void {
     this.currentUser = this.$store.state.authStore.currentUser
-  }
-  Logout(): void {
-    this.$store.dispatch('authStore/Logout', { vm: this })
-    this.closeUserProfile()
   }
 }
 </script>

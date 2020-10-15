@@ -105,8 +105,6 @@ export default class Bets extends Vue {
 
 <style scoped lang="scss">
 .bets {
-  padding: 0.5rem;
-
   &__viewButtons {
     overflow-x: scroll;
     overflow-y: hidden;

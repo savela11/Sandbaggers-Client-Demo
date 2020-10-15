@@ -12,8 +12,8 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "typeRoots": ["./node_modules/@types"],
-    "types": ["webpack-env", "./node_modules/vue-router/types"],
+    "typeRoots": ["./node_modules/@types", "types/vue.d.ts"],
+    "types": ["webpack-env", "./node_modules/vue-router/types", "types/vue.d.ts"],
     "paths": {
       "@/*": ["src/*"]
     },

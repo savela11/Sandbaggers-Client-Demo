@@ -4,13 +4,15 @@
     <PageLoading v-if="this.$store.state.uiStore.pageLoading" />
     <div v-if="Header.isShowing">
       <AuthHeader v-if="Header.current === 'auth'" :backgroundColor="headerColor" :title="Header.title" />
-      <MainHeader v-if="Header.current === 'main' && CurrentUser" :currentUser="CurrentUser" @closeNavMenu="toggleNavigationMenu" />
+      <MainHeader v-if="Header.current === 'main' && CurrentUser" :currentUser="CurrentUser" />
     </div>
 
-    <router-view class="routerView" />
+    <router-view class="routerView" v-show="!isNavigationMenuShowing" />
     <div v-if="CurrentUser">
-      <NavMenu v-if="isNavigationMenuShowing" :isAdmin="CurrentUser.roles.includes('Admin')" @closeNavMenu="toggleNavigationMenu" />
-      <NavBar v-if="IsNavBarShowing" @toggleNavMenu="toggleNavigationMenu" :isNavMenuShowing="isNavigationMenuShowing" :currentUser="CurrentUser" />
+      <NavMenu v-show="isNavigationMenuShowing" :isAdmin="CurrentUser.roles.includes('Admin')" />
+
+      <NavBar v-show="IsNavBarShowing" :isNavMenuShowing="isNavigationMenuShowing" :currentUser="CurrentUser" />
+      <ShowNavBarBtn v-show="!IsNavBarShowing" />
     </div>
   </div>
 </template>
@@ -27,6 +29,7 @@ import { IHeader } from './types/UI/UIStoreTypes'
     AuthHeader: (): Promise<typeof import('*.vue')> => import('@/components/ui/Headers/AuthHeader.vue'),
     NavBar: (): Promise<typeof import('*.vue')> => import('@/components/navigation/NavBar.vue'),
     NavMenu: (): Promise<typeof import('*.vue')> => import('@/components/navigation/NavMenu.vue'),
+    ShowNavBarBtn: (): Promise<typeof import('*.vue')> => import('@/components/navigation/ShowNavBarBtn.vue'),
     UserProfile: (): Promise<typeof import('*.vue')> => import('@/components/navigation/UserProfile.vue'),
     SnackBar: (): Promise<typeof import('*.vue')> => import('@/components/ui/SnackBar.vue'),
     PageLoading: (): Promise<typeof import('*.vue')> => import('@/components/ui/PageLoading.vue'),
@@ -34,7 +37,6 @@ import { IHeader } from './types/UI/UIStoreTypes'
 })
 export default class App extends Vue {
   isUserProfileShowing = false
-  isNavigationMenuShowing = false
   message = ''
 
   get headerColor(): string {
@@ -53,12 +55,12 @@ export default class App extends Vue {
     return this.$store.getters['uiStore/IsNavBarShowing']
   }
 
-  get CurrentUser(): ICurrentUser {
-    return this.$store.getters['authStore/CurrentUser']
+  get isNavigationMenuShowing(): boolean {
+    return this.$store.getters['uiStore/IsNavMenuShowing']
   }
 
-  toggleNavigationMenu(status: boolean): void {
-    this.isNavigationMenuShowing = status
+  get CurrentUser(): ICurrentUser {
+    return this.$store.getters['authStore/CurrentUser']
   }
 
   openUserProfile(status: boolean): void {

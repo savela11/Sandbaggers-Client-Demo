@@ -9,10 +9,10 @@ const state: IUIState = {
     title: 'Test',
     isShowing: true,
   },
-
   dataLoading: false,
   pageLoading: false,
   isNavBarShowing: true,
+  isNavMenuShowing: false,
   snackBar: {
     title: '',
     message: '',
@@ -26,6 +26,7 @@ const state: IUIState = {
 const getters = {
   Header: (state: IUIState): IHeader => state.header,
   IsNavBarShowing: (state: IUIState): boolean => state.isNavBarShowing,
+  IsNavMenuShowing: (state: IUIState): boolean => state.isNavMenuShowing,
   SnackBarClass: (state: IUIState): string | undefined => state.snackBar.class,
   DataLoadingStatus: (state: IUIState): boolean => state.dataLoading,
 }
@@ -42,6 +43,7 @@ const mutations = {
       state.header.current = ''
     }
   },
+
   SetHeaderTitle(state: IUIState, title: string): void {
     state.header.title = title
   },
@@ -67,6 +69,10 @@ const mutations = {
 
   SetNavBarShowingStatus(state: IUIState, showingStatus: boolean): void {
     state.isNavBarShowing = showingStatus
+  },
+
+  SetNavMenuShowingStatus(state: IUIState, showingStatus: boolean): void {
+    state.isNavMenuShowing = showingStatus
   },
 
   SetHeaderShowingStatus(state: IUIState, showingStatus: boolean): void {
@@ -113,6 +119,7 @@ const actions = {
   _setHeaderTitle(context: ActionContext<IUIState, IRootState>, title: string): void {
     context.commit('SetHeaderTitle', title)
   },
+
   _setHeaderShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean): void {
     context.commit('SetHeaderShowingStatus', showingStatus)
   },
@@ -127,6 +134,10 @@ const actions = {
 
   _setNavBarShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean): void {
     context.commit('SetNavBarShowingStatus', showingStatus)
+  },
+
+  _setNavMenuShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean): void {
+    context.commit('SetNavMenuShowingStatus', showingStatus)
   },
 
   _setSnackBar(context: ActionContext<IUIState, IRootState>, snackBar: ISnackBar): void {

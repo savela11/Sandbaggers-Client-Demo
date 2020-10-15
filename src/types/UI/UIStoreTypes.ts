@@ -5,6 +5,7 @@ export interface IUIState {
   dataLoading: boolean
   pageLoading: boolean
   isNavBarShowing: boolean
+  isNavMenuShowing: boolean
   snackBar: ISnackBar
   deviceSize: string
 }
