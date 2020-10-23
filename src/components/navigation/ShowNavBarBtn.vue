@@ -20,7 +20,7 @@ export default class ShowNavBarBtn extends Vue {
 .showNavBarBtn {
   position: fixed;
   bottom: 0;
-  right: 1rem;
+  right: 0.5rem;
   transform: translateY(100%);
 
   &.show {
@@ -50,14 +50,14 @@ export default class ShowNavBarBtn extends Vue {
   }
   100% {
     transform: translateY(0);
-    bottom: 1rem;
+    bottom: 0.5rem;
   }
 }
 
 @keyframes hideBTN {
   0% {
     transform: translateY(0);
-    bottom: 1rem;
+    bottom: 0.5rem;
   }
   100% {
     transform: translateY(100%);

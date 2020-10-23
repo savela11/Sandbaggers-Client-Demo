@@ -13,7 +13,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
 
-    '@typescript-eslint/explicit-function-return-type': 1,
+    // '@typescript-eslint/explicit-function-return-type': 1,
   },
   parserOptions: {
     parser: '@typescript-eslint/parser',

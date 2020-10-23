@@ -26,6 +26,11 @@
   outline: none;
   text-decoration: none;
   color: $DarkBlue;
+
+  &.active {
+    background-color: $DarkBlue;
+    color: white;
+  }
   &--circle {
     border-radius: 50%;
     padding: 0;

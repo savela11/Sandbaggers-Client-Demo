@@ -7,7 +7,8 @@
       <MainHeader v-if="Header.current === 'main' && CurrentUser" :currentUser="CurrentUser" />
     </div>
 
-    <router-view class="routerView" v-show="!isNavigationMenuShowing" />
+    <router-view class="routerView" v-show="!isNavigationMenuShowing && !DataLoading" />
+    <Loading v-show="DataLoading" />
     <div v-if="CurrentUser">
       <NavMenu v-show="isNavigationMenuShowing" :isAdmin="CurrentUser.roles.includes('Admin')" />
 
@@ -33,11 +34,16 @@ import { IHeader } from './types/UI/UIStoreTypes'
     UserProfile: (): Promise<typeof import('*.vue')> => import('@/components/navigation/UserProfile.vue'),
     SnackBar: (): Promise<typeof import('*.vue')> => import('@/components/ui/SnackBar.vue'),
     PageLoading: (): Promise<typeof import('*.vue')> => import('@/components/ui/PageLoading.vue'),
+    Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
   },
 })
 export default class App extends Vue {
   isUserProfileShowing = false
   message = ''
+  deviceSize = 'mobile'
+  loading = true
+
+  mounted(): void {}
 
   get headerColor(): string {
     if (this.$route.path.startsWith('/admin')) {
@@ -47,6 +53,9 @@ export default class App extends Vue {
     }
   }
 
+  get DataLoading(): boolean {
+    return this.$store.getters['uiStore/DataLoadingStatus']
+  }
   get Header(): IHeader {
     return this.$store.getters['uiStore/Header']
   }
@@ -83,6 +92,7 @@ export default class App extends Vue {
 .app {
   .routerView {
     padding: 2rem 1rem;
+    position: relative;
   }
 }
 </style>

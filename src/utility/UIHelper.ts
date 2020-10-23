@@ -33,6 +33,10 @@ export default class UIHelper {
     await store.dispatch('uiStore/_setPageLoading', status)
   }
 
+  static async DataLoading(status: boolean): Promise<void> {
+    await store.dispatch('uiStore/_setDataLoading', status)
+  }
+
   static async ToggleNavMenu(status: boolean): Promise<void> {
     const navMenu = document.querySelector('.navMenu')
     if (navMenu) {

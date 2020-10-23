@@ -16,7 +16,7 @@ export default [
   {
     path: '/admin/roles',
     name: 'Roles',
-    component: loadView('admin/role/Roles'),
+    component: loadView('admin/Roles'),
 
     meta: {
       requiresAuth: true,

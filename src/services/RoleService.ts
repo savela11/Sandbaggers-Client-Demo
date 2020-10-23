@@ -1,6 +1,6 @@
 ﻿import apiClient from '../utility/apiClient'
 import { IServiceResponse } from '@/types/Response'
-import { ICreateRole, IRoleDto, IUserWithoutRole } from '@/types/Admin/Role'
+import { IAddOrRemoveUseFromRole, ICreateRole, IRoleDto } from '@/types/Admin/Role'
 import { AxiosResponse } from 'axios'
 
 const url = '/roles'
@@ -31,8 +31,8 @@ class RoleService {
     return await apiClient.get(url + `/RoleById/${id}`)
   }
 
-  static async removeUsersFromRole(removedUsers: object): Promise<AxiosResponse<IRoleDto>> {
-    return await apiClient.post(url + `/RemoveUsers/`, removedUsers)
+  static async AddOrRemoveUserFromRole(payload: IAddOrRemoveUseFromRole): Promise<AxiosResponse<IRoleDto>> {
+    return await apiClient.post(url + `/AddOrRemoveUserFromRole/`, payload)
   }
 
   static async addUsersToRole(addedUsers: object): Promise<AxiosResponse<IRoleDto>> {

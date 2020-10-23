@@ -161,7 +161,6 @@ router.beforeEach(async (to, from, next) => {
     return next()
   } else {
     await store.dispatch('authStore/LogoutWithError', { title: 'Session Expired', message: 'You must re-login.' })
-    await store.dispatch('uiStore/_setPageLoading', false)
     return next({ path: '/login' })
   }
   if (to.path.startsWith('/admin') && currentUser.roles.includes('Admin')) {
