@@ -95,4 +95,12 @@ export default class App extends Vue {
     position: relative;
   }
 }
+
+@media (min-width: 768px) {
+  .app {
+    .routerView {
+      padding: 5rem;
+    }
+  }
+}
 </style>

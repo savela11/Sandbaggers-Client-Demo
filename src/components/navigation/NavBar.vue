@@ -60,7 +60,7 @@ export default class Navigation extends Vue {
     height: 50px;
     background-color: white;
     box-shadow: 2px 2px 3px $DarkBlue;
-    border-radius: 25px;
+    border-radius: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -101,6 +101,8 @@ export default class Navigation extends Vue {
       position: relative;
       display: flex;
       justify-content: flex-end;
+      align-items: center;
+
       &::before {
         content: '';
         position: absolute;
@@ -123,6 +125,89 @@ export default class Navigation extends Vue {
   }
 }
 
+@media (min-width: 768px) {
+  .nav {
+    padding: 1rem 10rem;
+    &__bar {
+      .toggleMenuBtn {
+        img {
+        }
+      }
+      .hideNavBarBtn {
+        img {
+        }
+      }
+
+      &--menu {
+        &::before {
+          content: '';
+        }
+      }
+
+      &--favorites {
+      }
+    }
+  }
+}
+@media (min-width: 1024px) {
+  .nav {
+    padding: 1rem 10rem;
+    &__bar {
+      height: 60px;
+      .toggleMenuBtn {
+        height: 45px;
+        width: 45px;
+        img {
+        }
+      }
+      .hideNavBarBtn {
+        height: 45px;
+        width: 45px;
+        img {
+        }
+      }
+
+      &--menu {
+        width: 65px;
+        &::before {
+          content: '';
+        }
+      }
+
+      &--favorites {
+        padding: 0 5rem 0 0;
+      }
+    }
+  }
+}
+@media (min-width: 1240px) {
+  .nav {
+    padding: 1rem 20rem;
+    &__bar {
+      height: 75px;
+      .toggleMenuBtn {
+        height: 50px;
+        width: 50px;
+        img {
+        }
+      }
+      .hideNavBarBtn {
+        img {
+        }
+      }
+
+      &--menu {
+        &::before {
+          content: '';
+        }
+      }
+
+      &--favorites {
+        padding: 0 5rem 0 2rem;
+      }
+    }
+  }
+}
 @keyframes showNavBar {
   0% {
     transform: translateY(125%);

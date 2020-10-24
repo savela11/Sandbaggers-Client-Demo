@@ -79,6 +79,12 @@ export default class PopUp extends Vue {
         background-color: white;
         padding: 0.2rem;
         border: none;
+
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
+        }
       }
     }
 
@@ -100,6 +106,79 @@ export default class PopUp extends Vue {
   }
 }
 
+@media (min-width: 768px) {
+  .popUp {
+    &__backDrop {
+    }
+    .container {
+      width: 60%;
+      padding: 1rem;
+      .flexButton {
+        .closeBtn {
+          height: 35px;
+          width: 35px;
+        }
+      }
+
+      &__title {
+        h4 {
+        }
+      }
+
+      .content {
+        padding: 3rem;
+        max-height: 500px;
+        min-height: 350px;
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .popUp {
+    &__backDrop {
+    }
+    .container {
+      width: 50%;
+      .flexButton {
+        .closeBtn {
+        }
+      }
+
+      &__title {
+        h4 {
+        }
+      }
+
+      .content {
+        max-height: 400px;
+        min-height: 300px;
+      }
+    }
+  }
+}
+@media (min-width: 1240px) {
+  .popUp {
+    &__backDrop {
+    }
+    .container {
+      width: 40%;
+      .flexButton {
+        .closeBtn {
+        }
+      }
+
+      &__title {
+        h4 {
+        }
+      }
+
+      .content {
+        min-height: 350px;
+      }
+    }
+  }
+}
 @keyframes showPopUp {
   0% {
     transform: translateX(150%);

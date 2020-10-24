@@ -79,4 +79,31 @@ export default class MainHeader extends Vue {
     }
   }
 }
+
+@media (min-width: 768px) {
+  .mainHeader {
+    &__container {
+      height: 100px;
+      align-items: center;
+      padding: 1rem 2rem;
+
+      h1 {
+      }
+      img {
+      }
+      .sbLogo {
+      }
+
+      .profile {
+        width: 80px;
+        height: 80px;
+        transform: translateY(20px);
+        a {
+          img {
+          }
+        }
+      }
+    }
+  }
+}
 </style>

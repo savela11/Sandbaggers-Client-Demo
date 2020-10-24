@@ -83,7 +83,7 @@ export default class Roles extends Vue {
     roleName: '',
   }
 
-  togglePopUp(isPopUpShowing: boolean, classStatus: string, type?: string) {
+  togglePopUp(isPopUpShowing: boolean, classStatus: string, type?: string): void {
     this.popUp.classStatus = classStatus
 
     if (isPopUpShowing) {
@@ -205,7 +205,7 @@ export default class Roles extends Vue {
     }
   }
 
-  verifyRemoveUserFromRole(payload: IAddOrRemoveUseFromRole) {
+  verifyRemoveUserFromRole(payload: IAddOrRemoveUseFromRole): void {
     if (this.userToRemoveFromRole === null) {
       this.togglePopUp(true, 'show', 'removeUser')
       this.userToRemoveFromRole = payload

@@ -46,6 +46,7 @@ export default class NavMenu extends Vue {
     { name: 'Ideas', link: '/ideas', icon: 'ideas' },
     { name: 'Power Rankings', link: '/powerRankings', icon: 'powerRankings' },
     { name: 'Mock Drafts', link: '/mockDrafts', icon: 'mockDraft' },
+    { name: 'Gallery', link: '/gallery', icon: 'gallery' },
   ]
   adminLinks: IAdminLink[] = [
     { name: 'Roles', link: '/admin/roles', icon: 'golf' },
@@ -56,13 +57,15 @@ export default class NavMenu extends Vue {
   closeNavMenu(): boolean {
     return false
   }
+
   logout(): void {
     UIHelper.clickedButton('logoutBTN')
     UIHelper.ToggleNavMenu(false)
     this.$store.dispatch('authStore/Logout')
   }
+
   userLinkImg(iconName: string): string {
-    return require('@/assets/icons/' + iconName + '.svg')
+    return require('@/assets/icons/navMenu/' + iconName + '.svg')
   }
 
   toggleLinksView(view: string): void {
@@ -75,14 +78,16 @@ export default class NavMenu extends Vue {
 .navMenu {
   padding: 2rem 1rem;
   position: relative;
-  transform: translateY(100%);
+  transform: translateY(150%);
+
   &.show {
-    animation: showMenu 0.3s linear forwards;
+    animation: showMenu 0.5s linear forwards;
   }
 
   &.hide {
-    animation: hideMenu 0.3s linear forwards;
+    animation: hideMenu 0.5s linear forwards;
   }
+
   .adminButtons {
     display: flex;
     justify-content: flex-end;
@@ -94,6 +99,7 @@ export default class NavMenu extends Vue {
       &:first-child {
         margin-right: 0.5rem;
       }
+
       &.active {
         background-color: $DarkBlue;
         color: white;
@@ -104,6 +110,7 @@ export default class NavMenu extends Vue {
   nav {
     margin-bottom: 5rem;
     min-height: 200px;
+
     ul {
       padding: 0;
       margin: 0;
@@ -142,37 +149,27 @@ export default class NavMenu extends Vue {
       }
     }
   }
-}
 
-@keyframes showMenu {
-  0% {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  50% {
-    transform: translateY(50%);
-    opacity: 0.5;
-  }
+  @keyframes showMenu {
+    0% {
+      transform: translateY(150%);
+      opacity: 0;
+    }
 
-  100% {
-    transform: translateY(0);
-    opacity: 1;
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
-}
-@keyframes hideMenu {
-  0% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  @keyframes hideMenu {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
 
-  50% {
-    transform: translateY(50%);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(100%);
-    opacity: 0;
+    100% {
+      transform: translateY(150%);
+    }
   }
 }
 
@@ -182,6 +179,7 @@ export default class NavMenu extends Vue {
       button {
         &:first-child {
         }
+
         &.active {
         }
       }
@@ -199,6 +197,117 @@ export default class NavMenu extends Vue {
             }
           }
         }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .navMenu {
+    padding: 5rem;
+
+    &.show {
+    }
+
+    &.hide {
+    }
+
+    .adminButtons {
+      margin-bottom: 5rem;
+
+      button {
+        width: auto;
+        padding: 0.5rem 3rem;
+        font-size: 1rem;
+
+        &:first-child {
+          margin-right: 1rem;
+        }
+
+        &.active {
+        }
+      }
+    }
+
+    nav {
+      margin-bottom: 10rem;
+
+      ul {
+        grid-auto-rows: 100px;
+        gap: 20px;
+
+        li {
+          a {
+            img {
+              height: 40px;
+              width: 40px;
+            }
+
+            span {
+              font-size: 1rem;
+              margin-top: 1rem;
+            }
+          }
+        }
+      }
+    }
+
+    .extra {
+      button {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .navMenu {
+    padding: 2rem 5rem;
+
+    &.show {
+    }
+
+    &.hide {
+    }
+
+    .adminButtons {
+      margin-bottom: 3rem;
+
+      button {
+        width: auto;
+        padding: 0.5rem 3rem;
+        font-size: 1rem;
+
+        &:first-child {
+          margin-right: 1rem;
+        }
+
+        &.active {
+        }
+      }
+    }
+
+    nav {
+      ul {
+        grid-auto-rows: 125px;
+        gap: 50px;
+
+        li {
+          a {
+            img {
+              height: 45px;
+              width: 45px;
+            }
+
+            span {
+            }
+          }
+        }
+      }
+    }
+
+    .extra {
+      button {
       }
     }
   }

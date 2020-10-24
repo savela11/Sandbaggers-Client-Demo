@@ -304,4 +304,96 @@ export default class Dashboard extends Vue {
     }
   }
 }
+
+@media (min-width: 768px) {
+  .dashboard {
+    .scrambleChamps {
+      .title {
+        h2 {
+        }
+      }
+
+      .flexContainer {
+      }
+      .champ {
+        .imgContainer {
+        }
+        img {
+        }
+
+        p {
+        }
+      }
+    }
+    .viewButtons {
+      h2 {
+        font-size: 1.4rem;
+      }
+      .buttons {
+      }
+      button {
+        height: auto;
+        font-size: 1rem;
+        margin-right: 0.8rem;
+        padding: 0.5rem 1rem;
+        &.active {
+        }
+        &:last-child {
+        }
+      }
+    }
+
+    .titleBar {
+      grid-template-columns: 50px 2fr 1fr;
+      height: 50px;
+      gap: 20px;
+      .searchButton {
+        height: 100%;
+        width: 100%;
+        img {
+        }
+      }
+
+      & > div {
+        &:last-child {
+        }
+      }
+
+      p {
+        font-size: 1.2rem;
+      }
+    }
+
+    .searchBar {
+      label {
+        font-size: 1.2rem;
+      }
+      input {
+        font-size: 1.2rem;
+        padding: 0.5rem 1rem;
+      }
+    }
+
+    .sandbaggerList {
+      .sandbagger {
+        p {
+          font-size: 1.2rem;
+        }
+        img {
+        }
+
+        a {
+          grid-template-columns: 50px 2fr 1fr;
+          gap: 20px;
+          padding: 1rem 0.5rem;
+
+          & > div {
+            &:last-child {
+            }
+          }
+        }
+      }
+    }
+  }
+}
 </style>
