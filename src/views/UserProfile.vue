@@ -26,7 +26,7 @@
       <div class="info">
         <h2>{{ currentUser.fullName }}</h2>
         <div class="handicap">
-          <p>Handicap</p>
+          <p>Handicap:</p>
           <span v-if="!isEditMode">{{ currentUser.profile.handicap }}</span>
           <label v-if="isEditMode" for="handicap" class="hideLabel">Handicap</label>
           <input v-if="isEditMode" id="handicap" type="number" step=".1" v-model.number="handicap" />
@@ -282,7 +282,7 @@ export default class UserProfile extends Vue {
         font-weight: bold;
         text-align: center;
         letter-spacing: 1.5px;
-        color: #0b080f;
+        color: $DarkBlue;
       }
 
       .handicap {
@@ -291,7 +291,6 @@ export default class UserProfile extends Vue {
         align-items: center;
         justify-content: center;
         font-size: 1rem;
-        height: 20px;
         p {
           color: grey;
           margin-right: 0.3rem;
@@ -301,11 +300,11 @@ export default class UserProfile extends Vue {
           color: grey;
         }
         input {
-          width: 50px;
+          width: 75px;
           height: 100%;
-          padding: 0.3rem;
+          padding: 0.5rem 0.8rem;
           font-size: 1rem;
-          border-radius: 10px;
+          border-radius: 3px;
           border: none;
           border-bottom: 2px solid $DarkGreen;
           outline: none;

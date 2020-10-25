@@ -84,12 +84,13 @@ input {
     padding: 0.5rem 0;
 
     label {
-      margin: 0 0 0.5rem 0.5rem;
+      font-size: .8rem;
+      margin: 0 0 0.3rem 0.3rem;
     }
     input,
     textarea {
-      font-size: 1rem;
-      border-radius: 25px;
+      font-size: .8rem;
+      border-radius: 5px;
       padding: 0.5rem 0 0.5rem 1rem;
       border: 1px solid lightgrey;
       outline: none;

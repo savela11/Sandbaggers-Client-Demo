@@ -31,7 +31,6 @@ import { IHeader } from './types/UI/UIStoreTypes'
     NavBar: (): Promise<typeof import('*.vue')> => import('@/components/navigation/NavBar.vue'),
     NavMenu: (): Promise<typeof import('*.vue')> => import('@/components/navigation/NavMenu.vue'),
     ShowNavBarBtn: (): Promise<typeof import('*.vue')> => import('@/components/navigation/ShowNavBarBtn.vue'),
-    UserProfile: (): Promise<typeof import('*.vue')> => import('@/components/navigation/UserProfile.vue'),
     SnackBar: (): Promise<typeof import('*.vue')> => import('@/components/ui/SnackBar.vue'),
     PageLoading: (): Promise<typeof import('*.vue')> => import('@/components/ui/PageLoading.vue'),
     Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),

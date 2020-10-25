@@ -12,14 +12,16 @@
         <slot name="body"></slot>
       </div>
       <div class="modal__footer section" v-if="isFooter">
-        <slot name="footer"></slot>
+        <div class="btnContainer">
+          <slot name="submitBtn"> </slot>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 
 @Component({ name: 'Modal' })
 export default class Modal extends Vue {
@@ -37,13 +39,14 @@ export default class Modal extends Vue {
   right: 0;
   bottom: 50px;
   padding: 0.3rem;
+  z-index: 10;
 
   h2 {
     font-size: 1.2rem;
   }
 
   &__closeButton {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     display: flex;
     justify-content: flex-end;
 
@@ -63,7 +66,6 @@ export default class Modal extends Vue {
   &__container {
     background-color: white;
     height: 100%;
-    padding: 1rem;
     border: 2px solid $DarkBlue;
     border-radius: 10px;
     display: flex;
@@ -73,12 +75,33 @@ export default class Modal extends Vue {
   }
 
   .section {
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+
+    &:last-child {
+      margin: 0;
+    }
   }
 
   &__body {
     height: 100%;
     overflow-y: scroll;
+    position: relative;
+    margin: 0.5rem;
+    border: 1px solid grey;
+    border-radius: 5px;
+
+    .form {
+      padding: 0.5rem;
+    }
+  }
+
+  &__footer {
+    .btnContainer {
+      display: flex;
+      justify-content: flex-end;
+      margin: 0;
+    }
   }
 }
 </style>
