@@ -1,0 +1,371 @@
+
+.bets {
+
+  #spanAmt, #spanAcceptNum {
+    &.flash {
+      font-weight: bold;
+      color: $Crimson;
+      transform: scale(1.2);
+    }
+  }
+
+  &__viewButtons {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 0.2rem 0.2rem 0.8rem 0.2rem;
+    scroll-behavior: smooth;
+
+    .viewButton {
+      margin-right: 0.8rem;
+      display: inline-block;
+      height: 30px;
+      min-width: 75px;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.8rem;
+      border: none;
+      border-bottom: 2px solid #17252a;
+
+      &.active {
+        background-color: $DarkBlue;
+        color: white;
+      }
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+
+  .utilityBar {
+    display: flex;
+    align-items: center;
+
+    .searchBets {
+      flex: 0 1 80%;
+
+      label {
+        padding-left: 0.5rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    .createBet {
+      flex: auto;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      button {
+        padding: 0.3rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: none;
+
+        img {
+          height: 30px;
+          width: 30px;
+          object-fit: contain;
+        }
+
+        span {
+          font-size: 0.7rem;
+        }
+      }
+    }
+  }
+
+  &__list {
+    border-radius: 5px;
+    min-height: 200px;
+    margin-top: 1rem;
+    border: 1px solid grey;
+    padding: 1rem;
+
+    .card {
+      border-radius: 5px;
+      padding: .8rem 1rem;
+      box-shadow: 3px 3px 3px lightgrey;
+      border-left: 3px solid $DarkGreen;
+      height: 100px;
+      margin-bottom: 1rem;
+
+      .createdBy {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+
+        p {
+          color: grey;
+          font-size: 0.6rem;
+        }
+      }
+
+      .title {
+        h2 {
+          font-size: 0.8rem;
+        }
+      }
+
+      .details {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 0.5rem;
+
+        button {
+          padding: 0.3rem 0.5rem;
+          font-size: 0.6rem;
+          border: none;
+          border-bottom: 2px solid $DarkGreen;
+        }
+      }
+    }
+  }
+
+  .btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-auto-rows: 40px;
+    gap: 10px;
+    margin-top: 1rem;
+
+
+    button {
+      background-color: white;
+      color: $DarkBlue;
+      border: none;
+      border-bottom: 1px solid $DarkBlue;
+      font-size: .8rem;
+
+      &.clicked {
+        background-color: $DarkBlue;
+        color: white;
+        transform: scale(1.1);
+        font-weight: bold;
+      }
+    }
+
+    &--acceptBetNum {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+      button {
+      }
+    }
+  }
+
+  .amountTitle {
+    font-size: 0.8rem;
+    margin: 0 0 0.3rem 0.3rem;
+    font-weight: bold;
+
+    span {
+      float: right;
+      font-weight: normal;
+    }
+  }
+
+  .form__field {
+    margin-bottom: 1rem;
+
+    label {
+      font-weight: bold;
+    }
+  }
+
+
+}
+
+@media (min-width: 375px) {
+
+  .bets {
+    &__viewButtons {
+
+      .viewButton {
+
+        &.active {
+        }
+
+        &:last-child {
+        }
+      }
+    }
+
+    .utilityBar {
+
+      .searchBets {
+        label {
+        }
+      }
+
+      .createBet {
+        button {
+          img {
+          }
+
+          span {
+          }
+        }
+      }
+    }
+
+    &__list {
+      min-height: 300px;
+
+      .card {
+
+        .createdBy {
+
+          p {
+          }
+        }
+
+        .title {
+          h2 {
+          }
+        }
+
+        .details {
+
+          button {
+          }
+        }
+      }
+    }
+
+    .btns {
+
+
+      button {
+        font-size: 1rem;
+
+      }
+
+      &--acceptBetNum {
+        button {
+        }
+      }
+    }
+
+    .amountTitle {
+      font-size: 1rem;
+
+      span {
+      }
+    }
+
+    .form__field {
+      label {
+        font-size: 1rem;
+      }
+
+      input, textarea {
+        font-size: 1rem;
+      }
+    }
+
+  }
+}
+
+
+@media (min-width: 768px) {
+
+  .bets {
+    &__viewButtons {
+
+
+      .viewButton {
+
+
+        &.active {
+
+        }
+
+        &:last-child {
+        }
+      }
+    }
+
+    .utilityBar {
+
+
+      .searchBets {
+
+        label {
+
+        }
+      }
+
+      .createBet {
+
+
+        button {
+
+
+          img {
+
+          }
+
+          span {
+          }
+        }
+      }
+    }
+
+    &__list {
+
+
+      .card {
+
+
+        .createdBy {
+
+
+          p {
+
+          }
+        }
+
+        .title {
+          h2 {
+          }
+        }
+
+        .details {
+
+
+          button {
+
+          }
+        }
+      }
+
+      .btns {
+
+
+        button {
+
+        }
+
+        &--acceptBetNum {
+          button {
+          }
+        }
+      }
+
+      .amountTitle {
+
+
+        span {
+        }
+      }
+
+      .form__field {
+        label {
+        }
+      }
+
+
+    }
+  }
+}

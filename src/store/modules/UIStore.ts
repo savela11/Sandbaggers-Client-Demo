@@ -20,7 +20,7 @@ const state: IUIState = {
     class: '',
     isSnackBarShowing: false,
   } as ISnackBar,
-  deviceSize: '',
+  deviceSize: 'mobile',
 }
 
 const getters = {

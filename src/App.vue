@@ -39,10 +39,7 @@ import { IHeader } from './types/UI/UIStoreTypes'
 export default class App extends Vue {
   isUserProfileShowing = false
   message = ''
-  deviceSize = 'mobile'
   loading = true
-
-  mounted(): void {}
 
   get headerColor(): string {
     if (this.$route.path.startsWith('/admin')) {

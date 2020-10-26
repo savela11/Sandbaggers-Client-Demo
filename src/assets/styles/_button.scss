@@ -91,8 +91,129 @@
   &.clicked {
     transform: translateY(4px);
   }
+
+&:disabled {
+  background-color: lightgrey;
+  border: 1px solid lightgrey;
+  color: $DarkBlue;
+  opacity: .4;
+}
 }
 
 .btnContainer {
   margin-top: 2rem;
+}
+
+
+@media(min-width: 375px) {
+  button {
+
+  }
+  .btn {
+
+
+    &.active {
+    }
+    &--circle {
+
+    }
+    &--xs {
+      padding: .4rem 1.1rem;
+      font-size: .9rem;
+
+    }
+    &--sm {
+
+    }
+    &--md {
+    }
+    &--lg {
+    }
+    &--blue {
+
+    }
+    &--white {
+
+    }
+    &--red {
+
+    }
+    &--green {
+
+    }
+    &--borderBlue {
+
+    }
+    &--borderRed {
+
+    }
+    &--borderGreen {
+
+    }
+    &--borderBottom {
+
+    }
+    &.clicked {
+    }
+  }
+
+  .btnContainer {
+  }
+}
+@media(min-width: 768px) {
+  button {
+
+  }
+  .btn {
+
+
+    &.active {
+    }
+    &--circle {
+      border-radius: 50%;
+      padding: 0;
+    }
+    &--xs {
+      font-size: 1.2rem;
+      padding: 0.5rem 1.2rem;
+    }
+    &--sm {
+      font-size: 1.2rem;
+      padding: 0.7rem 1.4rem;
+    }
+    &--md {
+      font-size: 1.3rem;
+    }
+    &--lg {
+    }
+    &--blue {
+
+    }
+    &--white {
+
+    }
+    &--red {
+
+    }
+    &--green {
+
+    }
+    &--borderBlue {
+
+    }
+    &--borderRed {
+
+    }
+    &--borderGreen {
+
+    }
+    &--borderBottom {
+
+    }
+    &.clicked {
+    }
+  }
+
+  .btnContainer {
+  }
 }

@@ -1,0 +1,181 @@
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.3rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  &__closeButton {
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+    }
+  }
+
+  &__background {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(196, 192, 192, 0.5);
+    z-index: 10;
+  }
+
+  &__container {
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    border: 2px solid $DarkBlue;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 10;
+    padding: 1rem;
+  }
+
+  .section {
+    padding: 1rem;
+
+    &:last-child {
+      margin: 0;
+    }
+  }
+
+
+  &__header {
+    border-bottom: 1px solid lightgrey;
+  }
+  &__body {
+    height: 100%;
+    overflow-y: scroll;
+    position: relative;
+
+    .form {
+      padding: 0;
+    }
+  }
+
+  &__footer {
+    .btnContainer {
+      display: flex;
+      justify-content: flex-end;
+      margin: 0;
+    }
+  }
+}
+
+@media(min-width: 375px) {
+  .modal {
+    h2 {
+      font-size: 1.4rem;
+    }
+
+  }
+}
+
+
+@media(min-width: 768px) {
+  .modal {
+
+
+    h2 {
+      font-size: 1.6rem;
+    }
+
+    &__closeButton {
+
+
+      button {
+      }
+    }
+
+    &__background {
+
+    }
+
+    &__container {
+      padding: 2rem;
+      width: 80%;
+      height: 60%;
+    }
+
+    .section {
+
+      &:last-child {
+      }
+    }
+
+    &__body {
+
+      .form {
+
+      }
+    }
+
+    &__footer {
+      .btnContainer {
+
+      }
+    }
+  }
+}
+
+@media(min-width: 1024px) {
+  .modal {
+
+
+    h2 {
+      font-size: 1.8rem;
+    }
+
+    &__closeButton {
+
+
+      button {
+      }
+    }
+
+    &__background {
+
+    }
+
+    &__container {
+      padding: 2rem;
+      width: 60%;
+      height: 75%;
+    }
+
+    .section {
+
+      &:last-child {
+      }
+    }
+
+    &__body {
+
+      .form {
+
+      }
+    }
+
+    &__footer {
+      .btnContainer {
+
+      }
+    }
+  }
+}

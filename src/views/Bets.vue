@@ -17,8 +17,22 @@
     <div class="bets__list all" v-if="currentView === 'All'">
       <div class="card" v-for="bet in filterBets" :key="bet.betId">
         <div class="createdBy">
-          <p>{{ formatDate(bet.createdOn) }}</p>
-          <p>{{ bet.createdBy }}</p>
+          <p>Created: {{ formatDate(bet.createdOn) }}</p>
+          <p>By: {{ bet.createdBy }}</p>
+        </div>
+        <div class="title">
+          <h2>{{ formatTitle(bet.title) }}</h2>
+        </div>
+        <div class="details">
+          <button @click="showBetDetails(bet)">Details</button>
+        </div>
+      </div>
+    </div>
+    <div class="bets__list all" v-if="currentView === 'By Name'">
+      <div class="card" v-for="bet in filterBets" :key="bet.betId">
+        <div class="createdBy">
+          <p>Created: {{ formatDate(bet.createdOn) }}</p>
+          <p>By: {{ bet.createdBy }}</p>
         </div>
         <div class="title">
           <h2>{{ formatTitle(bet.title) }}</h2>
@@ -35,15 +49,36 @@
       </template>
 
       <template v-slot:body>
-        <form v-if="!loading" class="form form--addIdea">
+        <form v-if="!loading" class="form form--addBet">
           <div class="form__field">
             <label for="title">Title</label>
             <input type="text" id="title" v-model="addBetForm.title" />
           </div>
           <div class="form__field">
-            <label>Amount</label>
-            <div class="amountBTNS">
-              <button v-for="amount in amounts" :key="amount">{{ amount }}</button>
+            <p class="amountTitle">
+              Active: <span id="spanActiveStatus"> {{ addBetForm.isActive ? 'Yes' : 'No' }}</span>
+            </p>
+            <div class="btns">
+              <button ref="activeStatus" @click.prevent.stop="addBetForm.isActive = true">Yes</button>
+              <button ref="activeStatus" @click.prevent.stop="addBetForm.isActive = false">No</button>
+            </div>
+          </div>
+          <div class="form__field">
+            <p class="amountTitle">
+              Amount: <span id="spanAmt">${{ addBetForm.amount }}</span>
+            </p>
+            <div class="btns">
+              <button v-for="(amount, index) in amounts" :key="amount" ref="amount" @click.prevent.stop="increaseBetAmount(amount, index)">${{ amount }}</button>
+            </div>
+          </div>
+          <div class="form__field">
+            <p class="amountTitle">
+              How many can accept? <span id="spanAcceptNum">{{ addBetForm.canAcceptNumber }}</span>
+            </p>
+            <div class="btns btns--acceptBetNum">
+              <button v-for="(acceptedBets, index) in numOfAcceptedBets" :key="acceptedBets" ref="acceptedAmount" @click.prevent.stop="numberCanAcceptBet(acceptedBets, index)">
+                {{ acceptedBets }}
+              </button>
             </div>
           </div>
           <div class="form__field">
@@ -55,16 +90,16 @@
       </template>
 
       <template v-slot:submitBtn>
-        <button class="btn btn--xs btn--green" id="addBetBTN" @click.prevent.stop="createBet">Add</button>
+        <button class="btn btn--xs btn--green" id="addBetBTN" :disabled="!validateForm" @click.prevent.stop="createBet">Add</button>
       </template>
     </Modal>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Ref, Vue } from 'vue-property-decorator'
 import BetService from '@/services/BetService'
-import { IBetDto } from '@/types/Bets/Bet'
+import { IBetDto, ICreateBet } from '@/types/Bets/Bet'
 import Helper from '@/utility/Helper'
 import UIHelper from '@/utility/UIHelper'
 
@@ -83,21 +118,31 @@ export default class Bets extends Vue {
   views = ['All', 'By Name', 'Amount', 'Accepted']
   isAddingBet = false
   loading = false
-
-  addBetForm = {
+  addBetForm: ICreateBet = {
     title: '',
     description: '',
-    amount: '',
-    canAcceptNumber: 1,
+    amount: 0,
+    canAcceptNumber: 0,
     requiresPassCode: false,
     isActive: false,
+    userId: '',
+    createdBy: '',
   }
 
-  amounts = [1, 5, 10, 20, 25, 50, 100]
+  amounts = [1, 5, 10, 25]
+  numOfAcceptedBets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-  mounted() {
+  mounted(): void {
     UIHelper.Header({ title: 'Bets', isShowing: true, current: 'main' })
     this.getBets()
+  }
+
+  get validateForm(): boolean {
+    if (this.addBetForm.title && this.addBetForm.description && this.addBetForm.amount > 0 && this.addBetForm.canAcceptNumber > 0) {
+      return true
+    } else {
+      return false
+    }
   }
 
   get filterBets(): Array<IBetDto> {
@@ -105,7 +150,12 @@ export default class Bets extends Vue {
       return this.Bets
     } else if (this.currentView === 'By Name') {
       return this.Bets.filter((bet) => {
-        return bet.createdBy.toLowerCase().includes(this.search.toLowerCase())
+        const firstName = bet.createdBy.split(' ', 2)[0]
+        const lastName = bet.createdBy.split(' ', 2)[1]
+
+        if (firstName.toLowerCase().startsWith(this.search.toLowerCase()) || lastName.toLowerCase().startsWith(this.search.toLowerCase())) {
+          return bet
+        }
       })
     } else if (this.currentView === 'Accepted') {
       return this.Bets.filter((bet) => {
@@ -120,9 +170,6 @@ export default class Bets extends Vue {
     this.currentView = view
     const viewButtons = document.querySelector('.bets__viewButtons')
 
-    const viewButton = document.querySelectorAll('.viewButton')[index] as HTMLButtonElement
-    // viewButton.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' })
-
     if (view === 'All' && viewButtons) {
       viewButtons.scrollLeft = 0
     } else {
@@ -130,6 +177,30 @@ export default class Bets extends Vue {
         viewButtons.scrollLeft = 100
       }
     }
+  }
+
+  increaseBetAmount(amount: number, index: number): void {
+    const spanTxt = document.getElementById('spanAmt')
+    if (spanTxt) spanTxt.classList.add('flash')
+    const els = this.$refs.amount as Element[]
+    els[index].classList.add('clicked')
+    setTimeout(() => {
+      els[index].classList.remove('clicked')
+      if (spanTxt) spanTxt.classList.remove('flash')
+    }, 500)
+    this.addBetForm.amount += amount
+  }
+
+  numberCanAcceptBet(numCanAccept: number, index: number): void {
+    const spanTxt = document.getElementById('spanAcceptNum')
+    if (spanTxt) spanTxt.classList.add('flash')
+    const els = this.$refs.acceptedAmount as Element[]
+    els[index].classList.add('clicked')
+    setTimeout(() => {
+      els[index].classList.remove('clicked')
+      if (spanTxt) spanTxt.classList.remove('flash')
+    }, 500)
+    this.addBetForm.canAcceptNumber = numCanAccept
   }
 
   formatDate(date: string): string {
@@ -159,9 +230,16 @@ export default class Bets extends Vue {
   }
 
   async createBet(): Promise<void> {
+    const userId = this.$store.state.authStore.currentUser.id
+    const createdBy = this.$store.state.authStore.currentUser.fullName
+    this.addBetForm.createdBy = createdBy
+    this.addBetForm.userId = userId
     try {
       UIHelper.clickedButton('addBetBTN')
+      const res = await BetService.CreateBet(this.addBetForm)
+      console.log(res)
     } catch (e) {
+      console.log(e)
       await this.$store.dispatch('uiStore/_setPageLoading', false)
     }
   }
@@ -169,165 +247,5 @@ export default class Bets extends Vue {
 </script>
 
 <style scoped lang="scss">
-.bets {
-  &__viewButtons {
-    overflow-x: scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
-    padding: 0.2rem 0.2rem 0.8rem 0.2rem;
-    scroll-behavior: smooth;
-
-    .viewButton {
-      margin-right: 0.8rem;
-      display: inline-block;
-      height: 30px;
-      min-width: 75px;
-      font-size: 0.8rem;
-      padding: 0.3rem 0.8rem;
-      border: none;
-      border-bottom: 2px solid #17252a;
-
-      &.active {
-        background-color: $DarkBlue;
-        color: white;
-      }
-
-      &:last-child {
-        margin: 0;
-      }
-    }
-  }
-  .utilityBar {
-    display: flex;
-    align-items: center;
-
-    .searchBets {
-      flex: 0 1 80%;
-      label {
-        padding-left: 0.5rem;
-        font-size: 0.8rem;
-      }
-    }
-
-    .createBet {
-      flex: auto;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      button {
-        padding: 0.3rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border: none;
-        img {
-          height: 30px;
-          width: 30px;
-          object-fit: contain;
-        }
-
-        span {
-          font-size: 0.7rem;
-        }
-      }
-    }
-  }
-
-  &__list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: 80px;
-    gap: 8px;
-    border-radius: 5px;
-    padding: 0.4rem 0.4rem 1rem 0.4rem;
-    min-height: 160px;
-
-    .card {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      border-radius: 5px;
-      padding: 0.5rem;
-      box-shadow: 3px 3px 3px lightgrey;
-      border-left: 3px solid $DarkGreen;
-
-      .createdBy {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.2rem;
-
-        p {
-          color: grey;
-          font-size: 0.6rem;
-        }
-      }
-
-      .title {
-        h2 {
-          font-size: 0.8rem;
-        }
-      }
-
-      .details {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 0.5rem;
-
-        button {
-          padding: 0.3rem 0.5rem;
-          font-size: 0.6rem;
-          border: none;
-          border-bottom: 2px solid $DarkGreen;
-        }
-      }
-    }
-  }
-
-  .amountBTNS {
-    display: flex;
-    flex-wrap: wrap;
-    button {
-      height: 40px;
-      background-color: white;
-      color: $DarkBlue;
-      font-weight: bold;
-      border: 1px solid $DarkBlue;
-      margin: 0 0.3rem 0.3rem 0;
-      flex: 0 1 23%;
-    }
-  }
-}
-
-@media (min-width: 375px) {
-  .bets {
-    &__buttons {
-      button {
-        padding: 0.3rem 0.8rem;
-
-        &:last-child {
-        }
-      }
-    }
-
-    &__list {
-      grid-auto-rows: 100px;
-      .card {
-        .createdBy {
-          p {
-          }
-        }
-
-        .title {
-          h2 {
-          }
-        }
-
-        .details {
-          button {
-          }
-        }
-      }
-    }
-  }
-}
+@import '../assets/styles/_bets.scss';
 </style>

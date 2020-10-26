@@ -26,3 +26,14 @@ export interface IBetHistoryDto {
   acceptedBy: IUserAcceptedBet[]
   createdOn: string
 }
+
+export interface ICreateBet {
+  title: string
+  description: string
+  amount: number
+  userId: string
+  createdBy: string
+  canAcceptNumber: number
+  requiresPassCode?: boolean
+  isActive?: boolean
+}
