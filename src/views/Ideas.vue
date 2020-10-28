@@ -53,6 +53,7 @@ import { IAddIdea, ICreatedBy, IIdea } from '@/types/Idea'
 import IdeaService from '@/services/IdeaService'
 import Helper from '@/utility/Helper'
 import FormatMixins from '@/mixins/FormatMixins.vue'
+import { IHeader } from '@/types/UI/UIStoreTypes'
 
 @Component({
   name: 'Ideas',
@@ -74,8 +75,7 @@ export default class Ideas extends Vue {
 
   mounted(): void {
     this.getIdeas()
-
-    this.$store.dispatch('uiStore/_setHeaderTitle', 'Ideas')
+    this.$store.dispatch('uiStore/_setHeader', { current: 'main', isShowing: true, title: 'Ideas' } as IHeader)
   }
   longString(str: string, num: number): string {
     return Helper.formatLongString(str, num)

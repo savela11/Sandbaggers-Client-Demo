@@ -9,6 +9,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { IAdminLink } from '@/types/Navigation/INavBar'
+import { IHeader } from '@/types/UI/UIStoreTypes'
 @Component({ name: 'Admin' })
 export default class Admin extends Vue {
   activeAdminLink = 'Admin Dashboard'
@@ -18,7 +19,7 @@ export default class Admin extends Vue {
     { name: 'Events', link: '/admin/events', icon: 'golf' },
   ]
   mounted(): void {
-    this.$store.dispatch('uiStore/_setHeaderTitle', 'Admin')
+    this.$store.dispatch('uiStore/_setHeader', { current: 'main', isShowing: true, title: 'Admin' } as IHeader)
     this.$store.dispatch('uiStore/_setPageLoading', false)
   }
 

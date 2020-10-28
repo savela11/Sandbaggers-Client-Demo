@@ -9,12 +9,14 @@
   createdOn: string
   updatedOn: string
   isActive: boolean
+  userId: string
   doesRequirePasscode: boolean
 }
 
 export interface IUserAcceptedBet {
   userId: string
-  name: string
+  betId: number
+  fullName: string
 }
 
 export interface IBetHistoryDto {

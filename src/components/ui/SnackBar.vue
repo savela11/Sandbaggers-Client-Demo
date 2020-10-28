@@ -17,16 +17,15 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { ISnackBar } from '@/types/UI/SnackBar'
 import UIHelper from '@/utility/UIHelper'
 
 @Component({ name: 'SnackBar' })
 export default class SnackBar extends Vue {
-  closeSnackBar() {
+  closeSnackBar(): void {
     UIHelper.SnackBar()
   }
 
-  get snackBarClass() {
+  get snackBarClass(): void {
     return this.$store.getters['uiStore/SnackBarClass']
   }
 }
@@ -34,12 +33,12 @@ export default class SnackBar extends Vue {
 
 <style scoped lang="scss">
 .snackBar {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 0 0.5rem;
+  padding: 0.3rem;
   z-index: 1;
 
   &__wrapper {
@@ -54,18 +53,23 @@ export default class SnackBar extends Vue {
     z-index: 2;
 
     & > div {
-      padding: 0.8rem 0.75rem;
       font-size: 0.875rem;
     }
 
     .title {
-      background-color: rgba(255, 255, 255, 0.85);
+      background-color: $DarkBlue;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      color: #6c757d;
+      color: white;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+      padding: 0.75rem 1.25rem;
+      position: relative;
+      border-top-left-radius: 0.25rem;
+      border-top-right-radius: 0.25rem;
     }
 
     .content {
       background-color: rgba(255, 255, 255, 0.85);
+      padding: 1.25rem;
       ul {
         padding: 0 0 0 1.5rem;
         margin: 0.3rem 0;
@@ -86,8 +90,6 @@ export default class SnackBar extends Vue {
       background-color: #425a41;
       color: white;
     }
-
   }
-
 }
 </style>

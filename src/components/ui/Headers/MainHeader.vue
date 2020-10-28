@@ -1,6 +1,6 @@
 ﻿<template>
   <header class="mainHeader">
-    <div class="mainHeader__container">
+    <div class="mainHeader__container" :style="{ backgroundColor: bgColor }">
       <div class="sbLogo"><img src="@/assets/SBLogo.png" alt="Sandbagger Logo" /></div>
       <div class="profile" @click.prevent.stop="closeNavMenu">
         <router-link to="/UserProfile"><img :src="currentUserImage" alt="Profile Image" /></router-link>
@@ -16,7 +16,7 @@ import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 @Component({ name: 'MainHeader' })
 export default class MainHeader extends Vue {
   @Prop() currentUser!: ICurrentUser
-
+  @Prop({ default: 'white' }) bgColor?: string
   @Emit('closeNavMenu')
   closeNavMenu(): boolean {
     return false
@@ -34,15 +34,14 @@ export default class MainHeader extends Vue {
 <style scoped lang="scss">
 .mainHeader {
   box-shadow: 0 1px 6px rgba(102, 102, 102, 0.8);
-
   &__container {
     position: relative;
     padding: 0.4rem 1rem;
-    background-color: white;
     border-bottom: 1px solid $DarkBlue;
     height: 60px;
     display: flex;
     justify-content: space-between;
+    z-index: 1;
     h1 {
       font-size: 0.9rem;
       font-weight: normal;
@@ -57,9 +56,25 @@ export default class MainHeader extends Vue {
       width: 60px;
     }
 
+    .profileContainer {
+      display: flex;
+      align-items: flex-end;
+
+      .buttons {
+        display: flex;
+        margin-right: 0.5rem;
+      }
+      button {
+        width: 25px;
+        border-radius: 50%;
+        height: 25px;
+        margin: 0 0.3rem 0 0;
+      }
+    }
+
     .profile {
+      transform: translateY(20px);
       position: relative;
-      transform: translateY(5px);
       width: 60px;
       height: 60px;
       padding: 0.3rem;
@@ -74,6 +89,27 @@ export default class MainHeader extends Vue {
         img {
           object-fit: cover;
           border-radius: 3px;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 375px) {
+  .mainHeader {
+    &__container {
+      padding: 0.8rem 1rem;
+      h1 {
+      }
+      img {
+      }
+      .sbLogo {
+      }
+
+      .profile {
+        a {
+          img {
+          }
         }
       }
     }

@@ -2,10 +2,10 @@
   <div class="modal">
     <div class="modal__background" v-on="$listeners"></div>
     <div class="modal__container">
+      <div class="modal__closeButton">
+        <button class="btn btn--xs" v-on="$listeners">Close</button>
+      </div>
       <div class="modal__header section" v-if="isHeader">
-        <div class="modal__closeButton">
-          <button class="btn btn--xs" v-on="$listeners">Close</button>
-        </div>
         <slot name="header"></slot>
       </div>
       <div class="modal__body section" v-if="isBody">
@@ -37,7 +37,7 @@ export default class Modal extends Vue {
     window.removeEventListener('resize', this.handleDeviceSize)
   }
 
-  handleDeviceSize(): string {
+  handleDeviceSize(): string | undefined {
     let deviceSize
     if (window.innerWidth > 300 && window.innerWidth < 768 && this.deviceSize !== 'mobile') {
       deviceSize = 'mobile'

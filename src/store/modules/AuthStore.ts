@@ -55,12 +55,11 @@ const actions = {
 
   async Logout(context: ActionContext<IAuthState, IRootState>): Promise<void> {
     try {
-      await AuthService.logout()
-
       await context.commit('LogoutCurrentUser')
       ls.removeAll()
       localStorage.clear()
       await router.push('/login').catch(() => {})
+      await AuthService.logout()
     } catch (e) {
       console.log(e)
     }

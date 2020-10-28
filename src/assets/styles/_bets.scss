@@ -39,13 +39,13 @@
 
   .utilityBar {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
 
     .searchBets {
       flex: 0 1 80%;
 
       label {
-        padding-left: 0.5rem;
+        padding: 0 0.5rem;
         font-size: 0.8rem;
       }
     }
@@ -57,7 +57,7 @@
       align-items: center;
 
       button {
-        padding: 0.3rem;
+        padding: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -80,96 +80,215 @@
     border-radius: 5px;
     min-height: 200px;
     margin-top: 1rem;
-    border: 1px solid grey;
+  }
+
+  .card {
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+    border-radius: 5px;
     padding: 1rem;
+    border-left: 5px solid $DarkGreen;
+    min-height: 150px;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    overflow: hidden;
 
-    .card {
-      border-radius: 5px;
-      padding: .8rem 1rem;
-      box-shadow: 3px 3px 3px lightgrey;
-      border-left: 3px solid $DarkGreen;
-      height: 100px;
-      margin-bottom: 1rem;
 
-      .createdBy {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.5rem;
+    .divider {
+      margin: 2rem 0 1rem 0;
+      border-radius: 25px;
+    }
 
-        p {
-          color: grey;
-          font-size: 0.6rem;
-        }
-      }
+    &.selectedBet {
+      height: auto;
+      border-left: 5px solid $DarkBlue;
 
-      .title {
-        h2 {
-          font-size: 0.8rem;
-        }
-      }
-
-      .details {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 0.5rem;
-
+      .accept {
         button {
-          padding: 0.3rem 0.5rem;
-          font-size: 0.6rem;
-          border: none;
-          border-bottom: 2px solid $DarkGreen;
+          background-color: $DarkBlue;
+          color: white;
         }
       }
     }
-  }
 
-  .btns {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-auto-rows: 40px;
-    gap: 10px;
-    margin-top: 1rem;
+    h2 {
+      font-size: 1rem;
+      color: $DarkBlue;
+      padding-left: .5rem;
+    }
 
+    h3 {
+      font-size: .8rem;
+      margin-bottom: .3rem;
+    }
+
+    p {
+      color: grey;
+      font-size: 0.8rem;
+    }
 
     button {
-      background-color: white;
-      color: $DarkBlue;
-      border: none;
-      border-bottom: 1px solid $DarkBlue;
       font-size: .8rem;
 
-      &.clicked {
-        background-color: $DarkBlue;
-        color: white;
-        transform: scale(1.1);
-        font-weight: bold;
+    }
+
+
+    &__top {
+      flex: auto;
+
+    }
+
+    &__bottom {
+      min-height: 100px;
+      margin: .3rem;
+      padding: .3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .description {
+        p {
+          white-space: pre-wrap;
+          border: 1px solid $DarkBlue;
+          padding: .5rem;
+          border-radius: 3px;
+        }
+      }
+
+      .accept {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
       }
     }
 
-    &--acceptBetNum {
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    .createdBy {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+
+    }
+
+    .title {
+      padding: 1rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+    }
+
+    .details {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      .acceptedBy {
+        display: flex;
+        align-items: center;
+        position: relative;
+        button {
+          border: none;
+        }
+        p {
+          font-size: .7rem;
+        }
+
+        .acceptedByList {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+
+          ul {
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+            min-height: 100px;
+            background-color: white;
+            border: 1px solid $DarkBlue;
+          }
+        }
+      }
+
+      .amount {
+        padding: .5rem;
+        border-radius: 50%;
+        background-color: $DarkGreen;
+        height: 50px;
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 3px 3px 3px rgb(95, 95, 95, .8);
+        button {
+          padding: 0.3rem 0.5rem;
+          border: none;
+          border-bottom: 2px solid $DarkGreen;
+
+          &.selected {
+            border-bottom: 2px solid $Crimson;
+            color: $Crimson;
+          }
+        }
+
+        span {
+          font-size: 1rem;
+          font-weight: bold;
+          color: white;
+        }
+      }
+
+    }
+  }
+
+  .modal {
+    .btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-auto-rows: 30px;
+      gap: 10px;
+      margin-top: .5rem;
+
 
       button {
+        background-color: white;
+        color: $DarkBlue;
+        border: none;
+        border-bottom: 1px solid $DarkBlue;
+        font-size: .8rem;
+
+        &.clicked {
+          background-color: $DarkBlue;
+          color: white;
+          transform: scale(1.1);
+          font-weight: bold;
+        }
+      }
+
+      &--acceptBetNum {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+        button {
+        }
       }
     }
-  }
 
-  .amountTitle {
-    font-size: 0.8rem;
-    margin: 0 0 0.3rem 0.3rem;
-    font-weight: bold;
-
-    span {
-      float: right;
-      font-weight: normal;
-    }
-  }
-
-  .form__field {
-    margin-bottom: 1rem;
-
-    label {
+    .amountTitle {
+      font-size: 0.8rem;
+      margin: 0 0 0.3rem 0.3rem;
       font-weight: bold;
+
+      span {
+        float: right;
+        font-weight: normal;
+      }
+    }
+
+    .form__field {
+      margin-bottom: .5rem;
+
+      label {
+        font-weight: bold;
+      }
     }
   }
 
@@ -212,57 +331,78 @@
     &__list {
       min-height: 300px;
 
-      .card {
+    }
 
-        .createdBy {
+    .card {
+      margin-bottom: 1.5rem;
 
-          p {
-          }
+      h2 {
+        font-size: 1.2rem;
+      }
+
+      h3 {
+        font-size: .9rem;
+      }
+
+      p {
+        font-size: .9rem;
+      }
+
+      button {
+        font-size: .9rem;
+      }
+
+      .createdBy {
+
+
+      }
+
+      .title {
+
+      }
+
+      .details {
+
+        button {
+          padding: .5rem .8rem;
+        }
+      }
+    }
+
+
+    .modal {
+      .btns {
+
+
+        button {
+          font-size: 1rem;
+
         }
 
-        .title {
-          h2 {
-          }
-        }
-
-        .details {
-
+        &--acceptBetNum {
           button {
           }
         }
       }
-    }
 
-    .btns {
-
-
-      button {
+      .amountTitle {
         font-size: 1rem;
 
+        span {
+        }
       }
 
-      &--acceptBetNum {
-        button {
+      .form__field {
+        label {
+          font-size: 1rem;
+        }
+
+        input, textarea {
+          font-size: 1rem;
         }
       }
     }
 
-    .amountTitle {
-      font-size: 1rem;
-
-      span {
-      }
-    }
-
-    .form__field {
-      label {
-        font-size: 1rem;
-      }
-
-      input, textarea {
-        font-size: 1rem;
-      }
-    }
 
   }
 }
@@ -290,6 +430,7 @@
 
 
       .searchBets {
+        flex: 0 1 50%;
 
         label {
 
@@ -313,10 +454,12 @@
     }
 
     &__list {
-
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
 
       .card {
-
+        margin: 0;
 
         .createdBy {
 
@@ -369,3 +512,113 @@
     }
   }
 }
+
+@media (min-width: 1024px) {
+
+  .bets {
+    &__viewButtons {
+
+
+      .viewButton {
+
+
+        &.active {
+
+        }
+
+        &:last-child {
+        }
+      }
+    }
+
+    .utilityBar {
+
+
+      .searchBets {
+        flex: 0 1 40%;
+
+        label {
+
+        }
+
+        .input {
+          padding: .5rem .8rem;
+        }
+      }
+
+      .createBet {
+
+
+        button {
+
+
+          img {
+
+          }
+
+          span {
+          }
+        }
+      }
+    }
+
+    &__list {
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+
+      .card {
+
+        .createdBy {
+
+
+          p {
+
+          }
+        }
+
+        .title {
+          h2 {
+          }
+        }
+
+        .details {
+
+
+          button {
+
+          }
+        }
+      }
+
+      .btns {
+
+
+        button {
+
+        }
+
+        &--acceptBetNum {
+          button {
+          }
+        }
+      }
+
+      .amountTitle {
+
+
+        span {
+        }
+      }
+
+      .form__field {
+        label {
+        }
+      }
+
+
+    }
+  }
+}
+
+
+

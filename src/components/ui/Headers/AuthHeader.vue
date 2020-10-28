@@ -110,11 +110,13 @@ export default class HelloWorld extends Vue {
 @media (min-width: 768px) {
   .heading {
     &__backgroundColor {
-      padding: 1rem 1rem 3rem 3rem;
+      padding: 1rem 1rem 3rem 4rem;
+      min-height: 300px;
+      justify-content: space-evenly;
     }
     &__title {
       h1 {
-        font-size: 3rem;
+        font-size: 2.5rem;
       }
     }
 

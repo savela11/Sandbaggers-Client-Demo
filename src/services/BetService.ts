@@ -1,6 +1,6 @@
 ﻿import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
-import { IBetDto, ICreateBet } from '@/types/Bets/Bet'
+import { IBetDto, ICreateBet, IUserAcceptedBet } from '@/types/Bets/Bet'
 
 const url = '/bets'
 
@@ -16,8 +16,12 @@ class BetService {
     return await apiClient.post(url + '/UpdateBet', bet)
   }
 
-  static async CreateBet(bet: ICreateBet): Promise<AxiosResponse<void>> {
+  static async CreateBet(bet: ICreateBet): Promise<AxiosResponse<IBetDto>> {
     return await apiClient.post(url + '/CreateBet', bet)
+  }
+
+  static async UserAcceptsBet(acceptedBet: IUserAcceptedBet): Promise<AxiosResponse<void>> {
+    return await apiClient.post(url + '/UserAcceptsBet', acceptedBet)
   }
 }
 

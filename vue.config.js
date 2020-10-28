@@ -8,7 +8,8 @@ module.exports = {
         pathRewrite: {
           '^/api': '/api',
         },
-        target: 'https://localhost:5001',
+        // target: 'https://localhost:5001',
+        target: 'https://localhost:44371',
       },
     },
   },

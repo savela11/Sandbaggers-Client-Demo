@@ -8,6 +8,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import EventService from '@/services/EventService'
 import { IEventDto, IRegisteredUser, IRegisterUser } from '@/types/Admin/Event'
+import { IHeader } from '@/types/UI/UIStoreTypes'
 
 @Component({
   name: 'SandbaggerEvent',
@@ -44,7 +45,7 @@ export default class SandbaggerEvent extends Vue {
           fullName: this.currentUser.fullName,
           id: this.currentUser.id,
           username: this.currentUser.username,
-          image: this.$store.state.authStore.currentUser.profile.image
+          image: this.$store.state.authStore.currentUser.profile.image,
         }
         this.Event.registeredUsers.push(registeredUser)
       }
@@ -67,7 +68,7 @@ export default class SandbaggerEvent extends Vue {
         fullName: this.$store.state.authStore.currentUser.fullName,
       }
 
-      await this.$store.dispatch('uiStore/_setHeaderTitle', res.data.name)
+      await this.$store.dispatch('uiStore/_setHeader', { current: 'main', isShowing: true, title: res.data.name } as IHeader)
 
       this.loading = false
     } catch (e) {

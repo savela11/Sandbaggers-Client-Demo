@@ -88,10 +88,13 @@ export default class Navigation extends Vue {
       height: 40px;
       width: 40px;
       padding: 0.3rem;
+
       img {
         height: 100%;
         width: 100%;
         object-fit: contain;
+        background-color: white;
+        border-radius: 50px;
       }
     }
 

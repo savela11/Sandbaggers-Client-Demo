@@ -56,6 +56,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import EventService from '@/services/EventService'
 import { IEventDto, IRegisteredUser } from '@/types/Admin/Event'
 import { RegisterUserForEvent } from '@/types/Events/SandbaggerEvents'
+import { IHeader } from '@/types/UI/UIStoreTypes'
 
 @Component({
   name: 'SandbaggerEvents',
@@ -72,7 +73,8 @@ export default class SandbaggerEvents extends Vue {
 
   modalLoading = false
   mounted(): void {
-    this.$store.dispatch('uiStore/_setHeaderTitle', 'Events')
+    this.$store.dispatch('uiStore/_setHeader', { current: 'main', isShowing: true, title: 'Events' } as IHeader)
+
     this.getEvents()
   }
 

@@ -9,6 +9,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { ICurrentUser } from '@/types/User/AuthUser'
 import UIStore from '@/store/modules/UIStore'
 import UsersService from '@/services/UsersService'
+import { IHeader } from '@/types/UI/UIStoreTypes'
 
 interface IOption {
   name: string
@@ -28,7 +29,7 @@ export default class Profile extends Vue {
   currentUser = {} as ICurrentUser
 
   mounted(): void {
-    this.$store.dispatch('uiStore/_setHeaderTitle', 'Update Settings')
+    this.$store.dispatch('uiStore/_setHeader', { current: 'main', isShowing: true, title: 'Profile' } as IHeader)
     this.getUserWithSettings()
   }
 

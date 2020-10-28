@@ -19,4 +19,5 @@ export interface IHeader {
   current?: string
   title: string
   isShowing: boolean
+  bgColor?: string
 }

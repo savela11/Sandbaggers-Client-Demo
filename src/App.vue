@@ -4,11 +4,12 @@
     <PageLoading v-if="this.$store.state.uiStore.pageLoading" />
     <div v-if="Header.isShowing">
       <AuthHeader v-if="Header.current === 'auth'" :backgroundColor="headerColor" :title="Header.title" />
-      <MainHeader v-if="Header.current === 'main' && CurrentUser" :currentUser="CurrentUser" />
+      <MainHeader v-if="Header.current === 'main' && CurrentUser" :currentUser="CurrentUser" :bgColor="Header.bgColor" />
     </div>
 
     <router-view class="routerView" v-show="!isNavigationMenuShowing && !DataLoading" />
     <Loading v-show="DataLoading" />
+
     <div v-if="CurrentUser">
       <NavMenu v-show="isNavigationMenuShowing" :isAdmin="CurrentUser.roles.includes('Admin')" />
 
@@ -93,6 +94,13 @@ export default class App extends Vue {
 }
 
 @media (min-width: 768px) {
+  .app {
+    .routerView {
+      padding: 3rem;
+    }
+  }
+}
+@media (min-width: 1024px) {
   .app {
     .routerView {
       padding: 5rem;

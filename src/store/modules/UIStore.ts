@@ -8,6 +8,7 @@ const state: IUIState = {
     current: '',
     title: 'Test',
     isShowing: true,
+    bgColor: 'white',
   },
   dataLoading: false,
   pageLoading: false,
@@ -33,6 +34,11 @@ const getters = {
 
 const mutations = {
   SetHeader(state: IUIState, headerInfo: IHeader): void {
+    if (!headerInfo.bgColor) {
+      state.header.bgColor = 'white'
+    } else {
+      state.header.bgColor = headerInfo.bgColor
+    }
     if (headerInfo.isShowing) {
       state.header.isShowing = true
       state.header.title = headerInfo.title
@@ -42,10 +48,6 @@ const mutations = {
       state.header.title = ''
       state.header.current = ''
     }
-  },
-
-  SetHeaderTitle(state: IUIState, title: string): void {
-    state.header.title = title
   },
 
   SetPageLoadingStatus(state: IUIState, loadingStatus: boolean): void {
@@ -114,10 +116,6 @@ const mutations = {
 const actions = {
   _setHeader(context: ActionContext<IUIState, IRootState>, headerInfo: IHeader): void {
     context.commit('SetHeader', headerInfo)
-  },
-
-  _setHeaderTitle(context: ActionContext<IUIState, IRootState>, title: string): void {
-    context.commit('SetHeaderTitle', title)
   },
 
   _setHeaderShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean): void {

@@ -40,6 +40,8 @@ export default class ShowNavBarBtn extends Vue {
       height: 100%;
       width: 100%;
       object-fit: contain;
+      background-color: white;
+      border-radius: 50px;
     }
   }
 }
