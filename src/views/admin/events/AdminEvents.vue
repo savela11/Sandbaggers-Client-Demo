@@ -95,11 +95,13 @@
                   </div>
                   <div class="bottom">
                     <div class="teamMembers">
-                      <div class="teamMembers__top">
+                      <div class="teamMembers__teamName">
                         <h4>
                           Team Members: <span>{{ team.teamMembers.length }}</span>
                         </h4>
-                        <button @click="toggleTeamMembersList(team.teamId)">dropdown</button>
+                        <button v-if="team.teamMembers.length > 0" @click="toggleTeamMembersList(team.teamId)">
+                          <img :src="require('@/assets/icons/arrowDown.svg')" alt="Down arrow" />
+                        </button>
                       </div>
 
                       <ul class="teamMembers__memberList" v-if="showTeamMembersForId === team.teamId">

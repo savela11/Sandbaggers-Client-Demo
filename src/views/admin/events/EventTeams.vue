@@ -1,58 +1,18 @@
 ﻿<template>
   <div class="eventTeams">
-    <div class="topPage" v-if="!isAddingTeam">
-      <div class="container">
-        <button @click="backOne" class="back"><img src="@/assets/icons/backArrow.svg" alt="Back Button" /></button>
-        <p>Back</p>
+    <div v-if="!loading">
+      <div class="utilityBar">
+        <BtnWithText @click="backOne" v-bind="{ img: 'backArrow', text: 'Back' }"></BtnWithText>
+        <BtnWithText v-bind="{ img: 'addCircle', text: 'Add Team' }"></BtnWithText>
       </div>
-      <div class="container">
-        <button @click="toggleAddingTeam(true)"><img src="@/assets/icons/addCircle.svg" alt="Add Team Button" /></button>
-        <p>Add</p>
-      </div>
-    </div>
-
-    <div class="addEventTeam" v-if="isAddingTeam && !loading">
-      <form class="form">
-        <div class="form__field">
-          <label for="teamName">Team Name / Color</label>
-          <input id="teamName" type="text" class="input" v-model.trim="addTeamForm.teamName" />
-        </div>
-      </form>
-      <div class="btnContainer">
-        <button @click="addTeamToEvent" class="btn btn--xs btn--green">Add</button>
-        <button @click="toggleAddingTeam(false)" class="btn btn--xs btn--red">cancel</button>
-      </div>
-    </div>
-
-    <div class="teamList" v-if="!isAddingTeam && !loading">
-      <div class="team" :style="`borderRight: 3px solid ${teamColor(team.name)}`" v-for="team in teams" :key="team.teamId">
-        <div class="top">
-          <div class="nameWithForm">
-            <h2>Team</h2>
-            <p :style="`color: ${teamColor(team.name)}`" v-if="editTeamId !== team.teamId">{{ team.name }}</p>
-            <form class="editTeamName" v-if="editTeamId === team.teamId">
-              <label class="hideLabel" for="cTeam">Team Name</label>
-              <input type="text" id="cTeam" v-model="team.name" />
-            </form>
+      <div class="teams">
+        <div class="team" v-for="team in teams" :key="team.teamId">
+          <div class="team__name">
+            <h3><span>Team</span> {{ team.name }}</h3>
           </div>
-          <div class="buttons">
-            <BtnWithText
-              class="button"
-              v-if="editTeamId !== team.teamId"
-              @click="editTeam(team.teamId)"
-              v-bind="{ img: 'editPencil', altText: 'Edit Team Button', text: 'Edit' }"
-            />
-            <BtnWithText
-              class="button button--cancel"
-              v-if="editTeamId === team.teamId"
-              @click="editTeamId = null"
-              v-bind="{ img: 'cancel', altText: 'Cancel Button', text: 'Cancel' }"
-            />
-            <BtnWithText class="button" v-if="editTeamId === team.teamId" @click="updateTeamInfo(team)" v-bind="{ img: 'cloudSave', altText: 'Save Button', text: 'Save' }" />
+          <div class="team__captain">
+            <h4>Captain: {{ team.captain }}</h4>
           </div>
-        </div>
-        <div class="middle">
-          <p>{{ teamCaptainName(team.captain) }}</p>
         </div>
       </div>
     </div>
@@ -70,7 +30,10 @@ import { IEventTeam } from '@/types/Admin/Event'
 
 @Component({
   name: 'EventTeams',
-  components: { Loading: (): Promise<object> => import('@/components/ui/Loading.vue'), BtnWithText: (): Promise<object> => import('@/components/ui/Buttons/BtnWithText.vue') },
+  components: {
+    Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
+    BtnWithText: (): Promise<object> => import('@/components/ui/Buttons/BtnWithText.vue'),
+  },
 })
 export default class EventTeams extends Vue {
   $store: any
@@ -84,11 +47,12 @@ export default class EventTeams extends Vue {
     teamName: '',
     eventId: '',
   }
+  selectedTeamToEdit: null | IEventTeam = null
 
   mounted(): void {
     this.eventId = this.$route.params.eventId
     this.eventTeams()
-    UIHelper.Header({ title: 'Teams', isShowing: true })
+    UIHelper.Header({ title: 'Teams', isShowing: true, current: 'main' })
     window.addEventListener('resize', this.handleFlexDirection)
     this.handleFlexDirection()
   }
@@ -126,6 +90,10 @@ export default class EventTeams extends Vue {
     if (teamId === this.editTeamId) {
       this.editTeamId = null
       return
+    }
+    const foundTeam = this.teams.find((t) => t.teamId === teamId)
+    if (foundTeam) {
+      this.selectedTeamToEdit = foundTeam
     }
     this.editTeamId = teamId
   }
@@ -182,146 +150,5 @@ export default class EventTeams extends Vue {
 </script>
 
 <style scoped lang="scss">
-.eventTeams {
-  .topPage {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    p {
-      font-size: 0.7rem;
-      color: grey;
-    }
-
-    button {
-      border: none;
-
-      img {
-        height: 30px;
-        width: 30px;
-        object-fit: contain;
-      }
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-
-  .addEventTeam {
-    .btnContainer {
-      display: flex;
-      justify-content: flex-end;
-
-      button:first-child {
-        margin-right: 0.5rem;
-      }
-    }
-  }
-
-  .teamList {
-    margin-top: 2rem;
-
-    .team {
-      box-shadow: 5px 5px 5px lightgrey;
-      min-height: 150px;
-      border-radius: 5px;
-      margin-bottom: 1rem;
-      padding: 0.5rem;
-
-      h2 {
-        font-size: 1rem;
-        font-weight: normal;
-      }
-
-      .top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .nameWithForm {
-          display: flex;
-          align-items: center;
-          p {
-            font-size: 1rem;
-            font-weight: bold;
-          }
-        }
-        .buttons {
-          display: flex;
-          flex-direction: row;
-
-          .button {
-            &--cancel {
-              margin: 0 0.3rem 0 0;
-            }
-          }
-        }
-      }
-
-      .editSave {
-        p {
-          color: grey;
-          font-size: 0.6rem;
-        }
-      }
-
-      .editTeamName {
-        margin: 0 0.3rem;
-
-        input {
-          border: none;
-          border-bottom: 1px solid grey;
-          padding: 0.3rem 0.5rem;
-          font-size: 0.8rem;
-          border-radius: 3px;
-          background-color: lightgrey;
-          color: $DarkBlue;
-          font-weight: bold;
-        }
-      }
-    }
-  }
-}
-
-@media (min-width: 375px) {
-  .eventTeams {
-    .teamList {
-      .team {
-        .top {
-          .buttons {
-            .button {
-              &--cancel {
-                margin: 0 1rem 0 0;
-              }
-            }
-          }
-        }
-
-        .editSave {
-          p {
-            color: grey;
-            font-size: 0.6rem;
-          }
-        }
-
-        .editTeamName {
-          margin: 0 0.3rem;
-
-          input {
-            border: none;
-            border-bottom: 1px solid grey;
-            padding: 0.3rem 0.5rem;
-            font-size: 0.8rem;
-            border-radius: 3px;
-            background-color: lightgrey;
-            color: $DarkBlue;
-            font-weight: bold;
-          }
-        }
-      }
-    }
-  }
-}
+@import '../../../assets/styles/admin/_adminEventTeams.scss';
 </style>

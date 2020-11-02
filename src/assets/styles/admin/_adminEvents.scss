@@ -2,12 +2,12 @@
   padding: 1rem;
 
 
-
   .eventView {
     & > div {
       margin-bottom: 1rem;
     }
-  &__selectBox{
+
+    &__selectBox {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
@@ -62,6 +62,7 @@
         font-size: 0.8rem;
       }
     }
+
     hr {
       margin: 1rem 0;
       border: 1px solid lightgrey;
@@ -196,9 +197,15 @@
 
             .bottom {
               .teamMembers {
-                &__top {
+                &__teamName {
                   display: flex;
                   justify-content: space-between;
+                  align-items: center;
+
+                  button {
+                    padding: .3rem;
+                    border: none;
+                  }
                 }
 
                 &__memberList {
@@ -235,6 +242,7 @@
       }
     }
   }
+
   .resultsView {
     h2 {
       font-size: 1.2rem;
@@ -248,6 +256,7 @@
     .section {
       margin: 0 0 1rem 0;
     }
+
     &__viewButtons {
       overflow-x: auto;
       overflow-y: hidden;
@@ -307,6 +316,7 @@
           align-items: center;
 
           padding: 0.2rem;
+
           .imgContainer {
             img {
               width: 100%;
@@ -314,6 +324,7 @@
               object-fit: cover;
             }
           }
+
           p {
             font-size: 0.7rem;
             text-align: center;
@@ -327,6 +338,7 @@
         margin-top: 0.4rem;
         min-height: 250px;
         border-radius: 5px;
+
         .user {
           box-shadow: 3px 3px 3px grey;
           padding: 0.5rem 0.5rem;
