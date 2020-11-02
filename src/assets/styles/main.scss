@@ -107,11 +107,17 @@ input {
     input,
     textarea {
       font-size: 1rem;
-      border-radius: 5px;
-      padding: 0.8rem 0 0.8rem 1rem;
+      //border-radius: 5px;
+      //padding: 0.8rem 0 0.8rem 1rem;
       border: 1px solid lightgrey;
       outline: none;
-      background-color: transparent;
+      //background-color: transparent;
+      margin: 0;
+      height: 40px;
+      line-height: 25px;
+      background: #fff;
+      border-radius: 25px;
+      padding: 0 20px;
     }
 
     textarea {
@@ -126,11 +132,18 @@ input {
 
 .input {
   width: 100%;
-  padding: 0.8rem 0 0.8rem 1rem;
+  //padding: 0.8rem 0 0.8rem 1rem;
   border: 1px solid lightgrey;
-  border-radius: 5px;
+  //border-radius: 5px;
   font-size: 1rem;
   box-sizing: border-box;
+  margin: 0;
+  height: 40px;
+  line-height: 25px;
+  background: #fff;
+  border-radius: 25px;
+  padding: 0 20px;
+
 
   &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     font-size: .8rem;

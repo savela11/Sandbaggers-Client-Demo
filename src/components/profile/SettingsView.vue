@@ -9,10 +9,26 @@
       </div>
       <!--      FAVORITES-->
       <div class="favorites section">
-        <p>Favorites</p>
+        <div class="title">
+          <div class="left">
+            <p>
+              Favorite Links
+            </p>
+            <div class="viewButtons">
+              <button :class="{ active: favoriteLinksView === 'Available' }" @click="favoriteLinksView = 'Available'">Available</button>
+              <button :class="{ active: favoriteLinksView === 'Current' }" @click="favoriteLinksView = 'Current'">Current</button>
+            </div>
+          </div>
+          <div class="right">
+            <p>{{ cUserSettings.favoriteLinks.length }} / 3</p>
+          </div>
+        </div>
+
         <div class="list">
           <div class="favorite" v-for="route in favoriteRoutes" :key="route.name">
-            <button class="btn btn--xs">{{ route.name }}</button>
+            <button class="btn btn--xs" @click="toggleFavoriteLinks(route)" :disabled="cUserSettings.favoriteLinks.length >= 3 && favoriteLinksView === 'Available'">
+              {{ route.name }}
+            </button>
           </div>
         </div>
       </div>
@@ -21,87 +37,63 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import { IUserSettings } from '@/types/User/User'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+import { IFavoriteLink, IUserSettings } from '@/types/User/User'
 
+export interface AddRemoveFavLink {
+  fLink: IFavoriteLink
+  status: string
+}
 @Component({ name: 'SettingsView' })
 export default class SettingsView extends Vue {
   @Prop() cUserSettings!: IUserSettings
   @Prop() cUserRoles!: string[]
 
+  favoriteLinksView = 'Available'
+
   mounted(): void {}
 
-  get favoriteRoutes(): void {
-    let routes
-    // @ts-ignore
-    if (this.cUserRoles.includes('Admin')) {
+  get favoriteRoutes(): IFavoriteLink[] {
+    if (this.favoriteLinksView === 'Available') {
       // @ts-ignore
-      routes = this.$router.options.routes.map((route) => {
+      return this.$router.options.routes.filter((route) => {
         if (route.meta && route.meta.canFavorite) {
-          return route
-        } else {
-          return
+          // return route
+          return this.cUserSettings.favoriteLinks.every((fr) => {
+            if (route.name !== fr.name) {
+              return route
+            }
+          })
         }
       })
     } else {
-      // @ts-ignore
-      routes = this.$router.options.routes.map((route) => {
-        if (route.meta && route.meta.canFavorite) {
-          return route
-        } else {
-          return
-        }
-      })
+      return this.cUserSettings.favoriteLinks
     }
-    // @ts-ignore
-    return routes.filter((route) => {
-      return route !== undefined
-    })
+  }
+
+  @Emit('toggleFavoriteLinks')
+  toggleFavoriteLinks(route: any): AddRemoveFavLink {
+    let fLink: IFavoriteLink
+    let status: string
+    if (this.favoriteLinksView === 'Available') {
+      fLink = {
+        name: route.name,
+        link: route.path,
+      }
+      status = 'add'
+    } else {
+      fLink = {
+        name: route.name,
+        link: route.link,
+      }
+      status = 'remove'
+    }
+
+    return { fLink, status: status }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.settingsView {
-  .container {
-    input {
-      width: auto;
-    }
-    p {
-      font-size: 0.9rem;
-    }
-
-    .section {
-      padding: 1rem 0;
-      border-bottom: 1px dotted $DarkBlue;
-    }
-
-    .updateHandicap {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      input {
-        height: 20px;
-        width: 20px;
-      }
-    }
-
-    .favorites {
-      .list {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-auto-rows: 45px;
-        gap: 10px;
-        .favorite {
-          button {
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            font-size: 0.7rem;
-          }
-        }
-      }
-    }
-  }
-}
+@import '../../assets/styles/userProfile/_settingsView.scss';
 </style>

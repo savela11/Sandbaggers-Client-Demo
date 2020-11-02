@@ -51,6 +51,9 @@
             <BtnWithText class="button" v-if="editTeamId === team.teamId" @click="updateTeamInfo(team)" v-bind="{ img: 'cloudSave', altText: 'Save Button', text: 'Save' }" />
           </div>
         </div>
+        <div class="middle">
+          <p>{{ teamCaptainName(team.captain) }}</p>
+        </div>
       </div>
     </div>
 
@@ -90,8 +93,25 @@ export default class EventTeams extends Vue {
     this.handleFlexDirection()
   }
 
-  updateTeamInfo(team: IEventTeam): void {
+  teamCaptainName(captainName: string): string {
+    if (!captainName) {
+      return 'No Captain Set'
+    } else {
+      return captainName
+    }
+  }
+
+  async updateTeamInfo(team: IEventTeam): Promise<void> {
+    this.loading = true
     console.log(team)
+    try {
+      const res = await EventService.UpdateTeam(team)
+      console.log(res)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      this.loading = false
+    }
   }
 
   handleFlexDirection(): void {
@@ -206,7 +226,7 @@ export default class EventTeams extends Vue {
 
     .team {
       box-shadow: 5px 5px 5px lightgrey;
-      min-height: 100px;
+      min-height: 150px;
       border-radius: 5px;
       margin-bottom: 1rem;
       padding: 0.5rem;

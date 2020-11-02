@@ -39,7 +39,7 @@ export default class SnackBar extends Vue {
   right: 0;
   bottom: 0;
   padding: 0.3rem;
-  z-index: 1;
+  z-index: 99999;
 
   &__wrapper {
     overflow: hidden;

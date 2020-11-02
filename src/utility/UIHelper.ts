@@ -83,4 +83,19 @@ export default class UIHelper {
       store.dispatch('uiStore/_setNavBarShowingStatus', status)
     }, 500)
   }
+
+  static verticalSmoothScroll(time: number, where: string): void {
+    const eTop = document.body.getBoundingClientRect().top
+    const eAmt = eTop / 100
+    let curTime = 0
+    while (curTime <= time) {
+      window.setTimeout(this.smoothScrollHelper, curTime, eAmt, where)
+      curTime += time / 100
+    }
+  }
+
+  static smoothScrollHelper(eAmt: number, where: string): void {
+    if (where == 'center' || where == '') window.scrollBy(0, eAmt / 2)
+    if (where == 'top') window.scrollBy(0, eAmt)
+  }
 }

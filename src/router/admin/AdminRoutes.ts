@@ -10,7 +10,6 @@ export default [
 
     meta: {
       requiresAuth: true,
-      canFavorite: true,
     },
   },
   {
@@ -20,7 +19,6 @@ export default [
 
     meta: {
       requiresAuth: true,
-      canFavorite: true,
     },
   },
   {
@@ -46,15 +44,16 @@ export default [
     path: '/admin/events',
     name: 'Admin Events',
     component: loadView('admin/events/AdminEvents'),
-
     meta: {
       requiresAuth: true,
-      canFavorite: true,
     },
   },
   {
     path: '/admin/events/eventTeams/:eventId',
     name: 'Event Teams',
     component: loadView('admin/events/EventTeams'),
+    meta: {
+      requiresAuth: true,
+    },
   },
 ]

@@ -1,8 +1,12 @@
+
+$topBGColor: $DarkBlue;
 $viewBtnBG: white;
 $viewBtnTextColor: $DarkBlue;
 $viewBtnActiveText: $DarkBlue;
 $latestTextColor: white;
 $searchBarTitleColor: white;
+
+
 .dashboard {
   padding:0;
   h2 {
@@ -11,7 +15,7 @@ $searchBarTitleColor: white;
 
   .top {
     padding: 2rem 1rem 3rem 1rem;
-    background-color: $DarkBlue;
+    background-color: $topBGColor;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
   }
@@ -298,6 +302,107 @@ $searchBarTitleColor: white;
             }
           }
         }
+      }
+    }
+
+    .bottom {
+      .content {
+        min-height: 600px;
+      }
+    }
+  }
+}
+@media (min-width: 1024px) {
+  .dashboard {
+    .scrambleChamps {
+      .title {
+        h2 {
+        }
+      }
+
+      .flexContainer {
+      }
+
+      .champ {
+        .imgContainer {
+        }
+
+        img {
+        }
+
+        p {
+        }
+      }
+    }
+
+    .viewButtons {
+      h2 {
+      }
+
+      .buttons {
+      }
+
+      button {
+
+
+        &.active {
+        }
+
+        &:last-child {
+        }
+      }
+    }
+
+    .titleBar {
+
+
+      .searchButton {
+
+
+        img {
+        }
+      }
+
+      & > div {
+        &:last-child {
+        }
+      }
+
+      p {
+      }
+    }
+
+    .searchBar {
+      label {
+      }
+
+      input {
+
+      }
+    }
+
+    .sandbaggerList {
+      .sandbagger {
+        p {
+        }
+
+        img {
+        }
+
+        a {
+
+
+          & > div {
+            &:last-child {
+            }
+          }
+        }
+      }
+    }
+
+    .bottom {
+      .content {
+        min-height: 400px;
       }
     }
   }

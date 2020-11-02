@@ -61,6 +61,7 @@ const routes: Array<RouteConfig> = [
     component: loadView('Dashboard'),
     meta: {
       requiresAuth: true,
+      canFavorite: true,
     },
   },
   {
@@ -73,10 +74,11 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/sandbaggerEvents',
-    name: 'SandbaggerEvents',
+    name: 'Events',
     component: loadView('event/SandbaggerEvents'),
     meta: {
       requiresAuth: true,
+      canFavorite: true,
     },
   },
   {
@@ -101,6 +103,7 @@ const routes: Array<RouteConfig> = [
     component: loadView('Bets'),
     meta: {
       requiresAuth: true,
+      canFavorite: true,
     },
   },
   {
@@ -128,6 +131,7 @@ const routes: Array<RouteConfig> = [
     component: loadView('MockDrafts'),
     meta: {
       requiresAuth: true,
+      canFavorite: true,
     },
   },
 ]
@@ -144,9 +148,9 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   const currentUser: ICurrentUser = store.getters['authStore/CurrentUser']
   await store.dispatch('uiStore/_setPageLoading', true)
-  if (store.state.uiStore.isNavMenuShowing) {
-    await store.dispatch('uiStore/_setNavMenuShowingStatus', false)
-  }
+  // if (store.state.uiStore.isNavMenuShowing) {
+  //   await store.dispatch('uiStore/_setNavMenuShowingStatus', false)
+  // }
   if (to.name === 'Login' || to.name === 'Register') {
     await UIHelper.Header({ current: 'auth', isShowing: true, title: to.name })
     await store.dispatch('uiStore/_setPageLoading', false)

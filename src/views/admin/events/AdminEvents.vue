@@ -1,100 +1,191 @@
 ﻿<template>
   <div class="adminEvents">
+    <!--   Main VIEWs-->
+    <div v-if="!loading" class="views">
+      <div v-if="!isAddingEvent && selectedEvent">
+        <!--Event View-->
+        <div class="eventView" v-if="view === 'Events'">
+          <!--select box-->
+          <div class="eventView__selectBox" v-if="!isEditMode">
+            <div class="flexWrapper">
+              <div class="addEventButton container">
+                <button @click="toggleAddEvent(true)"><img src="@/assets/icons/addCircle.svg" alt="Add Event Button" /></button>
+                <p>Add Event</p>
+              </div>
+              <div class="editEventButton container">
+                <button @click="isEditMode = true"><img src="@/assets/icons/editPencil.svg" alt="Edit Button" /></button>
+                <p>Edit Event</p>
+              </div>
+            </div>
+
+            <div>
+              <label for="events">Year</label>
+              <select id="events" v-model="selectedEvent">
+                <option v-for="event in Events" :key="event.eventId" :value="event">{{ event.year }}</option>
+              </select>
+            </div>
+          </div>
+          <!--      HR-->
+          <hr v-if="!isEditMode" />
+          <div class="eventName">
+            <div v-if="isEditMode" class="field">
+              <label for="eventName">Name</label>
+              <input id="eventName" type="text" class="input" v-model.trim="selectedEvent.name" />
+            </div>
+            <h2 v-else>{{ selectedEvent.name }}</h2>
+          </div>
+
+          <!--        EVENT LOCATION-->
+          <div class="eventView__location">
+            <h3>Location</h3>
+            <div v-if="isEditMode">
+              <div class="field">
+                <label for="locationName">Name</label>
+                <input id="locationName" type="text" class="input" v-model.trim="selectedEvent.location.name" />
+              </div>
+              <div class="flexField">
+                <div class="field streetNumbers">
+                  <label for="streetNumbers">Street Numbers</label>
+                  <input id="streetNumbers" type="text" class="input" v-model.trim="selectedEvent.location.streetNumbers" />
+                </div>
+                <div class="field">
+                  <label for="streetName">Street Name</label>
+                  <input id="streetName" type="text" class="input" v-model.trim="selectedEvent.location.streetName" />
+                </div>
+              </div>
+              <div class="flexField">
+                <div class="field">
+                  <label for="city">City</label>
+                  <input id="city" type="text" class="input" v-model.trim="selectedEvent.location.city" />
+                </div>
+                <div class="field">
+                  <label for="zip">Zip Code</label>
+                  <input id="zip" type="tel" class="input" v-model.trim="selectedEvent.location.postalCode" />
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              <p>{{ selectedEvent.location.name }}</p>
+              <p>{{ selectedEvent.location.streetNumbers }} {{ selectedEvent.location.streetName }}</p>
+              <p>{{ selectedEvent.location.city }} {{ selectedEvent.location.postalCode }}</p>
+            </div>
+          </div>
+          <!--        EVENT TEAMS-->
+          <div class="eventView__teams" v-if="!isEditMode">
+            <div class="title">
+              <h3>Teams</h3>
+              <div class="addTeam">
+                <router-link :to="{ name: 'Event Teams', params: { eventId: selectedEvent.eventId } }"
+                  ><img src="@/assets/icons/editPencil.svg" alt="Edit Team Button"
+                /></router-link>
+                <p>Edit Teams</p>
+              </div>
+            </div>
+            <div class="teamList">
+              <div class="team" v-for="team in selectedEvent.teams" :key="team.teamId">
+                <div class="container">
+                  <div class="top">
+                    <h4 class="name">Team {{ team.name }}</h4>
+                  </div>
+                  <div class="middle">
+                    <div class="captainContainer">
+                      <h4>Captain:</h4>
+                      <p>{{ teamCaptain(team.captain) }}</p>
+                    </div>
+                  </div>
+                  <div class="bottom">
+                    <div class="teamMembers">
+                      <div class="teamMembers__top">
+                        <h4>
+                          Team Members: <span>{{ team.teamMembers.length }}</span>
+                        </h4>
+                        <button @click="toggleTeamMembersList(team.teamId)">dropdown</button>
+                      </div>
+
+                      <ul class="teamMembers__memberList" v-if="showTeamMembersForId === team.teamId">
+                        <li v-for="member in team.teamMembers" :key="member.id">{{ member.fullName }}</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="eventView__btnContainer" v-if="isEditMode">
+            <button @click="updateEvent" class="btn btn--xs btn--green">update</button>
+            <button @click="isEditMode = false" class="btn btn--xs btn--red">cancel</button>
+          </div>
+        </div>
+        <!--  Results View-->
+        <div class="resultsView" v-if="view === 'Results'">
+          <div class="resultsView__viewButtons">
+            <button v-for="resultView in viewButtons" :key="resultView" :class="{ active: resultsCurrentView === resultView }" @click="resultsCurrentView = resultView">
+              {{ resultView }}
+            </button>
+          </div>
+          <div class="resultsView__currentChamps section">
+            <div>
+              <h3>Current Champs?</h3>
+              <button
+                :class="{ activeChamps: selectedEvent.eventResults.isActive === true }"
+                @click.prevent.stop="toggleActiveScrambleChamps(true)"
+                class="btn btn--xs btn--borderBottom btn--borderBlue"
+              >
+                Yes
+              </button>
+              <button
+                :class="{ notActiveChamps: selectedEvent.eventResults.isActive === false }"
+                @click.prevent.stop="toggleActiveScrambleChamps(false)"
+                class="btn btn--xs btn--borderBottom btn--borderBlue"
+              >
+                No
+              </button>
+            </div>
+
+            <div class="champList">
+              <div v-for="champ in selectedEvent.eventResults.scrambleChamps" :key="champ.userId" class="champ">
+                <div class="imgContainer">
+                  <img :src="setScrambleChampProfileImage(champ.image)" :alt="champ.name + 'Profile picture.'" />
+                </div>
+                <p>{{ champ.fullName }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="resultsView__registeredUsers section">
+            <h3>Scramble Champs</h3>
+            <div class="list">
+              <div class="user" v-for="user in selectedEvent.registeredUsers" :key="user.id">
+                <div>
+                  <p>{{ user.fullName }}</p>
+                </div>
+                <div class="checkBox">
+                  <label class="hideLabel" for="user">{{ user.fullName }}</label>
+                  <input type="checkbox" id="user" v-model="user.isCurrentChamp" @change="updateScrambleChamp(user)" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- MODAL - add event-->
+      <Modal class="addEvent" v-if="isAddingEvent" @click="toggleAddEvent(false)">
+        <template v-slot:header>
+          <h2>Add Sandbagger Event</h2>
+        </template>
+        <template v-slot:body>
+          <AddEvent @addEvent="addEvent" />
+        </template>
+      </Modal>
+
+      <!--    TOGGLE VIEWS-->
+      <div class="changeViewButton" v-if="selectedEvent && !isEditMode">
+        <button id="resultsBTN" v-if="view === 'Events'" class="btn btn--circle btn--borderBlue btn--borderBottom" @click="toggleView('Results')">Results</button>
+        <button id="eventsBTN" v-if="view === 'Results'" class="btn btn--circle" @click="toggleView('Events')">Events</button>
+      </div>
+    </div>
+
     <Loading v-if="loading" />
-    <!--    EVENTS VIEW-->
-    <div v-if="!loading && view === 'Events'" class="eventsView">
-      <!--select box-->
-      <div class="selectBox" v-if="!isAddingEvent && !isEditMode">
-        <div class="flexWrapper">
-          <div class="addEventButton container">
-            <button @click="toggleAddEvent(true)"><img src="@/assets/icons/addCircle.svg" alt="Add Event Button" /></button>
-            <p>Add Event</p>
-          </div>
-          <div class="editEventButton container">
-            <button @click="isEditMode = true"><img src="@/assets/icons/editPencil.svg" alt="Edit Button" /></button>
-            <p>Edit Event</p>
-          </div>
-        </div>
-
-        <div>
-          <label for="events">Year</label>
-          <select id="events" v-model="selectedEvent">
-            <option v-for="event in Events" :key="event.eventId" :value="event">{{ event.year }}</option>
-          </select>
-        </div>
-      </div>
-      <!--      HR-->
-      <hr v-if="!isAddingEvent && !isEditMode" />
-
-      <!--selected year-->
-      <div class="selectedYear" v-if="selectedEvent && !isAddingEvent">
-        <div class="eventName">
-          <h2>{{ selectedEvent.name }}</h2>
-        </div>
-
-        <!--        EVENT LOCATION-->
-        <div class="location" v-if="selectedEvent">
-          <h3>Location</h3>
-          <div v-if="isEditMode">
-            <div class="field">
-              <label for="locationName">Name</label>
-              <input id="locationName" type="text" class="input" v-model.trim="selectedEvent.location.name" />
-            </div>
-            <div class="flexField">
-              <div class="field streetNumbers">
-                <label for="streetNumbers">Street Numbers</label>
-                <input id="streetNumbers" type="text" class="input" v-model.trim="selectedEvent.location.streetNumbers" />
-              </div>
-              <div class="field">
-                <label for="streetName">Street Name</label>
-                <input id="streetName" type="text" class="input" v-model.trim="selectedEvent.location.streetName" />
-              </div>
-            </div>
-            <div class="flexField">
-              <div class="field">
-                <label for="city">City</label>
-                <input id="city" type="text" class="input" v-model.trim="selectedEvent.location.city" />
-              </div>
-              <div class="field">
-                <label for="zip">Zip Code</label>
-                <input id="zip" type="tel" class="input" v-model.trim="selectedEvent.location.postalCode" />
-              </div>
-            </div>
-          </div>
-          <div v-else>
-            <p>{{ selectedEvent.location.name }}</p>
-            <p>{{ selectedEvent.location.streetNumbers }} {{ selectedEvent.location.streetName }}</p>
-            <p>{{ selectedEvent.location.city }} {{ selectedEvent.location.postalCode }}</p>
-          </div>
-        </div>
-        <!--        EVENT TEAMS-->
-        <Teams v-if="selectedEvent && !isEditMode" v-bind="{ eventId: selectedEvent.eventId, teams: selectedEvent.teams }" />
-        <div class="btnContainer" v-if="isEditMode">
-          <button @click="updateEvent" class="btn btn--xs btn--green">update</button>
-          <button @click="isEditMode = false" class="btn btn--xs btn--red">cancel</button>
-        </div>
-      </div>
-
-      <!--add event-->
-      <div class="addEvent" v-if="isAddingEvent">
-        <div class="cancelButton">
-          <button class="btn btn--xs btn--red" @click="toggleAddEvent(false)">Cancel</button>
-        </div>
-        <AddEvent @addEvent="addEvent" />
-      </div>
-    </div>
-    <!--    RESULTS VIEW-->
-    <ResultsView
-      v-if="!loading && view === 'Results' && selectedEvent"
-      :selectedEvent="selectedEvent"
-      @updateScrambleChamp="updateScrambleChamp"
-      @toggleActiveScrambleChamps="toggleActiveScrambleChamps"
-    />
-    <!--    TOGGLE VIEWS-->
-    <div class="changeViewButton" v-if="selectedEvent && !isEditMode">
-      <button id="resultsBTN" v-if="view === 'Events'" class="btn btn--circle btn--borderBlue btn--borderBottom" @click="toggleView('Results')">Results</button>
-      <button id="eventsBTN" v-if="view === 'Results'" class="btn btn--circle" @click="toggleView('Events')">Events</button>
-    </div>
   </div>
 </template>
 
@@ -114,8 +205,8 @@ import UIHelper from '@/utility/UIHelper'
   components: {
     Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
     AddEvent: (): Promise<object> => import('@/components/admin/event/AddEvent.vue'),
-    Teams: (): Promise<object> => import('@/components/admin/event/Teams.vue'),
     ResultsView: (): Promise<object> => import('@/components/admin/event/ResultsView.vue'),
+    Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue'),
   },
 })
 export default class AdminEvents extends Vue {
@@ -126,12 +217,14 @@ export default class AdminEvents extends Vue {
   isAddingEvent = false
   isEditMode = false
   view = 'Events'
+  resultsCurrentView = 'Scramble Champs'
+  viewButtons = ['Scramble Champs', 'Teams']
 
-  resultsView = {}
+  showTeamMembersForId: null | number = null
 
   mounted(): void {
     this.getEvents()
-    UIHelper.Header({ title: 'Manage Events', isShowing: true })
+    UIHelper.Header({ title: 'Manage Events', isShowing: true, current: 'main' })
   }
 
   // @Watch('selectedEvent')
@@ -144,6 +237,14 @@ export default class AdminEvents extends Vue {
   //     return true
   //   }
   // }
+
+  setScrambleChampProfileImage(img: string | null): string {
+    if (img === null) {
+      return require('@/assets/SBLogo.png')
+    } else {
+      return img
+    }
+  }
 
   checkIfScrambleChamp(scrambleChamps: IScrambleChamp[]): void {
     if (this.selectedEvent) {
@@ -161,12 +262,15 @@ export default class AdminEvents extends Vue {
     }
     if (view === 'Results') {
       UIHelper.clickedButton('resultsBTN')
-      const res = await this.eventResults(this.selectedEvent.eventId)
-      if (res.status === 200) {
-        this.selectedEvent.eventResults = res.data
-        await UIHelper.Header({ title: `${this.selectedEvent.name} Results`, isShowing: true })
+      try {
+        const res = await this.eventResults(this.selectedEvent.eventId)
+        if (res.status === 200) {
+          this.selectedEvent.eventResults = res.data
 
-        this.checkIfScrambleChamp(res.data.scrambleChamps)
+          this.checkIfScrambleChamp(res.data.scrambleChamps)
+        }
+      } catch (e) {
+        console.log(e)
       }
     } else if (view === 'Events') {
       UIHelper.clickedButton('eventsBTN')
@@ -186,12 +290,14 @@ export default class AdminEvents extends Vue {
       if (res.status === 200) {
         this.Events.push(res.data)
         this.selectedEvent = res.data
+        UIHelper.SnackBar({ class: 'primary', isSnackBarShowing: true, title: 'Success', message: `${res.data.name} has been created!` })
       }
     } catch (e) {
       console.log(e)
       this.selectedEvent = null
     } finally {
       this.loading = false
+      this.toggleAddEvent(false)
     }
   }
 
@@ -306,152 +412,25 @@ export default class AdminEvents extends Vue {
       }
     }
   }
+
+  teamCaptain(teamCaptain: string): string {
+    if (!teamCaptain) {
+      return 'No Captain'
+    } else {
+      return teamCaptain
+    }
+  }
+
+  toggleTeamMembersList(teamId: number): void {
+    if (this.showTeamMembersForId === teamId) {
+      this.showTeamMembersForId = null
+      return
+    }
+    this.showTeamMembersForId = teamId
+  }
 }
 </script>
 
 <style lang="scss">
-//@import '../../../assets/styles/_adminEvents.scss';
-
-.adminEvents {
-  padding: 1rem;
-  hr {
-    margin: 1rem 0;
-    border: 1px solid lightgrey;
-  }
-  .selectBox {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 1rem;
-
-    .flexWrapper {
-      display: flex;
-    }
-    button {
-      border: none;
-
-      img {
-        width: 30px;
-        height: 30px;
-        object-fit: contain;
-      }
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      &:first-child {
-        margin-right: 1rem;
-      }
-      p {
-        font-size: 0.7rem;
-        color: grey;
-      }
-    }
-
-    select {
-      font-size: 0.8rem;
-      display: block;
-      padding: 0.3rem 0.5rem;
-      width: 75px;
-      max-width: 100%; /* useful when width is set to anything other than 100% */
-      box-sizing: border-box;
-      margin: 0;
-      border: 1px solid rgba(211, 211, 211, 0.8);
-      border-radius: 3px;
-      -moz-appearance: none;
-      -webkit-appearance: none;
-      appearance: none;
-      background-color: #fff;
-    }
-
-    label {
-      font-size: 0.8rem;
-    }
-  }
-
-  .selectedYear {
-    & > div {
-      margin-bottom: 1rem;
-    }
-
-    h2 {
-      font-size: 1.2rem;
-    }
-
-    h2 {
-      color: $DarkBlue;
-    }
-
-    h3 {
-      font-size: 1rem;
-      font-weight: normal;
-      text-decoration: underline;
-    }
-
-    h4 {
-      font-size: 0.8rem;
-      font-weight: normal;
-    }
-
-    .location {
-      .flexField {
-        display: flex;
-
-        .streetNumbers {
-          flex: 0 0 33%;
-        }
-      }
-
-      .field {
-        padding: 0 0.3rem;
-        margin-top: 0.5rem;
-
-        label {
-          margin-left: 0.5rem;
-          color: grey;
-          font-size: 0.7rem;
-        }
-      }
-
-      p {
-        font-size: 0.9rem;
-        color: grey;
-      }
-    }
-
-    .btnContainer {
-      display: flex;
-      justify-content: flex-end;
-
-      .btn {
-        &:first-child {
-          margin-right: 0.5rem;
-        }
-      }
-    }
-  }
-
-  .addEvent {
-    .cancelButton {
-      display: flex;
-      justify-content: flex-end;
-    }
-  }
-
-  .changeViewButton {
-    position: fixed;
-    bottom: 75px;
-    right: 10px;
-
-    .btn {
-      font-size: 0.7rem;
-
-      width: 50px;
-      height: 50px;
-      background-color: white;
-    }
-  }
-}
+@import '../../../assets/styles/admin/_adminEvents.scss';
 </style>

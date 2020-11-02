@@ -14,7 +14,7 @@
           <button @click="isAddingBet = true"><img :src="require('@/assets/icons/addCircle.svg')" alt="Add Bet" /><span>Add Bet</span></button>
         </div>
       </div>
-      <div class="bets__list all" v-if="currentView === 'All'">
+      <div class="bets__list">
         <div
           class="card"
           v-for="bet in filterBets"
@@ -70,19 +70,9 @@
           </transition>
         </div>
       </div>
-      <div class="bets__list myBets" v-if="currentView === 'My Bets'">
-        <div class="card" v-for="bet in filterBets" :key="bet.betId">
-          <div class="createdBy">
-            <p>Created: {{ formatDate(bet.createdOn) }}</p>
-            <p>By: {{ bet.createdBy }}</p>
-          </div>
-          <div class="title">
-            <h2>{{ formatTitle(bet.title) }}</h2>
-          </div>
-          <div class="details">
-            <button @click="showBetDetails(bet)">Details</button>
-          </div>
-        </div>
+      <div class="prevNextButtons">
+        <button v-on:click="changePage('previous')" :disabled="pageNumber === 0">Previous</button>
+        <button v-on:click="changePage('next')" :disabled="pageNumber >= betCount - 1">Next</button>
       </div>
       <Modal v-if="isAddingBet" @click="isAddingBet = false">
         <template v-slot:header>
@@ -159,7 +149,6 @@ import UIHelper from '@/utility/UIHelper'
 export default class Bets extends Vue {
   currentView = 'All'
   Bets = [] as Array<IBetDto>
-  MyBets = [] as Array<IBetDto>
   selectedBet = null as IBetDto | null
   search = ''
   views = ['All', 'My Bets', 'Amount', 'Accepted']
@@ -181,6 +170,31 @@ export default class Bets extends Vue {
   numOfAcceptedBets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   showAcceptedListOfBet: null | number = null
 
+  // BET pagination
+  size = 5
+  pageNumber = 0
+
+  get paginatedBets(): IBetDto[] {
+    const start = this.pageNumber * this.size,
+      end = start + this.size
+    return this.Bets.slice(start, end)
+  }
+
+  get betCount(): number {
+    const l = this.Bets.length,
+      s = this.size
+    return Math.ceil(l / s)
+  }
+
+  changePage(status: string): void {
+    if (status === 'next') {
+      this.pageNumber++
+    } else {
+      this.pageNumber--
+    }
+    UIHelper.verticalSmoothScroll(300, 'top')
+  }
+
   mounted(): void {
     UIHelper.Header({ title: 'Bets', isShowing: true, current: 'main' })
     this.getBets()
@@ -195,26 +209,31 @@ export default class Bets extends Vue {
   }
 
   get filterBets(): Array<IBetDto> {
-    const betsNewestFirst = this.Bets.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn))
-    if (this.currentView === 'All' && this.search !== '') {
-      return betsNewestFirst.filter((bet) => {
+    if (this.search) {
+      const betsNewestFirst = this.Bets.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn))
+
+      const searchedBets = betsNewestFirst.filter((bet) => {
         const firstName = bet.createdBy.split(' ', 2)[0]
         const lastName = bet.createdBy.split(' ', 2)[1]
-
         if (firstName.toLowerCase().startsWith(this.search.toLowerCase()) || lastName.toLowerCase().startsWith(this.search.toLowerCase())) {
           return bet
         }
       })
-    } else if (this.currentView === 'My Bets') {
-      return betsNewestFirst.filter((b) => {
-        return b.userId === this.$store.state.authStore.currentUser.id
-      })
-    } else if (this.currentView === 'Accepted') {
-      return betsNewestFirst.filter((bet) => {
-        return bet.acceptedBy.length > 0
-      })
+      if (this.currentView === 'My Bets') {
+        return searchedBets.filter((b) => {
+          return b.userId === this.$store.state.authStore.currentUser.id
+        })
+      } else if (this.currentView === 'Accepted') {
+        return searchedBets.filter((bet) => {
+          return bet.acceptedBy.length > 0
+        })
+      } else {
+        return searchedBets
+      }
     } else {
-      return betsNewestFirst
+      const paginatedNewestToFirst = this.paginatedBets.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn))
+
+      return paginatedNewestToFirst
     }
   }
 
@@ -256,7 +275,6 @@ export default class Bets extends Vue {
       const res = await BetService.CreateBet(this.addBetForm)
       if (res.status === 200) {
         this.Bets.unshift(res.data)
-        this.MyBets.unshift(res.data)
       }
     } catch (e) {
       console.log(e)

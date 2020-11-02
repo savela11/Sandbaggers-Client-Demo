@@ -55,7 +55,7 @@ export default class HelloWorld extends Vue {
     padding: 0.8rem 0.8rem 0.8rem 1.5rem;
     background-color: $DarkGreen;
     position: relative;
-    min-height: 150px;
+    min-height: 175px;
     width: 90%;
     border-bottom-right-radius: 25px;
     display: flex;
@@ -97,7 +97,6 @@ export default class HelloWorld extends Vue {
 @media (min-width: 375px) {
   .heading {
     &__backgroundColor {
-      min-height: 175px;
     }
     &__title {
       h1 {

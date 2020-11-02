@@ -10,6 +10,10 @@ class EventService {
     return await apiClient.get(url + `/EventList`)
   }
 
+  static async publishedEvents(): Promise<AxiosResponse<IEventDto[]>> {
+    return await apiClient.get(`${url}/PublishedEvents`)
+  }
+
   static async createEvent(createEvent: ICreateEvent): Promise<AxiosResponse<IEventDto>> {
     return await apiClient.post(`${url}/CreateEvent`, createEvent)
   }
@@ -33,8 +37,8 @@ class EventService {
     return apiClient.get(`${url}/EventTeams/${eventId}`)
   }
 
-  static async UpdateTeam(teamId: string): Promise<AxiosResponse<IEventTeam>> {
-    return apiClient.put(`${url}/UpdateTeam/`, teamId)
+  static async UpdateTeam(team: IEventTeam): Promise<AxiosResponse<IEventTeam>> {
+    return apiClient.put(`${url}/UpdateTeam/`, team)
   }
 }
 

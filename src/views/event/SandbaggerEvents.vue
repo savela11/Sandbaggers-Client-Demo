@@ -23,30 +23,34 @@
         </div>
       </template>
     </Modal>
-    <div v-if="!loading && selectedEvent">
-      <div class="selectYear">
-        <h2>{{ selectedEvent.name }}</h2>
-        <div>
-          <label for="events">Year</label>
-          <select id="events" v-model="selectedEvent">
-            <option v-for="event in Events" :key="event.eventId" :value="event">{{ event.year }}</option>
-          </select>
+    <div v-if="!loading">
+      <div v-if="selectedEvent">
+        <div class="selectYear">
+          <h2>{{ selectedEvent.name }}</h2>
+          <div>
+            <label for="events">Year</label>
+            <select id="events" v-model="selectedEvent">
+              <option v-for="event in Events" :key="event.eventId" :value="event">{{ event.year }}</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div v-if="!loading && selectedEvent" class="selectedEvent">
-        <div class="eventLocation"></div>
+        <div class="selectedEvent">
+          <div class="eventLocation"></div>
 
-        <div class="registeredUsers">
-          <div class="registeredUsersButton">
-            <button @click="toggleShowRegisteredUsers(true)" v-if="!IsUserRegistered">Register</button>
-            <button @click="toggleShowRegisteredUsers(true)" v-if="IsUserRegistered">Show Registered ({{ selectedEvent.registeredUsers.length }})</button>
+          <div class="registeredUsers">
+            <div class="registeredUsersButton">
+              <button @click="toggleShowRegisteredUsers(true)" v-if="!IsUserRegistered">Register</button>
+              <button @click="toggleShowRegisteredUsers(true)" v-if="IsUserRegistered">Show Registered ({{ selectedEvent.registeredUsers.length }})</button>
+            </div>
           </div>
         </div>
       </div>
+
+      <div class="NoEvents" v-else>
+        <p>No Sandbagger Events created.....</p>
+      </div>
     </div>
-    <div class="NoEvents" v-else>
-      <p>No Sandbagger Events created.....</p>
-    </div>
+
     <Loading v-if="loading" />
   </div>
 </template>
@@ -140,7 +144,7 @@ export default class SandbaggerEvents extends Vue {
   async getEvents(): Promise<void> {
     this.loading = true
     try {
-      const res = await EventService.eventList()
+      const res = await EventService.publishedEvents()
       if (res.status === 200) {
         this.Events = res.data
         const currentYear = res.data.find((e) => e.isCurrentYear)

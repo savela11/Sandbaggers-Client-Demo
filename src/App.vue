@@ -7,8 +7,7 @@
       <MainHeader v-if="Header.current === 'main' && CurrentUser" :currentUser="CurrentUser" :bgColor="Header.bgColor" />
     </div>
 
-    <router-view class="routerView" v-show="!isNavigationMenuShowing && !DataLoading" />
-    <Loading v-show="DataLoading" />
+    <router-view class="routerView" v-show="!isNavigationMenuShowing" />
 
     <div v-if="CurrentUser">
       <NavMenu v-show="isNavigationMenuShowing" :isAdmin="CurrentUser.roles.includes('Admin')" />
@@ -67,20 +66,6 @@ export default class App extends Vue {
 
   get CurrentUser(): ICurrentUser {
     return this.$store.getters['authStore/CurrentUser']
-  }
-
-  openUserProfile(status: boolean): void {
-    this.isUserProfileShowing = status
-    const body = document.body
-    if (status) {
-      body.style.position = 'fixed'
-      body.style.marginBottom = '0'
-      body.style.overflowY = 'hidden'
-    } else {
-      body.style.position = 'static'
-      body.style.marginBottom = '65px'
-      body.style.overflowY = 'auto'
-    }
   }
 }
 </script>
