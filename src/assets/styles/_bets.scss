@@ -8,7 +8,7 @@
   #spanAmt, #spanAcceptNum {
     &.flash {
       font-weight: bold;
-      color: $Crimson;
+      color: green;
       transform: scale(1.2);
     }
   }
@@ -83,7 +83,7 @@
   &__list {
     border-radius: 5px;
     min-height: 200px;
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
 
   .card {
@@ -296,6 +296,11 @@
 
       label {
         font-weight: bold;
+      }
+
+      textarea {
+        min-height: 150px;
+        border-radius: 5px;
       }
     }
   }

@@ -1,17 +1,49 @@
 ﻿<template>
   <div class="eventTeams">
     <div v-if="!loading">
+      <h1>{{ event.name }}</h1>
       <div class="utilityBar">
         <BtnWithText @click="backOne" v-bind="{ img: 'backArrow', text: 'Back' }"></BtnWithText>
         <BtnWithText v-bind="{ img: 'addCircle', text: 'Add Team' }"></BtnWithText>
       </div>
       <div class="teams">
-        <div class="team" v-for="team in teams" :key="team.teamId">
-          <div class="team__name">
-            <h3><span>Team</span> {{ team.name }}</h3>
+        <div class="team" v-for="team in showTeams" :key="team.teamId" :class="{ selected: selectedTeamToEdit && selectedTeamToEdit.teamId === team.teamId }">
+          <div class="flex">
+            <div class="team__name">
+              <h3><span>Team</span> {{ team.name }}</h3>
+            </div>
+            <div class="team__edit">
+              <BtnWithText class="mr-2" v-if="!selectedTeamToEdit" @click="editTeam(team)" v-bind="{ img: 'editPencil', text: 'Edit' }" />
+              <BtnWithText v-else @click="editTeam(team)" v-bind="{ img: 'cancel-red', text: 'Cancel' }" />
+              <BtnWithText class="saveBtn" v-if="selectedTeamToEdit && selectedTeamToEdit.teamId === team.teamId" @click="updateTeam" v-bind="{ img: 'cloudSave', text: 'Save' }" />
+            </div>
           </div>
-          <div class="team__captain">
-            <h4>Captain: {{ team.captain }}</h4>
+          <div class="flex">
+            <div>
+              <h4>
+                Captain: <span v-if="!selectedTeamToEdit">{{ team.captain }}</span>
+              </h4>
+            </div>
+            <div class="selectTeamCaptainBox" v-if="selectedTeamToEdit">
+
+              <div class="buttonList">
+                <button>user</button>
+                <button>user</button>
+                <button>user</button>
+                <button>user</button>
+                <button>user</button>
+                <button>user</button>
+                <button>user</button>
+                <button>user</button>
+
+              </div>
+              <button v-for="user in event.registeredUsers" :key="user.id">{{user.fullName || 'User'}}</button>
+            </div>
+          </div>
+          <div class="team__members">
+            <h4>
+              Team Members: <span>{{ team.teamMembers.length }}</span>
+            </h4>
           </div>
         </div>
       </div>
@@ -26,7 +58,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import UIHelper from '@/utility/UIHelper'
 import { AddTeamForm } from '@/types/Events/SandbaggerEvents'
 import EventService from '@/services/EventService'
-import { IEventTeam } from '@/types/Admin/Event'
+import { IEventDto, IEventTeam } from '@/types/Admin/Event'
 
 @Component({
   name: 'EventTeams',
@@ -36,25 +68,28 @@ import { IEventTeam } from '@/types/Admin/Event'
   },
 })
 export default class EventTeams extends Vue {
-  $store: any
   isAddingTeam = false
   loading = false
-  flexDirection = ''
   eventId = ''
-  editTeamId: number | null = null
-  teams: IEventTeam[] = []
   addTeamForm: AddTeamForm = {
     teamName: '',
     eventId: '',
   }
   selectedTeamToEdit: null | IEventTeam = null
+  event = {} as IEventDto
 
   mounted(): void {
     this.eventId = this.$route.params.eventId
-    this.eventTeams()
+    this.getEvent()
     UIHelper.Header({ title: 'Teams', isShowing: true, current: 'main' })
-    window.addEventListener('resize', this.handleFlexDirection)
-    this.handleFlexDirection()
+  }
+
+  get showTeams(): IEventTeam[] {
+    if (this.selectedTeamToEdit) {
+      return this.event.teams.filter((t) => t.teamId === this.selectedTeamToEdit.teamId)
+    } else {
+      return this.event.teams
+    }
   }
 
   teamCaptainName(captainName: string): string {
@@ -65,7 +100,7 @@ export default class EventTeams extends Vue {
     }
   }
 
-  async updateTeamInfo(team: IEventTeam): Promise<void> {
+  async updateTeam(team: IEventTeam): Promise<void> {
     this.loading = true
     console.log(team)
     try {
@@ -78,24 +113,13 @@ export default class EventTeams extends Vue {
     }
   }
 
-  handleFlexDirection(): void {
-    if (window.innerWidth < 375) {
-      this.flexDirection = 'flex flex--column'
-    } else {
-      this.flexDirection = 'flex flex--row flex--noWrap'
-    }
-  }
-
-  editTeam(teamId: number): void {
-    if (teamId === this.editTeamId) {
-      this.editTeamId = null
+  editTeam(team: IEventTeam | null): void {
+    if (team.teamId === this.selectedTeamToEdit?.teamId) {
+      this.selectedTeamToEdit = null
       return
     }
-    const foundTeam = this.teams.find((t) => t.teamId === teamId)
-    if (foundTeam) {
-      this.selectedTeamToEdit = foundTeam
-    }
-    this.editTeamId = teamId
+
+    this.selectedTeamToEdit = team
   }
 
   teamColor(teamName: string): string {
@@ -128,18 +152,18 @@ export default class EventTeams extends Vue {
     }
   }
 
-  async eventTeams(): Promise<void> {
+  async getEvent(): Promise<void> {
     this.loading = true
     try {
-      const res = await EventService.EventTeams(this.eventId)
+      const res = await EventService.getEventById(this.eventId)
       if (res.status === 200) {
-        this.teams = res.data
-        await UIHelper.PageLoading(false)
+        this.event = res.data
       }
     } catch (e) {
       console.log(e)
     } finally {
       this.loading = false
+      await UIHelper.PageLoading(false)
     }
   }
 

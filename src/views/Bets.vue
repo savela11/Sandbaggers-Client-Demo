@@ -70,7 +70,7 @@
           </transition>
         </div>
       </div>
-      <div class="prevNextButtons">
+      <div class="prevNextButtons" v-if="filterBets.length > 0">
         <button v-on:click="changePage('previous')" :disabled="pageNumber === 0">Previous</button>
         <button v-on:click="changePage('next')" :disabled="pageNumber >= betCount - 1">Next</button>
       </div>
@@ -124,7 +124,7 @@
           <Loading v-else />
         </template>
         <template v-slot:submitBtn>
-          <button class="btn btn--xs btn--green" id="addBetBTN" :disabled="!validateForm" @click.prevent.stop="createBet">Add</button>
+          <button class="btn btn--xs btn--green" id="addBetBTN" :disabled="!validateForm || loading || modalLoading" @click.prevent.stop="createBet">Add</button>
         </template>
       </Modal>
     </div>
@@ -281,7 +281,7 @@ export default class Bets extends Vue {
     } finally {
       setTimeout(() => {
         this.modalLoading = false
-        this.isAddingBet = false
+        this.resetAddBetForm()
       }, Math.floor(Math.random() * 3000))
     }
   }
@@ -362,6 +362,20 @@ export default class Bets extends Vue {
       return
     }
     this.showAcceptedListOfBet = betId
+  }
+
+  resetAddBetForm(): void {
+    this.isAddingBet = false
+    this.addBetForm = {
+      title: '',
+      description: '',
+      amount: 0,
+      canAcceptNumber: 0,
+      requiresPassCode: false,
+      isActive: false,
+      userId: '',
+      createdBy: '',
+    }
   }
 }
 </script>

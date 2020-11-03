@@ -12,7 +12,7 @@ import { IAdminLink } from '@/types/Navigation/INavBar'
 import { IHeader } from '@/types/UI/UIStoreTypes'
 @Component({ name: 'Admin' })
 export default class Admin extends Vue {
-  activeAdminLink = 'Admin Dashboard'
+  activeAdminLink = 'Admin dashboard'
   adminLinks: IAdminLink[] = [
     { name: 'Users', link: '/admin/users', icon: 'golf' },
     { name: 'Roles', link: '/admin/roles', icon: 'golf' },

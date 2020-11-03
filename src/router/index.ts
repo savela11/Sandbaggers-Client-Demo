@@ -31,7 +31,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '*',
     name: 'Not-Found',
-    component: loadView('Dashboard'),
+    component: loadView('dashboard/Dashboard'),
     meta: {
       requiresAuth: true,
     },
@@ -56,9 +56,9 @@ const routes: Array<RouteConfig> = [
   },
 
   {
-    path: '/dashboard',
+    path: '/Dashboard',
     name: 'Dashboard',
-    component: loadView('Dashboard'),
+    component: loadView('dashboard/Dashboard'),
     meta: {
       requiresAuth: true,
       canFavorite: true,
@@ -155,7 +155,7 @@ router.beforeEach(async (to, from, next) => {
     await UIHelper.Header({ current: 'auth', isShowing: true, title: to.name })
     await store.dispatch('uiStore/_setPageLoading', false)
     if (currentUser) {
-      return next({ path: '/dashboard' })
+      return next({ path: '/Dashboard' })
     } else {
       return next()
     }

@@ -68,11 +68,9 @@
       border: 1px solid lightgrey;
     }
 
-    h2 {
-      font-size: 1.2rem;
-    }
 
     h2 {
+      font-size: 1.2rem;
       color: $DarkBlue;
     }
 
@@ -85,6 +83,68 @@
     h4 {
       font-size: 0.8rem;
       font-weight: normal;
+    }
+
+
+    .eventStatusBar {
+      display: flex;
+      margin: .3rem 0;
+
+      & > div {
+        flex: 0 0 50%;
+        display: flex;
+      }
+
+      p {
+        font-size: .8rem;
+        font-weight: bold;
+        color: #8b2635;
+
+        &.status {
+          color: grey;
+          margin-right: .5rem;
+        }
+
+        &.isPublishedStatus {
+
+        }
+
+        &.active {
+          color: green;
+        }
+      }
+    }
+
+    .publishEvent {
+      .btns {
+        margin: .5rem 0;
+
+        button {
+          font-size: .8rem;
+          padding: .3rem .8rem;
+          background-color: white;
+          color: $DarkBlue;
+          border: none;
+          border-bottom: 1px solid $DarkGreen;
+
+          &:last-child {
+            margin-left: .5rem;
+            border-bottom: 1px solid #8b2635;
+          }
+
+          &.active {
+            background-color: $DarkGreen;
+            color: white;
+            border: none;
+          }
+
+          &.inactive {
+            background-color: #8b2635;
+            color: white;
+            border: none;
+          }
+        }
+      }
     }
 
     &__location {

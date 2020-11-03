@@ -12,7 +12,7 @@ import { IUser } from '@/types/Test/TestStore'
 export default class Test extends Vue {
   title: null | string = null
   mounted(): void {
-    this.$store.dispatch('uiStore/SetHeaderTitle', 'Dashboard')
+    this.$store.dispatch('uiStore/SetHeaderTitle', 'dashboard')
     const newUser: IUser = {
       email: 'test@email.com',
       token: 'lkjfdasdjk',

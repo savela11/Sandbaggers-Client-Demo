@@ -54,6 +54,27 @@
               </div>
             </div>
           </div>
+          <div v-if="currentView === 'Bets'" class="bets">
+            <div class="bets__list">
+              <div class="bet" v-for="bet in Bets" :key="bet.betId">
+                <div class="flex flex--between">
+                  <p class="createdOn">Created: {{ formatDate(bet.createdOn) }}</p>
+                  <p>By: {{ bet.createdBy }}</p>
+                </div>
+                <div class="flex flex--between flex--iStart">
+                  <div>
+                    <h3 class="title">{{ bet.title }}</h3>
+                  </div>
+                  <div class="flex flex--iCenter">
+                    <button class="showBet">Show</button>
+                    <div class="amount">
+                      <span>${{ bet.amount }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <Loading v-if="loading" />
       </div>
@@ -69,6 +90,8 @@ import UsersService from '@/services/UsersService'
 import { IScrambleChamp } from '@/models/ScrambleChamp'
 import UIHelper from '@/utility/UIHelper'
 import Helper from '@/utility/Helper'
+import BetService from '@/services/BetService'
+import { IBetDto } from '@/types/Bets/Bet'
 
 @Component({
   name: 'Dashboard',
@@ -78,13 +101,36 @@ import Helper from '@/utility/Helper'
 })
 export default class Dashboard extends Vue {
   loading = true
+
   currentView = 'Handicaps'
   dashboardViews = ['Handicaps', 'Rounds', 'Bets']
+
+  handleViewChange(view: string): void {
+    if (view === 'Bets') {
+      this.getBets()
+    }
+    this.currentView = view
+  }
+
   Sandbaggers: SandbaggerWithHandicap[] = []
-  ScrambleChamps: IScrambleChamp[] = []
-  descendingHandicap = false
-  isSearchInputShowing = false
-  searchInput = ''
+
+  async getUsers(): Promise<void> {
+    this.loading = true
+    try {
+      const res = await UsersService.SandbaggersWithHandicaps()
+      if (res.status === 200) {
+        this.Sandbaggers = this.sortSandbaggersAscending(res.data)
+        await this.scrambleChamps()
+        await this.$store.dispatch('uiStore/_setPageLoading', false)
+      }
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setTimeout(() => {
+        this.loading = false
+      }, Helper.randomNumber(3000))
+    }
+  }
 
   mounted(): void {
     UIHelper.Header({ title: 'Dashboard', isShowing: true, current: 'main', bgColor: '#17252a' })
@@ -97,8 +143,11 @@ export default class Dashboard extends Vue {
     })
   }
 
-  handleViewChange(view: string): void {
-    this.currentView = view
+  descendingHandicap = false
+
+  toggleDescendingHandicaps(): void {
+    this.descendingHandicap = !this.descendingHandicap
+    this.descendingHandicap ? (this.Sandbaggers = this.sortSandbaggersDescending(this.Sandbaggers)) : (this.Sandbaggers = this.sortSandbaggersAscending(this.Sandbaggers))
   }
 
   sortSandbaggersDescending(sandbaggers: Array<SandbaggerWithHandicap>): Array<SandbaggerWithHandicap> {
@@ -125,32 +174,36 @@ export default class Dashboard extends Vue {
     })
   }
 
-  toggleDescendingHandicaps(): void {
-    this.descendingHandicap = !this.descendingHandicap
-    this.descendingHandicap ? (this.Sandbaggers = this.sortSandbaggersDescending(this.Sandbaggers)) : (this.Sandbaggers = this.sortSandbaggersAscending(this.Sandbaggers))
-  }
+  isSearchInputShowing = false
+  searchInput = ''
 
   toggleSearch(): void {
     this.isSearchInputShowing = !this.isSearchInputShowing
   }
 
-  async getUsers(): Promise<void> {
+  Bets: IBetDto[] = []
+
+  async getBets(): Promise<void> {
     this.loading = true
     try {
-      const res = await UsersService.SandbaggersWithHandicaps()
+      const res = await BetService.AllActiveBets()
       if (res.status === 200) {
-        this.Sandbaggers = this.sortSandbaggersAscending(res.data)
-        await this.scrambleChamps()
-        await this.$store.dispatch('uiStore/_setPageLoading', false)
+        this.Bets = res.data
       }
     } catch (e) {
       console.log(e)
     } finally {
       setTimeout(() => {
         this.loading = false
-      }, Helper.randomNumber(3000))
+      }, Math.floor(Math.random() * 3000))
     }
   }
+
+  formatDate(date: string): string {
+    return Helper.formatDate(date)
+  }
+
+  ScrambleChamps: IScrambleChamp[] = []
 
   async scrambleChamps(): Promise<void> {
     try {
@@ -166,5 +219,5 @@ export default class Dashboard extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import '../../src/assets/styles/_dashboard.scss';
+@import '../../assets/styles/dashboard/_dashboard.scss';
 </style>

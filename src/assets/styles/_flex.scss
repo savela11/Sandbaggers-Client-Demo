@@ -1,8 +1,17 @@
 .flex {
   display: flex;
 
+
   &--iCenter {
     align-items: center;
+  }
+
+  &--iStart {
+    align-items: flex-start;
+  }
+
+  &--iEnd {
+    align-items: flex-end;
   }
 
   // flex direction
@@ -23,6 +32,9 @@
   // justify-content
   &--between {
     justify-content: space-between;
+  }
+  &--end {
+    justify-content: flex-end;
   }
 }
 

@@ -27,14 +27,38 @@
           </div>
           <!--      HR-->
           <hr v-if="!isEditMode" />
+
           <div class="eventName">
             <div v-if="isEditMode" class="field">
               <label for="eventName">Name</label>
               <input id="eventName" type="text" class="input" v-model.trim="selectedEvent.name" />
             </div>
-            <h2 v-else>{{ selectedEvent.name }}</h2>
+            <div v-else>
+              <h2>{{ selectedEvent.name }}</h2>
+              <div class="eventStatusBar">
+                <div>
+                  <p class="status">Active:</p>
+                  <p class="isPublishedStatus" :class="{ active: selectedEvent.isPublished }">{{ selectedEvent.isPublished ? 'Yes' : 'No' }}</p>
+                </div>
+                <div>
+                  <p class="status">Current Year:</p>
+                  <p class="isCurrentYearStatus" :class="{ active: selectedEvent.isCurrentYear }">{{ selectedEvent.isCurrentYear ? 'Yes' : 'No' }}</p>
+
+                </div>
+
+              </div>
+            </div>
           </div>
 
+          <!--          PUBLISH EVENT-->
+          <div class="publishEvent" v-if="isEditMode">
+            <p>Make Active?</p>
+            <div class="btns">
+            <button :class="{active: selectedEvent.isPublished === true}" @click="selectedEvent.isPublished = true">Yes</button>
+            <button :class="{inactive: selectedEvent.isPublished === false}" @click="selectedEvent.isPublished = false">No</button>
+            </div>
+
+          </div>
           <!--        EVENT LOCATION-->
           <div class="eventView__location">
             <h3>Location</h3>
@@ -43,6 +67,7 @@
                 <label for="locationName">Name</label>
                 <input id="locationName" type="text" class="input" v-model.trim="selectedEvent.location.name" />
               </div>
+
               <div class="flexField">
                 <div class="field streetNumbers">
                   <label for="streetNumbers">Street Numbers</label>
@@ -292,7 +317,12 @@ export default class AdminEvents extends Vue {
       if (res.status === 200) {
         this.Events.push(res.data)
         this.selectedEvent = res.data
-        UIHelper.SnackBar({ class: 'primary', isSnackBarShowing: true, title: 'Success', message: `${res.data.name} has been created!` })
+        UIHelper.SnackBar({
+          class: 'primary',
+          isSnackBarShowing: true,
+          title: 'Success',
+          message: `${res.data.name} has been created!`,
+        })
       }
     } catch (e) {
       console.log(e)
@@ -361,7 +391,12 @@ export default class AdminEvents extends Vue {
           snackBarMessage = ``
         }
 
-        await UIHelper.SnackBar({ isSnackBarShowing: true, title: 'Scramble Champ Status Updated!', message: snackBarMessage, class: 'primary' })
+        await UIHelper.SnackBar({
+          isSnackBarShowing: true,
+          title: 'Scramble Champ Status Updated!',
+          message: snackBarMessage,
+          class: 'primary',
+        })
       }
     } else {
       return
@@ -403,7 +438,12 @@ export default class AdminEvents extends Vue {
       }
       const res = await this.updateEventResults(this.selectedEvent.eventResults)
       if (res.status === 200) {
-        await UIHelper.SnackBar({ isSnackBarShowing: true, title: 'Scramble Champ Updated', message: snackBarMessage, class: 'primary' })
+        await UIHelper.SnackBar({
+          isSnackBarShowing: true,
+          title: 'Scramble Champ Updated',
+          message: snackBarMessage,
+          class: 'primary',
+        })
       } else {
         await UIHelper.SnackBar({
           isSnackBarShowing: true,

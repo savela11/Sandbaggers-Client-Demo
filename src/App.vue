@@ -11,7 +11,6 @@
 
     <div v-if="CurrentUser">
       <NavMenu v-show="isNavigationMenuShowing" :isAdmin="CurrentUser.roles.includes('Admin')" />
-
       <NavBar v-show="IsNavBarShowing" :isNavMenuShowing="isNavigationMenuShowing" :currentUser="CurrentUser" />
       <ShowNavBarBtn v-show="!IsNavBarShowing" />
     </div>
@@ -49,9 +48,7 @@ export default class App extends Vue {
     }
   }
 
-  get DataLoading(): boolean {
-    return this.$store.getters['uiStore/DataLoadingStatus']
-  }
+
   get Header(): IHeader {
     return this.$store.getters['uiStore/Header']
   }
