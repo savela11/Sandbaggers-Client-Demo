@@ -1,10 +1,11 @@
 .nav {
   position: fixed;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
   background-color: transparent;
-  padding: 1rem;
+  padding: .3rem 0;
+
   &.show {
     animation: showNavBar 0.3s linear forwards;
   }
@@ -80,13 +81,17 @@
       justify-content: space-between;
       align-items: center;
       padding: 0 1rem 0 0;
+
+      button {
+        margin-right: 1rem;
+      }
     }
   }
 }
 
 @media (min-width: 768px) {
   .nav {
-    padding: 1rem 10rem;
+    padding: .5rem 0;
     &__bar {
       .toggleMenuBtn {
         img {
@@ -110,7 +115,6 @@
 }
 @media (min-width: 1024px) {
   .nav {
-    padding: 1rem 10rem;
     &__bar {
       height: 60px;
       .toggleMenuBtn {
@@ -141,7 +145,6 @@
 }
 @media (min-width: 1240px) {
   .nav {
-    padding: 1rem 20rem;
     &__bar {
       height: 75px;
       .toggleMenuBtn {
@@ -169,18 +172,18 @@
 }
 @keyframes showNavBar {
   0% {
-    transform: translateY(125%);
+    transform: translate(-50%, 150%);
   }
   100% {
-    transform: translateY(0);
+    transform: translate(-50%, 0);
   }
 }
 
 @keyframes hideNavBar {
   0% {
-    transform: translateY(0);
+    transform: translate(-50%, 0);
   }
   100% {
-    transform: translateY(125%);
+    transform: translate(-50%, 150%);
   }
 }

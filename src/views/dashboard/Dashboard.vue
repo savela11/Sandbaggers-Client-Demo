@@ -57,16 +57,16 @@
           <div v-if="currentView === 'Bets'" class="bets">
             <div class="bets__list">
               <div class="bet" v-for="bet in Bets" :key="bet.betId">
-                <div class="flex flex--between">
+                <div class="flex">
                   <p class="createdOn">Created: {{ formatDate(bet.createdOn) }}</p>
                   <p>By: {{ bet.createdBy }}</p>
                 </div>
-                <div class="flex flex--between flex--iStart">
+                <div class="flex">
                   <div>
                     <h3 class="title">{{ bet.title }}</h3>
                   </div>
-                  <div class="flex flex--iCenter">
-                    <button class="showBet">Show</button>
+                  <div class="flex">
+                    <button class="showBetBtn" @click="selectBet(bet)">Show</button>
                     <div class="amount">
                       <span>${{ bet.amount }}</span>
                     </div>
@@ -79,6 +79,19 @@
         <Loading v-if="loading" />
       </div>
     </div>
+    <Modal v-if="selectedBet" class="selectedBet" @click="closeSelectedBetModal" :isFooter="false">
+      <template v-slot:header>
+        <h2>{{ selectedBet.title }}</h2>
+      </template>
+      <template v-slot:body>
+        <div class="body">
+          <div class="body__top">
+            <p>by {{selectedBet.createdBy}}</p>
+          </div>
+
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -97,6 +110,7 @@ import { IBetDto } from '@/types/Bets/Bet'
   name: 'Dashboard',
   components: {
     Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
+    Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue'),
   },
 })
 export default class Dashboard extends Vue {
@@ -182,6 +196,7 @@ export default class Dashboard extends Vue {
   }
 
   Bets: IBetDto[] = []
+  selectedBet: IBetDto | null = null
 
   async getBets(): Promise<void> {
     this.loading = true
@@ -197,6 +212,14 @@ export default class Dashboard extends Vue {
         this.loading = false
       }, Math.floor(Math.random() * 3000))
     }
+  }
+
+  selectBet(bet: IBetDto): void {
+    this.selectedBet = bet
+  }
+
+  closeSelectedBetModal(): void {
+    this.selectedBet = null
   }
 
   formatDate(date: string): string {

@@ -12,6 +12,7 @@
         <slot name="body"></slot>
       </div>
       <div class="modal__footer section" v-if="isFooter">
+        <slot name="footer"></slot>
         <div class="btnContainer">
           <slot name="submitBtn"> </slot>
         </div>
