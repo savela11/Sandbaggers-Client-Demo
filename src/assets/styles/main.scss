@@ -20,8 +20,6 @@ html {
 }
 * {
   box-sizing: border-box;
-
-
 }
 body {
   overflow-x: hidden;
@@ -49,18 +47,10 @@ a {
 }
 
 
-.divider {
-  color: rgba(0,0,0,0.87);
-  display: block;
-  flex: 1 1 0;
-  height: 0;
-  max-height: 0;
-  border-bottom-style: solid;
-  border-width: thin 0 0 0;
-  transition: inherit;
-  max-width: 100%;
-  border-color: rgba(0,0,0,.12);
+.hideLabel {
+  display: none;
 }
+
 input {
   box-sizing: border-box;
   width: 100%;
@@ -71,6 +61,15 @@ input {
 }
 
 .divider {
+  color: rgba(0,0,0,0.87);
+  display: block;
+  flex: 1 1 0;
+  max-height: 0;
+  border-bottom-style: solid;
+  border-width: thin 0 0 0;
+  transition: inherit;
+  max-width: 100%;
+  border-color: rgba(0,0,0,.12);
   background-color: lightgrey;
   width: 100%;
   margin: 0 0 1rem 0;
@@ -93,8 +92,16 @@ input {
   }
 }
 
+
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .form {
-  padding: 1rem;
+  padding: 0 1rem;
+  @include mobile {
+  padding: 0 2rem;
+  }
   &__field {
     display: flex;
     flex-direction: column;
@@ -122,10 +129,6 @@ input {
       padding: 0.5rem 0 0.5rem .5rem;
     }
   }
-}
-
-.hideLabel {
-  display: none;
 }
 
 .input {
@@ -159,11 +162,6 @@ input {
 
 
 }
-a {
-  -webkit-tap-highlight-color: transparent;
-}
-
-
 
 
 @media (min-width: 375px) {

@@ -79,17 +79,49 @@
         <Loading v-if="loading" />
       </div>
     </div>
-    <Modal v-if="selectedBet" class="selectedBet" @click="closeSelectedBetModal" :isFooter="false">
-      <template v-slot:header>
-        <h2>{{ selectedBet.title }}</h2>
-      </template>
+    <Modal v-if="selectedBet" class="selectedBet" @click="closeSelectedBetModal" v-bind="{ isHeader: false }">
       <template v-slot:body>
         <div class="body">
-          <div class="body__top">
-            <p>by {{selectedBet.createdBy}}</p>
+          <div class="body__header">
+            <h2>{{ selectedBet.title }}</h2>
           </div>
+          <div class="body__main">
+            <div class="body__main__top">
+              <p>by {{ selectedBet.createdBy }}</p>
+              <div class="amount">
+                <span>${{ selectedBet.amount }}</span>
+              </div>
+            </div>
+            <div class="body__main__middle">
+              <div class="acceptedBy">
+                <div class="flex">
+                  <h3>Accepted By:</h3>
+                  <span class="acceptedCountSpan">{{ selectedBet.acceptedBy.length }} / {{ selectedBet.canAcceptNumber }}</span>
+                </div>
 
+                <div class="acceptedBy__users">
+                  <div v-if="selectedBet.acceptedBy.length > 0">
+                    <div class="user" v-for="user in selectedBet.acceptedBy" :key="user.userId">
+                      <p>{{ user.fullName }}</p>
+                    </div>
+                  </div>
+                  <div v-else>
+                    <p>No one accepted!</p>
+                  </div>
+                </div>
+              </div>
+              <div class="description">
+                <h3>Description:</h3>
+                <div class="text">
+                  <p>{{ selectedBet.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </template>
+      <template v-slot:submitBtn>
+        <button class="acceptBetBtn" v-if="selectedBet.userId !== $store.state.authStore.currentUser.id">Accept Bet</button>
       </template>
     </Modal>
   </div>
@@ -110,8 +142,8 @@ import { IBetDto } from '@/types/Bets/Bet'
   name: 'Dashboard',
   components: {
     Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
-    Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue'),
-  },
+    Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue')
+  }
 })
 export default class Dashboard extends Vue {
   loading = true
@@ -120,9 +152,17 @@ export default class Dashboard extends Vue {
   dashboardViews = ['Handicaps', 'Rounds', 'Bets']
 
   handleViewChange(view: string): void {
+    const viewButtons = document.querySelector('.viewButtons')
+    const buttons = viewButtons?.querySelector('.buttons')
     if (view === 'Bets') {
       this.getBets()
     }
+    if(view === 'Handicaps' && buttons) {
+      buttons.scrollLeft = 0;
+    } else {
+      buttons!.scrollLeft = 100
+    }
+
     this.currentView = view
   }
 
@@ -216,10 +256,12 @@ export default class Dashboard extends Vue {
 
   selectBet(bet: IBetDto): void {
     this.selectedBet = bet
+    document.body.style.position = 'fixed'
   }
 
   closeSelectedBetModal(): void {
     this.selectedBet = null
+    document.body.style.position = 'static'
   }
 
   formatDate(date: string): string {

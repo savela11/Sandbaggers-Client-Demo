@@ -3,7 +3,7 @@
     <div class="modal__background" v-on="$listeners"></div>
     <div class="modal__container">
       <div class="modal__closeButton">
-        <button class="btn btn--xs" v-on="$listeners">Close</button>
+        <button  v-on="$listeners"><img :src="require('@/assets/icons/closeX.svg')" alt="Close button"></button>
       </div>
       <div class="modal__header section" v-if="isHeader">
         <slot name="header"></slot>
