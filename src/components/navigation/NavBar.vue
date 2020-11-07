@@ -3,16 +3,15 @@
     <div class="nav__bar">
       <div class="nav__bar--favorites">
         <router-link v-for="link in favoriteLinks" :key="link.link" :to="link.link">
-
-          <img :src="favoriteLinkImg(link.name)" alt="">
+          <img :src="favoriteLinkImg(link.name)" alt="" />
           <span>{{ link.name }}</span>
         </router-link>
       </div>
       <div class="nav__bar--menu">
-        <button class="toggleMenuBtn" @click="toggleNavMenu"><img src="@/assets/icons/bottomBar-menu.svg" alt="menu" />
-        </button>
+        <button class="toggleMenuBtn" @click="toggleNavMenu"><img src="@/assets/icons/bottomBar-menu.svg" alt="menu" /></button>
         <button class="hideNavBarBtn" @click="hideNavBar">
-          <img src="@/assets/icons/hideEye.svg" alt="hide navbar red eye." /></button>
+          <img src="@/assets/icons/hideEye.svg" alt="hide navbar red eye." />
+        </button>
       </div>
     </div>
   </div>
@@ -39,13 +38,12 @@ export default class Navigation extends Vue {
       return [
         { link: '/dashboard', name: 'Dashboard' },
         { link: '/bets', name: 'Bets' },
-        { link: '/powerRankings', name: 'PowerRankings' }
+        { link: '/powerRankings', name: 'PowerRankings' },
       ]
     }
   }
 
   favoriteLinkImg(name: string): string {
-    console.log(name);
     let svgImg
     switch (name) {
       case 'Dashboard':

@@ -6,10 +6,8 @@ $viewBtnActiveBG: $DarkBlue;
 $latestTextColor: white;
 $searchBarTitleColor: white;
 
-
 .dashboard {
   padding: 0;
-
 
   .top {
     padding: 2rem 1rem 3rem 1rem;
@@ -68,11 +66,10 @@ $searchBarTitleColor: white;
       }
     }
 
-
     .viewButtons {
       h2 {
         color: $latestTextColor;
-        padding: 0 0 .5rem .5rem;
+        padding: 0 0 0.5rem 0.5rem;
         font-size: 1.4rem;
         @include tablet {
           font-size: 1.6rem;
@@ -85,8 +82,6 @@ $searchBarTitleColor: white;
         white-space: nowrap;
         padding: 0.2rem;
         margin: 0;
-
-
       }
 
       button {
@@ -117,7 +112,6 @@ $searchBarTitleColor: white;
       }
     }
 
-
     .searchBar {
       margin-top: 1rem;
       display: flex;
@@ -126,8 +120,6 @@ $searchBarTitleColor: white;
       label {
         margin-right: 1rem;
         color: $searchBarTitleColor;
-
-
       }
 
       input {
@@ -168,9 +160,7 @@ $searchBarTitleColor: white;
       @include tablet-landscape {
         min-height: 400px;
       }
-
     }
-
 
     .handicaps {
       .titleBar {
@@ -181,7 +171,6 @@ $searchBarTitleColor: white;
           grid-template-columns: 50px 2fr 1fr;
           height: 50px;
           gap: 20px;
-
         }
 
         .searchButton {
@@ -224,7 +213,7 @@ $searchBarTitleColor: white;
         padding: 0 0 0.5rem 0;
 
         .sandbagger {
-          margin-bottom: .5rem;
+          margin-bottom: 0.5rem;
           border: 1px solid grey;
           border-radius: 5px;
 
@@ -253,12 +242,9 @@ $searchBarTitleColor: white;
           }
         }
       }
-
     }
 
-
     .bets {
-
       @include tablet {
         padding: 1rem 0;
       }
@@ -277,7 +263,7 @@ $searchBarTitleColor: white;
         }
 
         .bet {
-          padding: .5rem .5rem 1rem .5rem;
+          padding: 0.5rem 0.5rem 1rem 0.5rem;
           border-radius: 5px;
           border-left: 5px solid #425a41;
           box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
@@ -303,20 +289,17 @@ $searchBarTitleColor: white;
             }
           }
 
-
           h3 {
             color: $DarkBlue;
             font-size: 1rem;
-
-
           }
 
           p {
             color: grey;
-            font-size: .7rem;
+            font-size: 0.7rem;
 
             @include tablet {
-              font-size: .8rem;
+              font-size: 0.8rem;
             }
           }
 
@@ -324,14 +307,13 @@ $searchBarTitleColor: white;
             border: none;
             border-bottom: 1px solid $DarkBlue;
             margin-right: 1rem;
-            font-size: .8rem;
-            padding: .3rem .5rem;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.5rem;
 
             @include tablet {
-              font-size: .9rem;
+              font-size: 0.9rem;
             }
           }
-
 
           .amount {
             padding: 0.5rem;
@@ -352,17 +334,12 @@ $searchBarTitleColor: white;
               font-size: 1rem;
               font-weight: bold;
               color: white;
-
             }
           }
         }
-
-
       }
     }
-
   }
-
 
   .selectedBet {
     h2 {
@@ -373,7 +350,6 @@ $searchBarTitleColor: white;
       display: flex;
       flex-direction: column;
       height: 100%;
-
 
       &__header {
         margin-bottom: 1rem;
@@ -387,45 +363,31 @@ $searchBarTitleColor: white;
         z-index: 1;
         position: relative;
         flex: auto;
-        padding: .8rem;
-        color: white;
+        padding: 0.8rem;
+        color: $DarkBlue;
 
         h3 {
           font-size: 1rem;
           font-weight: normal;
         }
 
-
         p {
-          font-size: .8rem;
+          font-size: 0.8rem;
           color: $DarkBlue;
           white-space: pre-wrap;
         }
-
-        &::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          border-radius: 5px;
-          background-color: $DarkBlue;
-          z-index: -1;
-        }
-
 
         &__top {
           display: flex;
           justify-content: space-between;
 
           p {
-            color: white;
-            font-size: .8rem;
+            color: $DarkBlue;
+            font-size: 0.8rem;
           }
 
           .amount {
-            background-color: white;
+            background-color: $DarkGreen;
             width: 50px;
             height: 50px;
             display: flex;
@@ -441,7 +403,7 @@ $searchBarTitleColor: white;
             span {
               font-size: 1.1rem;
               font-weight: bold;
-              color: $DarkBlue;
+              color: white;
 
               @include mobile {
                 font-size: 1.2rem;
@@ -452,9 +414,8 @@ $searchBarTitleColor: white;
 
         &__middle {
           & > div {
-            padding: .5rem;
+            padding: 0.5rem;
           }
-
 
           .flex {
             justify-content: space-between;
@@ -462,46 +423,39 @@ $searchBarTitleColor: white;
 
           .acceptedBy {
             &__users {
-              margin-top: .5rem;
+              margin-top: 0.5rem;
               border-radius: 5px;
               padding: 1rem;
               background-color: white;
-
             }
 
             .acceptedCountSpan {
-              font-size: .8rem;
+              font-size: 0.8rem;
             }
           }
 
           .description {
-
             .text {
-              margin-top: .5rem;
+              margin-top: 0.5rem;
               border-radius: 5px;
               padding: 1rem;
               background-color: white;
               min-height: 100px;
               max-height: 150px;
               overflow-y: scroll;
-
-
             }
           }
         }
-
       }
     }
 
     .acceptBetBtn {
-      margin: .5rem 0;
-      padding: .5rem .8rem;
-      font-size: .8rem;
+      margin: 0.5rem 0;
+      padding: 0.5rem 0.8rem;
+      font-size: 0.8rem;
       border-radius: 5px;
       border: none;
       border-bottom: 2px solid $DarkGreen;
     }
   }
-
 }
-
