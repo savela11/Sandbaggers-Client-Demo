@@ -10,7 +10,7 @@
         <input type="password" id="password" v-model.trim="LoginForm.password" />
       </div>
       <div class="btnContainer">
-        <button @click.prevent.stop="onSubmit" class="btn btn--blue" id="loginBTN">Login</button>
+        <button @click.prevent.stop="onSubmit" class="btn btn--blue btn--sm" id="loginBTN">Login</button>
       </div>
     </form>
     <div class="greyLinks" v-if="!DataLoading">

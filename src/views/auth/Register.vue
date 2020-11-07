@@ -30,7 +30,7 @@
         <input type="text" id="registrationCode" v-model.trim="registerForm.registrationCode" />
       </div>
       <div class="btnContainer">
-        <button @click.prevent.stop="onSubmit" class="btn btn--blue">Register</button>
+        <button @click.prevent.stop="onSubmit" class="btn btn--blue btn--sm">Register</button>
       </div>
     </form>
     <div class="greyLinks" v-if="!loading">
