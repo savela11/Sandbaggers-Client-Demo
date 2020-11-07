@@ -133,7 +133,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Ref, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import BetService from '@/services/BetService'
 import { IBetDto, ICreateBet, IUserAcceptedBet } from '@/types/Bets/Bet'
 import Helper from '@/utility/Helper'
