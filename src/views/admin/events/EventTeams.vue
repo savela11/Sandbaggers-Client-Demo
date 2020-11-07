@@ -25,7 +25,6 @@
               </h4>
             </div>
             <div class="selectTeamCaptainBox" v-if="selectedTeamToEdit">
-
               <div class="buttonList">
                 <button>user</button>
                 <button>user</button>
@@ -35,9 +34,8 @@
                 <button>user</button>
                 <button>user</button>
                 <button>user</button>
-
               </div>
-              <button v-for="user in event.registeredUsers" :key="user.id">{{user.fullName || 'User'}}</button>
+              <button v-for="user in event.registeredUsers" :key="user.id">{{ user.fullName || 'User' }}</button>
             </div>
           </div>
           <div class="team__members">
@@ -86,7 +84,7 @@ export default class EventTeams extends Vue {
 
   get showTeams(): IEventTeam[] {
     if (this.selectedTeamToEdit) {
-      return this.event.teams.filter((t) => t.teamId === this.selectedTeamToEdit.teamId)
+      return this.event.teams.filter((t) => t.teamId === this.selectedTeamToEdit!.teamId)
     } else {
       return this.event.teams
     }
@@ -114,7 +112,7 @@ export default class EventTeams extends Vue {
   }
 
   editTeam(team: IEventTeam | null): void {
-    if (team.teamId === this.selectedTeamToEdit?.teamId) {
+    if (team && team.teamId === this.selectedTeamToEdit?.teamId) {
       this.selectedTeamToEdit = null
       return
     }
@@ -141,7 +139,7 @@ export default class EventTeams extends Vue {
     try {
       const res = await EventService.CreateEventTeam(this.addTeamForm)
       if (res.status === 200) {
-        this.teams.push(res.data)
+        this.event.teams.push(res.data)
         this.toggleAddingTeam(false)
       }
       console.log(res)
