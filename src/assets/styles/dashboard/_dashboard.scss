@@ -23,7 +23,7 @@ $searchBarTitleColor: white;
     @include tablet-landscape {
       padding: 1rem 6rem 3rem 6rem;
     }
-    @include desktop {
+    @include desktopSmall {
       padding: 1rem 8rem 3rem 8rem;
     }
 
@@ -149,7 +149,7 @@ $searchBarTitleColor: white;
     @include tablet-landscape {
       padding: 3rem 6rem;
     }
-    @include desktop {
+    @include desktopSmall {
       padding: 3rem 8rem;
     }
 
@@ -272,7 +272,7 @@ $searchBarTitleColor: white;
           gap: 20px;
         }
 
-        @include desktop {
+        @include desktopSmall {
           grid-template-columns: 1fr 1fr 1fr;
         }
 
