@@ -39,16 +39,18 @@ export default class UIHelper {
 
   static async ToggleNavMenu(status: boolean): Promise<void> {
     const navMenu = document.querySelector('.navMenu')
+    const closeNavMenu = document.querySelector('.closeNavMenu')
     if (navMenu) {
       if (status) {
         await store.dispatch('uiStore/_setNavMenuShowingStatus', status)
 
         navMenu.classList.remove('hide')
         navMenu.classList.add('show')
+        closeNavMenu?.classList.add('show')
       } else {
         navMenu.classList.remove('show')
         navMenu.classList.add('hide')
-
+        closeNavMenu?.classList.remove('show')
         setTimeout(() => {
           store.dispatch('uiStore/_setNavMenuShowingStatus', status)
         }, 500)

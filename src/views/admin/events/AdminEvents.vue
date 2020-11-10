@@ -2,9 +2,9 @@
   <div class="adminEvents">
     <!--   Main VIEWs-->
     <div v-if="!loading" class="views">
-      <div v-if="!isAddingEvent && selectedEvent">
+      <div v-if="!isAddingEvent">
         <!--Event View-->
-        <div class="eventView" v-if="view === 'Events'">
+        <div class="eventView" v-if="view === 'Events'">jjjj
           <!--select box-->
           <div class="eventView__selectBox" v-if="!isEditMode">
             <div class="flexWrapper">
@@ -28,120 +28,119 @@
           <!--      HR-->
           <hr v-if="!isEditMode" />
 
-          <div class="eventName">
-            <div v-if="isEditMode" class="field">
-              <label for="eventName">Name</label>
-              <input id="eventName" type="text" class="input" v-model.trim="selectedEvent.name" />
-            </div>
-            <div v-else>
-              <h2>{{ selectedEvent.name }}</h2>
-              <div class="eventStatusBar">
-                <div>
-                  <p class="status">Active:</p>
-                  <p class="isPublishedStatus" :class="{ active: selectedEvent.isPublished }">{{ selectedEvent.isPublished ? 'Yes' : 'No' }}</p>
-                </div>
-                <div>
-                  <p class="status">Current Year:</p>
-                  <p class="isCurrentYearStatus" :class="{ active: selectedEvent.isCurrentYear }">{{ selectedEvent.isCurrentYear ? 'Yes' : 'No' }}</p>
-
-                </div>
-
+          <div v-if="selectedEvent">
+            <div class="eventName">
+              <div v-if="isEditMode" class="field">
+                <label for="eventName">Name</label>
+                <input id="eventName" type="text" class="input" v-model.trim="selectedEvent.name" />
               </div>
-            </div>
-          </div>
-
-          <!--          PUBLISH EVENT-->
-          <div class="publishEvent" v-if="isEditMode">
-            <p>Make Active?</p>
-            <div class="btns">
-            <button :class="{active: selectedEvent.isPublished === true}" @click="selectedEvent.isPublished = true">Yes</button>
-            <button :class="{inactive: selectedEvent.isPublished === false}" @click="selectedEvent.isPublished = false">No</button>
-            </div>
-
-          </div>
-          <!--        EVENT LOCATION-->
-          <div class="eventView__location">
-            <h3>Location</h3>
-            <div v-if="isEditMode">
-              <div class="field">
-                <label for="locationName">Name</label>
-                <input id="locationName" type="text" class="input" v-model.trim="selectedEvent.location.name" />
-              </div>
-
-              <div class="flexField">
-                <div class="field streetNumbers">
-                  <label for="streetNumbers">Street Numbers</label>
-                  <input id="streetNumbers" type="text" class="input" v-model.trim="selectedEvent.location.streetNumbers" />
-                </div>
-                <div class="field">
-                  <label for="streetName">Street Name</label>
-                  <input id="streetName" type="text" class="input" v-model.trim="selectedEvent.location.streetName" />
-                </div>
-              </div>
-              <div class="flexField">
-                <div class="field">
-                  <label for="city">City</label>
-                  <input id="city" type="text" class="input" v-model.trim="selectedEvent.location.city" />
-                </div>
-                <div class="field">
-                  <label for="zip">Zip Code</label>
-                  <input id="zip" type="tel" class="input" v-model.trim="selectedEvent.location.postalCode" />
-                </div>
-              </div>
-            </div>
-            <div v-else>
-              <p>{{ selectedEvent.location.name }}</p>
-              <p>{{ selectedEvent.location.streetNumbers }} {{ selectedEvent.location.streetName }}</p>
-              <p>{{ selectedEvent.location.city }} {{ selectedEvent.location.postalCode }}</p>
-            </div>
-          </div>
-          <!--        EVENT TEAMS-->
-          <div class="eventView__teams" v-if="!isEditMode">
-            <div class="title">
-              <h3>Teams</h3>
-              <div class="addTeam">
-                <router-link :to="{ name: 'Event Teams', params: { eventId: selectedEvent.eventId } }"
-                  ><img src="@/assets/icons/editPencil.svg" alt="Edit Team Button"
-                /></router-link>
-                <p>Edit Teams</p>
-              </div>
-            </div>
-            <div class="teamList">
-              <div class="team" v-for="team in selectedEvent.teams" :key="team.teamId">
-                <div class="container">
-                  <div class="top">
-                    <h4 class="name">Team {{ team.name }}</h4>
+              <div v-else>
+                <h2>{{ selectedEvent.name }}</h2>
+                <div class="eventStatusBar">
+                  <div>
+                    <p class="status">Active:</p>
+                    <p class="isPublishedStatus" :class="{ active: selectedEvent.isPublished }">{{ selectedEvent.isPublished ? 'Yes' : 'No' }}</p>
                   </div>
-                  <div class="middle">
-                    <div class="captainContainer">
-                      <h4>Captain:</h4>
-                      <p>{{ teamCaptain(team.captain) }}</p>
+                  <div>
+                    <p class="status">Current Year:</p>
+                    <p class="isCurrentYearStatus" :class="{ active: selectedEvent.isCurrentYear }">{{ selectedEvent.isCurrentYear ? 'Yes' : 'No' }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--          PUBLISH EVENT-->
+            <div class="publishEvent" v-if="isEditMode">
+              <p>Make Active?</p>
+              <div class="btns">
+                <button :class="{ active: selectedEvent.isPublished === true }" @click="selectedEvent.isPublished = true">Yes</button>
+                <button :class="{ inactive: selectedEvent.isPublished === false }" @click="selectedEvent.isPublished = false">No</button>
+              </div>
+            </div>
+            <!--        EVENT LOCATION-->
+            <div class="eventView__location">
+              <h3>Location</h3>
+              <div v-if="isEditMode">
+                <div class="field">
+                  <label for="locationName">Name</label>
+                  <input id="locationName" type="text" class="input" v-model.trim="selectedEvent.location.name" />
+                </div>
+
+                <div class="flexField">
+                  <div class="field streetNumbers">
+                    <label for="streetNumbers">Street Numbers</label>
+                    <input id="streetNumbers" type="text" class="input" v-model.trim="selectedEvent.location.streetNumbers" />
+                  </div>
+                  <div class="field">
+                    <label for="streetName">Street Name</label>
+                    <input id="streetName" type="text" class="input" v-model.trim="selectedEvent.location.streetName" />
+                  </div>
+                </div>
+                <div class="flexField">
+                  <div class="field">
+                    <label for="city">City</label>
+                    <input id="city" type="text" class="input" v-model.trim="selectedEvent.location.city" />
+                  </div>
+                  <div class="field">
+                    <label for="zip">Zip Code</label>
+                    <input id="zip" type="tel" class="input" v-model.trim="selectedEvent.location.postalCode" />
+                  </div>
+                </div>
+              </div>
+              <div v-else>
+                <p>{{ selectedEvent.location.name }}</p>
+                <p>{{ selectedEvent.location.streetNumbers }} {{ selectedEvent.location.streetName }}</p>
+                <p>{{ selectedEvent.location.city }} {{ selectedEvent.location.postalCode }}</p>
+              </div>
+            </div>
+            <!--        EVENT TEAMS-->
+            <div class="eventView__teams" v-if="!isEditMode">
+              <div class="title">
+                <h3>Teams</h3>
+                <div class="addTeam">
+                  <router-link :to="{ name: 'Event Teams', params: { eventId: selectedEvent.eventId } }"
+                    ><img src="@/assets/icons/editPencil.svg" alt="Edit Team Button"
+                  /></router-link>
+                  <p>Edit Teams</p>
+                </div>
+              </div>
+              <div class="teamList">
+                <div class="team" v-for="team in selectedEvent.teams" :key="team.teamId">
+                  <div class="container">
+                    <div class="top">
+                      <h4 class="name">Team {{ team.name }}</h4>
                     </div>
-                  </div>
-                  <div class="bottom">
-                    <div class="teamMembers">
-                      <div class="teamMembers__teamName">
-                        <h4>
-                          Team Members: <span>{{ team.teamMembers.length }}</span>
-                        </h4>
-                        <button v-if="team.teamMembers.length > 0" @click="toggleTeamMembersList(team.teamId)">
-                          <img :src="require('@/assets/icons/arrowDown.svg')" alt="Down arrow" />
-                        </button>
+                    <div class="middle">
+                      <div class="captainContainer">
+                        <h4>Captain:</h4>
+                        <p>{{ teamCaptain(team.captain) }}</p>
                       </div>
+                    </div>
+                    <div class="bottom">
+                      <div class="teamMembers">
+                        <div class="teamMembers__teamName">
+                          <h4>
+                            Team Members: <span>{{ team.teamMembers.length }}</span>
+                          </h4>
+                          <button v-if="team.teamMembers.length > 0" @click="toggleTeamMembersList(team.teamId)">
+                            <img :src="require('@/assets/icons/arrowDown.svg')" alt="Down arrow" />
+                          </button>
+                        </div>
 
-                      <ul class="teamMembers__memberList" v-if="showTeamMembersForId === team.teamId">
-                        <li v-for="member in team.teamMembers" :key="member.id">{{ member.fullName }}</li>
-                      </ul>
+                        <ul class="teamMembers__memberList" v-if="showTeamMembersForId === team.teamId">
+                          <li v-for="member in team.teamMembers" :key="member.id">{{ member.fullName }}</li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="eventView__btnContainer" v-if="isEditMode">
-            <button @click="updateEvent" class="btn btn--xs btn--green">update</button>
-            <button @click="isEditMode = false" class="btn btn--xs btn--red">cancel</button>
+            <div class="eventView__btnContainer" v-if="isEditMode">
+              <button @click="updateEvent" class="btn btn--xs btn--green">update</button>
+              <button @click="isEditMode = false" class="btn btn--xs btn--red">cancel</button>
+            </div>
           </div>
         </div>
         <!--  Results View-->

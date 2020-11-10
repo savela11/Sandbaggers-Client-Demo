@@ -11,8 +11,11 @@
 
     <div v-if="CurrentUser">
       <NavMenu v-show="isNavigationMenuShowing" :isAdmin="CurrentUser.roles.includes('Admin')" />
-      <NavBar v-show="IsNavBarShowing" :isNavMenuShowing="isNavigationMenuShowing" :currentUser="CurrentUser" />
+      <NavBar v-show="IsNavBarShowing && !isNavigationMenuShowing" :isNavMenuShowing="isNavigationMenuShowing" :currentUser="CurrentUser" />
       <ShowNavBarBtn v-show="!IsNavBarShowing" />
+      <div class="closeNavMenu" v-show="isNavigationMenuShowing">
+        <button class="btn btn--xs" @click="closeNavigationMenu">Close</button>
+      </div>
     </div>
   </div>
 </template>
@@ -21,6 +24,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { ICurrentUser } from '@/types/User/AuthUser'
 import { IHeader } from './types/UI/UIStoreTypes'
+import UIHelper from './utility/UIHelper'
 
 @Component({
   name: 'App',
@@ -40,6 +44,9 @@ export default class App extends Vue {
   message = ''
   loading = true
 
+  closeNavigationMenu(): void {
+    UIHelper.ToggleNavMenu(false)
+  }
   get headerColor(): string {
     if (this.$route.path.startsWith('/admin')) {
       return '#17252a'
@@ -47,7 +54,6 @@ export default class App extends Vue {
       return '#425a41'
     }
   }
-
 
   get Header(): IHeader {
     return this.$store.getters['uiStore/Header']
@@ -72,21 +78,32 @@ export default class App extends Vue {
   .routerView {
     padding: 2rem 1rem;
     position: relative;
-  }
-}
 
-@media (min-width: 768px) {
-  .app {
-    .routerView {
+    @include tablet {
       padding: 3rem;
     }
-  }
-}
-@media (min-width: 1024px) {
-  .app {
-    .routerView {
+
+    @include tablet-landscape {
       padding: 5rem;
     }
+  }
+
+  .closeNavMenu {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    transform: translateY(1000%);
+    &.show {
+      animation: showCloseNavBtn 0.5s linear forwards;
+    }
+  }
+}
+@keyframes showCloseNavBtn {
+  0% {
+    transform: translateY(1000%);
+  }
+  100% {
+    transform: translateY(0%);
   }
 }
 </style>

@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { IAdminLink, IUserLink } from '@/types/Navigation/INavBar'
 import UIHelper from '@/utility/UIHelper'
 
