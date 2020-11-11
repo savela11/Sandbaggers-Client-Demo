@@ -57,6 +57,14 @@ export default [
     },
   },
   {
+    path: '/admin/events/editEvent/:id',
+    name: 'Edit Event',
+    component: loadView('admin/events/EditEvent'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/admin/events/eventTeams/:eventId',
     name: 'Event Teams',
     component: loadView('admin/events/EventTeams'),

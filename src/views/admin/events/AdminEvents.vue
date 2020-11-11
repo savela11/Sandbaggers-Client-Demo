@@ -6,14 +6,14 @@
         <!--Event View-->
         <div class="eventView" v-if="view === 'Events'">
           <!--select box-->
-          <div class="eventView__selectBox" v-if="!isEditMode">
+          <div class="eventView__selectBox">
             <div class="flexWrapper">
               <div class="addEventButton container">
                 <router-link to="/admin/events/createEvent"><img src="@/assets/icons/addCircle.svg" alt="Add Event Button" /></router-link>
                 <p>Add Event</p>
               </div>
-              <div class="editEventButton container">
-                <button @click="isEditMode = true"><img src="@/assets/icons/editPencil.svg" alt="Edit Button" /></button>
+              <div class="editEventButton container" v-if="selectedEvent">
+                <router-link :to="'/admin/events/editEvent/' + selectedEvent.eventId"><img src="@/assets/icons/editPencil.svg" alt="Edit Button" /></router-link>
                 <p>Edit Event</p>
               </div>
             </div>
@@ -26,15 +26,11 @@
             </div>
           </div>
           <!--      HR-->
-          <hr v-if="!isEditMode" />
+          <hr />
 
           <div v-if="selectedEvent">
             <div class="eventName">
-              <div v-if="isEditMode" class="field">
-                <label for="eventName">Name</label>
-                <input id="eventName" type="text" class="input" v-model.trim="selectedEvent.name" />
-              </div>
-              <div v-else>
+              <div>
                 <h2>{{ selectedEvent.name }}</h2>
                 <div class="eventStatusBar">
                   <div>
@@ -49,52 +45,17 @@
               </div>
             </div>
 
-            <!--          PUBLISH EVENT-->
-            <div class="publishEvent" v-if="isEditMode">
-              <p>Make Active?</p>
-              <div class="btns">
-                <button :class="{ active: selectedEvent.isPublished === true }" @click="selectedEvent.isPublished = true">Yes</button>
-                <button :class="{ inactive: selectedEvent.isPublished === false }" @click="selectedEvent.isPublished = false">No</button>
-              </div>
-            </div>
             <!--        EVENT LOCATION-->
             <div class="eventView__location">
               <h3>Location</h3>
-              <div v-if="isEditMode">
-                <div class="field">
-                  <label for="locationName">Name</label>
-                  <input id="locationName" type="text" class="input" v-model.trim="selectedEvent.location.name" />
-                </div>
-
-                <div class="flexField">
-                  <div class="field streetNumbers">
-                    <label for="streetNumbers">Street Numbers</label>
-                    <input id="streetNumbers" type="text" class="input" v-model.trim="selectedEvent.location.streetNumbers" />
-                  </div>
-                  <div class="field">
-                    <label for="streetName">Street Name</label>
-                    <input id="streetName" type="text" class="input" v-model.trim="selectedEvent.location.streetName" />
-                  </div>
-                </div>
-                <div class="flexField">
-                  <div class="field">
-                    <label for="city">City</label>
-                    <input id="city" type="text" class="input" v-model.trim="selectedEvent.location.city" />
-                  </div>
-                  <div class="field">
-                    <label for="zip">Zip Code</label>
-                    <input id="zip" type="tel" class="input" v-model.trim="selectedEvent.location.postalCode" />
-                  </div>
-                </div>
-              </div>
-              <div v-else>
+              <div>
                 <p>{{ selectedEvent.location.name }}</p>
                 <p>{{ selectedEvent.location.streetNumbers }} {{ selectedEvent.location.streetName }}</p>
                 <p>{{ selectedEvent.location.city }} {{ selectedEvent.location.postalCode }}</p>
               </div>
             </div>
             <!--        EVENT TEAMS-->
-            <div class="eventView__teams" v-if="!isEditMode">
+            <div class="eventView__teams">
               <div class="title">
                 <h3>Teams</h3>
                 <div class="addTeam">
@@ -135,11 +96,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div class="eventView__btnContainer" v-if="isEditMode">
-              <button @click="updateEvent" class="btn btn--xs btn--green">update</button>
-              <button @click="isEditMode = false" class="btn btn--xs btn--red">cancel</button>
             </div>
           </div>
         </div>
@@ -196,7 +152,7 @@
       </div>
 
       <!--    TOGGLE VIEWS-->
-      <div class="changeViewButton" v-if="selectedEvent && !isEditMode">
+      <div class="changeViewButton" v-if="selectedEvent">
         <button id="resultsBTN" v-if="view === 'Events'" class="btn btn--circle btn--borderBlue btn--borderBottom" @click="toggleView('Results')">Results</button>
         <button id="eventsBTN" v-if="view === 'Results'" class="btn btn--circle" @click="toggleView('Events')">Events</button>
       </div>
@@ -229,7 +185,6 @@ export default class AdminEvents extends Vue {
   Events = [] as IEventDto[]
 
   selectedEvent: IEventDto | null = null
-  isEditMode = false
   view = 'Events'
   resultsCurrentView = 'Scramble Champs'
   viewButtons = ['Scramble Champs', 'Teams']
@@ -240,17 +195,6 @@ export default class AdminEvents extends Vue {
     this.getEvents()
     UIHelper.Header({ title: 'Manage Events', isShowing: true, current: 'main' })
   }
-
-  // @Watch('selectedEvent')
-  // hideNavBar(newValue: IEventDto | null, oldValue: IEventDto | null) {
-  //   if (newValue !== null) {
-  //     this.$store.dispatch('uiStore/_setNavBarShowingStatus', false)
-  //     return false
-  //   } else {
-  //     this.$store.dispatch('uiStore/_setNavBarShowingStatus', true)
-  //     return true
-  //   }
-  // }
 
   setScrambleChampProfileImage(img: string | null): string {
     if (img === null) {
@@ -327,7 +271,6 @@ export default class AdminEvents extends Vue {
         console.log(e)
       } finally {
         setTimeout(() => {
-          this.isEditMode = false
           this.loading = false
         }, 3000)
       }
