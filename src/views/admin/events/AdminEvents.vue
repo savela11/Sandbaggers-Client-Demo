@@ -2,14 +2,14 @@
   <div class="adminEvents">
     <!--   Main VIEWs-->
     <div v-if="!loading" class="views">
-      <div v-if="!isAddingEvent">
+      <div>
         <!--Event View-->
-        <div class="eventView" v-if="view === 'Events'">jjjj
+        <div class="eventView" v-if="view === 'Events'">
           <!--select box-->
           <div class="eventView__selectBox" v-if="!isEditMode">
             <div class="flexWrapper">
               <div class="addEventButton container">
-                <button @click="toggleAddEvent(true)"><img src="@/assets/icons/addCircle.svg" alt="Add Event Button" /></button>
+                <router-link to="/admin/events/createEvent"><img src="@/assets/icons/addCircle.svg" alt="Add Event Button" /></router-link>
                 <p>Add Event</p>
               </div>
               <div class="editEventButton container">
@@ -194,15 +194,6 @@
           </div>
         </div>
       </div>
-      <!-- MODAL - add event-->
-      <Modal class="addEvent" v-if="isAddingEvent" @click="toggleAddEvent(false)">
-        <template v-slot:header>
-          <h2>Add Sandbagger Event</h2>
-        </template>
-        <template v-slot:body>
-          <AddEvent @addEvent="addEvent" />
-        </template>
-      </Modal>
 
       <!--    TOGGLE VIEWS-->
       <div class="changeViewButton" v-if="selectedEvent && !isEditMode">
@@ -230,9 +221,7 @@ import UIHelper from '@/utility/UIHelper'
   name: 'AdminEvents',
   components: {
     Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
-    AddEvent: (): Promise<object> => import('@/components/admin/event/AddEvent.vue'),
     ResultsView: (): Promise<object> => import('@/components/admin/event/ResultsView.vue'),
-    Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue'),
   },
 })
 export default class AdminEvents extends Vue {
@@ -240,7 +229,6 @@ export default class AdminEvents extends Vue {
   Events = [] as IEventDto[]
 
   selectedEvent: IEventDto | null = null
-  isAddingEvent = false
   isEditMode = false
   view = 'Events'
   resultsCurrentView = 'Scramble Champs'
@@ -302,34 +290,6 @@ export default class AdminEvents extends Vue {
       UIHelper.clickedButton('eventsBTN')
     }
     this.view = view
-  }
-
-  toggleAddEvent(status: boolean): void {
-    this.isAddingEvent = status
-  }
-
-  async addEvent(event: AddEventDto): Promise<void> {
-    UIHelper.clickedButton('addEvent')
-    this.loading = true
-    try {
-      const res = await EventService.createEvent(event)
-      if (res.status === 200) {
-        this.Events.push(res.data)
-        this.selectedEvent = res.data
-        UIHelper.SnackBar({
-          class: 'primary',
-          isSnackBarShowing: true,
-          title: 'Success',
-          message: `${res.data.name} has been created!`,
-        })
-      }
-    } catch (e) {
-      console.log(e)
-      this.selectedEvent = null
-    } finally {
-      this.loading = false
-      this.toggleAddEvent(false)
-    }
   }
 
   async getEvents(): Promise<void> {

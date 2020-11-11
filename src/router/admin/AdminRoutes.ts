@@ -49,6 +49,14 @@ export default [
     },
   },
   {
+    path: '/admin/events/createEvent',
+    name: 'Create Event',
+    component: loadView('admin/events/CreateEvent'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/admin/events/eventTeams/:eventId',
     name: 'Event Teams',
     component: loadView('admin/events/EventTeams'),
