@@ -1,6 +1,6 @@
 <template>
   <div class="popUp">
-    <div class="popUp__backDrop"></div>
+    <div class="popUp__backDrop" v-on="$listeners"></div>
     <div class="container" :class="classStatus">
       <div class="flexButton">
         <button class="closeBtn" v-on="$listeners">
@@ -20,11 +20,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-interface IPopUp {
-  title?: string
-  status?: 'hide' | 'show'
-  isPopUpShowing: boolean
-}
+
 @Component({ name: 'PopUp' })
 export default class PopUp extends Vue {
   @Prop({ default: 'hide' }) classStatus!: string
@@ -39,9 +35,7 @@ export default class PopUp extends Vue {
   left: 0;
   right: 0;
   bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
   z-index: 1;
 
   &__backDrop {
@@ -50,46 +44,66 @@ export default class PopUp extends Vue {
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: transparent;
+    background-color: black;
+    opacity: .5;
     width: 100%;
     height: 100%;
   }
+
   .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
     background-color: white;
     width: 80%;
     border: 1px solid $DarkBlue;
     border-radius: 5px;
-    padding: 0.2rem;
+    padding: 1rem 1rem 2rem 1rem;
     z-index: 11;
-    position: relative;
+
+    @include tablet {
+      width: 40%;
+      padding: 2rem 2rem 3rem 2rem;
+
+    }
 
     &.hide {
       transform: translateX(150%);
       animation: hidePopUp 0.5s linear forwards;
     }
+
     &.show {
-      transform: translateX(0);
+      transform: translate(-50%, -50%);
       animation: showPopUp 0.5s linear forwards;
     }
 
-    .flexButton {
-      display: flex;
-      justify-content: flex-end;
-      .closeBtn {
-        background-color: white;
-        padding: 0.2rem;
-        border: none;
+    .closeBtn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: white;
+      padding: 0.2rem;
+      border: none;
+      @include tablet {
+        height: 35px;
+        width: 35px;
+        top: .2rem;
+        right: .2rem;
+      }
 
-        img {
-          height: 100%;
-          width: 100%;
-          object-fit: contain;
-        }
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
       }
     }
 
+
     &__title {
-      padding: 0.5rem;
+      padding: .5rem;
+      @include tablet {
+      }
+
       h4 {
         font-size: 1rem;
         text-align: center;
@@ -98,48 +112,28 @@ export default class PopUp extends Vue {
     }
 
     .content {
-      padding: 1rem;
+      padding: .5rem;
       max-height: 300px;
       overflow-y: auto;
       min-height: 100px;
-    }
-  }
-}
 
-@media (min-width: 768px) {
-  .popUp {
-    &__backDrop {
-    }
-    .container {
-      width: 60%;
-      padding: 1rem;
-      .flexButton {
-        .closeBtn {
-          height: 35px;
-          width: 35px;
-        }
-      }
-
-      &__title {
-        h4 {
-        }
-      }
-
-      .content {
-        padding: 3rem;
+      @include tablet {
+        padding: 1rem;
         max-height: 500px;
-        min-height: 350px;
       }
     }
   }
 }
+
 
 @media (min-width: 1024px) {
   .popUp {
     &__backDrop {
     }
+
     .container {
       width: 50%;
+
       .flexButton {
         .closeBtn {
         }
@@ -157,12 +151,15 @@ export default class PopUp extends Vue {
     }
   }
 }
+
 @media (min-width: 1240px) {
   .popUp {
     &__backDrop {
     }
+
     .container {
       width: 40%;
+
       .flexButton {
         .closeBtn {
         }
@@ -179,9 +176,10 @@ export default class PopUp extends Vue {
     }
   }
 }
+
 @keyframes showPopUp {
   0% {
-    transform: translateX(150%);
+    transform: translate(150%, -50%);
     opacity: 0;
   }
   //50% {
@@ -190,10 +188,11 @@ export default class PopUp extends Vue {
   //}
 
   100% {
-    transform: translateX(0);
+    transform: translateX(-50%, -50%);
     opacity: 1;
   }
 }
+
 @keyframes hidePopUp {
   0% {
     transform: translateX(0);

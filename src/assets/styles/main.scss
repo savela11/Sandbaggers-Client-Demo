@@ -1,6 +1,4 @@
 ﻿@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
-@import '_button.scss';
-@import '_text.scss';
 @import '_flex.scss';
 
 html {
@@ -102,6 +100,10 @@ a {
   @include mobile {
   padding: 0 2rem;
   }
+  @include tablet {
+  width: 75%;
+  margin: 0 auto;
+  }
   &__field {
     display: flex;
     flex-direction: column;
@@ -164,11 +166,3 @@ a {
 }
 
 
-@media (min-width: 375px) {
-  html {
-  }
-
-  .input {
-
-  }
-}

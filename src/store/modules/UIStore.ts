@@ -104,7 +104,7 @@ const mutations = {
           errors: [],
           isSnackBarShowing: false,
         }
-      }, 6000)
+      }, 10000)
     }
   },
 

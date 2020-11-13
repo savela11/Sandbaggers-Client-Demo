@@ -250,9 +250,10 @@ export default class AdminEvents extends Vue {
       })
 
       if (event === null) {
-        this.selectedEvent = data[0]
+        event = data[0]
       }
 
+      this.selectedEvent = event;
       this.loading = false
       await this.$store.dispatch('uiStore/_setPageLoading', false)
     } catch (e) {
@@ -261,23 +262,7 @@ export default class AdminEvents extends Vue {
     }
   }
 
-  async updateEvent(): Promise<void> {
-    this.loading = true
-    if (this.selectedEvent) {
-      try {
-        const res = await EventService.UpdateEvent(this.selectedEvent)
-        console.log(res)
-      } catch (e) {
-        console.log(e)
-      } finally {
-        setTimeout(() => {
-          this.loading = false
-        }, 3000)
-      }
-    } else {
-      return
-    }
-  }
+
 
   async toggleActiveScrambleChamps(status: boolean): Promise<void> {
     if (this.selectedEvent && this.selectedEvent.eventResults) {

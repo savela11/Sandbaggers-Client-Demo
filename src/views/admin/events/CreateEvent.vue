@@ -1,6 +1,9 @@
 ﻿<template>
   <div class="createEvent">
-    <h1>Create Sandbagger Event</h1>
+    <div class="title">
+      <h1>Create Sandbagger Event</h1>
+
+    </div>
     <FormComponent :formFields="formFields" :btnText="'Create'" @submit="createEvent" />
   </div>
 </template>
@@ -15,29 +18,29 @@ import { IFormField } from '@/types/UI/Forms'
 @Component({
   name: 'CreateEvent',
   components: {
-    FormComponent: (): Promise<typeof import('*.vue')> => import('@/components/ui/Forms/Form.vue'),
-  },
+    FormComponent: (): Promise<typeof import('*.vue')> => import('@/components/ui/Forms/Form.vue')
+  }
 })
 export default class CreateEvent extends Vue {
   AddEvent = {
     name: '',
-    year: '',
+    year: ''
   } as AddEventDto
 
   formFields: Array<IFormField> = [
     {
       id: 'name',
       type: 'text',
-      label: 'Name',
+      label: 'Name'
     },
     {
       id: 'year',
       type: 'text',
-      label: 'Year',
-    },
+      label: 'Year'
+    }
   ]
 
-  mounted() {
+  mounted(): void {
     UIHelper.Header({ current: 'main', isShowing: true, title: 'Create Event' })
   }
 
@@ -49,7 +52,7 @@ export default class CreateEvent extends Vue {
           class: 'primary',
           isSnackBarShowing: true,
           title: 'Success',
-          message: `${res.data.name} has been created!`,
+          message: `${res.data.name} has been created!`
         })
         setTimeout(() => {
           this.$router.back()
@@ -60,7 +63,7 @@ export default class CreateEvent extends Vue {
         class: 'error',
         isSnackBarShowing: true,
         title: 'Failed to create event',
-        message: `${e.data.message}!`,
+        message: `${e.data.message}!`
       })
       console.log(e)
     } finally {
@@ -70,8 +73,18 @@ export default class CreateEvent extends Vue {
 </script>
 
 <style scoped lang="scss">
+.title {
+  padding: .5rem;
+  @include tablet {
+    width: 75%;
+    padding: 1rem;
+    margin: 0 auto;
+  }
+}
+
 h1 {
   font-size: 1.2rem;
+  color: $DarkBlue;
   margin-bottom: 1rem;
 }
 </style>

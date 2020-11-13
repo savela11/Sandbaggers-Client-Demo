@@ -125,7 +125,6 @@ export default class PowerRankings extends Vue {
   .title {
     margin-bottom: 1rem;
     h1 {
-      font-size: 1.5rem;
       color: $DarkBlue;
     }
 
@@ -358,7 +357,6 @@ export default class PowerRankings extends Vue {
   .powerRankings {
     .title {
       h1 {
-        font-size: 1.6rem;
       }
     }
 

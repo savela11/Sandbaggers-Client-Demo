@@ -40,6 +40,11 @@ class EventService {
   static async UpdateTeam(team: IEventTeam): Promise<AxiosResponse<IEventTeam>> {
     return apiClient.put(`${url}/UpdateTeam/`, team)
   }
+
+  static async deleteEvent(eventId: string): Promise<AxiosResponse<void>> {
+    console.log(`[eventId: ${eventId}]`)
+    return apiClient.delete(`${url}/DeleteEvent/${eventId}`)
+  }
 }
 
 export default EventService
