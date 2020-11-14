@@ -100,10 +100,7 @@ a {
   @include mobile {
   padding: 0 2rem;
   }
-  @include tablet {
-  width: 75%;
-  margin: 0 auto;
-  }
+
   &__field {
     display: flex;
     flex-direction: column;
@@ -112,6 +109,10 @@ a {
     label {
       font-size: .8rem;
       margin: 0 0 0.3rem 0.3rem;
+
+      @include tablet {
+      font-size: 1rem;
+      }
     }
     input,
     textarea {
@@ -125,6 +126,9 @@ a {
       border-radius: 25px;
       padding: 0 20px;
       color: rgba(60, 60, 67, .7);
+      @include tablet {
+      height: 50px;
+      }
     }
 
     textarea {

@@ -1,7 +1,9 @@
 <template>
   <div class="sandbagger" v-if="Sandbagger && Sandbagger.profile">
     <div class="top">
-      <div class="backButton" @click.prevent="setBackToDashboard"><router-link to="/dashboard" class="btn btn--borderGreen btn--xs btn--borderBottom">Back</router-link></div>
+      <div class="backButton" @click.prevent="setBackToDashboard">
+        <router-link to="/dashboard" class="btn btn--borderGreen btn--xs btn--borderBottom">Back</router-link>
+      </div>
       <div class="imageContainer">
         <img v-if="Sandbagger.profile.image" :src="Sandbagger.profile.image" alt="User Profile Image" />
         <img v-else src="@/assets/SBLogo.png" alt="User Profile Image" />
@@ -17,7 +19,7 @@
 
     <div class="bottom">
       <div class="container">
-        <div class="handicapHistory" v-if="currentView === 'Handicap History'">
+        <div class="handicapHistory" v-if="currentView === 'Handicaps'">
           <div class="title">
             <p>Date</p>
             <p>Handicap</p>
@@ -46,8 +48,9 @@ import { IHandicapHistory, IUserWithHistory } from '@/types/User/User'
 @Component({ name: 'Sandbagger', mixins: [FormatMixins] })
 export default class Sandbagger extends Vue {
   Sandbagger = {} as IUserWithHistory
-  views = ['Handicap History', 'Bet History', 'Stat History']
-  currentView = 'Handicap History'
+  views = ['Handicaps', 'Bets', 'Stats']
+  currentView = 'Handicaps'
+
   mounted(): void {
     this.getUserInfo()
   }
@@ -59,7 +62,7 @@ export default class Sandbagger extends Vue {
 
   get userHandicapHistory(): IHandicapHistory[] | null {
     if (this.Sandbagger && this.Sandbagger.handicapHistory.length > 0) {
-      return this.Sandbagger.handicapHistory
+      return this.Sandbagger.handicapHistory.sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
     } else {
       return null
     }
@@ -99,11 +102,13 @@ export default class Sandbagger extends Vue {
     align-items: center;
     position: relative;
     z-index: 1;
+
     .backButton {
       position: absolute;
       top: 1rem;
       left: 1rem;
     }
+
     .imageContainer {
       width: 150px;
       height: 150px;
@@ -118,13 +123,17 @@ export default class Sandbagger extends Vue {
 
     .userInfo {
       margin-top: 0.5rem;
+
       h2 {
-        font-size: 1.6rem;
+        font-size: 1.2rem;
         font-weight: bold;
         text-align: center;
         letter-spacing: 1.5px;
         color: #0b080f;
         margin-bottom: 0.5rem;
+        @include mobile {
+          font-size: 1.4rem;
+        }
       }
 
       p {
@@ -141,6 +150,10 @@ export default class Sandbagger extends Vue {
     white-space: nowrap;
     padding: 0.2rem 0;
     scroll-behavior: smooth;
+    @include tablet {
+      padding: .2rem 1rem;
+      display: flex;
+    }
 
     button {
       display: inline-block;
@@ -149,12 +162,19 @@ export default class Sandbagger extends Vue {
       height: 80px;
       width: 80px;
       white-space: normal;
-      box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
       color: $DarkBlue;
       border-radius: 5px;
       border-right: 1px solid black;
       outline: none;
-      margin-right: 0.2rem;
+      margin: 0 .2rem 0 0;
+      @include tablet {
+        width: 125px;
+        height: 100px;
+        font-size: 1rem;
+        margin: 0 .5rem 0 0;
+      }
+
       &.active {
         font-weight: bold;
 
@@ -167,6 +187,7 @@ export default class Sandbagger extends Vue {
       }
     }
   }
+
   .bottom {
     position: relative;
     z-index: 25;
@@ -185,29 +206,40 @@ export default class Sandbagger extends Vue {
       transform: translateY(-15px);
       padding: 2rem;
 
-      .title {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 1rem;
+      @include tablet {
+        transform: translateY(-5px);
 
-        p {
-          color: grey;
+      }
+
+      .handicapHistory {
+
+        .title {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 1rem;
+
+          p {
+            color: grey;
+          }
+        }
+
+        .handicap {
+          display: flex;
+          justify-content: space-between;
+          border-bottom: 1px solid lightgrey;
+          margin-bottom: 0.4rem;
+        }
+
+        .noHistory {
+          margin-top: 2rem;
+
+          p {
+            text-align: center;
+          }
         }
       }
 
-      .handicap {
-        display: flex;
-        justify-content: space-between;
-        border-bottom: 1px solid lightgrey;
-        margin-bottom: 0.4rem;
-      }
 
-      .noHistory {
-        margin-top: 2rem;
-        p {
-          text-align: center;
-        }
-      }
     }
   }
 }
