@@ -1,11 +1,10 @@
-
 :root {
   --buttonTextSize: 1rem;
 }
 
 .bets {
-
-  #spanAmt, #spanAcceptNum {
+  #spanAmt,
+  #spanAcceptNum {
     &.flash {
       font-weight: bold;
       color: green;
@@ -47,10 +46,22 @@
 
     .searchBets {
       flex: 0 1 80%;
+      @include tablet {
+        flex: 0 1 50%;
+      }
+      @include tablet-landscape {
+        flex: 0 1 40%;
+      }
 
       label {
         padding: 0 0.5rem;
         font-size: 0.8rem;
+      }
+
+      input {
+        @include tablet-landscape {
+          padding: 0.5rem 0.8rem;
+        }
       }
     }
 
@@ -84,20 +95,40 @@
     border-radius: 5px;
     min-height: 200px;
     margin-top: 2rem;
+    @include mobile {
+      min-height: 300px;
+    }
+    @include tablet {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @include tablet-landscape {
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
   }
 
   .card {
-    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
     border-radius: 5px;
     padding: 1rem;
     border-left: 5px solid $DarkGreen;
-    min-height: 150px;
+    height: 175px;
     margin-bottom: 1rem;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     overflow: hidden;
 
+    @include mobile {
+      margin-bottom: 1.5rem;
+    }
+
+    @include tablet {
+      margin: 0;
+      height: 200px;
+    }
 
     .divider {
       margin: 2rem 0 1rem 0;
@@ -105,7 +136,6 @@
     }
 
     &.selectedBet {
-      height: auto;
       border-left: 5px solid $DarkBlue;
 
       .accept {
@@ -119,34 +149,44 @@
     h2 {
       font-size: 1rem;
       color: $DarkBlue;
-      padding-left: .5rem;
+      padding-left: 0.5rem;
+
+      @include mobile {
+        font-size: 1.2rem;
+      }
     }
 
     h3 {
-      font-size: .8rem;
-      margin-bottom: .3rem;
+      font-size: 0.8rem;
+      margin-bottom: 0.3rem;
+      @include mobile {
+        font-size: 0.9rem;
+      }
     }
 
     p {
       color: grey;
       font-size: 0.8rem;
+      @include mobile {
+        font-size: 0.9rem;
+      }
     }
 
     button {
-      font-size: .8rem;
-
+      font-size: 0.8rem;
+      @include mobile {
+        font-size: 0.9rem;
+      }
     }
-
 
     &__top {
       flex: auto;
-
     }
 
     &__bottom {
       min-height: 100px;
-      margin: .3rem;
-      padding: .3rem;
+      margin: 0.3rem;
+      padding: 0.3rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -155,7 +195,7 @@
         p {
           white-space: pre-wrap;
           border: 1px solid $DarkBlue;
-          padding: .5rem;
+          padding: 0.5rem;
           border-radius: 3px;
         }
       }
@@ -171,7 +211,6 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 0.5rem;
-
     }
 
     .title {
@@ -179,7 +218,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-
     }
 
     .details {
@@ -197,7 +235,7 @@
         }
 
         p {
-          font-size: .7rem;
+          font-size: 0.7rem;
         }
 
         .acceptedByList {
@@ -217,7 +255,7 @@
       }
 
       .amount {
-        padding: .5rem;
+        padding: 0.5rem;
         border-radius: 50%;
         background-color: $DarkGreen;
         height: 50px;
@@ -225,7 +263,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        box-shadow: 3px 3px 3px rgb(95, 95, 95, .8);
+        box-shadow: 3px 3px 3px rgb(95, 95, 95, 0.8);
 
         button {
           padding: 0.3rem 0.5rem;
@@ -245,6 +283,11 @@
         }
       }
 
+      button {
+        @include mobile {
+          padding: 0.5rem 0.8rem;
+        }
+      }
     }
   }
 
@@ -254,15 +297,23 @@
       grid-template-columns: 1fr 1fr 1fr 1fr;
       grid-auto-rows: 30px;
       gap: 10px;
-      margin-top: .5rem;
-
+      margin-top: 0.5rem;
+      @include tablet {
+        grid-auto-rows: 50px;
+      }
 
       button {
         background-color: white;
         color: $DarkBlue;
         border: none;
         border-bottom: 1px solid $DarkBlue;
-        font-size: .8rem;
+        font-size: 0.8rem;
+        @include mobile {
+          font-size: 1rem;
+        }
+        @include tablet {
+          font-size: 1.1rem;
+        }
 
         &.clicked {
           background-color: $DarkBlue;
@@ -284,6 +335,12 @@
       font-size: 0.8rem;
       margin: 0 0 0.3rem 0.3rem;
       font-weight: bold;
+      @include mobile {
+        font-size: 1rem;
+      }
+      @include tablet {
+        font-size: 1.2rem;
+      }
 
       span {
         float: right;
@@ -292,16 +349,32 @@
     }
 
     .form__field {
-      margin-bottom: .5rem;
-      padding: .5rem;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      @include tablet {
+        margin-bottom: 1rem;
+      }
 
       label {
         font-weight: bold;
+        @include mobile {
+          font-size: 1rem;
+        }
+        @include tablet {
+          font-size: 1.2rem;
+        }
       }
 
       textarea {
         min-height: 150px;
         border-radius: 5px;
+      }
+
+      input,
+      textarea {
+        @include mobile {
+          font-size: 1rem;
+        }
       }
     }
   }
@@ -313,7 +386,7 @@
     padding: 1rem;
 
     button {
-      padding: .3rem 1rem;
+      padding: 0.3rem 1rem;
       font-size: var(--buttonTextSize);
       font-weight: bold;
       background-color: $testBlue;
@@ -321,342 +394,12 @@
 
       &:disabled {
         background-color: grey;
-        opacity: .3;
+        opacity: 0.3;
       }
 
       &:first-child {
         margin-right: 1rem;
-
       }
     }
   }
-
 }
-
-@media (min-width: 375px) {
-
-  .bets {
-    &__viewButtons {
-
-      .viewButton {
-
-        &.active {
-        }
-
-        &:last-child {
-        }
-      }
-    }
-
-    .utilityBar {
-
-      .searchBets {
-        label {
-        }
-      }
-
-      .createBet {
-        button {
-          img {
-          }
-
-          span {
-          }
-        }
-      }
-    }
-
-    &__list {
-      min-height: 300px;
-
-    }
-
-    .card {
-      margin-bottom: 1.5rem;
-
-      h2 {
-        font-size: 1.2rem;
-      }
-
-      h3 {
-        font-size: .9rem;
-      }
-
-      p {
-        font-size: .9rem;
-      }
-
-      button {
-        font-size: .9rem;
-      }
-
-      .createdBy {
-
-
-      }
-
-      .title {
-
-      }
-
-      .details {
-
-        button {
-          padding: .5rem .8rem;
-        }
-      }
-    }
-
-
-    .modal {
-      .btns {
-
-
-        button {
-          font-size: 1rem;
-
-        }
-
-        &--acceptBetNum {
-          button {
-          }
-        }
-      }
-
-      .amountTitle {
-        font-size: 1rem;
-
-        span {
-        }
-      }
-
-      .form__field {
-        label {
-          font-size: 1rem;
-        }
-
-        input, textarea {
-          font-size: 1rem;
-        }
-      }
-    }
-
-
-  }
-}
-
-
-@media (min-width: 768px) {
-
-  .bets {
-    &__viewButtons {
-
-
-      .viewButton {
-
-
-        &.active {
-
-        }
-
-        &:last-child {
-        }
-      }
-    }
-
-    .utilityBar {
-
-
-      .searchBets {
-        flex: 0 1 50%;
-
-        label {
-
-        }
-      }
-
-      .createBet {
-
-
-        button {
-
-
-          img {
-
-          }
-
-          span {
-          }
-        }
-      }
-    }
-
-    &__list {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-
-      .card {
-        margin: 0;
-
-        .createdBy {
-
-
-          p {
-
-          }
-        }
-
-        .title {
-          h2 {
-          }
-        }
-
-        .details {
-
-
-          button {
-
-          }
-        }
-      }
-
-      .btns {
-
-
-        button {
-
-        }
-
-        &--acceptBetNum {
-          button {
-          }
-        }
-      }
-
-      .amountTitle {
-
-
-        span {
-        }
-      }
-
-      .form__field {
-        label {
-        }
-      }
-
-
-    }
-  }
-}
-
-@media (min-width: 1024px) {
-
-  .bets {
-    &__viewButtons {
-
-
-      .viewButton {
-
-
-        &.active {
-
-        }
-
-        &:last-child {
-        }
-      }
-    }
-
-    .utilityBar {
-
-
-      .searchBets {
-        flex: 0 1 40%;
-
-        label {
-
-        }
-
-        .input {
-          padding: .5rem .8rem;
-        }
-      }
-
-      .createBet {
-
-
-        button {
-
-
-          img {
-
-          }
-
-          span {
-          }
-        }
-      }
-    }
-
-    &__list {
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 20px;
-
-      .card {
-
-        .createdBy {
-
-
-          p {
-
-          }
-        }
-
-        .title {
-          h2 {
-          }
-        }
-
-        .details {
-
-
-          button {
-
-          }
-        }
-      }
-
-      .btns {
-
-
-        button {
-
-        }
-
-        &--acceptBetNum {
-          button {
-          }
-        }
-      }
-
-      .amountTitle {
-
-
-        span {
-        }
-      }
-
-      .form__field {
-        label {
-        }
-      }
-
-
-    }
-  }
-}
-
-
-

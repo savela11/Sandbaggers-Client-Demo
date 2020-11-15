@@ -1,17 +1,19 @@
 ﻿<template>
   <div class="bets">
-    <div class="bets__viewButtons">
-      <button class="viewButton" v-for="view in views" v-bind:key="view" :class="{ active: currentView === view }" @click="setCurrentView(view)">{{ view }}</button>
-    </div>
-    <hr class="divider" />
+
     <div v-if="!loading">
+      <div class="bets__viewButtons">
+        <button class="viewButton" v-for="view in views" v-bind:key="view" :class="{ active: currentView === view }" @click="setCurrentView(view)">{{ view }}</button>
+      </div>
+      <hr class="divider" />
       <div class="utilityBar">
         <div class="searchBets" v-if="currentView !== 'Amount'">
           <label for="searchSB" class="hideLabel">Search</label>
           <input id="searchSB" class="input" type="text" v-model="search" placeholder="Search Bets" />
         </div>
         <div class="createBet">
-          <button @click="isAddingBet = true"><img :src="require('@/assets/icons/addCircle.svg')" alt="Add Bet" /><span>Add Bet</span></button>
+          <button @click="isAddingBet = true">
+            <img :src="require('@/assets/icons/addCircle.svg')" alt="Add Bet" /><span>Add Bet</span></button>
         </div>
       </div>
       <div class="bets__list">
@@ -45,29 +47,25 @@
                 </div>
               </div>
 
-              <!--              <button :class="{ selected: selectedBet && selectedBet.betId === bet.betId }" @click="showBetDetails(bet)">-->
-              <!--                {{ selectedBet && selectedBet.betId === bet.betId ? 'Done' : 'Details' }}-->
-              <!--              </button>-->
+
               <div class="amount">
                 <span>${{ bet.amount }}</span>
               </div>
             </div>
           </div>
 
-          <hr class="divider" v-show="selectedBet && selectedBet.betId === bet.betId" />
+          <!--          <transition name="fade" v-if="selectedBet && selectedBet.betId === bet.betId">-->
+          <!--            <div class="card__bottom">-->
+          <!--              <div class="description">-->
+          <!--                <h3>Description</h3>-->
+          <!--                <p>{{ selectedBet.description }}</p>-->
+          <!--              </div>-->
 
-          <transition name="fade" v-if="selectedBet && selectedBet.betId === bet.betId">
-            <div class="card__bottom">
-              <div class="description">
-                <h3>Description</h3>
-                <p>{{ selectedBet.description }}</p>
-              </div>
-
-              <div v-if="checkIfCurrentUsersBet" class="accept">
-                <button id="acceptBetBtn" class="btn btn--xs" @click="acceptBet(bet)">Accept</button>
-              </div>
-            </div>
-          </transition>
+          <!--              <div v-if="checkIfCurrentUsersBet" class="accept">-->
+          <!--                <button id="acceptBetBtn" class="btn btn&#45;&#45;xs" @click="acceptBet(bet)">Accept</button>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </transition>-->
         </div>
       </div>
       <div class="prevNextButtons" v-if="filterBets.length > 0">
@@ -143,15 +141,15 @@ import UIHelper from '@/utility/UIHelper'
   name: 'Bets',
   components: {
     Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue'),
-    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
-  },
+    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue')
+  }
 })
 export default class Bets extends Vue {
   currentView = 'All'
   Bets = [] as Array<IBetDto>
   selectedBet = null as IBetDto | null
   search = ''
-  views = ['All', 'My Bets', 'Amount', 'Accepted']
+  views = ['All', 'My bets', 'Amount', 'Accepted']
   isAddingBet = false
   loading = true
   modalLoading = false
@@ -163,7 +161,7 @@ export default class Bets extends Vue {
     requiresPassCode: false,
     isActive: false,
     userId: '',
-    createdBy: '',
+    createdBy: ''
   }
 
   amounts = [1, 5, 10, 25]
@@ -218,7 +216,7 @@ export default class Bets extends Vue {
           return bet
         }
       })
-      if (this.currentView === 'My Bets') {
+      if (this.currentView === 'My bets') {
         return searchedBets.filter((b) => {
           return b.userId === this.$store.state.authStore.currentUser.id
         })
@@ -230,9 +228,8 @@ export default class Bets extends Vue {
         return searchedBets
       }
     } else {
-      const paginatedNewestToFirst = this.paginatedBets.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn))
+      return this.paginatedBets.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn))
 
-      return paginatedNewestToFirst
     }
   }
 
@@ -292,7 +289,7 @@ export default class Bets extends Vue {
       const userAcceptsBet: IUserAcceptedBet = {
         userId: this.$store.state.authStore.currentUser.id,
         betId: bet.betId,
-        fullName: this.$store.state.authStore.currentUser.fullName,
+        fullName: this.$store.state.authStore.currentUser.fullName
       }
       try {
         const res = await BetService.UserAcceptsBet(userAcceptsBet)
@@ -347,11 +344,8 @@ export default class Bets extends Vue {
   }
 
   showBetDetails(bet: IBetDto): void {
-    if (this.selectedBet && this.selectedBet.betId === bet.betId) {
-      this.selectedBet = null
-      return
-    }
-    this.selectedBet = bet
+
+    this.$router.push(`/bets/${bet.betId}`)
   }
 
   showAcceptedList(betId: number): void {
@@ -372,12 +366,12 @@ export default class Bets extends Vue {
       requiresPassCode: false,
       isActive: false,
       userId: '',
-      createdBy: '',
+      createdBy: ''
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-@import '../assets/styles/_bets.scss';
+@import '../../assets/styles/bets';
 </style>

@@ -31,6 +31,13 @@ function guardRoute(to: Route, from: Route, next: any): any {
   if (store.state.authStore.isLoggedIn) {
     authenticated = true
   }
+
+  const headerTitle = ''
+  if (from.name === 'Dashboard') {
+    UIHelper.Header({ current: 'main', isShowing: true, title: headerTitle, bgColor: 'white' })
+  }
+
+
   if (authenticated) {
     next()
     UIHelper.PageLoading(false)
@@ -45,28 +52,28 @@ const routes: Array<RouteConfig> = [
   ...AuthErrorRoutes,
   {
     path: '*',
-    name: 'Dashboard',
+    name: 'NotFound',
     component: loadView('dashboard/Dashboard'),
-    meta: {},
+    meta: {}
   },
   {
     path: '/register',
     name: 'Register',
     beforeEnter: authRoute,
-    component: loadView('auth/Register'),
+    component: loadView('auth/Register')
   },
   {
     path: '/login',
     name: 'Login',
     beforeEnter: authRoute,
-    component: loadView('auth/Login'),
+    component: loadView('auth/Login')
   },
   {
     path: '/userProfile',
     name: 'UserProfile',
     beforeEnter: guardRoute,
     component: loadView('UserProfile'),
-    meta: {},
+    meta: {}
   },
   {
     path: '/Dashboard',
@@ -74,15 +81,15 @@ const routes: Array<RouteConfig> = [
     beforeEnter: guardRoute,
     component: loadView('dashboard/Dashboard'),
     meta: {
-      canFavorite: true,
-    },
+      canFavorite: true
+    }
   },
   {
     path: '/sandbagger/:id',
     name: 'Sandbagger',
     beforeEnter: guardRoute,
     component: loadView('Sandbagger'),
-    meta: {},
+    meta: {}
   },
   {
     path: '/sandbaggerEvents',
@@ -90,38 +97,45 @@ const routes: Array<RouteConfig> = [
     beforeEnter: guardRoute,
     component: loadView('event/SandbaggerEvents'),
     meta: {
-      canFavorite: true,
-    },
+      canFavorite: true
+    }
   },
   {
     path: '/sandbaggerEvents/:eventId',
     name: 'SandbaggerEvent',
     beforeEnter: guardRoute,
     component: loadView('event/SandbaggerEvent'),
-    meta: {},
+    meta: {}
   },
   {
     path: '/profile',
     name: 'Profile',
     beforeEnter: guardRoute,
     component: loadView('user/Profile'),
-    meta: {},
+    meta: {}
   },
   {
     path: '/bets',
     name: 'Bets',
     beforeEnter: guardRoute,
-    component: loadView('Bets'),
+    component: loadView('bet/Bets'),
     meta: {
-      canFavorite: true,
-    },
+      canFavorite: true
+    }
+  },
+  {
+    path: '/bets/:betId',
+    name: 'SelectedBet',
+    beforeEnter: guardRoute,
+    component: loadView('bet/SelectedBet')
+
   },
   {
     path: '/ideas',
     name: 'Ideas',
     beforeEnter: guardRoute,
     component: loadView('Ideas'),
-    meta: {},
+    meta: {}
   },
   {
     path: '/powerRankings',
@@ -130,8 +144,8 @@ const routes: Array<RouteConfig> = [
     component: loadView('PowerRankings'),
 
     meta: {
-      canFavorite: true,
-    },
+      canFavorite: true
+    }
   },
   {
     path: '/mockDrafts',
@@ -139,8 +153,8 @@ const routes: Array<RouteConfig> = [
     beforeEnter: guardRoute,
     component: loadView('MockDrafts'),
     meta: {
-      canFavorite: true,
-    },
+      canFavorite: true
+    }
   },
   {
     path: '/gallery',
@@ -148,9 +162,9 @@ const routes: Array<RouteConfig> = [
     beforeEnter: guardRoute,
     component: loadView('Gallery'),
     meta: {
-      canFavorite: true,
-    },
-  },
+      canFavorite: true
+    }
+  }
 ]
 
 const router = new VueRouter({
@@ -159,7 +173,7 @@ const router = new VueRouter({
   routes,
   scrollBehavior(to, from, savedPosition): any {
     return { x: 0, y: 0 }
-  },
+  }
 })
 
 export default router

@@ -188,8 +188,8 @@ export default class Dashboard extends Vue {
     if (view === 'Bets') {
       this.getBets()
     }
-    if(view === 'Handicaps' && buttons) {
-      buttons.scrollLeft = 0;
+    if (view === 'Handicaps' && buttons) {
+      buttons.scrollLeft = 0
     } else {
       buttons!.scrollLeft = 100
     }
@@ -219,6 +219,7 @@ export default class Dashboard extends Vue {
 
   mounted(): void {
     UIHelper.Header({ title: 'Dashboard', isShowing: true, current: 'main', bgColor: '#17252a' })
+
     this.getUsers()
   }
 
