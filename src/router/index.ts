@@ -1,10 +1,9 @@
+import UIHelper from '@/utility/UIHelper'
 import Vue from 'vue'
 import VueRouter, { RouteConfig, Route } from 'vue-router'
 import store from '../store/index'
 import AdminRoutes from './admin/AdminRoutes'
 import AuthErrorRoutes from './errors/AuthErrorRoutes'
-import { ICurrentUser } from '@/types/User/AuthUser'
-import UIHelper from '@/utility/UIHelper'
 
 function loadView(view: string) {
   return (): Promise<object> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`)
@@ -12,15 +11,31 @@ function loadView(view: string) {
 
 Vue.use(VueRouter)
 
+function authRoute(to: Route, from: Route, next: any): any {
+  let headerName = ''
+  if (to.name) {
+    headerName = to.name
+  }
+  UIHelper.Header({ current: 'auth', isShowing: true, title: headerName, bgColor: 'white' })
+  UIHelper.PageLoading(false)
+  if (store.state.authStore.isLoggedIn) {
+    next('/dashboard')
+  } else {
+    next()
+  }
+}
+
 function guardRoute(to: Route, from: Route, next: any): any {
   let authenticated = false
+  UIHelper.PageLoading(true)
   if (store.state.authStore.isLoggedIn) {
     authenticated = true
   }
-
   if (authenticated) {
     next()
+    UIHelper.PageLoading(false)
   } else {
+    store.dispatch('authStore/Logout')
     next('/login')
   }
 }
@@ -30,114 +45,109 @@ const routes: Array<RouteConfig> = [
   ...AuthErrorRoutes,
   {
     path: '*',
-    name: 'Not-Found',
+    name: 'Dashboard',
     component: loadView('dashboard/Dashboard'),
-    meta: {
-      requiresAuth: true,
-    },
+    meta: {},
   },
   {
     path: '/register',
     name: 'Register',
+    beforeEnter: authRoute,
     component: loadView('auth/Register'),
   },
   {
     path: '/login',
     name: 'Login',
+    beforeEnter: authRoute,
     component: loadView('auth/Login'),
   },
   {
     path: '/userProfile',
     name: 'UserProfile',
+    beforeEnter: guardRoute,
     component: loadView('UserProfile'),
-    meta: {
-      requiresAuth: true,
-    },
+    meta: {},
   },
   {
     path: '/Dashboard',
     name: 'Dashboard',
+    beforeEnter: guardRoute,
     component: loadView('dashboard/Dashboard'),
     meta: {
-      requiresAuth: true,
       canFavorite: true,
     },
   },
   {
     path: '/sandbagger/:id',
     name: 'Sandbagger',
+    beforeEnter: guardRoute,
     component: loadView('Sandbagger'),
-    meta: {
-      requiresAuth: true,
-    },
+    meta: {},
   },
   {
     path: '/sandbaggerEvents',
     name: 'Events',
+    beforeEnter: guardRoute,
     component: loadView('event/SandbaggerEvents'),
     meta: {
-      requiresAuth: true,
       canFavorite: true,
     },
   },
   {
     path: '/sandbaggerEvents/:eventId',
     name: 'SandbaggerEvent',
+    beforeEnter: guardRoute,
     component: loadView('event/SandbaggerEvent'),
-    meta: {
-      requiresAuth: true,
-    },
+    meta: {},
   },
   {
     path: '/profile',
     name: 'Profile',
+    beforeEnter: guardRoute,
     component: loadView('user/Profile'),
-    meta: {
-      requiresAuth: true,
-    },
+    meta: {},
   },
   {
     path: '/bets',
     name: 'Bets',
+    beforeEnter: guardRoute,
     component: loadView('Bets'),
     meta: {
-      requiresAuth: true,
       canFavorite: true,
     },
   },
   {
     path: '/ideas',
     name: 'Ideas',
+    beforeEnter: guardRoute,
     component: loadView('Ideas'),
-    meta: {
-      requiresAuth: true,
-    },
+    meta: {},
   },
   {
     path: '/powerRankings',
     name: 'PowerRankings',
+    beforeEnter: guardRoute,
     component: loadView('PowerRankings'),
 
     meta: {
-      requiresAuth: true,
       canFavorite: true,
     },
   },
   {
     path: '/mockDrafts',
     name: 'MockDrafts',
+    beforeEnter: guardRoute,
     component: loadView('MockDrafts'),
     meta: {
-      requiresAuth: true,
       canFavorite: true,
     },
   },
   {
     path: '/gallery',
     name: 'Gallery',
+    beforeEnter: guardRoute,
     component: loadView('Gallery'),
     meta: {
-      requiresAuth: true,
       canFavorite: true,
     },
   },
@@ -147,40 +157,9 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition): any {
     return { x: 0, y: 0 }
   },
-})
-
-router.beforeEach(async (to, from, next) => {
-  const currentUser: ICurrentUser = store.getters['authStore/CurrentUser']
-  await store.dispatch('uiStore/_setPageLoading', true)
-
-  if (to.name === 'Login' || to.name === 'Register') {
-    await UIHelper.Header({ current: 'auth', isShowing: true, title: to.name })
-    await store.dispatch('uiStore/_setPageLoading', false)
-    if (currentUser) {
-      return next({ path: '/Dashboard' })
-    } else {
-      return next()
-    }
-  }
-  if (to.meta.requiresAuth && currentUser !== null) {
-    if (store.state.uiStore.header.bgColor !== 'white') {
-      await UIHelper.Header({ current: 'main', isShowing: true, title: '', bgColor: 'white' })
-    }
-    await store.dispatch('uiStore/_setPageLoading', false)
-    return next()
-  } else {
-    await store.dispatch('authStore/LogoutWithError', { title: 'Session Expired', message: 'You must re-login.' })
-    return next({ path: '/login' })
-  }
-  if (to.path.startsWith('/admin') && currentUser.roles.includes('Admin')) {
-    return next()
-  } else {
-    await store.dispatch('authStore/LogoutWithError', { title: 'Authorization Error', message: 'You do not have access to admin section' })
-    return next({ path: '/login' })
-  }
 })
 
 export default router

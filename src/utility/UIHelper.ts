@@ -15,7 +15,10 @@ export default class UIHelper {
     }
     await store.dispatch('uiStore/_setSnackBar', snackBarData)
   }
-
+  /**
+   *
+   * @param headerInfo
+   */
   static async Header(headerInfo: IHeader): Promise<void> {
     await store.dispatch('uiStore/_setHeader', headerInfo)
   }
