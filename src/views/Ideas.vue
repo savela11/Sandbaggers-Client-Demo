@@ -75,7 +75,7 @@ export default class Ideas extends Vue {
 
   mounted(): void {
     this.getIdeas()
-    this.$store.dispatch('uiStore/_setHeader', { current: 'main', isShowing: true, title: 'Ideas' } as IHeader)
+
   }
   longString(str: string, num: number): string {
     return Helper.formatLongString(str, num)

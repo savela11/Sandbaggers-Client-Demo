@@ -26,17 +26,7 @@ export interface ICurrentUser {
   roles: Array<string>
 }
 
-export interface IRegisterResponse {
-  succeeded: boolean
-  errors: []
-}
 
-export interface ILoginUserResponse {
-  id: string
-  userName: string
-  email: string
-  token: string
-}
 
 export interface ILoggedInUser {
   id: string

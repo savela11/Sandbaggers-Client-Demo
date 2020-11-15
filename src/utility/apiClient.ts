@@ -30,7 +30,7 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response) => {
-    // console.log('Response: ', response)
+    console.log('Response: ', response)
 
     return response
   },
@@ -42,6 +42,8 @@ apiClient.interceptors.response.use(
 
     return Promise.reject(error.response)
   }
+
+
 )
 
 export default apiClient

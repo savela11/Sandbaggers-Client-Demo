@@ -193,7 +193,7 @@ export default class AdminEvents extends Vue {
 
   mounted(): void {
     this.getEvents()
-    UIHelper.Header({ title: 'Manage Events', isShowing: true, current: 'main' })
+
   }
 
   setScrambleChampProfileImage(img: string | null): string {
@@ -255,7 +255,6 @@ export default class AdminEvents extends Vue {
 
       this.selectedEvent = event;
       this.loading = false
-      await this.$store.dispatch('uiStore/_setPageLoading', false)
     } catch (e) {
       this.loading = false
       console.log(e)

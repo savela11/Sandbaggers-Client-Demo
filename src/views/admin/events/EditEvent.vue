@@ -101,7 +101,7 @@ export default class EditEvent extends Vue {
   }
 
   mounted(): void {
-    UIHelper.Header({ title: 'Edit Event', isShowing: true, current: 'main' })
+
     this.getEvent()
   }
 

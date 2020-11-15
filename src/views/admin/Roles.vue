@@ -104,7 +104,7 @@ export default class Roles extends Vue {
   }
 
   mounted(): void {
-    UIHelper.Header({ title: 'Roles', isShowing: true, current: 'main' })
+
     this.RoleList()
   }
 

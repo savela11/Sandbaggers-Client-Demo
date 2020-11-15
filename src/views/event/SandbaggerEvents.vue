@@ -76,7 +76,7 @@ export default class SandbaggerEvents extends Vue {
   modalLoading = false
 
   mounted(): void {
-    this.$store.dispatch('uiStore/_setHeader', { current: 'main', isShowing: true, title: 'Events' } as IHeader)
+
 
     this.getEvents()
   }
@@ -153,7 +153,6 @@ export default class SandbaggerEvents extends Vue {
           this.selectedEvent = res.data[0]
         }
         this.loading = false
-        await this.$store.dispatch('uiStore/_setPageLoading', false)
       }
     } catch (e) {
       this.loading = false

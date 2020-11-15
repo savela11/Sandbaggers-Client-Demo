@@ -68,7 +68,7 @@ export default class SandbaggerEvent extends Vue {
         fullName: this.$store.state.authStore.currentUser.fullName,
       }
 
-      await this.$store.dispatch('uiStore/_setHeader', { current: 'main', isShowing: true, title: res.data.name } as IHeader)
+
 
       this.loading = false
     } catch (e) {

@@ -19,8 +19,7 @@ export default class Admin extends Vue {
     { name: 'Events', link: '/admin/events', icon: 'golf' },
   ]
   mounted(): void {
-    this.$store.dispatch('uiStore/_setHeader', { current: 'main', isShowing: true, title: 'Admin' } as IHeader)
-    this.$store.dispatch('uiStore/_setPageLoading', false)
+
   }
 
   setHeader(): void {}

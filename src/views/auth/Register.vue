@@ -71,7 +71,7 @@ export default class Login extends Vue {
       try {
         const res = await AuthService.registerUser(this.registerForm)
 
-        if (this.registerForm.loginAfterRegister && res.data.succeeded && res.status === 200) {
+        if (this.registerForm.loginAfterRegister && res.status === 200) {
           const loginUser = {
             username: this.registerForm.username,
             password: this.registerForm.password,

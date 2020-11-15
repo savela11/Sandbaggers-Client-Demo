@@ -14,6 +14,37 @@
           </div>
         </div>
       </div>
+      <div class="scrambleChamps" v-else>
+        <div class="title">
+          <h2>Scramble Champs</h2>
+        </div>
+        <div class="flexContainer">
+          <div class="champ">
+            <div class="imgContainer">
+              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
+            </div>
+            <p>Sandbagger #1</p>
+          </div>
+          <div class="champ">
+            <div class="imgContainer">
+              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
+            </div>
+            <p>Sandbagger #2</p>
+          </div>
+          <div class="champ">
+            <div class="imgContainer">
+              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
+            </div>
+            <p>Sandbagger #3</p>
+          </div>
+          <div class="champ">
+            <div class="imgContainer">
+              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
+            </div>
+            <p>Sandbagger #4</p>
+          </div>
+        </div>
+      </div>
       <div class="viewButtons">
         <h2>Latest</h2>
         <div class="buttons">
@@ -175,7 +206,7 @@ export default class Dashboard extends Vue {
       if (res.status === 200) {
         this.Sandbaggers = this.sortSandbaggersAscending(res.data)
         await this.scrambleChamps()
-        await this.$store.dispatch('uiStore/_setPageLoading', false)
+
       }
     } catch (e) {
       console.log(e)

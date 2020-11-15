@@ -30,7 +30,6 @@
               <p>{{ history.handicap }}</p>
             </div>
           </div>
-
           <div v-else class="noHistory">
             <p>No Handicap history found</p>
           </div>
@@ -79,7 +78,6 @@ export default class Sandbagger extends Vue {
       console.log(error)
     } finally {
       await this.$store.dispatch('uiStore/_setHeaderShowingStatus', false)
-      await this.$store.dispatch('uiStore/_setPageLoading', false)
     }
   }
 

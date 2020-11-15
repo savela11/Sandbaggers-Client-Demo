@@ -102,8 +102,7 @@ export default class PowerRankings extends Vue {
     { id: 3, name: 'Matt Miller', rank: 3, images: [], trending: '-2', handicap: 10.1, writeUp: '' },
   ]
   mounted(): void {
-    UIHelper.Header({ title: 'Power Rankings', isShowing: true, current: 'main' })
-    this.$store.dispatch('uiStore/_setPageLoading', false)
+
   }
 
   toggleShowUsersWriteUp(id: number): void {

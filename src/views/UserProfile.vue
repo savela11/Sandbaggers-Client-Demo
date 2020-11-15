@@ -94,8 +94,7 @@ export default class UserProfile extends Vue {
   mounted(): void {
     this.getCurrentUser()
 
-    UIHelper.PageLoading(false)
-    UIHelper.Header({ title: 'Dashboard', isShowing: true, current: 'main' })
+
   }
 
   updateHandicap(e: any): void {

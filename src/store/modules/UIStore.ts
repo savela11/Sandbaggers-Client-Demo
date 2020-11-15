@@ -5,7 +5,7 @@ import { ISnackBar } from '@/types/UI/SnackBar'
 
 const state: IUIState = {
   header: {
-    current: '',
+    current: 'main',
     title: 'Test',
     isShowing: true,
     bgColor: 'white',

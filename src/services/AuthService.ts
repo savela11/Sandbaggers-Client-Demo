@@ -1,11 +1,11 @@
 import apiClient from '../utility/apiClient'
-import { IRegisterUser, ILoginUser, IRegisterResponse, ILoggedInUser } from '@/types/User/AuthUser'
+import { IRegisterUser, ILoginUser, ILoggedInUser } from '@/types/User/AuthUser'
 import { AxiosResponse } from 'axios'
 
 const url = '/auth'
 
 class AuthService {
-  static async registerUser(registerUser: IRegisterUser): Promise<AxiosResponse<IRegisterResponse>> {
+  static async registerUser(registerUser: IRegisterUser): Promise<AxiosResponse<IRegisterUser>> {
     return await apiClient.post(url + '/Register', registerUser)
   }
 

@@ -148,9 +148,7 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   const currentUser: ICurrentUser = store.getters['authStore/CurrentUser']
   await store.dispatch('uiStore/_setPageLoading', true)
-  // if (store.state.uiStore.isNavMenuShowing) {
-  //   await store.dispatch('uiStore/_setNavMenuShowingStatus', false)
-  // }
+
   if (to.name === 'Login' || to.name === 'Register') {
     await UIHelper.Header({ current: 'auth', isShowing: true, title: to.name })
     await store.dispatch('uiStore/_setPageLoading', false)
@@ -161,6 +159,9 @@ router.beforeEach(async (to, from, next) => {
     }
   }
   if (to.meta.requiresAuth && currentUser !== null) {
+    if(store.state.uiStore.header.bgColor !== 'white') {
+      await UIHelper.Header({ current: 'main', isShowing: true, title: '', bgColor: 'white' })
+    }
     await store.dispatch('uiStore/_setPageLoading', false)
     return next()
   } else {
@@ -174,7 +175,6 @@ router.beforeEach(async (to, from, next) => {
     return next({ path: '/login' })
   }
 
-  return next()
 })
 
 export default router

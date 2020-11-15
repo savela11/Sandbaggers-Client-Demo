@@ -41,7 +41,7 @@ export default class CreateEvent extends Vue {
   ]
 
   mounted(): void {
-    UIHelper.Header({ current: 'main', isShowing: true, title: 'Create Event' })
+
   }
 
   async createEvent(event: AddEventDto): Promise<void> {

@@ -196,7 +196,6 @@ export default class Bets extends Vue {
   }
 
   mounted(): void {
-    UIHelper.Header({ title: 'Bets', isShowing: true, current: 'main' })
     this.getBets()
   }
 
@@ -258,7 +257,6 @@ export default class Bets extends Vue {
     } catch (e) {
       console.log(e)
     } finally {
-      await UIHelper.PageLoading(false)
 
       setTimeout(() => {
         this.loading = false

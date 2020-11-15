@@ -79,7 +79,7 @@ export default class EventTeams extends Vue {
   mounted(): void {
     this.eventId = this.$route.params.eventId
     this.getEvent()
-    UIHelper.Header({ title: 'Teams', isShowing: true, current: 'main' })
+
   }
 
   get showTeams(): IEventTeam[] {
@@ -161,7 +161,6 @@ export default class EventTeams extends Vue {
       console.log(e)
     } finally {
       this.loading = false
-      await UIHelper.PageLoading(false)
     }
   }
 
