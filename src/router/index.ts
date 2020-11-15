@@ -54,7 +54,6 @@ const routes: Array<RouteConfig> = [
       requiresAuth: true,
     },
   },
-
   {
     path: '/Dashboard',
     name: 'Dashboard',
@@ -124,11 +123,19 @@ const routes: Array<RouteConfig> = [
       canFavorite: true,
     },
   },
-
   {
     path: '/mockDrafts',
     name: 'MockDrafts',
     component: loadView('MockDrafts'),
+    meta: {
+      requiresAuth: true,
+      canFavorite: true,
+    },
+  },
+  {
+    path: '/gallery',
+    name: 'Gallery',
+    component: loadView('Gallery'),
     meta: {
       requiresAuth: true,
       canFavorite: true,
@@ -159,7 +166,7 @@ router.beforeEach(async (to, from, next) => {
     }
   }
   if (to.meta.requiresAuth && currentUser !== null) {
-    if(store.state.uiStore.header.bgColor !== 'white') {
+    if (store.state.uiStore.header.bgColor !== 'white') {
       await UIHelper.Header({ current: 'main', isShowing: true, title: '', bgColor: 'white' })
     }
     await store.dispatch('uiStore/_setPageLoading', false)
@@ -174,7 +181,6 @@ router.beforeEach(async (to, from, next) => {
     await store.dispatch('authStore/LogoutWithError', { title: 'Authorization Error', message: 'You do not have access to admin section' })
     return next({ path: '/login' })
   }
-
 })
 
 export default router
