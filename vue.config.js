@@ -34,7 +34,8 @@ module.exports = {
     workboxOptions: {
       swSrc: 'src/service-worker.js',
       // exclude: [/\.map$/, /manifest\.json$/],
-      exclude: [/\.map$/, /_redirects/],
+      // exclude: [/\.map$/, /_redirects/],
+      exclude : [/\.map$/]
     },
 
     icons: [

@@ -4,7 +4,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Favicon.ico"
   },
   {
-    "revision": "d41d8cd98f00b204e9800998ecf8427e",
+    "revision": "9b16775097696ec38d754e8d594511cd",
     "url": "/SandbaggerLogo.png"
   },
   {
