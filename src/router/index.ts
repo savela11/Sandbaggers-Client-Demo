@@ -12,16 +12,19 @@ function loadView(view: string) {
 Vue.use(VueRouter)
 
 function authRoute(to: Route, from: Route, next: any): any {
+  UIHelper.PageLoading(true);
   let headerName = ''
   if (to.name) {
     headerName = to.name
   }
-  UIHelper.Header({ current: 'auth', isShowing: true, title: headerName, bgColor: 'white' })
-  UIHelper.PageLoading(false)
+
   if (store.state.authStore.isLoggedIn) {
     next('/dashboard')
   } else {
     next()
+    UIHelper.Header({ current: 'auth', isShowing: true, title: headerName, bgColor: 'white' })
+      UIHelper.PageLoading(false)
+
   }
 }
 

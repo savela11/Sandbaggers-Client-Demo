@@ -20,8 +20,12 @@ class BetService {
     return await apiClient.post(url + '/CreateBet', bet)
   }
 
-  static async UserAcceptsBet(acceptedBet: IUserAcceptedBet): Promise<AxiosResponse<void>> {
+  static async UserAcceptsBet(acceptedBet: IUserAcceptedBet): Promise<AxiosResponse<IUserAcceptedBet>> {
     return await apiClient.post(url + '/UserAcceptsBet', acceptedBet)
+  }
+
+  static async GetBetById(betId: number): Promise<AxiosResponse<IBetDto>> {
+    return await apiClient.get(`${url}/Bet/${betId}`)
   }
 }
 
