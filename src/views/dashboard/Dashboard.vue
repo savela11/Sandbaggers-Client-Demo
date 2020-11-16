@@ -197,6 +197,20 @@ export default class Dashboard extends Vue {
     this.currentView = view
   }
 
+
+
+
+  mounted(): void {
+    UIHelper.Header({ title: 'Dashboard', isShowing: true, current: 'main', bgColor: '#17252a' })
+
+    this.getUsers()
+  }
+
+  get filteredSandbaggers(): SandbaggerWithHandicap[] {
+    return this.Sandbaggers.filter((sb) => {
+      return sb.fullName.toLowerCase().includes(this.searchInput.toLowerCase())
+    })
+  }
   Sandbaggers: SandbaggerWithHandicap[] = []
 
   async getUsers(): Promise<void> {
@@ -216,18 +230,34 @@ export default class Dashboard extends Vue {
       }, Helper.randomNumber(3000))
     }
   }
+  ScrambleChamps: IScrambleChamp[] = []
 
-  mounted(): void {
-    UIHelper.Header({ title: 'Dashboard', isShowing: true, current: 'main', bgColor: '#17252a' })
-
-    this.getUsers()
+  async scrambleChamps(): Promise<void> {
+    try {
+      const res = await EventResultsService.ScrambleChamps()
+      if (res.status === 200) {
+        this.ScrambleChamps = res.data
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  async getBets(): Promise<void> {
+    this.loading = true
+    try {
+      const res = await BetService.AllActiveBets()
+      if (res.status === 200) {
+        this.Bets = res.data
+      }
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setTimeout(() => {
+        this.loading = false
+      }, Math.floor(Math.random() * 3000))
+    }
   }
 
-  get filteredSandbaggers(): SandbaggerWithHandicap[] {
-    return this.Sandbaggers.filter((sb) => {
-      return sb.fullName.toLowerCase().includes(this.searchInput.toLowerCase())
-    })
-  }
 
   descendingHandicap = false
 
@@ -270,21 +300,6 @@ export default class Dashboard extends Vue {
   Bets: IBetDto[] = []
   selectedBet: IBetDto | null = null
 
-  async getBets(): Promise<void> {
-    this.loading = true
-    try {
-      const res = await BetService.AllActiveBets()
-      if (res.status === 200) {
-        this.Bets = res.data
-      }
-    } catch (e) {
-      console.log(e)
-    } finally {
-      setTimeout(() => {
-        this.loading = false
-      }, Math.floor(Math.random() * 3000))
-    }
-  }
 
   selectBet(bet: IBetDto): void {
     this.selectedBet = bet
@@ -300,18 +315,7 @@ export default class Dashboard extends Vue {
     return Helper.formatDate(date)
   }
 
-  ScrambleChamps: IScrambleChamp[] = []
 
-  async scrambleChamps(): Promise<void> {
-    try {
-      const res = await EventResultsService.ScrambleChamps()
-      if (res.status === 200) {
-        this.ScrambleChamps = res.data
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
 }
 </script>
 

@@ -76,7 +76,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/apple-icon.png"
   },
   {
-    "revision": "e83dcc25d3ac2c757c8e",
+    "revision": "0f087f1c5318292d01a7",
     "url": "/css/app.413711cd.css"
   },
   {
@@ -380,12 +380,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/trash.9b182b22.svg"
   },
   {
-    "revision": "1b4f29f771637d720a9b737d739f0ec5",
+    "revision": "78390f4faa1630e958ca8849cfbd1b59",
     "url": "/index.html"
   },
   {
-    "revision": "e83dcc25d3ac2c757c8e",
-    "url": "/js/app.897cea52.js"
+    "revision": "0f087f1c5318292d01a7",
+    "url": "/js/app.cf34dfef.js"
   },
   {
     "revision": "0514d1ab082e21c67dba",
