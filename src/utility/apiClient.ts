@@ -1,12 +1,14 @@
 ﻿import axios from 'axios'
+
 const url = process.env.VUE_APP_URL
 import SecureLS from 'secure-ls'
+
 const ls = new SecureLS({ isCompression: false })
 import store from '@/store'
 
 const apiClient = axios.create({
   // baseURL: process.env.NODE_ENV === 'production' ? url : `https://localhost:44371/api`,
-  baseURL: process.env.NODE_ENV === 'production' ? url : `http://10.0.0.56:8080/api`,
+  baseURL: process.env.NODE_ENV === 'production' ? url : `http://10.0.0.56:8080/api`
 })
 
 apiClient.interceptors.request.use(
@@ -22,7 +24,10 @@ apiClient.interceptors.request.use(
         config.headers.common.Authorization = `Bearer ${token}`
       }
     }
-    // console.log('Request: ', config)
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('Request: ', config)
+
+    }
     return config
   },
   (error) => Promise.reject(error)
@@ -30,7 +35,10 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response) => {
-    console.log('Response: ', response)
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('Response: ', response)
+
+    }
 
     return response
   },
@@ -42,8 +50,6 @@ apiClient.interceptors.response.use(
 
     return Promise.reject(error.response)
   }
-
-
 )
 
 export default apiClient
