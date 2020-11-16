@@ -6,7 +6,7 @@ import store from '@/store'
 
 const apiClient = axios.create({
   // baseURL: process.env.NODE_ENV === 'production' ? url : `https://localhost:44371/api`,
-  baseURL: process.env.NODE_ENV === 'production' ? "https://sandbaggers-api.azurewebsites.net/api" : `http://10.0.0.56:8080/api`,
+  baseURL: process.env.NODE_ENV === 'production' ? url : `http://10.0.0.56:8080/api`,
 })
 
 apiClient.interceptors.request.use(
