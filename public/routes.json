@@ -9,6 +9,11 @@
         "route": "/*",
         "serve": "/index.html",
         "statusCode": 400
+      },
+      {
+        "route": "/*",
+        "serve": "/index.html",
+        "statusCode": 404
       }
     ]
   }
