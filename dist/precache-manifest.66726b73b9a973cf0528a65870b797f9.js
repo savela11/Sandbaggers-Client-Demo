@@ -548,6 +548,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/view-testing-test-vue.58003b77.js"
   },
   {
+    "revision": "2d56f4c1f8d098689a331982a70f50b1",
+    "url": "/manifest.json"
+  },
+  {
     "revision": "d41d8cd98f00b204e9800998ecf8427e",
     "url": "/ms-icon-144x144.png"
   },
@@ -568,7 +572,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/robots.txt"
   },
   {
-    "revision": "56f66396e79e4087283c2375bd3aae21",
+    "revision": "cda4c12684309266f394e9051ad0241d",
     "url": "/routes.json"
   }
 ]);
