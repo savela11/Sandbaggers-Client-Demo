@@ -238,7 +238,6 @@ export default class SelectedBet extends Vue {
       max-height: 350px;
       overflow-x: hidden;
       overflow-y: auto;
-
       p {
         flex: auto;
         font-size: 0.9rem;
