@@ -87,7 +87,7 @@
           </div>
           <div v-if="currentView === 'Bets'" class="bets">
             <div class="bets__list">
-              <div class="bet" v-for="bet in Bets" :key="bet.betId">
+              <div class="bet" v-for="bet in Bets" :key="bet.betId" @click="$router.push(`/bets/${bet.betId}`)">
                 <div class="flex">
                   <p class="createdOn">Created: {{ formatDate(bet.createdOn) }}</p>
                   <p>By: {{ bet.createdBy }}</p>
@@ -97,7 +97,7 @@
                     <h3 class="title">{{ bet.title }}</h3>
                   </div>
                   <div class="flex">
-                    <button class="showBetBtn" @click="selectBet(bet)">Show</button>
+
                     <div class="amount">
                       <span>${{ bet.amount }}</span>
                     </div>
