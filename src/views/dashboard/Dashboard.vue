@@ -74,12 +74,12 @@
                 <router-link :to="'/sandbagger/' + sb.id">
                   <div><img src="@/assets/icons/accountCircle.svg" alt="account icon" /></div>
                   <div>
-                    <p>
+                    <span class="sandbagger__name">
                       {{ sb.fullName }}
-                    </p>
+                    </span>
                   </div>
                   <div>
-                    <p>{{ sb.handicap }}</p>
+                    <span class="sandbagger__handicap">{{ sb.handicap }}</span>
                   </div>
                 </router-link>
               </div>

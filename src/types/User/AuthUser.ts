@@ -26,15 +26,13 @@ export interface ICurrentUser {
   roles: Array<string>
 }
 
-
-
-export interface ILoggedInUser {
-  id: string
-  username: string
-  fullName: string
-  email: string
-  profile: IUserProfile
-  settings: IUserSettings
-  token: string
-  roles: Array<string>
-}
+// export interface ILoggedInUser {
+//   id: string
+//   username: string
+//   fullName: string
+//   email: string
+//   profile: IUserProfile
+//   settings: IUserSettings
+//   token: string
+//   roles: Array<string>
+// }

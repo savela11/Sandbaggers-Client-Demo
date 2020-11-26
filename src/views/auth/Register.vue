@@ -34,7 +34,10 @@
       </div>
     </form>
     <div class="greyLinks" v-if="!loading">
-      <p>Already have an account? <router-link to="/login">Login</router-link></p>
+      <p>
+        Already have an account?
+        <router-link to="/login">Login</router-link>
+      </p>
     </div>
     <Loading v-if="loading" />
   </div>
@@ -63,6 +66,7 @@ export default class Login extends Vue {
   show = true
   showPassword = false
   showConfirmPassword = false
+
   mounted(): void {}
 
   async onSubmit(): Promise<void> {
@@ -89,15 +93,16 @@ export default class Login extends Vue {
       } catch (e) {
         const errorList: string[] = []
         const snackBar: ISnackBar = {
-          title: e.data.message,
+          title: 'Error Registering Username',
           message: '',
           isSnackBarShowing: true,
           class: 'error',
           errors: [],
         }
-        if (e.data.data) {
-          e.data.data.errors.forEach((e: any) => {
-            errorList.push(e.description)
+        const parsedErrors = JSON.parse(e.data.message)
+        if (e.data.message) {
+          parsedErrors.forEach((error: any) => {
+            errorList.push(error.Description)
           })
           snackBar.errors = errorList
         }
@@ -163,6 +168,7 @@ export default class Login extends Vue {
     }
     return validForm
   }
+
   resetForm(): void {
     this.registerForm.email = ''
     this.registerForm.username = ''

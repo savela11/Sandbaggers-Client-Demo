@@ -33,13 +33,15 @@ $searchBarTitleColor: white;
 
         h2 {
           color: white;
-          font-size: .8rem;
+          font-size: .9rem;
+          @include mobile {
+            font-size: 1rem;
+          }
         }
       }
 
       .flexContainer {
         display: flex;
-        overflow-x: auto;
       }
 
       .champ {
@@ -48,7 +50,7 @@ $searchBarTitleColor: white;
         align-items: center;
         justify-content: center;
         flex: 0 0 25%;
-        padding: .3rem;
+        padding: .2rem;
 
 
         .imgContainer {
@@ -70,6 +72,9 @@ $searchBarTitleColor: white;
           font-size: 0.7rem;
           text-align: center;
           color: white;
+          @include mobile {
+            font-size: .8rem;
+          }
         }
       }
     }
@@ -224,6 +229,7 @@ $searchBarTitleColor: white;
           margin-bottom: 0.5rem;
           border: 1px solid grey;
           border-radius: 5px;
+          height: 70px;
 
           img {
             height: 100%;
@@ -246,6 +252,20 @@ $searchBarTitleColor: white;
               &:last-child {
                 justify-content: center;
               }
+            }
+          }
+
+          &__name {
+            font-size: .8rem;
+            @include mobile {
+              font-size: 1rem;
+            }
+          }
+
+          &__handicap {
+            font-size: .8rem;
+            @include mobile {
+              font-size: 1rem;
             }
           }
         }

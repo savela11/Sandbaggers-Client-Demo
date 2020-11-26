@@ -65,7 +65,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import UIHelper from '@/utility/UIHelper'
 import { ICurrentUser } from '@/types/User/AuthUser'
 import ProfileService from '@/services/ProfileService'
 import { AddRemoveFavLink } from '@/components/profile/SettingsView.vue'

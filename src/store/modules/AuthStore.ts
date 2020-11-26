@@ -1,9 +1,10 @@
 ﻿import router from '../../router'
-import { ICurrentUser, ILoggedInUser } from '@/types/User/AuthUser'
+import { ICurrentUser } from '@/types/User/AuthUser'
 import SecureLS from 'secure-ls'
 import AuthService from '../../services/AuthService'
 import { ActionContext } from 'vuex'
 import { IRootState } from '@/store'
+import { ILoggedInUser } from '@/types/User/User'
 
 const ls = new SecureLS({ isCompression: false })
 

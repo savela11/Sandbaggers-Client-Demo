@@ -12,6 +12,10 @@ module.exports = {
         // target: 'https://localhost:44371',
       },
     },
+    public: '10.0.0.56:8080',
+    watchOptions: {
+      poll: true
+    }
   },
   configureWebpack: {
     devtool: 'source-map',

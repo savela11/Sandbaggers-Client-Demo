@@ -1,27 +1,25 @@
-﻿import { IBetHistoryDto } from '@/types/Bets/Bet'
-
-export interface IUserWithProfile {
+﻿export interface IApplicationUser {
   id: string
   username: string
-  fullName: string
-  profile: IUserProfile
-  settings: null
-  roles: Array<string> | null
+  email: string
 }
 
-export interface IUserWithSettings {
-  id: string
+export interface IUser extends IApplicationUser {
   fullName: string
   profile: IUserProfile
   settings: IUserSettings
+  roles: Array<string>
+}
+
+export interface ILoggedInUser extends IUser {
+  token: string
 }
 
 export interface IUserProfile {
+  image: string
   firstName: string
   lastName: string
   handicap: number
-  image: string | null
-  profileId: number
 }
 
 export interface IUserSettings {
@@ -33,17 +31,8 @@ export interface IFavoriteLink {
   name: string
   link: string
 }
+
 export interface IHandicapHistory {
   handicap: number
   date: string
-}
-
-export interface IUserWithHistory {
-  id: string
-  username: string
-  fullName: string
-  email: string
-  profile: IUserProfile
-  handicapHistory: IHandicapHistory[]
-  betHistory: IBetHistoryDto[]
 }
