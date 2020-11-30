@@ -15,18 +15,28 @@ export default class UIHelper {
     }
     await store.dispatch('uiStore/_setSnackBar', snackBarData)
   }
+
   /**
-   *
-   * @param headerInfo
+   * @param {IHeader} headerInfo
+   * @param {!string} headerInfo.title - title of header
+   * @param {?string} headerInfo.current - "main" or "auth"
+   * @param {?string} headerInfo.bgColor - set background color of header - example in dashboard
+   * @param {!boolean} header.isShowing - toggle showing status
+   * @description - UI Header Component - toggle status
+   * @example UIStore.Header({title: "testTitle", isShowing: true, current: "main", bgColor: "white", })
    */
-  static async Header(headerInfo: IHeader): Promise<void> {
+  static async Header({title, isShowing, current, bgColor}: IHeader): Promise<void> {
+    const headerInfo:IHeader = {title, isShowing, current, bgColor}
     await store.dispatch('uiStore/_setHeader', headerInfo)
   }
-
+  /**
+   * @param elementId
+   * @description - Create click effect on button
+   * @example UIHelper.clickedButton(elementId)
+   */
   static clickedButton(elementId: string): void {
     const clickedBTN = document.getElementById(elementId) as HTMLButtonElement
     clickedBTN.classList.add('clicked')
-
     setTimeout(() => {
       clickedBTN.classList.remove('clicked')
     }, 100)
@@ -61,6 +71,13 @@ export default class UIHelper {
     }
   }
 
+  /**
+   *
+   * @param {boolean} status
+   * @returns {Promise<void>}
+   * @description UI NavBar component - bottom navigation menu toggle
+   * @example UIHelper.ToggleNavBar(false)
+   */
   static async ToggleNavBar(status: boolean): Promise<void> {
     const showNavBarBtn = document.querySelector('.showNavBarBtn')
     const nav = document.querySelector('.nav')

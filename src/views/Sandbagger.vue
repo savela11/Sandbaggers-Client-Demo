@@ -1,16 +1,16 @@
 <template>
-  <div class="sandbagger" v-if="Sandbagger && Sandbagger.profile">
+  <div class="sandbagger" v-if="Sandbagger">
     <div class="top">
       <div class="backButton" @click.prevent="setBackToDashboard">
         <router-link to="/dashboard" class="btn btn--borderGreen btn--xs btn--borderBottom">Back</router-link>
       </div>
       <div class="imageContainer">
-        <img v-if="Sandbagger.profile.image" :src="Sandbagger.profile.image" alt="User Profile Image" />
+        <img v-if="Sandbagger.image" :src="Sandbagger.image" alt="User Profile Image" />
         <img v-else src="@/assets/SBLogo.png" alt="User Profile Image" />
       </div>
       <div class="userInfo">
         <h2>{{ Sandbagger.fullName }}</h2>
-        <p>Handicap: {{ Sandbagger.profile.handicap }}</p>
+        <p>Handicap: {{ Sandbagger.handicap }}</p>
       </div>
     </div>
     <div class="viewButtons">
@@ -24,8 +24,8 @@
             <p>Date</p>
             <p>Handicap</p>
           </div>
-          <div v-if="userHandicapHistory">
-            <div class="handicap" v-for="(history, index) in userHandicapHistory" :key="index">
+          <div v-if="Sandbagger.handicapHistory && Sandbagger.handicapHistory.length > 0">
+            <div class="handicap" v-for="(history, index) in Sandbagger.handicapHistory" :key="index">
               <p>{{ formatDate(history.date) }}</p>
               <p>{{ history.handicap }}</p>
             </div>
@@ -40,13 +40,14 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import UserService from '../services/UsersService'
 import FormatMixins from '@/mixins/FormatMixins.vue'
-import { IHandicapHistory, IUserWithHistory } from '@/types/User/User'
+import UserHistoryService from '@/services/UserHistoryService'
+import UIHelper from '@/utility/UIHelper'
+import { IUserHistory } from '@/types/User/UserHistory'
 
 @Component({ name: 'Sandbagger', mixins: [FormatMixins] })
 export default class Sandbagger extends Vue {
-  Sandbagger = {} as IUserWithHistory
+  Sandbagger = {} as IUserHistory
   views = ['Handicaps', 'Bets', 'Stats']
   currentView = 'Handicaps'
 
@@ -55,29 +56,28 @@ export default class Sandbagger extends Vue {
   }
 
   setBackToDashboard(): void {
-    this.$store.dispatch('uiStore/_setHeaderShowingStatus', true)
-    this.$store.dispatch('uiStore/_setNavBarShowingStatus', true)
+    UIHelper.ToggleNavBar(true)
   }
 
-  get userHandicapHistory(): IHandicapHistory[] | null {
-    if (this.Sandbagger && this.Sandbagger.handicapHistory.length > 0) {
-      return this.Sandbagger.handicapHistory.sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
-    } else {
-      return null
-    }
-  }
+  // get userHandicapHistory(): IHandicapHistory[] | null {
+  //   if (this.Sandbagger && this.Sandbagger.handicapHistory.length > 0) {
+  //     return this.Sandbagger.handicapHistory.sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
+  //   } else {
+  //     return null
+  //   }
+  // }
 
   async getUserInfo(): Promise<void> {
-    await this.$store.dispatch('uiStore/_setNavBarShowingStatus', false)
+   await UIHelper.ToggleNavBar(false)
     try {
-      const res = await UserService.getUserWithHistory(this.$route.params.id.toString())
+      const res = await UserHistoryService.sandBaggerWithHistory(this.$route.params.id.toString())
       if (res.data) {
         this.Sandbagger = res.data
       }
     } catch (error) {
       console.log(error)
     } finally {
-      await this.$store.dispatch('uiStore/_setHeaderShowingStatus', false)
+      await UIHelper.Header({ title: 'Sandbagger', isShowing: false })
     }
   }
 
@@ -149,7 +149,7 @@ export default class Sandbagger extends Vue {
     padding: 0.2rem 0;
     scroll-behavior: smooth;
     @include tablet {
-      padding: .2rem 1rem;
+      padding: 0.2rem 1rem;
       display: flex;
     }
 
@@ -158,19 +158,19 @@ export default class Sandbagger extends Vue {
       font-size: 0.8rem;
       padding: 0.2rem 0.6rem;
       height: 80px;
-      width: 80px;
+      width: 100px;
       white-space: normal;
       box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
       color: $DarkBlue;
       border-radius: 5px;
       border-right: 1px solid black;
       outline: none;
-      margin: 0 .2rem 0 0;
+      margin: 0 0.2rem 0 0;
       @include tablet {
         width: 125px;
         height: 100px;
         font-size: 1rem;
-        margin: 0 .5rem 0 0;
+        margin: 0 0.5rem 0 0;
       }
 
       &.active {
@@ -206,11 +206,9 @@ export default class Sandbagger extends Vue {
 
       @include tablet {
         transform: translateY(-5px);
-
       }
 
       .handicapHistory {
-
         .title {
           display: flex;
           justify-content: space-between;
@@ -236,8 +234,6 @@ export default class Sandbagger extends Vue {
           }
         }
       }
-
-
     }
   }
 }

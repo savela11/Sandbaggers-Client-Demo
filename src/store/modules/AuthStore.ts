@@ -9,17 +9,17 @@ import { ILoggedInUser } from '@/types/User/User'
 const ls = new SecureLS({ isCompression: false })
 
 export interface IAuthState {
-  currentUser: ICurrentUser | null
+  currentUser: ICurrentUser | undefined
   isLoggedIn: boolean
 }
 
 const state: IAuthState = {
-  currentUser: null,
+  currentUser: undefined,
   isLoggedIn: false,
 }
 
 const getters = {
-  CurrentUser: (state: IAuthState): ICurrentUser | null => state.currentUser,
+  CurrentUser: (state: IAuthState): ICurrentUser | undefined => state.currentUser,
 }
 
 const mutations = {
@@ -29,7 +29,7 @@ const mutations = {
   },
 
   LogoutCurrentUser(state: IAuthState): void {
-    state.currentUser = null
+    state.currentUser = undefined
     state.isLoggedIn = false
   },
 
@@ -40,6 +40,13 @@ const mutations = {
       // state.currentUser.profile.lastName = currentUser.lastName
       // state.currentUser.email = currentUser.email
       state.currentUser = updatedUser
+
+      state.currentUser.email = updatedUser.email;
+      state.currentUser.phoneNumber = updatedUser.phoneNumber;
+      state.currentUser.profile.firstName = updatedUser.profile.firstName;
+      state.currentUser.profile.lastName = updatedUser.profile.lastName;
+      state.currentUser.profile.handicap = updatedUser.profile.handicap;
+      state.currentUser.profile.image = updatedUser.profile.image;
       state.currentUser.fullName = updatedUser.profile.firstName + ' ' + updatedUser.profile.lastName
     } else {
       return

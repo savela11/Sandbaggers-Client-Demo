@@ -1,33 +1,26 @@
 import apiClient from '../utility/apiClient'
-import { IUserWithHistory, IUserWithProfile, IUserWithSettings } from '@/types/User/User'
 import { AxiosResponse } from 'axios'
 import { ICurrentUser } from '@/types/User/AuthUser'
 import { SandbaggerWithHandicap } from '@/types/DashboardTypes'
+import { IUser } from '@/types/User/User'
 
 const url = '/users'
 
 class UsersService {
-  public static async getUsers(): Promise<AxiosResponse<IUserWithProfile[]>> {
+  public static async getUsers(): Promise<AxiosResponse<IUser[]>> {
     return await apiClient.get(url + '/GetUsers')
   }
+
   public static async getUserWithSettings(id: string): Promise<AxiosResponse<ICurrentUser>> {
     return await apiClient.get(url + '/GetUserWithSettings/' + id)
   }
 
-  public static async getUserWithProfile(id: string): Promise<AxiosResponse<IUserWithProfile>> {
+  public static async UserProfile(id: string): Promise<AxiosResponse<IUser>> {
     return await apiClient.get(`${url}/GetUserById/${id}`)
   }
 
-  public static async getUserByProfileId(profileId: string): Promise<AxiosResponse<ICurrentUser>> {
-    return await apiClient.get(`${url}/GetUserByProfileId/${profileId}`)
-  }
-
-  static async updateUserProfileAndSettings(userWithSettings: IUserWithSettings): Promise<AxiosResponse<ICurrentUser>> {
-    return await apiClient.post(`${url}/UpdateUserProfileAndSettings`, userWithSettings)
-  }
-
-  public static async getUserWithHistory(id: string): Promise<AxiosResponse<IUserWithHistory>> {
-    return await apiClient.get(`${url}/GetUserWithHistory/${id}`)
+  static async UpdateUser(updatedUser: ICurrentUser): Promise<AxiosResponse<ICurrentUser>> {
+    return await apiClient.post(`${url}/UpdateUser`, updatedUser)
   }
 
   static async SandbaggersWithHandicaps(): Promise<AxiosResponse<SandbaggerWithHandicap[]>> {

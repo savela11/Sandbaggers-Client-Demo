@@ -1,0 +1,18 @@
+@mixin font-size($fs-map) {
+  @each $fs-breakpoint, $fs-font-size in $fs-map {
+    @if $fs-breakpoint == null {
+      font-size: $fs-font-size;;
+    } @else {
+      @media screen and (min-width: $fs-breakpoint * 1px) {
+        font-size: $fs-font-size;
+      }
+    }
+  }
+}
+
+//Example:
+//$--selector: (
+//null: 1.2rem,
+//$mobile: 1.4rem
+//$tablet: 1.6rem
+//);

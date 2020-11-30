@@ -21,6 +21,7 @@ export interface ICurrentUser {
   username: string
   fullName: string
   email: string
+  phoneNumber: string
   profile: IUserProfile
   settings: IUserSettings
   roles: Array<string>

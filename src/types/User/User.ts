@@ -2,6 +2,7 @@
   id: string
   username: string
   email: string
+  phoneNumber: string
 }
 
 export interface IUser extends IApplicationUser {
@@ -30,9 +31,4 @@ export interface IUserSettings {
 export interface IFavoriteLink {
   name: string
   link: string
-}
-
-export interface IHandicapHistory {
-  handicap: number
-  date: string
 }

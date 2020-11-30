@@ -8,7 +8,7 @@
         <div class="flexContainer">
           <div class="champ" v-for="champ in ScrambleChamps" :key="champ.userId">
             <div class="imgContainer">
-              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
+              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo"/>
             </div>
             <p>{{ champ.fullName }}</p>
           </div>
@@ -21,25 +21,25 @@
         <div class="flexContainer">
           <div class="champ">
             <div class="imgContainer">
-              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
+              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo"/>
             </div>
             <p>Sandbagger #1</p>
           </div>
           <div class="champ">
             <div class="imgContainer">
-              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
+              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo"/>
             </div>
             <p>Sandbagger #2</p>
           </div>
           <div class="champ">
             <div class="imgContainer">
-              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
+              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo"/>
             </div>
             <p>Sandbagger #3</p>
           </div>
           <div class="champ">
             <div class="imgContainer">
-              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
+              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo"/>
             </div>
             <p>Sandbagger #4</p>
           </div>
@@ -48,12 +48,14 @@
       <div class="viewButtons">
         <h2>Latest</h2>
         <div class="buttons">
-          <button v-for="view in dashboardViews" :key="view" @click="handleViewChange(view)" :class="{ active: view === currentView }">{{ view }}</button>
+          <button v-for="view in dashboardViews" :key="view" @click="handleViewChange(view)"
+                  :class="{ active: view === currentView }">{{ view }}
+          </button>
         </div>
       </div>
       <div v-if="isSearchInputShowing" class="searchBar">
         <label for="searchSB" class="hideLabel">Search</label>
-        <input id="searchSB" class="input" type="text" v-model="searchInput" placeholder="Search by name" />
+        <input id="searchSB" class="input" type="text" v-model="searchInput" placeholder="Search by name"/>
       </div>
     </div>
     <div class="bottom">
@@ -63,7 +65,7 @@
             <div class="titleBar">
               <div>
                 <button @click="toggleSearch" class="searchButton">
-                  <img src="@/assets/icons/search.svg" alt="search icon" />
+                  <img src="@/assets/icons/search.svg" alt="search icon"/>
                 </button>
               </div>
               <div><p>Name</p></div>
@@ -72,7 +74,7 @@
             <div class="sandbaggerList">
               <div class="sandbagger" v-for="sb in filteredSandbaggers" :key="sb.id">
                 <router-link :to="'/sandbagger/' + sb.id">
-                  <div><img src="@/assets/icons/accountCircle.svg" alt="account icon" /></div>
+                  <div><img src="@/assets/icons/accountCircle.svg" alt="account icon"/></div>
                   <div>
                     <span class="sandbagger__name">
                       {{ sb.fullName }}
@@ -107,7 +109,7 @@
             </div>
           </div>
         </div>
-        <Loading v-if="loading" />
+        <Loading v-if="loading"/>
       </div>
     </div>
     <Modal v-if="selectedBet" class="selectedBet" @click="closeSelectedBetModal" v-bind="{ isHeader: false }">
@@ -127,7 +129,9 @@
               <div class="acceptedBy">
                 <div class="flex">
                   <h3>Accepted By:</h3>
-                  <span class="acceptedCountSpan">{{ selectedBet.acceptedBy.length }} / {{ selectedBet.canAcceptNumber }}</span>
+                  <span class="acceptedCountSpan">{{ selectedBet.acceptedBy.length }} / {{
+                      selectedBet.canAcceptNumber
+                    }}</span>
                 </div>
 
                 <div class="acceptedBy__users">
@@ -152,7 +156,8 @@
         </div>
       </template>
       <template v-slot:submitBtn>
-        <button class="acceptBetBtn" v-if="selectedBet.userId !== $store.state.authStore.currentUser.id">Accept Bet</button>
+        <button class="acceptBetBtn" v-if="selectedBet.userId !== $store.state.authStore.currentUser.id">Accept Bet
+        </button>
       </template>
     </Modal>
   </div>
@@ -198,8 +203,6 @@ export default class Dashboard extends Vue {
   }
 
 
-
-
   mounted(): void {
     UIHelper.Header({ title: 'Dashboard', isShowing: true, current: 'main', bgColor: '#17252a' })
 
@@ -211,6 +214,7 @@ export default class Dashboard extends Vue {
       return sb.fullName.toLowerCase().includes(this.searchInput.toLowerCase())
     })
   }
+
   Sandbaggers: SandbaggerWithHandicap[] = []
 
   async getUsers(): Promise<void> {
@@ -230,6 +234,7 @@ export default class Dashboard extends Vue {
       }, Helper.randomNumber(3000))
     }
   }
+
   ScrambleChamps: IScrambleChamp[] = []
 
   async scrambleChamps(): Promise<void> {
@@ -242,6 +247,7 @@ export default class Dashboard extends Vue {
       console.log(e)
     }
   }
+
   async getBets(): Promise<void> {
     this.loading = true
     try {
@@ -320,5 +326,497 @@ export default class Dashboard extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import '../../assets/styles/dashboard/_dashboard.scss';
+
+$topBGColor: $DarkBlue;
+$viewBtnBG: white;
+$viewBtnTextColor: $DarkBlue;
+$viewBtnActiveText: white;
+$viewBtnActiveBG: $DarkBlue;
+$latestTextColor: white;
+$searchBarTitleColor: white;
+
+.dashboard {
+  padding: 0;
+
+  .top {
+    padding: 2rem 1rem 3rem 1rem;
+    background-color: $topBGColor;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+
+    @include tablet {
+      padding: 1rem 4rem 2rem 4rem;
+    }
+    @include tablet-landscape {
+      padding: 1rem 6rem 3rem 6rem;
+    }
+    @include desktopSmall {
+      padding: 1rem 8rem 3rem 8rem;
+    }
+
+
+  }
+
+  .bottom {
+    transform: translateY(-30px);
+    padding: 0 1rem 3rem 1rem;
+    @include tablet {
+      padding: 2rem 4rem;
+    }
+    @include tablet-landscape {
+      padding: 3rem 6rem;
+    }
+    @include desktopSmall {
+      padding: 3rem 8rem;
+    }
+
+    .content {
+      border-radius: 10px;
+      padding: 1rem;
+      background-color: white;
+      min-height: 250px;
+      @include mobile {
+        min-height: 300px;
+      }
+      @include tablet {
+        min-height: 600px;
+        padding: 1rem 0;
+      }
+      @include tablet-landscape {
+        min-height: 400px;
+      }
+    }
+
+    .handicaps {
+      .titleBar {
+        display: grid;
+        grid-template-columns: 50px 2fr 1fr;
+        border-bottom: 1px solid lightgrey;
+        @include tablet {
+          grid-template-columns: 50px 2fr 1fr;
+          height: 50px;
+          gap: 20px;
+        }
+
+        .searchButton {
+          border: none;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          @include tablet {
+            height: 100%;
+            width: 100%;
+          }
+
+          img {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+          }
+        }
+
+        & > div {
+          display: flex;
+          align-items: center;
+          padding: 5px;
+
+          &:last-child {
+            justify-content: center;
+          }
+        }
+
+        p {
+          @include tablet {
+            font-size: 1.2rem;
+          }
+        }
+      }
+
+      .sandbaggerList {
+        margin-top: 0.5rem;
+        padding: 0 0 0.5rem 0;
+
+        .sandbagger {
+          margin-bottom: 0.5rem;
+          border: 1px solid grey;
+          border-radius: 5px;
+          height: 70px;
+
+          img {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+          }
+
+          a {
+            padding: 0.5rem 0;
+            color: black;
+            text-decoration: none;
+            display: grid;
+            grid-template-columns: 50px 2fr 1fr;
+
+            & > div {
+              padding: 5px;
+              display: flex;
+              align-items: center;
+
+              &:last-child {
+                justify-content: center;
+              }
+            }
+          }
+
+          &__name {
+            font-size: .8rem;
+            @include mobile {
+              font-size: 1rem;
+            }
+          }
+
+          &__handicap {
+            font-size: .8rem;
+            @include mobile {
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+
+    .bets {
+      @include tablet {
+        padding: 1rem 0;
+      }
+
+      &__list {
+        @include tablet {
+          display: grid;
+          flex-wrap: wrap;
+          grid-template-columns: 1fr 1fr;
+          grid-auto-rows: 150px;
+          gap: 20px;
+        }
+
+        @include desktopSmall {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .bet {
+          padding: 0.5rem 0.5rem 1rem 0.5rem;
+          border-radius: 5px;
+          border-left: 5px solid #425a41;
+          box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+          overflow: hidden;
+          height: 100px;
+          margin-bottom: 1rem;
+
+          @include tablet {
+            margin: 0;
+            height: auto;
+          }
+
+          .flex {
+            justify-content: space-between;
+            align-items: flex-start;
+
+            &:first-child {
+              margin-bottom: 1rem;
+            }
+
+            @include tablet {
+              align-items: center;
+            }
+          }
+
+          h3 {
+            color: $DarkBlue;
+            font-size: 1rem;
+          }
+
+          p {
+            color: grey;
+            font-size: 0.7rem;
+
+            @include tablet {
+              font-size: 0.8rem;
+            }
+          }
+
+          .showBetBtn {
+            border: none;
+            border-bottom: 1px solid $DarkBlue;
+            margin-right: 1rem;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.5rem;
+
+            @include tablet {
+              font-size: 0.9rem;
+            }
+          }
+
+          .amount {
+            padding: 0.5rem;
+            border-radius: 50%;
+            background-color: #425a41;
+            height: 50px;
+            width: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 3px 3px 3px rgba(95, 95, 95, 0.8);
+            @include tablet {
+              width: 60px;
+              height: 60px;
+            }
+
+            span {
+              font-size: 1rem;
+              font-weight: bold;
+              color: white;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .scrambleChamps {
+    margin-bottom: 1rem;
+
+    .title {
+      margin-bottom: .5rem;
+
+      h2 {
+        color: white;
+        font-size: .9rem;
+        @include mobile {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    .flexContainer {
+      display: flex;
+    }
+
+    .champ {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 25%;
+      padding: .2rem;
+
+
+      .imgContainer {
+        height: 60px;
+
+        border-radius: 5px;
+        padding: 0.3rem;
+        margin-bottom: 0.2rem;
+        background-color: white;
+      }
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+      }
+
+      p {
+        font-size: 0.7rem;
+        text-align: center;
+        color: white;
+        @include mobile {
+          font-size: .8rem;
+        }
+      }
+    }
+  }
+
+  .viewButtons {
+    h2 {
+      color: $latestTextColor;
+      padding: 0 0 0.5rem 0.5rem;
+      font-size: 1.4rem;
+      @include tablet {
+        font-size: 1.6rem;
+      }
+    }
+
+    .buttons {
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      padding: 0.2rem .8rem .2rem 0;
+      margin: 0;
+    }
+
+    button {
+      margin-right: 0.5rem;
+      display: inline-block;
+      min-width: 100px;
+      font-size: 0.8rem;
+      padding: 0.8rem 1rem;
+      border: 2px solid white;
+      background-color: $viewBtnBG;
+      font-weight: bold;
+      color: $viewBtnTextColor;
+      @include tablet {
+        height: auto;
+        font-size: 1rem;
+        margin-right: 0.8rem;
+        padding: 0.5rem 1rem;
+      }
+
+      &.active {
+        color: $viewBtnActiveText;
+        background-color: $viewBtnActiveBG;
+      }
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+
+  .searchBar {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+
+    label {
+      margin-right: 1rem;
+      color: $searchBarTitleColor;
+    }
+
+    input {
+      background-color: white;
+      @include tablet {
+        font-size: 1.2rem;
+        padding: 0.5rem 1rem;
+      }
+    }
+  }
+
+  .selectedBet {
+    h2 {
+      color: $DarkBlue;
+    }
+
+    .body {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      &__header {
+        margin-bottom: 1rem;
+
+        h2 {
+          color: $DarkBlue;
+        }
+      }
+
+      &__main {
+        z-index: 1;
+        position: relative;
+        flex: auto;
+        padding: 0.8rem;
+        color: $DarkBlue;
+
+        h3 {
+          font-size: 1rem;
+          font-weight: normal;
+        }
+
+        p {
+          font-size: 0.8rem;
+          color: $DarkBlue;
+          white-space: pre-wrap;
+        }
+
+        &__top {
+          display: flex;
+          justify-content: space-between;
+
+          p {
+            color: $DarkBlue;
+            font-size: 0.8rem;
+          }
+
+          .amount {
+            background-color: $DarkGreen;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            @include mobile {
+              width: 60px;
+              height: 60px;
+            }
+
+            span {
+              font-size: 1.1rem;
+              font-weight: bold;
+              color: white;
+
+              @include mobile {
+                font-size: 1.2rem;
+              }
+            }
+          }
+        }
+
+        &__middle {
+          & > div {
+            padding: 0.5rem;
+          }
+
+          .flex {
+            justify-content: space-between;
+          }
+
+          .acceptedBy {
+            &__users {
+              margin-top: 0.5rem;
+              border-radius: 5px;
+              padding: 1rem;
+              background-color: white;
+            }
+
+            .acceptedCountSpan {
+              font-size: 0.8rem;
+            }
+          }
+
+          .description {
+            .text {
+              margin-top: 0.5rem;
+              border-radius: 5px;
+              padding: 1rem;
+              background-color: white;
+              min-height: 100px;
+              max-height: 150px;
+              overflow-y: scroll;
+            }
+          }
+        }
+      }
+    }
+
+    .acceptBetBtn {
+      margin: 0.5rem 0;
+      padding: 0.5rem 0.8rem;
+      font-size: 0.8rem;
+      border-radius: 5px;
+      border: none;
+      border-bottom: 2px solid $DarkGreen;
+    }
+  }
+}
+
 </style>

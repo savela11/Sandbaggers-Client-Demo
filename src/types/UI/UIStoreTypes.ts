@@ -15,6 +15,7 @@ export interface IPageLoadStatus {
   timeout: number | null
 }
 
+
 export interface IHeader {
   current?: string
   title: string

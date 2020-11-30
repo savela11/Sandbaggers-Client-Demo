@@ -8,7 +8,7 @@ const state: IUIState = {
     current: 'main',
     title: 'Test',
     isShowing: true,
-    bgColor: 'white',
+    bgColor: 'white'
   },
   dataLoading: false,
   pageLoading: false,
@@ -19,9 +19,9 @@ const state: IUIState = {
     message: '',
     errors: '',
     class: '',
-    isSnackBarShowing: false,
+    isSnackBarShowing: false
   } as ISnackBar,
-  deviceSize: 'mobile',
+  deviceSize: 'mobile'
 }
 
 const getters = {
@@ -29,7 +29,7 @@ const getters = {
   IsNavBarShowing: (state: IUIState): boolean => state.isNavBarShowing,
   IsNavMenuShowing: (state: IUIState): boolean => state.isNavMenuShowing,
   SnackBarClass: (state: IUIState): string | undefined => state.snackBar.class,
-  DataLoadingStatus: (state: IUIState): boolean => state.dataLoading,
+  DataLoadingStatus: (state: IUIState): boolean => state.dataLoading
 }
 
 const mutations = {
@@ -84,7 +84,7 @@ const mutations = {
   SetSnackBar(state: IUIState, snackBar: ISnackBar): void {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: 'smooth'
     })
     if (!snackBar.isSnackBarShowing) {
       state.snackBar = {
@@ -92,7 +92,7 @@ const mutations = {
         message: '',
         class: '',
         errors: [],
-        isSnackBarShowing: false,
+        isSnackBarShowing: false
       }
     } else {
       state.snackBar = snackBar
@@ -102,7 +102,7 @@ const mutations = {
           message: '',
           class: '',
           errors: [],
-          isSnackBarShowing: false,
+          isSnackBarShowing: false
         }
       }, 10000)
     }
@@ -110,7 +110,7 @@ const mutations = {
 
   SetDeviceSize(state: IUIState, deviceSize: string): void {
     state.deviceSize = deviceSize
-  },
+  }
 }
 
 const actions = {
@@ -144,7 +144,7 @@ const actions = {
 
   _setDeviceSize(context: ActionContext<IUIState, IRootState>, deviceSize: string): void {
     context.commit('SetDeviceSize', deviceSize)
-  },
+  }
 }
 
 export default {
@@ -152,7 +152,7 @@ export default {
   state,
   actions,
   mutations,
-  getters,
+  getters
 }
 
 // @Module({
