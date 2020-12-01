@@ -88,7 +88,7 @@ const routes: Array<RouteConfig> = [
     path: '/Dashboard',
     name: 'Dashboard',
     beforeEnter: guardRoute,
-    component: loadView('dashboard/Dashboard'),
+    component: loadView('Dashboard'),
     meta: {
       canFavorite: true
     }

@@ -10,7 +10,7 @@ export default class UIHelper {
         message: '',
         isSnackBarShowing: false,
         class: '',
-        errors: [],
+        errors: []
       }
     }
     await store.dispatch('uiStore/_setSnackBar', snackBarData)
@@ -25,10 +25,11 @@ export default class UIHelper {
    * @description - UI Header Component - toggle status
    * @example UIStore.Header({title: "testTitle", isShowing: true, current: "main", bgColor: "white", })
    */
-  static async Header({title, isShowing, current, bgColor}: IHeader): Promise<void> {
-    const headerInfo:IHeader = {title, isShowing, current, bgColor}
+  static async Header({ title, isShowing, current, bgColor }: IHeader): Promise<void> {
+    const headerInfo: IHeader = { title, isShowing, current, bgColor }
     await store.dispatch('uiStore/_setHeader', headerInfo)
   }
+
   /**
    * @param elementId
    * @description - Create click effect on button
@@ -55,15 +56,19 @@ export default class UIHelper {
     const closeNavMenu = document.querySelector('.closeNavMenu')
     if (navMenu) {
       if (status) {
-        await store.dispatch('uiStore/_setNavMenuShowingStatus', status)
 
+        await store.dispatch('uiStore/_setNavMenuShowingStatus', status)
         navMenu.classList.remove('hide')
         navMenu.classList.add('show')
         closeNavMenu?.classList.add('show')
+        document.body.style.position = 'fixed'
+        document.body.style.overflowY = 'hidden'
       } else {
         navMenu.classList.remove('show')
         navMenu.classList.add('hide')
         closeNavMenu?.classList.remove('show')
+        document.body.style.position = 'static'
+        document.body.style.overflowY = 'auto'
         setTimeout(() => {
           store.dispatch('uiStore/_setNavMenuShowingStatus', status)
         }, 500)

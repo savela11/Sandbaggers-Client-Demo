@@ -8,7 +8,7 @@
         <div class="flexContainer">
           <div class="champ" v-for="champ in ScrambleChamps" :key="champ.userId">
             <div class="imgContainer">
-              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo"/>
+              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
             </div>
             <p>{{ champ.fullName }}</p>
           </div>
@@ -21,25 +21,25 @@
         <div class="flexContainer">
           <div class="champ">
             <div class="imgContainer">
-              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo"/>
+              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
             </div>
             <p>Sandbagger #1</p>
           </div>
           <div class="champ">
             <div class="imgContainer">
-              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo"/>
+              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
             </div>
             <p>Sandbagger #2</p>
           </div>
           <div class="champ">
             <div class="imgContainer">
-              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo"/>
+              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
             </div>
             <p>Sandbagger #3</p>
           </div>
           <div class="champ">
             <div class="imgContainer">
-              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo"/>
+              <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
             </div>
             <p>Sandbagger #4</p>
           </div>
@@ -49,23 +49,28 @@
         <h2>Latest</h2>
         <div class="buttons">
           <button v-for="view in dashboardViews" :key="view" @click="handleViewChange(view)"
-                  :class="{ active: view === currentView }">{{ view }}
+              :class="{ active: view === currentView }">{{ view }}
           </button>
         </div>
-      </div>
-      <div v-if="isSearchInputShowing" class="searchBar">
-        <label for="searchSB" class="hideLabel">Search</label>
-        <input id="searchSB" class="input" type="text" v-model="searchInput" placeholder="Search by name"/>
       </div>
     </div>
     <div class="bottom">
       <div class="content">
         <div v-if="!loading">
           <div v-if="currentView === 'Handicaps'" class="handicaps">
+            <transition name="slide-fade">
+              <div v-show="isSearchInputShowing" class="searchBar">
+                <label for="searchSB" class="hideLabel">Search</label>
+                <input id="searchSB" class="input" type="text" v-model="searchInput" placeholder="Search by name" />
+                <div class="clearBtnContainer">
+                  <button class="clearBtn">Clear</button>
+                </div>
+              </div>
+            </transition>
             <div class="titleBar">
               <div>
                 <button @click="toggleSearch" class="searchButton">
-                  <img src="@/assets/icons/search.svg" alt="search icon"/>
+                  <img src="@/assets/icons/search.svg" alt="search icon" />
                 </button>
               </div>
               <div><p>Name</p></div>
@@ -74,7 +79,7 @@
             <div class="sandbaggerList">
               <div class="sandbagger" v-for="sb in filteredSandbaggers" :key="sb.id">
                 <router-link :to="'/sandbagger/' + sb.id">
-                  <div><img src="@/assets/icons/accountCircle.svg" alt="account icon"/></div>
+                  <div><img src="@/assets/icons/accountCircle.svg" alt="account icon" /></div>
                   <div>
                     <span class="sandbagger__name">
                       {{ sb.fullName }}
@@ -88,7 +93,7 @@
             </div>
           </div>
           <div v-if="currentView === 'Bets'" class="bets">
-            <div class="bets__list">
+            <div class="bets__list" v-if="Bets.length > 0">
               <div class="bet" v-for="bet in Bets" :key="bet.betId" @click="$router.push(`/bets/${bet.betId}`)">
                 <div class="flex">
                   <p class="createdOn">Created: {{ formatDate(bet.createdOn) }}</p>
@@ -107,9 +112,12 @@
                 </div>
               </div>
             </div>
+            <div v-else class="noBets">
+              <p>No Bets found...</p>
+            </div>
           </div>
         </div>
-        <Loading v-if="loading"/>
+        <Loading v-if="loading" />
       </div>
     </div>
     <Modal v-if="selectedBet" class="selectedBet" @click="closeSelectedBetModal" v-bind="{ isHeader: false }">
@@ -177,7 +185,7 @@ import { IBetDto } from '@/types/Bets/Bet'
 @Component({
   name: 'Dashboard',
   components: {
-    Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
+    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
     Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue')
   }
 })
@@ -335,6 +343,66 @@ $viewBtnActiveBG: $DarkBlue;
 $latestTextColor: white;
 $searchBarTitleColor: white;
 
+$--viewBtnTitleFS: (
+    null: 1.4rem,
+    $mobile: 1.5rem,
+    $tablet: 1.6rem,
+    $tablet-landscape: 1.8rem
+);
+$--viewBtnFS: (
+    null: .8rem,
+    $mobile: .9rem,
+    $tablet: 1rem
+);
+
+$--scrambleChampTitleFS: (
+    null: .9rem,
+    $mobile: 1rem,
+    $tablet: 1.2rem,
+    $tablet-landscape: 1.4rem
+);
+$--scrambleChampNameFS: (
+    null: .7rem,
+    $mobile: .8rem,
+    $tablet: .9rem,
+    $tablet-landscape: 1rem
+);
+
+$--searchBarInputFS: (
+    null: 1rem,
+    $tablet: 1.2rem,
+    $tablet-landscape: 1.4rem
+);
+$--clearBtnFS: (
+    null: .8rem,
+    $mobile: .9rem,
+    $tablet: 1rem,
+    $tablet-landscape: 1.2rem
+);
+$--titleBarFS: (
+    null: .9rem,
+    $mobile: 1rem,
+    $tablet: 1.2rem,
+    $tablet-landscape: 1.4rem
+);
+$--sandbaggerNameFS: (
+    null: .8rem,
+    $mobile: 1rem,
+    $tablet: 1.2rem,
+    $tablet-landscape: 1.6rem
+);
+$--sandbaggerHandicapFS: (
+    null: .8rem,
+    $mobile: 1rem,
+    $tablet: 1.2rem,
+    $tablet-landscape: 1.6rem
+);
+
+
+$--noBetsFoundFS: (
+    null: 1rem,
+    $mobile: 1.2rem
+);
 .dashboard {
   padding: 0;
 
@@ -359,240 +427,275 @@ $searchBarTitleColor: white;
 
   .bottom {
     transform: translateY(-30px);
-    padding: 0 1rem 3rem 1rem;
+    padding: 0 .8rem 0 .8rem;
     @include tablet {
-      padding: 2rem 4rem;
+      padding: 4rem 0;
+      width: 80%;
+      margin: 0 auto;
     }
     @include tablet-landscape {
-      padding: 3rem 6rem;
     }
     @include desktopSmall {
       padding: 3rem 8rem;
     }
 
-    .content {
-      border-radius: 10px;
-      padding: 1rem;
-      background-color: white;
-      min-height: 250px;
-      @include mobile {
-        min-height: 300px;
-      }
+
+  }
+
+  .content {
+    border-radius: 10px;
+    padding: 1rem;
+    background-color: white;
+    min-height: 250px;
+    border: 1px solid grey;
+    @include mobile {
+      min-height: 300px;
+    }
+    @include tablet {
+      min-height: 600px;
+      padding: 2rem;
+    }
+    @include tablet-landscape {
+      min-height: 400px;
+      padding: 4rem;
+    }
+  }
+
+
+  .bets {
+    @include tablet {
+      padding: 1rem 0;
+    }
+
+    &__list {
       @include tablet {
-        min-height: 600px;
-        padding: 1rem 0;
+        display: grid;
+        flex-wrap: wrap;
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 150px;
+        gap: 20px;
       }
-      @include tablet-landscape {
-        min-height: 400px;
+
+      @include desktopSmall {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      .bet {
+        padding: 0.5rem 0.5rem 1rem 0.5rem;
+        border-radius: 5px;
+        border-left: 5px solid #425a41;
+        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+        height: 100px;
+        margin-bottom: 1rem;
+
+        @include tablet {
+          margin: 0;
+          height: auto;
+        }
+
+        .flex {
+          justify-content: space-between;
+          align-items: flex-start;
+
+          &:first-child {
+            margin-bottom: 1rem;
+          }
+
+          @include tablet {
+            align-items: center;
+          }
+        }
+
+        h3 {
+          color: $DarkBlue;
+          font-size: 1rem;
+        }
+
+        p {
+          color: grey;
+          font-size: 0.7rem;
+
+          @include tablet {
+            font-size: 0.8rem;
+          }
+        }
+
+        .showBetBtn {
+          border: none;
+          border-bottom: 1px solid $DarkBlue;
+          margin-right: 1rem;
+          font-size: 0.8rem;
+          padding: 0.3rem 0.5rem;
+
+          @include tablet {
+            font-size: 0.9rem;
+          }
+        }
+
+        .amount {
+          padding: 0.5rem;
+          border-radius: 50%;
+          background-color: #425a41;
+          height: 50px;
+          width: 50px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          box-shadow: 3px 3px 3px rgba(95, 95, 95, 0.8);
+          @include tablet {
+            width: 60px;
+            height: 60px;
+          }
+
+          span {
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+          }
+        }
       }
     }
 
-    .handicaps {
-      .titleBar {
-        display: grid;
-        grid-template-columns: 50px 2fr 1fr;
-        border-bottom: 1px solid lightgrey;
+    .noBets {
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+
+      p {
+        @include font-size($--noBetsFoundFS);
+      }
+    }
+  }
+
+  .handicaps {
+    .titleBar {
+      display: grid;
+      grid-template-columns: 50px 2fr 1fr;
+      border-bottom: 1px solid lightgrey;
+      padding-bottom: .5rem;
+      @include tablet {
+        grid-template-columns: 75px 2fr 1fr;
+        grid-template-rows: 50px;
+        gap: 20px;
+      }
+      @include tablet-landscape {
+        grid-template-rows: 60px;
+        grid-template-columns: 100px 2fr 1fr;
+      }
+
+      .searchButton {
+        border: none;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         @include tablet {
-          grid-template-columns: 50px 2fr 1fr;
-          height: 50px;
-          gap: 20px;
+          height: 100%;
+          width: 100%;
         }
 
-        .searchButton {
-          border: none;
-          padding: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          @include tablet {
-            height: 100%;
-            width: 100%;
-          }
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
+        }
+      }
 
-          img {
-            height: 100%;
-            width: 100%;
-            object-fit: contain;
-          }
+      & > div {
+        display: flex;
+        align-items: center;
+        padding: 5px;
+
+        &:last-child {
+          justify-content: center;
+        }
+      }
+
+      p {
+        @include font-size($--titleBarFS);
+
+      }
+    }
+
+    .sandbaggerList {
+      margin-top: 0.5rem;
+      padding: 0 0 0.5rem 0;
+
+    }
+
+    .sandbagger {
+      margin-bottom: 0.5rem;
+      border: 1px solid grey;
+      border-radius: 5px;
+      @include mobile {
+        margin-bottom: .8rem;
+      }
+      @include tablet-landscape {
+        margin-bottom: 1rem;
+      }
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+      }
+
+      a {
+        padding: 0.5rem 0;
+        color: black;
+        text-decoration: none;
+        display: grid;
+        grid-template-columns: 50px 2fr 1fr;
+        @include mobile {
+        }
+        @include tablet {
+          gap: 20px;
+          grid-template-columns: 75px 2fr 1fr;
+        }
+
+        @include tablet-landscape {
+          grid-template-columns: 100px 2fr 1fr;
         }
 
         & > div {
+          padding: 5px;
           display: flex;
           align-items: center;
-          padding: 5px;
 
           &:last-child {
             justify-content: center;
           }
         }
-
-        p {
-          @include tablet {
-            font-size: 1.2rem;
-          }
-        }
       }
 
-      .sandbaggerList {
-        margin-top: 0.5rem;
-        padding: 0 0 0.5rem 0;
+      &__name {
 
-        .sandbagger {
-          margin-bottom: 0.5rem;
-          border: 1px solid grey;
-          border-radius: 5px;
-          height: 70px;
+        @include font-size($--sandbaggerNameFS);
 
-          img {
-            height: 100%;
-            width: 100%;
-            object-fit: contain;
-          }
+      }
 
-          a {
-            padding: 0.5rem 0;
-            color: black;
-            text-decoration: none;
-            display: grid;
-            grid-template-columns: 50px 2fr 1fr;
+      &__handicap {
+        @include font-size($--sandbaggerHandicapFS);
 
-            & > div {
-              padding: 5px;
-              display: flex;
-              align-items: center;
-
-              &:last-child {
-                justify-content: center;
-              }
-            }
-          }
-
-          &__name {
-            font-size: .8rem;
-            @include mobile {
-              font-size: 1rem;
-            }
-          }
-
-          &__handicap {
-            font-size: .8rem;
-            @include mobile {
-              font-size: 1rem;
-            }
-          }
-        }
       }
     }
 
-    .bets {
-      @include tablet {
-        padding: 1rem 0;
-      }
-
-      &__list {
-        @include tablet {
-          display: grid;
-          flex-wrap: wrap;
-          grid-template-columns: 1fr 1fr;
-          grid-auto-rows: 150px;
-          gap: 20px;
-        }
-
-        @include desktopSmall {
-          grid-template-columns: 1fr 1fr 1fr;
-        }
-
-        .bet {
-          padding: 0.5rem 0.5rem 1rem 0.5rem;
-          border-radius: 5px;
-          border-left: 5px solid #425a41;
-          box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-          overflow: hidden;
-          height: 100px;
-          margin-bottom: 1rem;
-
-          @include tablet {
-            margin: 0;
-            height: auto;
-          }
-
-          .flex {
-            justify-content: space-between;
-            align-items: flex-start;
-
-            &:first-child {
-              margin-bottom: 1rem;
-            }
-
-            @include tablet {
-              align-items: center;
-            }
-          }
-
-          h3 {
-            color: $DarkBlue;
-            font-size: 1rem;
-          }
-
-          p {
-            color: grey;
-            font-size: 0.7rem;
-
-            @include tablet {
-              font-size: 0.8rem;
-            }
-          }
-
-          .showBetBtn {
-            border: none;
-            border-bottom: 1px solid $DarkBlue;
-            margin-right: 1rem;
-            font-size: 0.8rem;
-            padding: 0.3rem 0.5rem;
-
-            @include tablet {
-              font-size: 0.9rem;
-            }
-          }
-
-          .amount {
-            padding: 0.5rem;
-            border-radius: 50%;
-            background-color: #425a41;
-            height: 50px;
-            width: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 3px 3px 3px rgba(95, 95, 95, 0.8);
-            @include tablet {
-              width: 60px;
-              height: 60px;
-            }
-
-            span {
-              font-size: 1rem;
-              font-weight: bold;
-              color: white;
-            }
-          }
-        }
-      }
-    }
   }
 
   .scrambleChamps {
     margin-bottom: 1rem;
+    @include tablet-landscape {
+      margin-bottom: 2rem;
+    }
 
     .title {
       margin-bottom: .5rem;
 
       h2 {
         color: white;
-        font-size: .9rem;
-        @include mobile {
-          font-size: 1rem;
-        }
+        @include font-size($--scrambleChampTitleFS);
+
       }
     }
 
@@ -607,6 +710,9 @@ $searchBarTitleColor: white;
       justify-content: center;
       flex: 0 0 25%;
       padding: .2rem;
+      @include tablet {
+        padding: .5rem;
+      }
 
 
       .imgContainer {
@@ -616,6 +722,14 @@ $searchBarTitleColor: white;
         padding: 0.3rem;
         margin-bottom: 0.2rem;
         background-color: white;
+
+        @include tablet {
+          height: 80px;
+          margin-bottom: .5rem;
+        }
+        @include tablet-landscape {
+          height: 100px;
+        }
       }
 
       img {
@@ -625,12 +739,10 @@ $searchBarTitleColor: white;
       }
 
       p {
-        font-size: 0.7rem;
+        @include font-size($--scrambleChampNameFS);
         text-align: center;
         color: white;
-        @include mobile {
-          font-size: .8rem;
-        }
+
       }
     }
   }
@@ -639,10 +751,12 @@ $searchBarTitleColor: white;
     h2 {
       color: $latestTextColor;
       padding: 0 0 0.5rem 0.5rem;
-      font-size: 1.4rem;
-      @include tablet {
-        font-size: 1.6rem;
+      @include font-size($--viewBtnTitleFS);
+
+      @include tablet-landscape {
+        margin-bottom: .5rem;
       }
+
     }
 
     .buttons {
@@ -651,21 +765,24 @@ $searchBarTitleColor: white;
       white-space: nowrap;
       padding: 0.2rem .8rem .2rem 0;
       margin: 0;
+      @include tablet-landscape {
+        padding: .5rem .8rem;
+      }
     }
 
     button {
       margin-right: 0.5rem;
       display: inline-block;
       min-width: 100px;
-      font-size: 0.8rem;
+      @include font-size($--viewBtnFS);
       padding: 0.8rem 1rem;
       border: 2px solid white;
       background-color: $viewBtnBG;
       font-weight: bold;
       color: $viewBtnTextColor;
       @include tablet {
-        height: auto;
-        font-size: 1rem;
+        height: 3rem;
+        min-width: 125px;
         margin-right: 0.8rem;
         padding: 0.5rem 1rem;
       }
@@ -682,20 +799,39 @@ $searchBarTitleColor: white;
   }
 
   .searchBar {
-    margin-top: 1rem;
+    margin: .5rem 0;
     display: flex;
     align-items: center;
 
+    @include mobile {
+      margin: .8rem 0;
+    }
+
     label {
-      margin-right: 1rem;
       color: $searchBarTitleColor;
     }
 
     input {
       background-color: white;
-      @include tablet {
-        font-size: 1.2rem;
-        padding: 0.5rem 1rem;
+      @include font-size($--searchBarInputFS);
+
+      @include tablet-landscape {
+        padding: .8rem 2rem;
+      }
+    }
+
+    .clearBtnContainer {
+      padding: .3rem;
+
+      @include tablet-landscape {
+        padding: .5rem;
+      }
+
+      .clearBtn {
+        @include font-size($--clearBtnFS);
+        font-weight: bold;
+        border: none;
+        color: grey;
       }
     }
   }
@@ -817,6 +953,20 @@ $searchBarTitleColor: white;
       border-bottom: 2px solid $DarkGreen;
     }
   }
+
+
+  .slide-fade-enter-active {
+    transition: all .3s ease-in;
+  }
+
+  .slide-fade-leave-active {
+    transition: all .3s ease-out;
+  }
+
+  .slide-fade-enter, .slide-fade-leave-to {
+    opacity: 0;
+  }
+
 }
 
 </style>
