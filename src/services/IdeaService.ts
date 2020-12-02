@@ -15,6 +15,10 @@ class IdeaService {
     return await apiClient.post(`${url}/AddIdea`, createIdea)
   }
 
+  static async UpdateIdea(idea: IdeaVm): Promise<AxiosResponse<IdeaVm>> {
+    return await apiClient.put(`${url}/UpdateIdea`, idea)
+  }
+
   static async Idea(getIdeaDto: GetIdeaDto): Promise<AxiosResponse<IdeaVm>> {
     return await apiClient.post(`${url}/Idea`, getIdeaDto)
   }

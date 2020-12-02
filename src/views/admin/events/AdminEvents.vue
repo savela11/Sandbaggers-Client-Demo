@@ -176,8 +176,8 @@ import UIHelper from '@/utility/UIHelper'
 @Component({
   name: 'AdminEvents',
   components: {
-    Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
-    ResultsView: (): Promise<object> => import('@/components/admin/event/ResultsView.vue'),
+    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
+    ResultsView: (): Promise<typeof import('*.vue')> => import('@/components/admin/event/ResultsView.vue'),
   },
 })
 export default class AdminEvents extends Vue {
@@ -281,7 +281,7 @@ export default class AdminEvents extends Vue {
           isSnackBarShowing: true,
           title: 'Scramble Champ Status Updated!',
           message: snackBarMessage,
-          class: 'primary',
+          classInfo: 'primary',
         })
       }
     } else {
@@ -328,14 +328,14 @@ export default class AdminEvents extends Vue {
           isSnackBarShowing: true,
           title: 'Scramble Champ Updated',
           message: snackBarMessage,
-          class: 'primary',
+          classInfo: 'primary',
         })
       } else {
         await UIHelper.SnackBar({
           isSnackBarShowing: true,
           title: 'Error updating Scramble Champ',
           message: `There was an error when trying to update ${sChamp.fullName} as a Scramble Champ.`,
-          class: 'error',
+          classInfo: 'error',
         })
       }
     }

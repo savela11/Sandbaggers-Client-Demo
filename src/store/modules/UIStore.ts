@@ -18,7 +18,7 @@ const state: IUIState = {
     title: '',
     message: '',
     errors: '',
-    class: '',
+    classInfo: '',
     isSnackBarShowing: false
   } as ISnackBar,
   deviceSize: 'mobile'
@@ -28,7 +28,7 @@ const getters = {
   Header: (state: IUIState): IHeader => state.header,
   IsNavBarShowing: (state: IUIState): boolean => state.isNavBarShowing,
   IsNavMenuShowing: (state: IUIState): boolean => state.isNavMenuShowing,
-  SnackBarClass: (state: IUIState): string | undefined => state.snackBar.class,
+  SnackBarClass: (state: IUIState): string | undefined => state.snackBar.classInfo,
   DataLoadingStatus: (state: IUIState): boolean => state.dataLoading
 }
 
@@ -90,7 +90,7 @@ const mutations = {
       state.snackBar = {
         title: '',
         message: '',
-        class: '',
+        classInfo: '',
         errors: [],
         isSnackBarShowing: false
       }
@@ -100,7 +100,7 @@ const mutations = {
         state.snackBar = {
           title: '',
           message: '',
-          class: '',
+          classInfo: '',
           errors: [],
           isSnackBarShowing: false
         }

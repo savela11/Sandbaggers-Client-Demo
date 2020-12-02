@@ -29,7 +29,7 @@ import UIHelper from '@/utility/UIHelper'
 
 @Component({
   name: 'Login',
-  components: { Loading: (): Promise<object> => import('@/components/ui/Loading.vue') },
+  components: { Loading: (): Promise<typeof import('*.vue')>  => import('@/components/ui/Loading.vue') },
 })
 export default class Login extends Vue {
   loading = false
@@ -51,7 +51,7 @@ export default class Login extends Vue {
         title: 'Login Error',
         message: 'Please provide username and password',
         isSnackBarShowing: true,
-        class: 'error',
+        classInfo: 'error',
         errors: [],
       }
 
@@ -78,7 +78,7 @@ export default class Login extends Vue {
             title: 'Login Error',
             message: e.data.message,
             isSnackBarShowing: true,
-            class: 'error',
+            classInfo: 'error',
             errors: [],
           }
           await this.$store.dispatch('uiStore/_setSnackBar', snackBar, { root: true })

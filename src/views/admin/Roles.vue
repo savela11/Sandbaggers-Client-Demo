@@ -187,7 +187,7 @@ export default class Roles extends Vue {
           title: `Success`,
           message: `${user.fullName} added to ${this.selectedRole.name}`,
           isSnackBarShowing: true,
-          class: 'primary',
+          classInfo: 'primary',
           errors: [],
         }
         this.isPopUpShowing = false
@@ -198,7 +198,7 @@ export default class Roles extends Vue {
         title: `Error`,
         message: `${user.fullName} already exists in ${this.selectedRole?.name}`,
         isSnackBarShowing: true,
-        class: 'error',
+        classInfo: 'error',
         errors: [],
       }
       await UIHelper.SnackBar(snackBarData)

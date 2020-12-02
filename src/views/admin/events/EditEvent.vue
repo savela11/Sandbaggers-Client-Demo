@@ -141,7 +141,7 @@ export default class EditEvent extends Vue {
     } catch (e) {
       console.log(e)
       await UIHelper.SnackBar({
-        class: 'error',
+        classInfo: 'error',
         isSnackBarShowing: true,
         title: 'Error with updating event',
         message: `${e.data.message} Please check current year and active status for other years.`
@@ -159,7 +159,7 @@ export default class EditEvent extends Vue {
       if (res.status === 200) {
 
         await UIHelper.SnackBar({
-          class: 'primary',
+          classInfo: 'primary',
           isSnackBarShowing: true,
           title: 'Success',
           message: `${this.event.name} has been deleted`

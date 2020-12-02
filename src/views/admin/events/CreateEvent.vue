@@ -49,7 +49,7 @@ export default class CreateEvent extends Vue {
       const res = await EventService.createEvent(event)
       if (res.status === 200) {
         await UIHelper.SnackBar({
-          class: 'primary',
+          classInfo: 'primary',
           isSnackBarShowing: true,
           title: 'Success',
           message: `${res.data.name} has been created!`
@@ -60,7 +60,7 @@ export default class CreateEvent extends Vue {
       }
     } catch (e) {
       await UIHelper.SnackBar({
-        class: 'error',
+        classInfo: 'error',
         isSnackBarShowing: true,
         title: 'Failed to create event',
         message: `${e.data.message}!`

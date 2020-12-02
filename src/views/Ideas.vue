@@ -28,7 +28,7 @@
       </button>
     </div>
     <div class="ideas__list">
-      <div class="idea" v-for="idea in Ideas" :key="idea.id" :class="{ autoHeight: showDescriptionById === idea.id }">
+      <div class="idea" v-for="idea in paginatedIdeas" :key="idea.id" :class="{ autoHeight: showDescriptionById === idea.id }">
         <div class="section title">
           <h2 class="ideaTitle">{{ longString(idea.title, 30) }}</h2>
           <p class="ideaCreatedOn">{{ formatDate(idea.updatedOn) }}</p>
@@ -50,18 +50,23 @@
           </div>
         </div>
       </div>
+      <div class="prevNextButtons" v-if="paginatedIdeas.length > 0">
+        <button v-on:click="changePage('previous')" :disabled="pageNumber === 0">Previous</button>
+        <button v-on:click="changePage('next')" :disabled="pageNumber >= ideaCount - 1">Next</button>
+      </div>
     </div>
+
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { IAddIdea, ICreatedBy, IIdea } from '@/types/Idea'
+import { IAddIdea } from '@/types/Idea'
 import IdeaService from '@/services/IdeaService'
 import Helper from '@/utility/Helper'
 import FormatMixins from '@/mixins/FormatMixins.vue'
-import { IHeader } from '@/types/UI/UIStoreTypes'
 import UIHelper from '@/utility/UIHelper'
+import { IdeaVm } from '@/types/ViewModels/IdeaVm'
 
 @Component({
   name: 'Ideas',
@@ -72,27 +77,53 @@ import UIHelper from '@/utility/UIHelper'
   mixins: [FormatMixins]
 })
 export default class Ideas extends Vue {
-  private addIdea = {
+  addIdea = {
     title: '',
     description: ''
   } as IAddIdea
-  private isAddingIdea = false
-  private Ideas = [] as IIdea[]
+  isAddingIdea = false
+  Ideas = [] as IdeaVm[]
   showDescriptionById: number | null = null
   loading = false
 
   editIdeaID: null | number = null
+
 
   mounted(): void {
     this.getIdeas()
 
   }
 
-  editIdea(ideaId: number):void {
-    this.editIdeaID = ideaId;
+  editIdea(ideaId: number): void {
+    this.editIdeaID = ideaId
   }
 
-  filterIdeas(ideas: Array<IIdea>): IIdea[] {
+  // Idea pagination
+  size = 10
+  pageNumber = 0
+
+  get paginatedIdeas(): IdeaVm[] {
+    const start = this.pageNumber * this.size,
+        end = start + this.size
+    return this.Ideas.slice(start, end)
+  }
+
+  get ideaCount(): number {
+    const l = this.Ideas.length,
+        s = this.size
+    return Math.ceil(l / s)
+  }
+
+  changePage(status: string): void {
+    if (status === 'next') {
+      this.pageNumber++
+    } else {
+      this.pageNumber--
+    }
+    UIHelper.verticalSmoothScroll(300, 'top')
+  }
+
+  filterIdeas(ideas: Array<IdeaVm>): IdeaVm[] {
     return ideas.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn))
   }
 
@@ -102,7 +133,7 @@ export default class Ideas extends Vue {
 
   toggleAddIdea(status: boolean): void {
     this.isAddingIdea = status
-    UIHelper.ToggleNavBar(status)
+    UIHelper.ToggleNavBar(!status)
   }
 
   async createIdea(): Promise<void> {
@@ -138,9 +169,9 @@ export default class Ideas extends Vue {
   async getIdeas(): Promise<void> {
     try {
       const res = await IdeaService.AllIdeas()
-      const ideas = this.filterIdeas(res.data)
+      this.Ideas = this.filterIdeas(res.data)
 
-      this.Ideas = ideas
+
     } catch (e) {
       console.log(e)
     }

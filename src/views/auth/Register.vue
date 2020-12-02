@@ -96,7 +96,7 @@ export default class Login extends Vue {
           title: 'Error Registering Username',
           message: '',
           isSnackBarShowing: true,
-          class: 'error',
+          classInfo: 'error',
           errors: [],
         }
         const parsedErrors = JSON.parse(e.data.message)
@@ -120,7 +120,7 @@ export default class Login extends Vue {
       title: '',
       message: '',
       isSnackBarShowing: true,
-      class: 'error',
+      classInfo: 'error',
       errors: [],
     }
 

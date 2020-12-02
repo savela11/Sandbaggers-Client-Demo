@@ -3,18 +3,37 @@ import { ISnackBar } from '@/types/UI/SnackBar'
 import { IHeader } from '@/types/UI/UIStoreTypes'
 
 export default class UIHelper {
-  static async SnackBar(snackBarData?: ISnackBar): Promise<void> {
-    if (!snackBarData) {
+  // static async SnackBar(snackBarData?: ISnackBar): Promise<void> {
+  //   if (!snackBarData) {
+  //     snackBarData = {
+  //       title: '',
+  //       message: '',
+  //       isSnackBarShowing: false,
+  //       class: '',
+  //       errors: []
+  //     }
+  //   }
+  //   await store.dispatch('uiStore/_setSnackBar', snackBarData)
+  // }
+
+
+  static async SnackBar({ isSnackBarShowing, title, message, errors, classInfo }: ISnackBar): Promise<void> {
+    let snackBarData: ISnackBar = {
+      title, classInfo, errors, isSnackBarShowing, message
+
+    }
+    if (!snackBarData.isSnackBarShowing) {
       snackBarData = {
         title: '',
         message: '',
         isSnackBarShowing: false,
-        class: '',
+        classInfo: '',
         errors: []
       }
     }
     await store.dispatch('uiStore/_setSnackBar', snackBarData)
   }
+
 
   /**
    * @param {IHeader} headerInfo

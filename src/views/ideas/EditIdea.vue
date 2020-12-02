@@ -3,6 +3,23 @@
     <Loading v-if="loading" />
     <div v-else>
       <button @click="$router.back()" class="backBtn btn btn--borderGreen btn--xs btn--borderBottom">Back</button>
+      <div class="formContainer">
+        <p class="updatedOn"><strong>Last Updated:</strong> {{ Idea.updatedOn }}</p>
+        <form class="form">
+          <div class="form__field">
+            <label for="title">Title</label>
+            <input id='title' type="text" v-model="Idea.title">
+          </div>
+          <div class="form__field">
+            <label for="description">Description</label>
+            <textarea id='description' type="text" v-model="Idea.description"></textarea>
+          </div>
+        </form>
+        <div class="btnContainer">
+          <button @click.prevent.stop="UpdateIdea" class="btn btn--green btn--sm">Update</button>
+        </div>
+
+      </div>
     </div>
   </div>
 </template>
@@ -12,6 +29,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import IdeaService from '@/services/IdeaService'
 import { GetIdeaDto } from '@/types/DTO/Ideas/GetIdeaDto'
 import { IdeaVm } from '@/types/ViewModels/IdeaVm'
+import UIHelper from '@/utility/UIHelper'
 
 @Component({
   name: 'EditIdea',
@@ -19,7 +37,7 @@ import { IdeaVm } from '@/types/ViewModels/IdeaVm'
 })
 export default class EditIdea extends Vue {
   loading = true
-  Idea: IdeaVm = {}
+  Idea = {} as IdeaVm
 
   mounted(): void {
     this.GetIdea()
@@ -43,10 +61,57 @@ export default class EditIdea extends Vue {
       console.log(e)
     }
   }
+
+  async UpdateIdea(): Promise<void> {
+    this.loading = true
+    try {
+      const res = await IdeaService.UpdateIdea(this.Idea)
+      if (res.status === 200) {
+
+        setTimeout(() => {
+          UIHelper.SnackBar({
+            title: 'Success',
+            message: 'Your Idea has been updated!',
+            isSnackBarShowing: true,
+            classInfo: 'primary'
+          })
+          this.$router.push('/ideas')
+
+        }, Math.floor(Math.random() * 3000))
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
 }
 </script>
 
 
 <style scoped lang="scss">
+.formContainer {
+  margin: 3rem 0;
 
+
+}
+
+.updatedOn {
+  font-size: .8rem;
+  color: $SecondaryFS;
+  text-align: right;
+}
+
+input {
+  border-radius: 5px;
+}
+
+textarea {
+  border-radius: 5px;
+  min-height: 200px;
+}
+
+.btnContainer {
+  padding: 0 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
 </style>

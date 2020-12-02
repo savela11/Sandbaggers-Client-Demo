@@ -22,7 +22,7 @@ import UIHelper from '@/utility/UIHelper'
 @Component({ name: 'SnackBar' })
 export default class SnackBar extends Vue {
   closeSnackBar(): void {
-    UIHelper.SnackBar()
+    UIHelper.SnackBar({ isSnackBarShowing: false })
   }
 
   get snackBarClass(): void {
@@ -70,21 +70,25 @@ export default class SnackBar extends Vue {
     .content {
       background-color: rgba(255, 255, 255, 0.85);
       padding: 1.25rem;
+
       ul {
         padding: 0 0 0 1.5rem;
         margin: 0.3rem 0;
+
         li {
           margin-bottom: 0.3rem;
         }
       }
     }
   }
+
   .error {
     .title {
       background-color: rgba(165, 1, 1, 0.8);
       color: white;
     }
   }
+
   .primary {
     .title {
       background-color: #425a41;
