@@ -4,16 +4,16 @@
   description: string
   createdBy: ICreatedBy
   updatedOn: string
+  createdOn: string
 }
 
 export interface IAddIdea {
   title: string
   description: string
-  createdBy: ICreatedBy
+  userId: string
 }
 
 export interface ICreatedBy {
   id: string
-  username: string
   fullName: string
 }

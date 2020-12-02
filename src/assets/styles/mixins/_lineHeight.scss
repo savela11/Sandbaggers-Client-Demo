@@ -1,10 +1,10 @@
 @mixin line-height($lh-map) {
   @each $ls-breakpoint, $lh-size in $lh-map {
     @if $ls-breakpoint == null {
-      font-size: $lh-size;;
+      line-height: $lh-size;
     } @else {
       @media screen and (min-width: $ls-breakpoint * 1px) {
-        font-size: $lh-size;
+        line-height: $lh-size;
       }
     }
   }

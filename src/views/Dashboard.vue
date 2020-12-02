@@ -447,7 +447,6 @@ $--noBetsFoundFS: (
     padding: 1rem;
     background-color: white;
     min-height: 250px;
-    border: 1px solid grey;
     @include mobile {
       min-height: 300px;
     }

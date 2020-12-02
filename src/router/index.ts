@@ -6,7 +6,7 @@ import AdminRoutes from './admin/AdminRoutes'
 import AuthErrorRoutes from './errors/AuthErrorRoutes'
 
 function loadView(view: string) {
-  return (): Promise<object> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`)
+  return (): Promise<typeof import('*.vue')> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`)
 }
 
 Vue.use(VueRouter)
@@ -41,14 +41,15 @@ function guardRoute(to: Route, from: Route, next: any): any {
   }
 
   const headerTitle = ''
-  if (from.name === 'Dashboard') {
-    UIHelper.Header({ current: 'main', isShowing: true, title: headerTitle, bgColor: 'white' })
-  }
+  // if (from.name === 'Dashboard') {
+  //   UIHelper.Header({ current: 'main', isShowing: true, title: headerTitle, bgColor: 'white' })
+  // }
 
 
   if (authenticated) {
     next()
     UIHelper.PageLoading(false)
+    UIHelper.Header({ current: 'main', isShowing: true, title: headerTitle, bgColor: 'white' })
   } else {
     store.dispatch('authStore/Logout')
     next('/login')
@@ -144,6 +145,13 @@ const routes: Array<RouteConfig> = [
     name: 'Ideas',
     beforeEnter: guardRoute,
     component: loadView('Ideas'),
+    meta: {}
+  },
+  {
+    path: '/ideas/editIdea/:id',
+    name: 'EditIdea',
+    beforeEnter: guardRoute,
+    component: loadView('ideas/EditIdea'),
     meta: {}
   },
   {
