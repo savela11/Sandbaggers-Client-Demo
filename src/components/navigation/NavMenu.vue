@@ -47,6 +47,7 @@ export default class NavMenu extends Vue {
     { name: 'Power Rankings', link: '/powerRankings', icon: 'powerRankings' },
     { name: 'Mock Drafts', link: '/mockDrafts', icon: 'mockDraft' },
     { name: 'Gallery', link: '/gallery', icon: 'gallery' },
+    { name: 'Contacts', link: '/contacts', icon: 'gallery' },
   ]
   adminLinks: IAdminLink[] = [
     { name: 'Roles', link: '/admin/roles', icon: 'golf' },
