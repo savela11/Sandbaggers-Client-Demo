@@ -19,19 +19,20 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import { ICurrentUser } from '@/types/User/AuthUser'
+
 import UIHelper from '@/utility/UIHelper'
-import { IFavoriteLink } from '@/types/User/User'
+
+import { FavorLinkVm, LoggedInUserVm } from "@/types/ViewModels/UserVm";
 
 @Component
 export default class Navigation extends Vue {
-  @Prop() currentUser!: ICurrentUser
+  @Prop() currentUser!: LoggedInUserVm
   @Prop() isNavMenuShowing!: boolean
   show = false
 
   top = false
 
-  get favoriteLinks(): IFavoriteLink[] {
+  get favoriteLinks(): FavorLinkVm[] {
     if (this.currentUser.settings.favoriteLinks.length > 0) {
       return this.currentUser.settings.favoriteLinks
     } else {

@@ -43,11 +43,11 @@ import { Component, Vue } from 'vue-property-decorator'
 import FormatMixins from '@/mixins/FormatMixins.vue'
 import UserHistoryService from '@/services/UserHistoryService'
 import UIHelper from '@/utility/UIHelper'
-import { IUserHistory } from '@/types/User/UserHistory'
+import { UserHistoryVm } from "@/types/ViewModels/UserHistoryVm";
 
 @Component({ name: 'Sandbagger', mixins: [FormatMixins] })
 export default class Sandbagger extends Vue {
-  Sandbagger = {} as IUserHistory
+  Sandbagger = {} as UserHistoryVm
   views = ['Handicaps', 'Bets', 'Stats']
   currentView = 'Handicaps'
 

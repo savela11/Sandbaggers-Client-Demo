@@ -1,16 +1,16 @@
 import apiClient from '../utility/apiClient'
-import { IRegisterUser, ILoginUser } from '@/types/User/AuthUser'
 import { AxiosResponse } from 'axios'
-import { IApplicationUser, ILoggedInUser } from '@/types/User/User'
+import { LoginUserDto, RegisterUserDto } from "@/types/DTO/AuthDto";
+import { ApplicationUserVm, LoggedInUserVm } from "@/types/ViewModels/UserVm";
 
 const url = '/auth'
 
 class AuthService {
-  static async registerUser(registerUser: IRegisterUser): Promise<AxiosResponse<IApplicationUser>> {
+  static async registerUser(registerUser: RegisterUserDto): Promise<AxiosResponse<ApplicationUserVm>> {
     return await apiClient.post(url + '/Register', registerUser)
   }
 
-  static async loginUser(loginUser: ILoginUser): Promise<AxiosResponse<ILoggedInUser>> {
+  static async loginUser(loginUser: LoginUserDto): Promise<AxiosResponse<LoggedInUserVm>> {
     return await apiClient.post(url + '/Login', loginUser)
   }
 

@@ -22,10 +22,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { ILoginUser } from '@/types/User/AuthUser'
 import { ISnackBar } from '@/types/UI/SnackBar'
 import AuthService from '@/services/AuthService'
 import UIHelper from '@/utility/UIHelper'
+import { LoginUserDto } from "@/types/DTO/AuthDto";
 
 @Component({
   name: 'Login',
@@ -33,7 +33,7 @@ import UIHelper from '@/utility/UIHelper'
 })
 export default class Login extends Vue {
   loading = false
-  LoginForm: ILoginUser = {
+  LoginForm: LoginUserDto = {
     username: '',
     password: '',
   }

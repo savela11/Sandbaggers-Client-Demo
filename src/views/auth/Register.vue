@@ -44,143 +44,149 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { IRegisterUser } from '@/types/User/AuthUser'
-import AuthService from '../../services/AuthService'
-import { ISnackBar } from '@/types/UI/SnackBar'
+import { Component, Vue } from "vue-property-decorator";
+import AuthService from "../../services/AuthService";
+import { ISnackBar } from "@/types/UI/SnackBar";
+import { RegisterUserDto } from "@/types/DTO/AuthDto";
 
-@Component({ name: 'Register', components: { Loading: (): Promise<object> => import('@/components/ui/Loading.vue') } })
-export default class Login extends Vue {
-  loading = false
-
-  registerForm: IRegisterUser = {
-    email: '',
-    username: '',
-    password: '',
-    confirmPassword: '',
-    firstName: '',
-    lastName: '',
-    registrationCode: '',
-    loginAfterRegister: false,
+@Component({
+  name: "Register",
+  components: {
+    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue")
   }
-  show = true
-  showPassword = false
-  showConfirmPassword = false
+})
+export default class Login extends Vue {
+  loading = false;
 
-  mounted(): void {}
+  registerForm: RegisterUserDto = {
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    firstName: "",
+    lastName: "",
+    registrationCode: "",
+    loginAfterRegister: false
+  };
+  show = true;
+  showPassword = false;
+  showConfirmPassword = false;
+
+  mounted(): void {
+  }
 
   async onSubmit(): Promise<void> {
-    this.loading = true
+    this.loading = true;
     if (this.validateForm()) {
       try {
-        const res = await AuthService.registerUser(this.registerForm)
+        const res = await AuthService.registerUser(this.registerForm);
 
         if (this.registerForm.loginAfterRegister && res.status === 200) {
           const loginUser = {
             username: this.registerForm.username,
-            password: this.registerForm.password,
-          }
+            password: this.registerForm.password
+          };
           setTimeout(() => {
-            this.loading = true
-            this.$store.dispatch('authStore/LoginUser', { loginUser })
-          }, 4000)
+            this.loading = true;
+            this.$store.dispatch("authStore/LoginUser", { loginUser });
+          }, 4000);
         } else {
           setTimeout(() => {
-            this.loading = true
-            this.$router.push('/login')
-          }, 3000)
+            this.loading = true;
+            this.$router.push("/login");
+          }, 3000);
         }
       } catch (e) {
-        const errorList: string[] = []
+        const errorList: string[] = [];
         const snackBar: ISnackBar = {
-          title: 'Error Registering Username',
-          message: '',
+          title: "Error Registering Username",
+          message: "",
           isSnackBarShowing: true,
-          classInfo: 'error',
-          errors: [],
-        }
-        const parsedErrors = JSON.parse(e.data.message)
+          classInfo: "error",
+          errors: []
+        };
+        const parsedErrors = JSON.parse(e.data.message);
         if (e.data.message) {
           parsedErrors.forEach((error: any) => {
-            errorList.push(error.Description)
-          })
-          snackBar.errors = errorList
+            errorList.push(error.Description);
+          });
+          snackBar.errors = errorList;
         }
 
-        await this.$store.dispatch('uiStore/_setSnackBar', snackBar)
-        this.loading = false
+        await this.$store.dispatch("uiStore/_setSnackBar", snackBar);
+        this.loading = false;
       }
     }
   }
 
   validateForm(): boolean {
-    let validForm = true
-    const errorList: string[] = []
+    let validForm = true;
+    const errorList: string[] = [];
     const snackBar: ISnackBar = {
-      title: '',
-      message: '',
+      title: "",
+      message: "",
       isSnackBarShowing: true,
-      classInfo: 'error',
-      errors: [],
-    }
+      classInfo: "error",
+      errors: []
+    };
 
-    if (this.registerForm.username === '') {
-      validForm = false
-      errorList.push('Must provide a username')
+    if (this.registerForm.username === "") {
+      validForm = false;
+      errorList.push("Must provide a username");
     }
-    if (this.registerForm.loginAfterRegister === 'true') {
-      this.registerForm.loginAfterRegister = true
+    if (this.registerForm.loginAfterRegister === "true") {
+      this.registerForm.loginAfterRegister = true;
     }
     if (this.registerForm.password !== this.registerForm.confirmPassword) {
-      validForm = false
-      errorList.push('Passwords must match')
+      validForm = false;
+      errorList.push("Passwords must match");
     }
-    if (this.registerForm.firstName === '') {
-      validForm = false
-      errorList.push('Must provide a first name')
-    }
-
-    if (this.registerForm.password === '') {
-      validForm = false
-      errorList.push('Must provide a password')
-    }
-    if (this.registerForm.email === '') {
-      validForm = false
-      errorList.push('Must Provide an email')
+    if (this.registerForm.firstName === "") {
+      validForm = false;
+      errorList.push("Must provide a first name");
     }
 
-    if (this.registerForm.registrationCode === '') {
-      validForm = false
-      errorList.push('Must provide a registration code')
+    if (this.registerForm.password === "") {
+      validForm = false;
+      errorList.push("Must provide a password");
+    }
+    if (this.registerForm.email === "") {
+      validForm = false;
+      errorList.push("Must Provide an email");
     }
 
-    if (validForm === false) {
-      this.loading = false
+    if (this.registerForm.registrationCode === "") {
+      validForm = false;
+      errorList.push("Must provide a registration code");
+    }
+
+    if (!validForm) {
+      this.loading = false;
       if (errorList.length > 1) {
-        snackBar.title = 'Registration Errors'
+        snackBar.title = "Registration Errors";
       } else {
-        snackBar.title = 'Registration Error'
+        snackBar.title = "Registration Error";
       }
     }
-    snackBar.errors = errorList
-    if (validForm === false) {
-      this.$store.dispatch('uiStore/_setSnackBar', snackBar)
+    snackBar.errors = errorList;
+    if (!validForm) {
+      this.$store.dispatch("uiStore/_setSnackBar", snackBar);
     }
-    return validForm
+    return validForm;
   }
 
   resetForm(): void {
-    this.registerForm.email = ''
-    this.registerForm.username = ''
-    this.registerForm.password = ''
-    this.registerForm.confirmPassword = ''
-    this.registerForm.firstName = ''
-    this.registerForm.registrationCode = ''
-    this.registerForm.loginAfterRegister = false
-    this.show = false
+    this.registerForm.email = "";
+    this.registerForm.username = "";
+    this.registerForm.password = "";
+    this.registerForm.confirmPassword = "";
+    this.registerForm.firstName = "";
+    this.registerForm.registrationCode = "";
+    this.registerForm.loginAfterRegister = false;
+    this.show = false;
     this.$nextTick(() => {
-      this.show = true
-    })
+      this.show = true;
+    });
   }
 }
 </script>

@@ -4,14 +4,14 @@
     <PageLoading v-if="this.$store.state.uiStore.pageLoading" />
     <div v-if="Header.isShowing">
       <AuthHeader v-if="Header.current === 'auth'" :backgroundColor="headerColor" :title="Header.title" />
-      <MainHeader v-if="Header.current === 'main' && CurrentUser" :currentUser="CurrentUser" :bgColor="Header.bgColor" />
+      <MainHeader v-if="Header.current === 'main' && LoggedInUser" :currentUser="LoggedInUser" :bgColor="Header.bgColor" />
     </div>
 
     <router-view class="routerView" v-show="!isNavigationMenuShowing" />
 
-    <div v-if="CurrentUser">
-      <NavMenu v-show="isNavigationMenuShowing" :isAdmin="CurrentUser.roles.includes('Admin')" />
-      <NavBar v-show="IsNavBarShowing && !isNavigationMenuShowing" :isNavMenuShowing="isNavigationMenuShowing" :currentUser="CurrentUser" />
+    <div v-if="LoggedInUser">
+      <NavMenu v-show="isNavigationMenuShowing" :isAdmin="LoggedInUser.roles.includes('Admin')" />
+      <NavBar v-show="IsNavBarShowing && !isNavigationMenuShowing" :isNavMenuShowing="isNavigationMenuShowing" :currentUser="LoggedInUser" />
       <ShowNavBarBtn v-show="!IsNavBarShowing" />
       <div class="closeNavMenu" v-show="isNavigationMenuShowing">
         <button class="btn btn--xs" @click="closeNavigationMenu">Close</button>
@@ -21,54 +21,63 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { ICurrentUser } from '@/types/User/AuthUser'
-import { IHeader } from './types/UI/UIStoreTypes'
-import UIHelper from './utility/UIHelper'
+import { Component, Vue } from "vue-property-decorator";
+import { IHeader } from "./types/UI/UIStoreTypes";
+import UIHelper from "./utility/UIHelper";
+import AuthHeader from "@/components/ui/Headers/AuthHeader.vue";
+import MainHeader from "@/components/ui/Headers/MainHeader.vue";
+import NavBar from "@/components/navigation/NavBar.vue";
+import NavMenu from "@/components/navigation/NavMenu.vue";
+import ShowNavBarBtn from "@/components/navigation/ShowNavBarBtn.vue";
+import SnackBar from "@/components/ui/SnackBar.vue";
+import PageLoading from "@/components/ui/PageLoading.vue";
+import Loading from "@/components/ui/Loading.vue";
+import { LoggedInUserVm } from "@/types/ViewModels/UserVm";
 
 @Component({
-  name: 'App',
+  name: "App",
   components: {
-    MainHeader: (): Promise<typeof import('*.vue')> => import('@/components/ui/Headers/MainHeader.vue'),
-    AuthHeader: (): Promise<typeof import('*.vue')> => import('@/components/ui/Headers/AuthHeader.vue'),
-    NavBar: (): Promise<typeof import('*.vue')> => import('@/components/navigation/NavBar.vue'),
-    NavMenu: (): Promise<typeof import('*.vue')> => import('@/components/navigation/NavMenu.vue'),
-    ShowNavBarBtn: (): Promise<typeof import('*.vue')> => import('@/components/navigation/ShowNavBarBtn.vue'),
-    SnackBar: (): Promise<typeof import('*.vue')> => import('@/components/ui/SnackBar.vue'),
-    PageLoading: (): Promise<typeof import('*.vue')> => import('@/components/ui/PageLoading.vue'),
-    Loading: (): Promise<object> => import('@/components/ui/Loading.vue'),
-  },
+    AuthHeader,
+    MainHeader,
+    NavBar,
+    NavMenu,
+    ShowNavBarBtn,
+    SnackBar,
+    PageLoading,
+    Loading
+  }
 })
 export default class App extends Vue {
-  isUserProfileShowing = false
-  message = ''
-  loading = true
+  isUserProfileShowing = false;
+  message = "";
+  loading = true;
 
   closeNavigationMenu(): void {
-    UIHelper.ToggleNavMenu(false)
+    UIHelper.ToggleNavMenu(false);
   }
+
   get headerColor(): string {
-    if (this.$route.path.startsWith('/admin')) {
-      return '#17252a'
+    if (this.$route.path.startsWith("/admin")) {
+      return "#17252a";
     } else {
-      return '#425a41'
+      return "#425a41";
     }
   }
 
   get Header(): IHeader {
-    return this.$store.getters['uiStore/Header']
+    return this.$store.getters["uiStore/Header"];
   }
 
   get IsNavBarShowing(): boolean {
-    return this.$store.getters['uiStore/IsNavBarShowing']
+    return this.$store.getters["uiStore/IsNavBarShowing"];
   }
 
   get isNavigationMenuShowing(): boolean {
-    return this.$store.getters['uiStore/IsNavMenuShowing']
+    return this.$store.getters["uiStore/IsNavMenuShowing"];
   }
 
-  get CurrentUser(): ICurrentUser {
-    return this.$store.getters['authStore/CurrentUser']
+  get LoggedInUser(): LoggedInUserVm {
+    return this.$store.state.authStore.currentUser;
   }
 }
 </script>
@@ -93,11 +102,13 @@ export default class App extends Vue {
     bottom: 2rem;
     right: 2rem;
     transform: translateY(1000%);
+
     &.show {
       animation: showCloseNavBtn 0.5s linear forwards;
     }
   }
 }
+
 @keyframes showCloseNavBtn {
   0% {
     transform: translateY(1000%);

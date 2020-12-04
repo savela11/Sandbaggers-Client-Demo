@@ -36,87 +36,87 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import { IBetDto, IUserAcceptedBet } from '@/types/Bets/Bet'
-import BetService from '@/services/BetService'
-import Helper from '@/utility/Helper'
-import BtnWithText from '@/components/ui/Buttons/BtnWithText.vue'
-import { ICurrentUser } from '@/types/User/AuthUser'
+import { Component, Vue } from "vue-property-decorator";
+import { IBetDto, IUserAcceptedBet } from "@/types/Bets/Bet";
+import BetService from "@/services/BetService";
+import Helper from "@/utility/Helper";
+import BtnWithText from "@/components/ui/Buttons/BtnWithText.vue";
+import { LoggedInUserVm } from "@/types/ViewModels/UserVm";
 
 @Component({
-  name: 'SelectedBet',
-  components: { BtnWithText, Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue') }
+  name: "SelectedBet",
+  components: { BtnWithText, Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue") }
 })
 export default class SelectedBet extends Vue {
-  loading = true
-  currentUser = {} as ICurrentUser
-  selectedBet: IBetDto | null = null
+  loading = true;
+  currentUser = {} as LoggedInUserVm;
+  selectedBet: IBetDto | null = null;
 
   mounted(): void {
-    this.getSelectedBet()
-    this.currentUser = this.$store.state.authStore.currentUser
+    this.getSelectedBet();
+    this.currentUser = this.$store.state.authStore.currentUser;
   }
 
   get canUserAcceptBet(): boolean {
     const userIds = this.selectedBet?.acceptedBy.map((b) => {
-      return b.userId
-    })
+      return b.userId;
+    });
     // if the selected bet is the person who made the bet
     // or if user already accepted the bet
     // return false
 
     if (this.selectedBet && this.selectedBet.userId === this.currentUser.id) {
-      return false
+      return false;
     } else if (userIds && userIds.includes(this.currentUser.id)) {
-      return false
+      return false;
     } else if (this.selectedBet && this.selectedBet.acceptedBy.length === this.selectedBet.canAcceptNumber) {
-      return false
+      return false;
     } else {
-      return true
+      return true;
     }
 
   }
 
   formatDate(date: string): string {
-    return Helper.formatDate(date)
+    return Helper.formatDate(date);
   }
 
   async getSelectedBet(): Promise<void> {
-    this.loading = true
+    this.loading = true;
     try {
-      const res = await BetService.GetBetById(parseInt(this.$route.params.betId))
+      const res = await BetService.GetBetById(parseInt(this.$route.params.betId));
       if (res.status === 200) {
-        this.selectedBet = res.data
+        this.selectedBet = res.data;
       }
     } catch (e) {
-      console.log(e)
-      this.$router.back()
+      console.log(e);
+      this.$router.back();
     } finally {
       setTimeout(() => {
-        this.loading = false
-      }, Math.floor(Math.random() * 2000))
+        this.loading = false;
+      }, Math.floor(Math.random() * 2000));
     }
   }
 
   async acceptBet(): Promise<void> {
-    this.loading = true
+    this.loading = true;
     if (this.selectedBet) {
       const userAcceptsBet: IUserAcceptedBet = {
         userId: this.currentUser.id,
         fullName: this.currentUser.fullName,
         betId: this.selectedBet.betId
-      }
+      };
       try {
-        const res = await BetService.UserAcceptsBet(userAcceptsBet)
+        const res = await BetService.UserAcceptsBet(userAcceptsBet);
         if (res.status === 200) {
-          this.selectedBet.acceptedBy.push(res.data)
+          this.selectedBet.acceptedBy.push(res.data);
         }
       } catch (e) {
-        console.log(e)
+        console.log(e);
       } finally {
         setTimeout(() => {
-          this.loading = false
-        }, Math.floor(Math.random() * 2000))
+          this.loading = false;
+        }, Math.floor(Math.random() * 2000));
       }
     }
   }
@@ -231,13 +231,14 @@ export default class SelectedBet extends Vue {
 
     &.description {
       padding: 1rem;
-      border:1px solid lightgrey;
+      border: 1px solid lightgrey;
       align-items: flex-start;
       border-radius: 5px;
       min-height: 300px;
       max-height: 350px;
       overflow-x: hidden;
       overflow-y: auto;
+
       p {
         flex: auto;
         font-size: 0.9rem;

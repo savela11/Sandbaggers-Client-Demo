@@ -1,16 +1,16 @@
-export interface IUserHistory {
+export interface UserHistoryVm {
   userId: string
   fullName: string
   image: string | null
   handicap: number
-  handicapHistory: Array<IHandicapForHistory>
-  betHistory: Array<IBetForHistory>
+  handicapHistory: Array<HandicapVm>
+  betHistory: Array<BetVm>
 }
-export interface IHandicapForHistory {
+export interface HandicapVm {
   handicap: number
   date: string
 }
-export interface IBetForHistory {
+export interface BetVm {
   betId: number
   title: string
   description: string

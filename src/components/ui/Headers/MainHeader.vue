@@ -10,13 +10,14 @@
 </template>
 
 <script lang="ts">
-import { ICurrentUser } from '@/types/User/AuthUser'
+
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import UIHelper from '@/utility/UIHelper'
+import { LoggedInUserVm } from "@/types/ViewModels/UserVm";
 
 @Component({ name: 'MainHeader' })
 export default class MainHeader extends Vue {
-  @Prop() currentUser!: ICurrentUser
+  @Prop() currentUser!: LoggedInUserVm
   @Prop({ default: 'white' }) bgColor?: string
 
   closeNavMenu(): void {

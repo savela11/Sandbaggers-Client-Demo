@@ -1,6 +1,5 @@
 import { Store } from 'vuex'
-import { IUser } from '@/types/Test/TestStore'
-import { IUserProfile } from '@/types/User/User'
+
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
@@ -12,14 +11,14 @@ import uiStore from '@/store/modules/UIStore'
 Vue.use(Vuex)
 const ls = new SecureLS({ isCompression: false })
 
-interface ITestStore {
-  profile: IUserProfile
-  user: IUser
-}
+// interface ITestStore {
+//   profile: IUserProfile
+//   user: IUser
+// }
 export interface IRootState {
   authStore: IAuthState
   uiStore: IUIState
-  testSTore: ITestStore
+  // testSTore: ITestStore
 }
 
 export default new Vuex.Store({
