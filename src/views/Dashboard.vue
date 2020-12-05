@@ -180,7 +180,7 @@ import { IScrambleChamp } from '@/models/ScrambleChamp'
 import UIHelper from '@/utility/UIHelper'
 import Helper from '@/utility/Helper'
 import BetService from '@/services/BetService'
-import { IBetDto } from '@/types/Bets/Bet'
+import { BetVm } from "@/types/ViewModels/BetVm";
 
 @Component({
   name: 'Dashboard',
@@ -311,11 +311,11 @@ export default class Dashboard extends Vue {
     this.isSearchInputShowing = !this.isSearchInputShowing
   }
 
-  Bets: IBetDto[] = []
-  selectedBet: IBetDto | null = null
+  Bets: BetVm[] = []
+  selectedBet: BetVm | null = null
 
 
-  selectBet(bet: IBetDto): void {
+  selectBet(bet: BetVm): void {
     this.selectedBet = bet
     document.body.style.position = 'fixed'
   }
@@ -368,11 +368,7 @@ $--scrambleChampNameFS: (
     $tablet-landscape: 1rem
 );
 
-$--searchBarInputFS: (
-    null: 1rem,
-    $tablet: 1.2rem,
-    $tablet-landscape: 1.4rem
-);
+
 $--clearBtnFS: (
     null: .8rem,
     $mobile: .9rem,
@@ -812,7 +808,7 @@ $--noBetsFoundFS: (
 
     input {
       background-color: white;
-      @include font-size($--searchBarInputFS);
+      @include font-size($--inputFS);
 
       @include tablet-landscape {
         padding: .8rem 2rem;

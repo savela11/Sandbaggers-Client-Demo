@@ -59,4 +59,16 @@
       }, wait);
     };
   }
+
+
+  static searchByFullName(arr: Array<any>, searchInput: string): Array<any> {
+    return arr.filter((a) => {
+      const space = a.fullName.lastIndexOf(" ");
+      const firstName = a.fullName.substring(0, space);
+      const lastName = a.fullName.substring(space + 1);
+      if (lastName.toLowerCase().startsWith(searchInput.toLowerCase()) || firstName.toLowerCase().startsWith(searchInput.toLowerCase())) {
+        return a;
+      }
+    });
+  }
 }

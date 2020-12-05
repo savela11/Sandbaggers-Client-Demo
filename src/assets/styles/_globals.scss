@@ -4,3 +4,12 @@
 @import './mixins/_lineHeight.scss';
 @import '_text.scss';
 @import '_button.scss';
+
+$--inputFS: (
+        null: .9rem,
+        $mobile: 1rem
+);
+$--labelFS: (
+        null: .8rem,
+        $mobile: 1rem,
+);

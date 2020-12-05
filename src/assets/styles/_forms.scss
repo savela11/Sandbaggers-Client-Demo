@@ -1,12 +1,5 @@
-$--labelFS: (
-        null: .8rem,
-        $mobile: 1rem,
-);
 
-$--inputFS: (
-        null: .9rem,
-        $mobile: 1rem
-);
+
 .form {
   padding: 0 1rem;
   @include mobile {

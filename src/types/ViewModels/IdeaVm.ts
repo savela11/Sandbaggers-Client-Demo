@@ -1,3 +1,5 @@
+import { CreatedByUserVm } from "@/types/ViewModels/UserVm";
+
 export interface IdeaVm {
   id: number;
   title: string;
@@ -7,7 +9,3 @@ export interface IdeaVm {
   updatedOn: string;
 }
 
-export interface CreatedByUserVm {
-  id: string;
-  fullName: string;
-}
