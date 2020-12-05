@@ -92,24 +92,24 @@ export default class UIHelper {
    */
   static ToggleNavBar(status: boolean): void {
     const showNavBarBtn = document.querySelector(".showNavBarBtn");
-    const nav = document.querySelector(".nav");
+    const navBar = document.querySelector(".navBar");
     if (status) {
       if (showNavBarBtn) {
         showNavBarBtn.classList.remove("show");
         showNavBarBtn.classList.add("hide");
       }
-      if (nav) {
-        nav.classList.remove("hide");
-        nav.classList.add("show");
+      if (navBar) {
+        navBar.classList.remove("hide");
+        navBar.classList.add("show");
       }
     } else {
       if (showNavBarBtn) {
         showNavBarBtn.classList.remove("hide");
         showNavBarBtn.classList.add("show");
       }
-      if (nav) {
-        nav.classList.remove("show");
-        nav.classList.add("hide");
+      if (navBar) {
+        navBar.classList.remove("show");
+        navBar.classList.add("hide");
       }
     }
 
