@@ -11,9 +11,13 @@ export interface UserVm extends ApplicationUserVm {
   settings: UserSettingsVm
 }
 
-export interface LoggedInUserVm extends UserVm {
+export interface LoggedInUserVm {
+  id: string
+  username: string
   token: string;
   roles: Array<string>
+  settings: UserSettingsVm
+  image: string
 
 }
 
@@ -27,6 +31,8 @@ export interface UserProfileVm {
 
 export interface UserSettingsVm {
   favoriteLinks: FavorLinkVm[]
+  isContactNumberShowing: boolean
+  isContactEmailShowing: boolean
 }
 
 export interface FavorLinkVm {

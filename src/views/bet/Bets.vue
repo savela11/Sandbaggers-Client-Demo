@@ -18,11 +18,11 @@
       </div>
       <div class="bets__list">
         <div
-          class="card"
-          v-for="bet in filterBets"
-          :key="bet.betId"
-          :class="{ selectedBet: selectedBet && selectedBet.betId === bet.betId }"
-          @click.prevent.stop="showBetDetails(bet)"
+            class="card"
+            v-for="bet in filterBets"
+            :key="bet.betId"
+            :class="{ selectedBet: selectedBet && selectedBet.betId === bet.betId }"
+            @click.prevent.stop="showBetDetails(bet)"
         >
           <div class="card__top">
             <div class="createdBy">
@@ -84,7 +84,7 @@
             </div>
             <div class="form__field">
               <p class="amountTitle">
-                Active: <span id="spanActiveStatus"> {{ addBetForm.isActive ? 'Yes' : 'No' }}</span>
+                Active: <span id="spanActiveStatus"> {{ addBetForm.isActive ? "Yes" : "No" }}</span>
               </p>
               <div class="btns">
                 <button :class="{ clicked: addBetForm.isActive === true }" @click.prevent.stop="addBetForm.isActive = true">Yes</button>
@@ -105,10 +105,10 @@
               </p>
               <div class="btns btns--acceptBetNum">
                 <button
-                  v-for="acceptedBets in numOfAcceptedBets"
-                  :key="acceptedBets"
-                  :class="{ clicked: addBetForm.canAcceptNumber === acceptedBets }"
-                  @click.prevent.stop="numberCanAcceptBet(acceptedBets)"
+                    v-for="acceptedBets in numOfAcceptedBets"
+                    :key="acceptedBets"
+                    :class="{ clicked: addBetForm.canAcceptNumber === acceptedBets }"
+                    @click.prevent.stop="numberCanAcceptBet(acceptedBets)"
                 >
                   {{ acceptedBets }}
                 </button>
@@ -131,243 +131,245 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import BetService from '@/services/BetService'
-import { IBetDto, ICreateBet, IUserAcceptedBet } from '@/types/Bets/Bet'
-import Helper from '@/utility/Helper'
-import UIHelper from '@/utility/UIHelper'
+import { Component, Vue } from "vue-property-decorator";
+import BetService from "@/services/BetService";
+import Helper from "@/utility/Helper";
+import UIHelper from "@/utility/UIHelper";
+import { BetVm } from "@/types/ViewModels/BetVm";
+import { CreateBetDto } from "@/types/DTO/Bets/CreateBetDto";
+import { UserAcceptsBetDto } from "@/types/DTO/Bets/UserAcceptsBetDto";
 
 @Component({
-  name: 'Bets',
+  name: "Bets",
   components: {
-    Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue'),
-    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue')
+    Modal: (): Promise<typeof import("*.vue")> => import("@/components/ui/Modals/Modal.vue"),
+    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue")
   }
 })
 export default class Bets extends Vue {
-  currentView = 'All'
-  Bets = [] as Array<IBetDto>
-  selectedBet = null as IBetDto | null
-  search = ''
-  views = ['All', 'My bets', 'Amount', 'Accepted']
-  isAddingBet = false
-  loading = true
-  modalLoading = false
-  addBetForm: ICreateBet = {
-    title: '',
-    description: '',
+  currentView = "All";
+  Bets = [] as Array<BetVm>;
+  selectedBet = null as BetVm | null;
+  search = "";
+  views = ["All", "My bets", "Amount", "Accepted"];
+  isAddingBet = false;
+  loading = true;
+  modalLoading = false;
+  addBetForm: CreateBetDto = {
+    title: "",
+    description: "",
     amount: 0,
     canAcceptNumber: 0,
     requiresPassCode: false,
     isActive: false,
-    userId: '',
-    createdBy: ''
-  }
+    userId: "",
+    createdBy: ""
+  };
 
-  amounts = [1, 5, 10, 25]
-  numOfAcceptedBets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  showAcceptedListOfBet: null | number = null
+  amounts = [1, 5, 10, 25];
+  numOfAcceptedBets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  showAcceptedListOfBet: null | number = null;
 
   // BET pagination
-  size = 5
-  pageNumber = 0
+  size = 5;
+  pageNumber = 0;
 
-  get paginatedBets(): IBetDto[] {
+  get paginatedBets(): BetVm[] {
     const start = this.pageNumber * this.size,
-      end = start + this.size
-    return this.Bets.slice(start, end)
+        end = start + this.size;
+    return this.Bets.slice(start, end);
   }
 
   get betCount(): number {
     const l = this.Bets.length,
-      s = this.size
-    return Math.ceil(l / s)
+        s = this.size;
+    return Math.ceil(l / s);
   }
 
   changePage(status: string): void {
-    if (status === 'next') {
-      this.pageNumber++
+    if (status === "next") {
+      this.pageNumber++;
     } else {
-      this.pageNumber--
+      this.pageNumber--;
     }
-    UIHelper.verticalSmoothScroll(300, 'top')
+    UIHelper.verticalSmoothScroll(300, "top");
   }
 
   mounted(): void {
-    this.getBets()
+    this.getBets();
   }
 
   get validateForm(): boolean {
     if (this.addBetForm.title && this.addBetForm.description && this.addBetForm.amount > 0 && this.addBetForm.canAcceptNumber > 0) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     }
   }
 
-  get filterBets(): Array<IBetDto> {
+  get filterBets(): Array<BetVm> {
     if (this.search) {
-      const betsNewestFirst = this.Bets.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn))
+      const betsNewestFirst = this.Bets.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn));
 
       const searchedBets = betsNewestFirst.filter((bet) => {
-        const firstName = bet.createdBy.split(' ', 2)[0]
-        const lastName = bet.createdBy.split(' ', 2)[1]
+        const firstName = bet.createdBy.fullName.split(" ", 2)[0];
+        const lastName = bet.createdBy.fullName.split(" ", 2)[1];
         if (firstName.toLowerCase().startsWith(this.search.toLowerCase()) || lastName.toLowerCase().startsWith(this.search.toLowerCase())) {
-          return bet
+          return bet;
         }
-      })
-      if (this.currentView === 'My bets') {
+      });
+      if (this.currentView === "My bets") {
         return searchedBets.filter((b) => {
-          return b.userId === this.$store.state.authStore.currentUser.id
-        })
-      } else if (this.currentView === 'Accepted') {
+          return b.createdBy.id === this.$store.state.authStore.currentUser.id;
+        });
+      } else if (this.currentView === "Accepted") {
         return searchedBets.filter((bet) => {
-          return bet.acceptedBy.length > 0
-        })
+          return bet.acceptedBy.length > 0;
+        });
       } else {
-        return searchedBets
+        return searchedBets;
       }
     } else {
-      return this.paginatedBets.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn))
+      return this.paginatedBets.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn));
 
     }
   }
 
   get checkIfCurrentUsersBet(): boolean {
     if (
-      (this.selectedBet && this.selectedBet.userId === this.$store.state.authStore.currentUser.id) ||
-      (this.selectedBet && this.selectedBet.acceptedBy.length === this.selectedBet.canAcceptNumber)
+        (this.selectedBet && this.selectedBet.createdBy.id === this.$store.state.authStore.currentUser.id) ||
+        (this.selectedBet && this.selectedBet.acceptedBy.length === this.selectedBet.canAcceptNumber)
     ) {
-      return false
+      return false;
     } else {
-      return true
+      return true;
     }
   }
 
   async getBets(): Promise<void> {
-    this.loading = true
+    this.loading = true;
     try {
-      const res = await BetService.AllActiveBets()
+      const res = await BetService.AllActiveBets();
       if (res.status === 200) {
-        this.Bets = res.data
+        this.Bets = res.data;
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     } finally {
 
       setTimeout(() => {
-        this.loading = false
-      }, Math.floor(Math.random() * 3000))
+        this.loading = false;
+      }, Math.floor(Math.random() * 3000));
+
     }
   }
 
   async createBet(): Promise<void> {
-    this.modalLoading = true
-    this.addBetForm.createdBy = this.$store.state.authStore.currentUser.fullName
-    this.addBetForm.userId = this.$store.state.authStore.currentUser.id
+    this.modalLoading = true;
+    this.addBetForm.createdBy = this.$store.state.authStore.currentUser.fullName;
+    this.addBetForm.userId = this.$store.state.authStore.currentUser.id;
     try {
-      UIHelper.clickedButton('addBetBTN')
-      const res = await BetService.CreateBet(this.addBetForm)
+      UIHelper.clickedButton("addBetBTN");
+      const res = await BetService.CreateBet(this.addBetForm);
       if (res.status === 200) {
-        this.Bets.unshift(res.data)
+        this.Bets.unshift(res.data);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     } finally {
       setTimeout(() => {
-        this.modalLoading = false
-        this.resetAddBetForm()
-      }, Math.floor(Math.random() * 3000))
+        this.modalLoading = false;
+        this.resetAddBetForm();
+      }, Math.floor(Math.random() * 3000));
     }
   }
 
-  async acceptBet(bet: IBetDto): Promise<void> {
-    UIHelper.clickedButton('acceptBetBtn')
-    if (bet.userId === this.$store.state.authStore.currentUser.id) {
-      return
+  async acceptBet(bet: BetVm): Promise<void> {
+    UIHelper.clickedButton("acceptBetBtn");
+    if (bet.createdBy.id === this.$store.state.authStore.currentUser.id) {
+      return;
     } else {
-      const userAcceptsBet: IUserAcceptedBet = {
+      const userAcceptsBet: UserAcceptsBetDto = {
         userId: this.$store.state.authStore.currentUser.id,
-        betId: bet.betId,
-        fullName: this.$store.state.authStore.currentUser.fullName
-      }
+        betId: bet.betId
+      };
       try {
-        const res = await BetService.UserAcceptsBet(userAcceptsBet)
-        console.log(res)
+        const res = await BetService.UserAcceptsBet(userAcceptsBet);
+        console.log(res);
       } catch (e) {
-        console.log(e)
+        console.log(e);
       } finally {
       }
     }
   }
 
   setCurrentView(view: string): void {
-    this.currentView = view
-    const viewButtons = document.querySelector('.bets__viewButtons')
+    this.currentView = view;
+    const viewButtons = document.querySelector(".bets__viewButtons");
 
-    if (view === 'All' && viewButtons) {
-      viewButtons.scrollLeft = 0
+    if (view === "All" && viewButtons) {
+      viewButtons.scrollLeft = 0;
     } else {
       if (viewButtons) {
-        viewButtons.scrollLeft = 100
+        viewButtons.scrollLeft = 100;
       }
     }
   }
 
   increaseBetAmount(amount: number, index: number): void {
-    const spanTxt = document.getElementById('spanAmt')
-    if (spanTxt) spanTxt.classList.add('flash')
-    const els = this.$refs.amount as Element[]
-    els[index].classList.add('clicked')
+    const spanTxt = document.getElementById("spanAmt");
+    if (spanTxt) spanTxt.classList.add("flash");
+    const els = this.$refs.amount as Element[];
+    els[index].classList.add("clicked");
     setTimeout(() => {
-      els[index].classList.remove('clicked')
-      if (spanTxt) spanTxt.classList.remove('flash')
-    }, 500)
-    this.addBetForm.amount += amount
+      els[index].classList.remove("clicked");
+      if (spanTxt) spanTxt.classList.remove("flash");
+    }, 500);
+    this.addBetForm.amount += amount;
   }
 
   numberCanAcceptBet(numCanAccept: number): void {
-    const spanTxt = document.getElementById('spanAcceptNum')
-    if (spanTxt) spanTxt.classList.add('flash')
+    const spanTxt = document.getElementById("spanAcceptNum");
+    if (spanTxt) spanTxt.classList.add("flash");
     setTimeout(() => {
-      if (spanTxt) spanTxt.classList.remove('flash')
-    }, 500)
-    this.addBetForm.canAcceptNumber = numCanAccept
+      if (spanTxt) spanTxt.classList.remove("flash");
+    }, 500);
+    this.addBetForm.canAcceptNumber = numCanAccept;
   }
 
   formatDate(date: string): string {
-    return Helper.formatDate(date)
+    return Helper.formatDate(date);
   }
 
   formatTitle(title: string): string {
-    return Helper.formatLongString(title, 15)
+    return Helper.formatLongString(title, 15);
   }
 
-  showBetDetails(bet: IBetDto): void {
+  showBetDetails(bet: BetVm): void {
 
-    this.$router.push(`/bets/${bet.betId}`)
+    this.$router.push(`/bets/${bet.betId}`);
   }
 
   showAcceptedList(betId: number): void {
     if (this.showAcceptedListOfBet === betId) {
-      this.showAcceptedListOfBet = null
-      return
+      this.showAcceptedListOfBet = null;
+      return;
     }
-    this.showAcceptedListOfBet = betId
+    this.showAcceptedListOfBet = betId;
   }
 
   resetAddBetForm(): void {
-    this.isAddingBet = false
+    this.isAddingBet = false;
     this.addBetForm = {
-      title: '',
-      description: '',
+      title: "",
+      description: "",
       amount: 0,
       canAcceptNumber: 0,
       requiresPassCode: false,
       isActive: false,
-      userId: '',
-      createdBy: ''
-    }
+      userId: "",
+      createdBy: ""
+    };
   }
 }
 </script>

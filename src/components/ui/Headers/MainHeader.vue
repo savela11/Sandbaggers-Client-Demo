@@ -24,10 +24,10 @@ export default class MainHeader extends Vue {
     UIHelper.ToggleNavMenu(false)
   }
   get currentUserImage(): string {
-    if (this.currentUser.profile.image === null) {
+    if (this.currentUser.image == null) {
       return require('@/assets/icons/avatar.svg')
     } else {
-      return this.currentUser.profile.image
+      return this.currentUser.image
     }
   }
 }

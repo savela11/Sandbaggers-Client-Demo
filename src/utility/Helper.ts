@@ -1,4 +1,6 @@
-﻿export default class Helper {
+﻿import { ContactVm } from "@/types/ViewModels/ContactVm";
+
+export default class Helper {
   static formatDate(date: string): string {
     const d = new Date(date);
     let month = "" + (d.getMonth() + 1);
@@ -60,14 +62,26 @@
     };
   }
 
+  static searchByProperty<T extends Record<string, any>>(arr: Array<T>, searchValue: string, searchInput: string): Array<T> {
+    return arr.filter((a: T) => {
+      for (const property in a) {
+        if (typeof a === "object" && a.hasOwnProperty(searchValue)) {
+          if (property === "fullName") {
+            const contactVM: ContactVm = {
+              fullName: a.fullName,
+              email: a.email,
+              phoneNumber: a.phoneNumber,
+              image: a.image
+            };
+            const space = contactVM.fullName.lastIndexOf(" ");
+            const firstName = contactVM.fullName.substring(0, space);
+            const lastName = contactVM.fullName.substring(space + 1);
+            if (lastName.toLowerCase().startsWith(searchInput.toLowerCase()) || firstName.toLowerCase().startsWith(searchInput.toLowerCase())) {
+              return a;
+            }
+          }
 
-  static searchByFullName(arr: Array<any>, searchInput: string): Array<any> {
-    return arr.filter((a) => {
-      const space = a.fullName.lastIndexOf(" ");
-      const firstName = a.fullName.substring(0, space);
-      const lastName = a.fullName.substring(space + 1);
-      if (lastName.toLowerCase().startsWith(searchInput.toLowerCase()) || firstName.toLowerCase().startsWith(searchInput.toLowerCase())) {
-        return a;
+        }
       }
     });
   }

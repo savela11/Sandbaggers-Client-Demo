@@ -37,11 +37,12 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { IBetDto, IUserAcceptedBet } from "@/types/Bets/Bet";
 import BetService from "@/services/BetService";
 import Helper from "@/utility/Helper";
 import BtnWithText from "@/components/ui/Buttons/BtnWithText.vue";
 import { LoggedInUserVm } from "@/types/ViewModels/UserVm";
+import { BetVm } from "@/types/ViewModels/BetVm";
+import { UserAcceptsBetDto } from "@/types/DTO/Bets/UserAcceptsBetDto";
 
 @Component({
   name: "SelectedBet",
@@ -50,7 +51,7 @@ import { LoggedInUserVm } from "@/types/ViewModels/UserVm";
 export default class SelectedBet extends Vue {
   loading = true;
   currentUser = {} as LoggedInUserVm;
-  selectedBet: IBetDto | null = null;
+  selectedBet: BetVm | null = null;
 
   mounted(): void {
     this.getSelectedBet();
@@ -59,13 +60,13 @@ export default class SelectedBet extends Vue {
 
   get canUserAcceptBet(): boolean {
     const userIds = this.selectedBet?.acceptedBy.map((b) => {
-      return b.userId;
+      return b.id;
     });
     // if the selected bet is the person who made the bet
     // or if user already accepted the bet
     // return false
 
-    if (this.selectedBet && this.selectedBet.userId === this.currentUser.id) {
+    if (this.selectedBet && this.selectedBet.createdBy.id === this.currentUser.id) {
       return false;
     } else if (userIds && userIds.includes(this.currentUser.id)) {
       return false;
@@ -101,9 +102,8 @@ export default class SelectedBet extends Vue {
   async acceptBet(): Promise<void> {
     this.loading = true;
     if (this.selectedBet) {
-      const userAcceptsBet: IUserAcceptedBet = {
+      const userAcceptsBet: UserAcceptsBetDto = {
         userId: this.currentUser.id,
-        fullName: this.currentUser.fullName,
         betId: this.selectedBet.betId
       };
       try {
