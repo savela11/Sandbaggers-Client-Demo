@@ -24,7 +24,7 @@ class BetService {
   }
 
   static async UserAcceptsBet(acceptedBet: UserAcceptsBetDto): Promise<AxiosResponse<AcceptedByUserVm>> {
-    return await apiClient.post(url + '/UserAcceptsBet', acceptedBet)
+    return await apiClient.post(url + '/AcceptBet', acceptedBet)
   }
 
   static async GetBetById(betId: number): Promise<AxiosResponse<BetVm>> {

@@ -4,7 +4,6 @@ export interface CreateBetDto {
   description: string
   amount: number
   userId: string
-  createdBy: string
   canAcceptNumber: number
   requiresPassCode?: boolean
   isActive?: boolean
