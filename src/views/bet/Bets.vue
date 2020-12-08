@@ -17,22 +17,14 @@
         </div>
       </div>
       <div class="bets__list">
-        <div
-            class="card"
-            v-for="bet in filterBets"
-            :key="bet.betId"
-            :class="{ selectedBet: selectedBet && selectedBet.betId === bet.betId }"
-            @click.prevent.stop="showBetDetails(bet)"
-        >
+        <div class="card" v-for="bet in filterBets" :key="bet.betId" :class="{ selectedBet: selectedBet && selectedBet.betId === bet.betId }" @click.prevent.stop="showBetDetails(bet)">
           <div class="card__top">
             <div class="createdBy">
               <p>Created: {{ formatDate(bet.createdOn) }}</p>
-              <p>By: {{ bet.createdBy }}</p>
+              <p>By: {{ bet.createdBy.fullName }}</p>
             </div>
             <div class="title">
-              <div>
-                <h2>{{ formatTitle(bet.title) }}</h2>
-              </div>
+                <h2>{{ bet.title }}</h2>
             </div>
             <div class="details">
               <div class="acceptedBy">
@@ -54,18 +46,6 @@
             </div>
           </div>
 
-          <!--          <transition name="fade" v-if="selectedBet && selectedBet.betId === bet.betId">-->
-          <!--            <div class="card__bottom">-->
-          <!--              <div class="description">-->
-          <!--                <h3>Description</h3>-->
-          <!--                <p>{{ selectedBet.description }}</p>-->
-          <!--              </div>-->
-
-          <!--              <div v-if="checkIfCurrentUsersBet" class="accept">-->
-          <!--                <button id="acceptBetBtn" class="btn btn&#45;&#45;xs" @click="acceptBet(bet)">Accept</button>-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </transition>-->
         </div>
       </div>
       <div class="prevNextButtons" v-if="filterBets.length > 0">
@@ -162,8 +142,7 @@ export default class Bets extends Vue {
     canAcceptNumber: 0,
     requiresPassCode: false,
     isActive: false,
-    userId: "",
-    createdBy: ""
+    userId: ""
   };
 
   amounts = [1, 5, 10, 25];
@@ -200,11 +179,7 @@ export default class Bets extends Vue {
   }
 
   get validateForm(): boolean {
-    if (this.addBetForm.title && this.addBetForm.description && this.addBetForm.amount > 0 && this.addBetForm.canAcceptNumber > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return !!(this.addBetForm.title && this.addBetForm.description && this.addBetForm.amount > 0 && this.addBetForm.canAcceptNumber > 0);
   }
 
   get filterBets(): Array<BetVm> {
@@ -266,7 +241,6 @@ export default class Bets extends Vue {
 
   async createBet(): Promise<void> {
     this.modalLoading = true;
-    this.addBetForm.createdBy = this.$store.state.authStore.currentUser.fullName;
     this.addBetForm.userId = this.$store.state.authStore.currentUser.id;
     try {
       UIHelper.clickedButton("addBetBTN");
@@ -341,9 +315,6 @@ export default class Bets extends Vue {
     return Helper.formatDate(date);
   }
 
-  formatTitle(title: string): string {
-    return Helper.formatLongString(title, 15);
-  }
 
   showBetDetails(bet: BetVm): void {
 
@@ -367,13 +338,420 @@ export default class Bets extends Vue {
       canAcceptNumber: 0,
       requiresPassCode: false,
       isActive: false,
-      userId: "",
-      createdBy: ""
+      userId: ""
     };
   }
 }
 </script>
 
 <style scoped lang="scss">
-@import '../../assets/styles/bets';
+$--btnFS: (
+    null: 1rem,
+    $mobile: rem
+);
+.bets {
+  #spanAmt,
+  #spanAcceptNum {
+    &.flash {
+      font-weight: bold;
+      color: green;
+      transform: scale(1.2);
+    }
+  }
+
+  &__viewButtons {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 0.2rem 0.2rem 0.8rem 0.2rem;
+    scroll-behavior: smooth;
+
+    .viewButton {
+      margin-right: 0.8rem;
+      display: inline-block;
+      height: 30px;
+      min-width: 75px;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.8rem;
+      border: none;
+      border-bottom: 2px solid #17252a;
+
+      &.active {
+        background-color: $DarkBlue;
+        color: white;
+      }
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+
+  .utilityBar {
+    display: flex;
+    align-items: flex-end;
+
+    .searchBets {
+      flex: 0 1 80%;
+      @include tablet {
+        flex: 0 1 50%;
+      }
+      @include tablet-landscape {
+        flex: 0 1 40%;
+      }
+
+      label {
+        padding: 0 0.5rem;
+        font-size: 0.8rem;
+      }
+
+      input {
+        @include tablet-landscape {
+          padding: 0.5rem 0.8rem;
+        }
+      }
+    }
+
+    .createBet {
+      flex: auto;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      button {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: none;
+
+        img {
+          height: 30px;
+          width: 30px;
+          object-fit: contain;
+        }
+
+        span {
+          font-size: 0.7rem;
+        }
+      }
+    }
+  }
+
+  &__list {
+    border-radius: 5px;
+    min-height: 200px;
+    margin-top: 2rem;
+    @include mobile {
+      min-height: 300px;
+    }
+    @include tablet {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @include tablet-landscape {
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+  }
+
+  .card {
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+    padding: 1rem;
+    border-left: 5px solid $DarkGreen;
+    height: 175px;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    overflow: hidden;
+
+    @include mobile {
+      margin-bottom: 1.5rem;
+    }
+
+    @include tablet {
+      margin: 0;
+      height: 200px;
+    }
+
+    .divider {
+      margin: 2rem 0 1rem 0;
+      border-radius: 25px;
+    }
+
+    &.selectedBet {
+      border-left: 5px solid $DarkBlue;
+
+      .accept {
+        button {
+          background-color: $DarkBlue;
+          color: white;
+        }
+      }
+    }
+
+    h2 {
+      font-size: 1rem;
+      color: $DarkBlue;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      @include mobile {
+        font-size: 1.2rem;
+      }
+    }
+
+    h3 {
+      font-size: 0.8rem;
+      margin-bottom: 0.3rem;
+      @include mobile {
+        font-size: 0.9rem;
+      }
+    }
+
+    p {
+      color: grey;
+      font-size: 0.8rem;
+      @include mobile {
+        font-size: 0.9rem;
+      }
+    }
+
+    button {
+      font-size: 0.8rem;
+      @include mobile {
+        font-size: 0.9rem;
+      }
+    }
+
+    &__top {
+      flex: auto;
+    }
+
+    &__bottom {
+      min-height: 100px;
+      margin: 0.3rem;
+      padding: 0.3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .description {
+        p {
+          white-space: pre-wrap;
+          border: 1px solid $DarkBlue;
+          padding: 0.5rem;
+          border-radius: 3px;
+        }
+      }
+
+      .accept {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+      }
+    }
+
+    .createdBy {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .title {
+      padding: 1rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+    }
+
+    .details {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      .acceptedBy {
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        button {
+          border: none;
+        }
+
+        p {
+          font-size: 0.7rem;
+        }
+
+        .acceptedByList {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+
+          ul {
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+            min-height: 100px;
+            background-color: white;
+            border: 1px solid $DarkBlue;
+          }
+        }
+      }
+
+      .amount {
+        padding: 0.5rem;
+        border-radius: 50%;
+        background-color: $DarkGreen;
+        height: 50px;
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 3px 3px 3px rgb(95, 95, 95, 0.8);
+
+        button {
+          padding: 0.3rem 0.5rem;
+          border: none;
+          border-bottom: 2px solid $DarkGreen;
+
+          &.selected {
+            border-bottom: 2px solid $Crimson;
+            color: $Crimson;
+          }
+        }
+
+        span {
+          font-size: 1rem;
+          font-weight: bold;
+          color: white;
+        }
+      }
+
+      button {
+        @include mobile {
+          padding: 0.5rem 0.8rem;
+        }
+      }
+    }
+  }
+
+  .modal {
+    .btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-auto-rows: 30px;
+      gap: 10px;
+      margin-top: 0.5rem;
+      @include tablet {
+        grid-auto-rows: 50px;
+      }
+
+      button {
+        background-color: white;
+        color: $DarkBlue;
+        border: none;
+        border-bottom: 1px solid $DarkBlue;
+        font-size: 0.8rem;
+        @include mobile {
+          font-size: 1rem;
+        }
+        @include tablet {
+          font-size: 1.1rem;
+        }
+
+        &.clicked {
+          background-color: $DarkBlue;
+          color: white;
+          transform: scale(1.1);
+          font-weight: bold;
+        }
+      }
+
+      &--acceptBetNum {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+        button {
+        }
+      }
+    }
+
+    .amountTitle {
+      font-size: 0.8rem;
+      margin: 0 0 0.3rem 0.3rem;
+      font-weight: bold;
+      @include mobile {
+        font-size: 1rem;
+      }
+      @include tablet {
+        font-size: 1.2rem;
+      }
+
+      span {
+        float: right;
+        font-weight: normal;
+      }
+    }
+
+    .form__field {
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      @include tablet {
+        margin-bottom: 1rem;
+      }
+
+      label {
+        font-weight: bold;
+        @include mobile {
+          font-size: 1rem;
+        }
+        @include tablet {
+          font-size: 1.2rem;
+        }
+      }
+
+      textarea {
+        min-height: 150px;
+        border-radius: 5px;
+      }
+
+      input,
+      textarea {
+        @include mobile {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .prevNextButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+
+    button {
+      padding: 0.3rem 1rem;
+      @include font-size($--btnFS);
+      font-weight: bold;
+      background-color: $testBlue;
+      color: white;
+
+      &:disabled {
+        background-color: grey;
+        opacity: 0.3;
+      }
+
+      &:first-child {
+        margin-right: 1rem;
+      }
+    }
+  }
+}
+
 </style>
