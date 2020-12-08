@@ -2,7 +2,6 @@
 
 export interface IUIState {
   header: IHeader
-  dataLoading: boolean
   pageLoading: boolean
   isNavBarShowing: boolean
   isNavMenuShowing: boolean

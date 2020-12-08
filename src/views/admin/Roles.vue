@@ -148,7 +148,6 @@ export default class Roles extends Vue {
   }
 
   async RoleList(): Promise<void> {
-    await UIHelper.DataLoading(true)
     try {
       const res = await RoleService.roleList()
       if (res.status === 200) {
@@ -157,7 +156,6 @@ export default class Roles extends Vue {
     } catch (e) {
       console.log(e)
     } finally {
-      await UIHelper.DataLoading(false)
     }
   }
 
@@ -167,7 +165,6 @@ export default class Roles extends Vue {
     })
 
     if (foundUserIndex === -1 && this.selectedRole) {
-      await UIHelper.DataLoading(true)
       try {
         const userToAddToRole: IAddOrRemoveUseFromRole = {
           roleId: this.selectedRole.id,
@@ -182,7 +179,6 @@ export default class Roles extends Vue {
         console.log(e)
       } finally {
         this.isAddingUserToRole = false
-        await UIHelper.DataLoading(false)
         const snackBarData: ISnackBar = {
           title: `Success`,
           message: `${user.fullName} added to ${this.selectedRole.name}`,
@@ -217,7 +213,6 @@ export default class Roles extends Vue {
   async removeUserFromRole(status: boolean): Promise<void> {
     if (status === true && this.userToRemoveFromRole) {
       const userId = this.userToRemoveFromRole.userId
-      await UIHelper.DataLoading(true)
       try {
         const res = await RoleService.AddOrRemoveUserFromRole(this.userToRemoveFromRole)
         if (res.status === 200 && this.selectedRole) {
@@ -232,7 +227,6 @@ export default class Roles extends Vue {
       } finally {
         this.isPopUpShowing = false
         this.userToRemoveFromRole = null
-        await UIHelper.DataLoading(false)
       }
     } else {
       this.isPopUpShowing = false

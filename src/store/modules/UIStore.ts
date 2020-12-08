@@ -10,7 +10,6 @@ const state: IUIState = {
     isShowing: true,
     bgColor: 'white'
   },
-  dataLoading: false,
   pageLoading: false,
   isNavBarShowing: true,
   isNavMenuShowing: false,
@@ -29,7 +28,6 @@ const getters = {
   IsNavBarShowing: (state: IUIState): boolean => state.isNavBarShowing,
   IsNavMenuShowing: (state: IUIState): boolean => state.isNavMenuShowing,
   SnackBarClass: (state: IUIState): string | undefined => state.snackBar.classInfo,
-  DataLoadingStatus: (state: IUIState): boolean => state.dataLoading
 }
 
 const mutations = {
@@ -65,9 +63,7 @@ const mutations = {
     }
   },
 
-  SetDataLoadingStatus(state: IUIState, dataLoadingStatus: boolean): void {
-    state.dataLoading = dataLoadingStatus
-  },
+
 
   SetNavBarShowingStatus(state: IUIState, showingStatus: boolean): void {
     state.isNavBarShowing = showingStatus
@@ -122,9 +118,7 @@ const actions = {
     context.commit('SetHeaderShowingStatus', showingStatus)
   },
 
-  _setDataLoading(context: ActionContext<IUIState, IRootState>, dataLoadingStatus: boolean): void {
-    context.commit('SetDataLoadingStatus', dataLoadingStatus)
-  },
+
 
   _setPageLoading(context: ActionContext<IUIState, IRootState>, loadingStatus: boolean): void {
     context.commit('SetPageLoadingStatus', loadingStatus)
