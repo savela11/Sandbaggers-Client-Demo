@@ -30,12 +30,12 @@ export interface UserProfileVm {
 }
 
 export interface UserSettingsVm {
-  favoriteLinks: FavorLinkVm[]
+  favoriteLinks: FavoriteLinkVm[]
   isContactNumberShowing: boolean
   isContactEmailShowing: boolean
 }
 
-export interface FavorLinkVm {
+export interface FavoriteLinkVm {
   name: string
   link: string
 }

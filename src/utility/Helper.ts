@@ -71,7 +71,9 @@ export default class Helper {
               fullName: a.fullName,
               email: a.email,
               phoneNumber: a.phoneNumber,
-              image: a.image
+              image: a.image,
+              isContactEmailShowing: a.isContactEmailShowing,
+              isContactNumberShowing: a.isContactNumberShowing
             };
             const space = contactVM.fullName.lastIndexOf(" ");
             const firstName = contactVM.fullName.substring(0, space);

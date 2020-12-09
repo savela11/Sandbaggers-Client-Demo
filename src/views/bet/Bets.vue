@@ -31,7 +31,7 @@
                 <p>
                   Accepted: <span>{{ bet.acceptedBy.length }} of {{ bet.canAcceptNumber }}</span>
                 </p>
-                <button v-if="bet.acceptedBy.length > 0" @click.prevent.stop="showAcceptedList(bet.betId)">dropdown</button>
+                <button v-if="bet.acceptedBy.length > 0" @click.prevent.stop="showAcceptedList(bet.betId)">See List</button>
                 <div class="acceptedByList" v-if="showAcceptedListOfBet === bet.betId">
                   <ul>
                     <li v-for="acceptedUser in bet.acceptedBy" :key="acceptedUser.userId">{{ acceptedUser.fullName }}</li>
@@ -258,24 +258,6 @@ export default class Bets extends Vue {
     }
   }
 
-  async acceptBet(bet: BetVm): Promise<void> {
-    UIHelper.clickedButton("acceptBetBtn");
-    if (bet.createdBy.id === this.$store.state.authStore.currentUser.id) {
-      return;
-    } else {
-      const userAcceptsBet: UserAcceptsBetDto = {
-        userId: this.$store.state.authStore.currentUser.id,
-        betId: bet.betId
-      };
-      try {
-        const res = await BetService.UserAcceptsBet(userAcceptsBet);
-        console.log(res);
-      } catch (e) {
-        console.log(e);
-      } finally {
-      }
-    }
-  }
 
   setCurrentView(view: string): void {
     this.currentView = view;
@@ -348,6 +330,16 @@ export default class Bets extends Vue {
 $--btnFS: (
     null: 1rem,
     $mobile: rem
+);
+
+$--acceptedByListFS: (
+    null: .8rem,
+    $mobile: .9rem
+);
+
+$--acceptedByDropDownBtnFS: (
+    null: .8rem,
+    $mobile: .9rem
 );
 .bets {
   #spanAmt,
@@ -466,7 +458,6 @@ $--btnFS: (
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    overflow: hidden;
 
     @include mobile {
       margin-bottom: 1.5rem;
@@ -574,14 +565,17 @@ $--btnFS: (
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
+      position: relative;
 
       .acceptedBy {
         display: flex;
         align-items: center;
-        position: relative;
 
         button {
-          border: none;
+          border: 1px solid $DarkGreen;
+          margin-left: 1rem;
+          padding: .3rem;
+          @include font-size($--acceptedByDropDownBtnFS);
         }
 
         p {
@@ -590,16 +584,24 @@ $--btnFS: (
 
         .acceptedByList {
           position: absolute;
-          bottom: 0;
+          top: 4rem;
           right: 0;
+          transform: translate(0%, 0%);
+          z-index: 2;
 
           ul {
-            padding: 0;
             margin: 0;
             list-style-type: none;
             min-height: 100px;
             background-color: white;
-            border: 1px solid $DarkBlue;
+            border: 1px solid lightgrey;
+            border-radius: 5px;
+            padding: 1rem 1rem 5rem 1rem;
+            li {
+              padding: .5rem;
+              border-bottom: 1px solid lightgrey;
+              @include font-size($--acceptedByListFS);
+            }
           }
         }
       }

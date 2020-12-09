@@ -3,7 +3,7 @@ import SecureLS from "secure-ls";
 import AuthService from "../../services/AuthService";
 import { ActionContext } from "vuex";
 import { IRootState } from "@/store";
-import { LoggedInUserVm } from "@/types/ViewModels/UserVm";
+import { LoggedInUserVm, UserSettingsVm } from "@/types/ViewModels/UserVm";
 
 const ls = new SecureLS({ isCompression: false });
 
@@ -34,6 +34,12 @@ const mutations = {
     state.currentUser = undefined;
     state.isLoggedIn = false;
   },
+
+  UpdateUserSettings(state: IAuthState, userSettings: UserSettingsVm): void {
+    if (state.currentUser) {
+      state.currentUser.settings = userSettings;
+    }
+  }
 };
 
 const actions = {
@@ -68,6 +74,14 @@ const actions = {
 
     return;
   },
+
+  async UpdateUserSettings(context: ActionContext<IAuthState, IRootState>, userSettings: UserSettingsVm): Promise<void> {
+    if (context.state.currentUser) {
+      context.commit("UpdateUserSettings", userSettings);
+    } else {
+      context.commit("LogoutCurrentUser");
+    }
+  }
 
 };
 

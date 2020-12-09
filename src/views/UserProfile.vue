@@ -1,6 +1,5 @@
 ﻿<template>
   <div v-if="currentUser && currentUser.profile" class="userProfile">
-
     <section class="section section__top">
       <button class="backBtn btn btn--borderGreen btn--xs btn--borderBottom" @click="goBack">Back</button>
       <div class="imageContainer">
@@ -10,17 +9,15 @@
         <h1>{{ currentUser.fullName }}</h1>
         <div class="handicapContainer">
           <div class="flexHandicap">
-            <p>Handicap: </p>
+            <p>Handicap:</p>
             <label class="hideLabel" for="userHandicap"></label>
-            <input id="userHandicap" v-model.lazy.number.trim="currentUser.profile.handicap" class="input" type="text">
+            <input id="userHandicap" v-model.lazy.number.trim="currentUser.profile.handicap" class="input" type="text" />
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section section__middle">
-
-    </section>
+    <section class="section section__middle"></section>
 
     <section v-if="!loading" class="section section__bottom">
       <!--      Profile-->
@@ -49,13 +46,37 @@
           <h2>Favorite Links</h2>
           <div class="favoriteLink">
             <p>One</p>
-            <label class="hideLabel" for="favoriteLinkOne"></label>
-            <select id="favoriteLinkOne">
-              <option v-for="link in selectableFavoriteLinks" :key="link.name">{{ link.name }}</option>
-            </select>
+            <SelectBox class="selectComponent" @click="toggleOptions(0)" :showOptions="selectedOption === 0">
+              <template v-slot:selected>
+                <span v-if="currentUser.settings.favoriteLinks[0]">{{ currentUser.settings.favoriteLinks[0].name }}</span>
+              </template>
+              <template v-slot:options>
+                <span class="option" v-for="link in filterFavoriteLinks(selectableFavoriteLinks)" :key="link.name" @click="selectFavoriteLink(link, 0)">{{ link.name }}</span>
+              </template>
+            </SelectBox>
           </div>
-          <div class="favoriteLink"><p>Two</p></div>
-          <div class="favoriteLink"><p>Three</p></div>
+          <div class="favoriteLink">
+            <p>Two</p>
+            <SelectBox class="selectComponent" @click="toggleOptions(1)" :showOptions="selectedOption === 1">
+              <template v-slot:selected>
+                <span v-if="currentUser.settings.favoriteLinks[1]">{{ currentUser.settings.favoriteLinks[1].name }}</span>
+              </template>
+              <template v-slot:options>
+                <span class="option" v-for="link in filterFavoriteLinks(selectableFavoriteLinks)" :key="link.name" @click="selectFavoriteLink(link, 1)">{{ link.name }}</span>
+              </template>
+            </SelectBox>
+          </div>
+          <div class="favoriteLink">
+            <p>Three</p>
+            <SelectBox class="selectComponent" @click="toggleOptions(2)" :showOptions="selectedOption === 2">
+              <template v-slot:selected>
+                <span v-if="currentUser.settings.favoriteLinks[2]">{{ currentUser.settings.favoriteLinks[2].name }}</span>
+              </template>
+              <template v-slot:options>
+                <span class="option" v-for="link in filterFavoriteLinks(selectableFavoriteLinks)" :key="link.name" @click="selectFavoriteLink(link, 2)">{{ link.name }}</span>
+              </template>
+            </SelectBox>
+          </div>
         </div>
 
         <div class="contacts">
@@ -63,25 +84,29 @@
           <div class="contacts__flex">
             <p>Show Number:</p>
             <div class="contacts__btns">
-              <button :class="{active: currentUser.settings.isContactNumberShowing === true}" @click.prevent.stop="currentUser.settings.isContactNumberShowing = true">Yes</button>
-              <button :class="{active: currentUser.settings.isContactNumberShowing === false}" @click.prevent.stop="currentUser.settings.isContactNumberShowing = false">No</button>
+              <button :class="{ active: currentUser.settings.isContactNumberShowing === true }" @click.prevent.stop="currentUser.settings.isContactNumberShowing = true">
+                Yes
+              </button>
+              <button :class="{ active: currentUser.settings.isContactNumberShowing === false }" @click.prevent.stop="currentUser.settings.isContactNumberShowing = false">
+                No
+              </button>
             </div>
           </div>
           <div class="contacts__flex">
             <p>Show Email:</p>
             <div class="contacts__btns">
-              <button :class="{active: currentUser.settings.isContactEmailShowing === true}" @click.prevent.stop="currentUser.settings.isContactEmailShowing = true">Yes</button>
-              <button :class="{active: currentUser.settings.isContactEmailShowing === false}" @click.prevent.stop="currentUser.settings.isContactEmailShowing = false">No</button>
+              <button :class="{ active: currentUser.settings.isContactEmailShowing === true }" @click.prevent.stop="currentUser.settings.isContactEmailShowing = true">Yes</button>
+              <button :class="{ active: currentUser.settings.isContactEmailShowing === false }" @click.prevent.stop="currentUser.settings.isContactEmailShowing = false">No</button>
             </div>
           </div>
         </div>
-
       </div>
+      <!--Bets-->
+      <ProfileBets v-show="currentView.title === 'Bets'" class="view bets" :userId="currentUser.id" />
+
       <!--      Update Button-->
-      <div class="updateBtnContainer">
-        <button v-show="currentView.title" class="btn btn--borderGreen" @click.stop.prevent="updateCurrentUser">
-          Update
-        </button>
+      <div class="updateBtnContainer" v-show="currentView.title !== 'Bets'">
+        <button v-show="currentView.title" class="btn btn--borderGreen" @click.stop.prevent="updateCurrentUser">Update</button>
       </div>
     </section>
 
@@ -105,7 +130,6 @@
       </div>
     </div>
 
-
     <Loading v-if="loading" />
   </div>
 </template>
@@ -114,8 +138,9 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import UIHelper from "@/utility/UIHelper";
 import Helper from "@/utility/Helper";
-import { FavorLinkVm, LoggedInUserVm, UserVm } from "@/types/ViewModels/UserVm";
+import { FavoriteLinkVm, UserVm } from "@/types/ViewModels/UserVm";
 import ProfileService from "@/services/ProfileService";
+import { BetVm } from "@/types/ViewModels/BetVm";
 
 interface IOptionView {
   title: string
@@ -125,11 +150,14 @@ interface IOptionView {
 @Component({
   name: "UserProfile",
   components: {
-    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue")
+    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
+    SelectBox: (): Promise<typeof import("*.vue")> => import("@/components/ui/SelectBox.vue"),
+    ProfileBets: (): Promise<typeof import("*.vue")> => import("@/views/userProfile/profileBets.vue")
   }
 })
 export default class UserProfile extends Vue {
-  loading = false;
+  loading = true;
+  loadingBets = true;
   optionViews: Array<IOptionView> = [
     {
       title: "Profile",
@@ -167,7 +195,33 @@ export default class UserProfile extends Vue {
   currentUser = {} as UserVm;
   isOptionMenuShowing = false;
   currentView = {} as IOptionView;
-  selectableFavoriteLinks: FavorLinkVm[] = [{ name: "Dashboard", link: "/dashboard" }];
+  selectableFavoriteLinks: FavoriteLinkVm[] = [
+    { name: "Dashboard", link: "/dashboard" },
+    { name: "Sandbaggers", link: "/sandbaggerEvents" },
+    { name: "Bets", link: "/bets" },
+    { name: "Ideas", link: "/ideas" },
+    { name: "PowerRankings", link: "/powerRankings" },
+    { name: "Mock Drafts", link: "/mockDrafts" },
+    { name: "Gallery", link: "/gallery" },
+    { name: "Contacts", link: "/contacts" }
+  ];
+  selectedOption: null | number = null;
+
+  // Return only favorite links that are not currently selected as a favorite
+  filterFavoriteLinks(selectableLinks: FavoriteLinkVm[]): FavoriteLinkVm[] {
+    return selectableLinks.filter((v) => {
+      const foundIndex = this.currentUser.settings.favoriteLinks.findIndex(fl => {
+        return fl.name === v.name;
+      });
+      if (foundIndex === -1) {
+        return v;
+      } else {
+        return;
+      }
+    });
+
+
+  }
 
   /**
    * @description Returns user profile image or defaults to SBLogo.png
@@ -183,7 +237,7 @@ export default class UserProfile extends Vue {
 
   mounted(): void {
     this.currentView = this.optionViews[0];
-    // this.getCurrentUser();
+
     this.getUserProfile();
     UIHelper.ToggleNavBar(false);
   }
@@ -215,7 +269,6 @@ export default class UserProfile extends Vue {
         setTimeout(() => {
           this.loading = false;
         }, 3000);
-
       }
     }
   }
@@ -227,6 +280,7 @@ export default class UserProfile extends Vue {
       if (res.status === 200) {
         setTimeout(() => {
           this.currentUser = res.data;
+          this.$store.dispatch("authStore/UpdateUserSettings", res.data.settings);
           UIHelper.SnackBar({
             isSnackBarShowing: true,
             title: "Updated",
@@ -234,22 +288,19 @@ export default class UserProfile extends Vue {
             classInfo: "primary"
           });
         }, Math.floor(Math.random() * 3000));
-
       }
     } catch (e) {
       console.log(e);
-
     } finally {
       setTimeout(() => {
         this.loading = false;
       }, 3000);
-
     }
   }
 
   async getUserProfile(): Promise<void> {
     UIHelper.Header({ title: "profile", isShowing: false });
-    const userId = this.$store.state.authStore.currentUser.id;
+    const userId: string = this.$store.state.authStore.currentUser.id;
     try {
       const res = await ProfileService.UserProfile(userId);
       if (res.status === 200) {
@@ -265,6 +316,20 @@ export default class UserProfile extends Vue {
     }
   }
 
+
+  toggleOptions(option: number): void {
+    if (this.selectedOption === option) {
+      this.selectedOption = null;
+      return;
+    }
+    this.selectedOption = option;
+  }
+
+  selectFavoriteLink(favLink: FavoriteLinkVm, currentLinkIndex: number): void {
+    this.currentUser.settings.favoriteLinks[currentLinkIndex] = favLink;
+    this.selectedOption = currentLinkIndex;
+  }
+
   toggleOptionMenu(status: boolean): void {
     this.isOptionMenuShowing = status;
   }
@@ -277,6 +342,7 @@ export default class UserProfile extends Vue {
   formatPhone(): void {
     this.currentUser.phoneNumber = Helper.formatPhone(this.currentUser.phoneNumber);
   }
+
 
   goBack(): void {
     this.$router.back();
@@ -291,8 +357,8 @@ $--userFullNameFS: (
     $mobile: 1.8rem,
 );
 $--userHandicapFS: (
-    null: .9rem,
-    $mobile: 1.1rem
+    null: 0.9rem,
+    $mobile: 1.1rem,
 );
 $--optionBtnFS: (
     null: 0.8rem,
@@ -308,35 +374,41 @@ $--bottomTitleFS: (
 );
 $--labelFS: (
     null: 1.2rem,
-    $mobile:rem,
-    $tablet:rem,
-    $tablet-landscape:rem,
-    $desktopSmall:rem,
-    $desktop:rem,
+    $mobile: rem,
+    $tablet: rem,
+    $tablet-landscape: rem,
+    $desktopSmall: rem,
+    $desktop: rem,
     $desktopLarge: rem,
 );
 $--inputFS: (
     null: 1rem,
-    $mobile:1.2rem,
-    $tablet:rem,
-    $tablet-landscape:rem,
-    $desktopSmall:rem,
-    $desktop:rem,
+    $mobile: 1.2rem,
+    $tablet: rem,
+    $tablet-landscape: rem,
+    $desktopSmall: rem,
+    $desktop: rem,
     $desktopLarge: rem,
 );
 
 $--settingsTitleFS: (
     null: 1rem,
-    $mobile: 1.1rem
+    $mobile: 1.1rem,
 );
 $--settingsParaFS: (
-    null: .8rem,
-    $mobile: .9rem
+    null: 0.8rem,
+    $mobile: 0.9rem,
 );
 $--settingsContactBtnFS: (
+    null: 0.8rem,
+    $mobile: 0.9rem,
+);
+
+$--selectBoxOptionFS: (
     null: .8rem,
     $mobile: .9rem
 );
+
 
 .userProfile {
   padding: 0;
@@ -370,7 +442,6 @@ $--settingsContactBtnFS: (
     position: relative;
     transform: translateY(-20px);
     z-index: 1;
-
   }
 
   &__bottom {
@@ -422,8 +493,7 @@ $--settingsContactBtnFS: (
   }
 
   .handicapContainer {
-    margin: .5rem 0;
-
+    margin: 0.5rem 0;
 
     .flexHandicap {
       align-items: center;
@@ -436,7 +506,6 @@ $--settingsContactBtnFS: (
       font-weight: 500;
       @include font-size($--userHandicapFS);
       text-align: center;
-
     }
 
     input {
@@ -445,101 +514,102 @@ $--settingsContactBtnFS: (
       border-bottom: 1px solid $SecondaryFS;
       flex: 0 0 25%;
       line-height: 1;
-      margin-left: .3rem;
+      margin-left: 0.3rem;
     }
   }
-
 }
 
 .menuContainer {
   align-items: center;
-  background-color: white;
-  bottom: 1rem;
+
+  bottom: .5rem;
   display: flex;
-  height: 50px;
   justify-content: center;
   position: fixed;
-  right: 0.5rem;
+  right: 0.3rem;
+  height: 50px;
   width: 50px;
   z-index: 2;
-}
 
-.toggleMenuBtn {
-  border: none;
-  height: 40px;
-  padding: 0.3rem;
-  width: 40px;
+  .toggleMenuBtn {
+    background-color: white;
+    border: none;
+    border-radius: 0;
+    width: 35px;
+    height: 35px;
+    padding: .2rem;
 
-  svg {
-    height: 100%;
-    object-fit: cover;
-    width: 100%;
-  }
-}
-
-.optionMenu {
-  background-color: white;
-  border: 1px solid lightgrey;
-  border-radius: 10px;
-  bottom: 0;
-  box-shadow: 0 5px 5px rgba(128, 128, 128, 0.6);
-  padding: 0.8rem;
-  position: absolute;
-  right: 0;
-  transform: translate(-20px, -60px);
-  z-index: 5;
-
-  h2 {
-    margin: 0.5rem;
-    @include font-size($--editTitleFS);
-  }
-
-  &__grid {
-    display: grid;
-    gap: 0.4rem;
-    grid-auto-rows: 60px;
-    grid-template-columns: repeat(3, 75px);
-    padding: 0.8rem 0;
-    @include mobile {
-      grid-auto-rows: 80px;
-      grid-template-columns: repeat(3, 90px);
-    }
-
-    button {
-      align-items: center;
-      border: none;
-      box-shadow: 0 3px 3px grey;
-      @include font-size($--optionBtnFS);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 0.2rem;
+    svg {
+      height: 100%;
+      object-fit: cover;
+      width: 100%;
     }
   }
 
-  .imageSpan {
-    height: 25px;
-    margin-bottom: 0.1rem;
-    width: 25px;
+  .optionMenu {
+    background-color: white;
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    bottom: 0;
+    box-shadow: 0 5px 5px rgba(128, 128, 128, 0.6);
+    padding: 0.8rem;
+    position: absolute;
+    right: 0;
+    transform: translate(-20px, -60px);
+    z-index: 5;
 
-    @include mobile {
-      height: 30px;
-      margin-bottom: 0.2rem;
-      width: 30px;
+    h2 {
+      margin: 0.5rem;
+      @include font-size($--editTitleFS);
+    }
+
+    &__grid {
+      display: grid;
+      gap: 0.4rem;
+      grid-auto-rows: 60px;
+      grid-template-columns: repeat(3, 75px);
+      padding: 0.8rem 0;
+      @include mobile {
+        grid-auto-rows: 80px;
+        grid-template-columns: repeat(3, 90px);
+      }
+
+      button {
+        align-items: center;
+        border: none;
+        box-shadow: 0 3px 3px grey;
+        @include font-size($--optionBtnFS);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0.2rem;
+      }
+    }
+
+    .imageSpan {
+      height: 25px;
+      margin-bottom: 0.1rem;
+      width: 25px;
+
+      @include mobile {
+        height: 30px;
+        margin-bottom: 0.2rem;
+        width: 30px;
+      }
     }
   }
 }
+
 
 .view {
   padding: 0 1rem;
 
   @include mobile {
-    padding: 0 2rem;
   }
 
   label {
     @include font-size($--labelFS);
-    margin-left: .5rem;
+    margin-left: 0.5rem;
   }
 
   input {
@@ -548,7 +618,6 @@ $--settingsContactBtnFS: (
 }
 
 .settings {
-
   h2 {
     @include font-size($--settingsTitleFS);
   }
@@ -558,13 +627,134 @@ $--settingsContactBtnFS: (
   }
 
   select {
-    margin-left: 1rem;
   }
 
-  .favorites {
-    .favoriteLink {
+  .custom-select-wrapper {
+    position: relative;
+    user-select: none;
+    width: 100%;
+    max-width: 125px;
+
+    .custom-select {
+      position: relative;
       display: flex;
-      margin: 1rem;
+      flex-direction: column;
+      border-width: 0 2px 0 2px;
+      border-style: solid;
+      border-color: #394a6d;
+      border-radius: 3px;
+
+      &__trigger {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.2rem .5rem;
+        @include font-size($--selectBoxOptionFS);
+        font-weight: 300;
+        color: #3b3b3b;
+        background: #ffffff;
+        cursor: pointer;
+        border-width: 2px 0 2px 0;
+        border-style: solid;
+        border-color: #394a6d;
+        border-radius: 3px;
+      }
+
+      .arrow {
+        position: relative;
+        height: 10px;
+        width: 10px;
+
+
+        &::before, &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          width: 0.15rem;
+          height: 100%;
+          transition: all 0.5s;
+        }
+
+        &::before {
+          left: 0;
+          transform: rotate(45deg);
+          background-color: #394a6d;
+        }
+
+        &::after {
+          left: 6px;
+          transform: rotate(-45deg);
+          background-color: #394a6d;
+        }
+      }
+    }
+
+    .custom-options {
+      position: absolute;
+      display: block;
+      top: 100%;
+      left: 0;
+      right: 0;
+      border: 1px solid #394a6d;
+      border-top: none;
+      background: #fff;
+      transition: all 0.5s;
+      pointer-events: none;
+      z-index: 2;
+
+      .custom-option {
+        position: relative;
+        display: block;
+        padding: .5rem;
+        @include font-size($--selectBoxOptionFS);
+        font-weight: 300;
+        color: #3b3b3b;
+        cursor: pointer;
+        transition: all 0.5s;
+      }
+
+      .custom-option:hover {
+        cursor: pointer;
+        background-color: #b2b2b2;
+      }
+
+      .custom-option.selected {
+        color: #ffffff;
+        background-color: #305c91;
+      }
+    }
+
+
+  }
+
+  .open .arrow::before {
+    left: -5px;
+    transform: rotate(-45deg);
+  }
+
+  .open .arrow::after {
+    left: 5px;
+    transform: rotate(45deg);
+  }
+
+  .custom-select.open .custom-options {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+
+
+  .favorites {
+  }
+
+  .favoriteLink {
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem .8rem;
+
+    .selectComponent {
+      flex: 0 0 60%;
     }
   }
 
@@ -586,8 +776,8 @@ $--settingsContactBtnFS: (
         background-color: white;
         border: 1px solid $DarkBlue;
         color: $DarkBlue;
-        margin-right: .5rem;
-        padding: .3rem 1.2rem;
+        margin-right: 0.5rem;
+        padding: 0.3rem 1.2rem;
 
         &:last-of-type {
           margin: 0;
@@ -600,9 +790,8 @@ $--settingsContactBtnFS: (
       }
     }
   }
-
-
 }
+
 
 .updateBtnContainer {
   padding: 2rem 1rem;

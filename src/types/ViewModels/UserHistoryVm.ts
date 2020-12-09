@@ -4,13 +4,13 @@ export interface UserHistoryVm {
   image: string | null
   handicap: number
   handicapHistory: Array<HandicapVm>
-  betHistory: Array<BetVm>
+  betHistory: Array<HistoryBetVm>
 }
 export interface HandicapVm {
   handicap: number
   date: string
 }
-export interface BetVm {
+export interface HistoryBetVm {
   betId: number
   title: string
   description: string
