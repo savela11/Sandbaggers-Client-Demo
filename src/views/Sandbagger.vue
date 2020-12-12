@@ -24,7 +24,7 @@
             <p>Date</p>
             <p>Handicap</p>
           </div>
-          <div v-if="Sandbagger.handicapHistory && Sandbagger.handicapHistory.length > 0">
+          <div v-if="Sandbagger.handicapHistory && Sandbagger.handicapHistory.length > 0" class="handicapList">
             <div class="handicap" v-for="(history, index) in Sandbagger.handicapHistory" :key="index">
               <p>{{ formatDate(history.date) }}</p>
               <p>{{ history.handicap }}</p>
@@ -39,24 +39,24 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import FormatMixins from '@/mixins/FormatMixins.vue'
-import UserHistoryService from '@/services/UserHistoryService'
-import UIHelper from '@/utility/UIHelper'
+import { Component, Vue } from "vue-property-decorator";
+import FormatMixins from "@/mixins/FormatMixins.vue";
+import UserHistoryService from "@/services/UserHistoryService";
+import UIHelper from "@/utility/UIHelper";
 import { UserHistoryVm } from "@/types/ViewModels/UserHistoryVm";
 
-@Component({ name: 'Sandbagger', mixins: [FormatMixins] })
+@Component({ name: "Sandbagger", mixins: [FormatMixins] })
 export default class Sandbagger extends Vue {
-  Sandbagger = {} as UserHistoryVm
-  views = ['Handicaps', 'Bets', 'Stats']
-  currentView = 'Handicaps'
+  Sandbagger = {} as UserHistoryVm;
+  views = ["Handicaps", "Bets", "Stats"];
+  currentView = "Handicaps";
 
   mounted(): void {
-    this.getUserInfo()
+    this.getUserInfo();
   }
 
   setBackToDashboard(): void {
-    UIHelper.ToggleNavBar(true)
+    UIHelper.ToggleNavBar(true);
   }
 
   // get userHandicapHistory(): IHandicapHistory[] | null {
@@ -68,29 +68,27 @@ export default class Sandbagger extends Vue {
   // }
 
   async getUserInfo(): Promise<void> {
-   await UIHelper.ToggleNavBar(false)
+    await UIHelper.ToggleNavBar(false);
     try {
-      const res = await UserHistoryService.sandBaggerWithHistory(this.$route.params.id.toString())
+      const res = await UserHistoryService.sandBaggerWithHistory(this.$route.params.id.toString());
       if (res.data) {
-        this.Sandbagger = res.data
+        this.Sandbagger = res.data;
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      await UIHelper.Header({ title: 'Sandbagger', isShowing: false })
+      await UIHelper.Header({ title: "Sandbagger", isShowing: false });
     }
   }
 
   setCurrentView(view: string): void {
-    this.currentView = view
+    this.currentView = view;
   }
 }
 </script>
 <style scoped lang="scss">
 .sandbagger {
-  min-height: 100vh;
-  display: grid;
-  grid-template-rows: 1fr 80px 1fr;
+
 
   .top {
     padding: 2rem 0 1rem 0;
@@ -190,25 +188,24 @@ export default class Sandbagger extends Vue {
     position: relative;
     z-index: 25;
     padding-top: 0.2rem;
+    height: 250px;
+    overflow: hidden;
+    transform: translateY(-25px);
 
     .container {
       border-top: 3px solid $DarkBlue;
       border-radius: 25px;
       height: 100%;
       background-color: white;
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      transform: translateY(-15px);
-      padding: 2rem;
 
       @include tablet {
         transform: translateY(-5px);
       }
 
       .handicapHistory {
+        height: 100%;
+        padding: 2rem;
+
         .title {
           display: flex;
           justify-content: space-between;
@@ -217,6 +214,12 @@ export default class Sandbagger extends Vue {
           p {
             color: grey;
           }
+        }
+
+        .handicapList {
+          padding: 0 .8rem 0 0;
+          overflow-y: auto;
+          max-height: 100%;
         }
 
         .handicap {

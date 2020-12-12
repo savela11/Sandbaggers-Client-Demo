@@ -82,11 +82,7 @@ export default class SelectedBet extends Vue {
       return false;
     } else if (userIds && userIds.includes(this.currentUser.id)) {
       return false;
-    } else if (this.selectedBet && this.selectedBet.acceptedBy.length === this.selectedBet.canAcceptNumber) {
-      return false;
-    } else {
-      return true;
-    }
+    } else return !(this.selectedBet && this.selectedBet.acceptedBy.length === this.selectedBet.canAcceptNumber);
 
   }
 

@@ -21,7 +21,7 @@
 
     <section v-if="!loading" class="section section__bottom">
       <!--      Profile-->
-      <form v-show="currentView.title === 'Profile'" class="view profile">
+      <form v-if="currentView.title === 'Profile'" class="view profile">
         <div class="form__field">
           <label for="firstName">First</label>
           <input id="firstName" v-model="currentUser.profile.firstName" type="text" />
@@ -41,7 +41,7 @@
         </div>
       </form>
       <!--      Settings -->
-      <div v-show="currentView.title === 'Settings'" class="view settings">
+      <div v-if="currentView.title === 'Settings'" class="view settings">
         <div class="favorites">
           <h2>Favorite Links</h2>
           <div class="favoriteLink">
@@ -102,7 +102,7 @@
         </div>
       </div>
       <!--Bets-->
-      <ProfileBets v-show="currentView.title === 'Bets'" class="view bets" :userId="currentUser.id" />
+      <ProfileBets v-if="currentView.title === 'Bets'" class="view bets" :bets="currentUserBets" @update-bet="updateBet" @delete-bet="deleteBet" />
 
       <!--      Update Button-->
       <div class="updateBtnContainer" v-show="currentView.title !== 'Bets'">
@@ -146,6 +146,7 @@ interface IOptionView {
   title: string
   image: string
 }
+
 
 @Component({
   name: "UserProfile",
@@ -193,6 +194,7 @@ export default class UserProfile extends Vue {
     }
   ];
   currentUser = {} as UserVm;
+  currentUserBets: Array<BetVm> = [];
   isOptionMenuShowing = false;
   currentView = {} as IOptionView;
   selectableFavoriteLinks: FavoriteLinkVm[] = [
@@ -206,6 +208,7 @@ export default class UserProfile extends Vue {
     { name: "Contacts", link: "/contacts" }
   ];
   selectedOption: null | number = null;
+
 
   // Return only favorite links that are not currently selected as a favorite
   filterFavoriteLinks(selectableLinks: FavoriteLinkVm[]): FavoriteLinkVm[] {
@@ -223,10 +226,6 @@ export default class UserProfile extends Vue {
 
   }
 
-  /**
-   * @description Returns user profile image or defaults to SBLogo.png
-   * @returns {string} currentUser.profile.image
-   */
   get userProfileImage(): string {
     if (this.currentUser.profile && this.currentUser.profile.image) {
       return this.currentUser.profile.image;
@@ -273,6 +272,71 @@ export default class UserProfile extends Vue {
     }
   }
 
+  async updateBet(bet: BetVm): Promise<void> {
+    this.loading = true;
+    try {
+      const res = await ProfileService.UpdateBet(bet);
+      if (res.status === 200) {
+        const betIndex = this.currentUserBets.findIndex(b => b.betId === res.data.betId);
+        this.currentUserBets[betIndex] = res.data;
+        setTimeout(() => {
+          this.loading = false;
+          UIHelper.SnackBar({
+            title: "Success",
+            message: "Bet has been updated",
+            classInfo: "primary",
+            isSnackBarShowing: true
+          });
+        }, 3000);
+
+
+      }
+
+    } catch (e) {
+      UIHelper.SnackBar({
+        title: "Error Updating Bet",
+        message: "",
+        classInfo: "error",
+        isSnackBarShowing: true
+      });
+      console.log(e);
+    }
+  }
+
+  async deleteBet(bet: BetVm): Promise<void> {
+    this.loading = true;
+    if (bet.createdBy.id === this.currentUser.id) {
+      try {
+        const res = await ProfileService.DeleteBet(bet);
+        console.log(res);
+        if (res.status === 200) {
+          const betIndex = this.currentUserBets.findIndex(b => b.betId === bet.betId);
+          this.currentUserBets.splice(betIndex);
+          setTimeout(() => {
+            this.loading = false;
+            UIHelper.SnackBar({
+              title: "Success",
+              message: "Bet has been deleted",
+              classInfo: "primary",
+              isSnackBarShowing: true
+            });
+          }, 3000);
+        }
+      } catch (e) {
+        UIHelper.SnackBar({
+          title: "Error Deleting Bet",
+          message: "",
+          classInfo: "error",
+          isSnackBarShowing: true
+        });
+        console.log(e);
+      }
+    } else {
+      await this.$store.dispatch("authStore/Logout");
+    }
+
+  }
+
   async updateCurrentUser(): Promise<void> {
     this.loading = true;
     try {
@@ -304,7 +368,8 @@ export default class UserProfile extends Vue {
     try {
       const res = await ProfileService.UserProfile(userId);
       if (res.status === 200) {
-        this.currentUser = res.data;
+        this.currentUser = res.data.userVm;
+        this.currentUserBets = res.data.bets;
       }
     } catch (e) {
       console.log(e);
