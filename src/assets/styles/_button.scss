@@ -1,4 +1,11 @@
-﻿button {
+﻿$--preNextBtnFS: (
+  null: 1rem,
+  $mobile: 1.1rem,
+  $tablet: 1.2rem,
+  $tablet-landscape: 1.3rem,
+);
+
+button {
   -webkit-writing-mode: horizontal-tb !important;
   writing-mode: horizontal-tb;
   text-rendering: auto;
@@ -7,15 +14,7 @@
   text-transform: none;
   text-indent: 0;
   text-shadow: none;
-  display: inline-block;
-  text-align: center;
-  align-items: flex-start;
-  cursor: default;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 1px 6px;
-  border-style: outset;
-  border-radius: 3px;
+  cursor: pointer;
   background-color: transparent;
 }
 
@@ -42,8 +41,8 @@
     }
   }
   &--tiny {
-    font-size: .7rem;
-    padding: .2rem .8rem;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.8rem;
   }
   &--xs {
     font-size: 0.8rem;
@@ -133,4 +132,28 @@
 
 .btnContainer {
   margin-top: 2rem;
+}
+
+.prevNextButtons {
+  margin: 1rem 0;
+  button {
+    margin-right: 1rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 5px;
+    border: none;
+    border-bottom: 1px solid $DarkBlue;
+    font-weight: bold;
+    @include font-size($--preNextBtnFS);
+    color: white;
+    background-color: $DarkBlue;
+
+    &:disabled {
+      background-color: white;
+      color: rgba(128, 128, 128, 0.25);
+    }
+
+    &:last-child {
+      margin: 0;
+    }
+  }
 }
