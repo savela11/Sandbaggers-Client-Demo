@@ -1,5 +1,50 @@
 ﻿<template>
   <div class="dashboard">
+    <Modal v-if="selectedBet" class="selectedBet" @click="closeSelectedBetModal" v-bind="{ isHeader: false }">
+      <template v-slot:body>
+        <div class="body">
+          <div class="body__header">
+            <h2>{{ selectedBet.title }}</h2>
+          </div>
+          <div class="body__main">
+            <div class="body__main__top">
+              <p>by {{ selectedBet.createdBy }}</p>
+              <div class="amount">
+                <span>${{ selectedBet.amount }}</span>
+              </div>
+            </div>
+            <div class="body__main__middle">
+              <div class="acceptedBy">
+                <div class="flex">
+                  <h3>Accepted By:</h3>
+                  <span class="acceptedCountSpan">{{ selectedBet.acceptedBy.length }} / {{ selectedBet.canAcceptNumber }}</span>
+                </div>
+
+                <div class="acceptedBy__users">
+                  <div v-if="selectedBet.acceptedBy.length > 0">
+                    <div class="user" v-for="user in selectedBet.acceptedBy" :key="user.userId">
+                      <p>{{ user.fullName }}</p>
+                    </div>
+                  </div>
+                  <div v-else>
+                    <p>No one accepted!</p>
+                  </div>
+                </div>
+              </div>
+              <div class="description">
+                <h3>Description:</h3>
+                <div class="text">
+                  <p>{{ selectedBet.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+      <template v-slot:submitBtn>
+        <button class="acceptBetBtn" v-if="selectedBet.userId !== $store.state.authStore.currentUser.id">Accept Bet</button>
+      </template>
+    </Modal>
     <div class="top">
       <div class="scrambleChamps" v-if="ScrambleChamps.length > 0">
         <div class="title">
@@ -48,9 +93,7 @@
       <div class="viewButtons">
         <h2>Latest</h2>
         <div class="buttons">
-          <button v-for="view in dashboardViews" :key="view" @click="handleViewChange(view)"
-              :class="{ active: view === currentView }">{{ view }}
-          </button>
+          <button v-for="view in dashboardViews" :key="view" @click="handleViewChange(view)" :class="{ active: view === currentView }">{{ view }}</button>
         </div>
       </div>
     </div>
@@ -90,6 +133,11 @@
                   </div>
                 </router-link>
               </div>
+
+              <div class="prevNextButtons" v-if="filteredSandbaggers.length > 0">
+                <button v-on:click="changePage('previous')" :disabled="pageNumber === 0">Previous</button>
+                <button v-on:click="changePage('next')" :disabled="pageNumber >= sandbaggerCount - 1">Next</button>
+              </div>
             </div>
           </div>
           <div v-if="currentView === 'Bets'" class="bets">
@@ -104,7 +152,6 @@
                     <h3 class="title">{{ bet.title }}</h3>
                   </div>
                   <div class="flex">
-
                     <div class="amount">
                       <span>${{ bet.amount }}</span>
                     </div>
@@ -120,54 +167,6 @@
         <Loading v-if="loading" />
       </div>
     </div>
-    <Modal v-if="selectedBet" class="selectedBet" @click="closeSelectedBetModal" v-bind="{ isHeader: false }">
-      <template v-slot:body>
-        <div class="body">
-          <div class="body__header">
-            <h2>{{ selectedBet.title }}</h2>
-          </div>
-          <div class="body__main">
-            <div class="body__main__top">
-              <p>by {{ selectedBet.createdBy }}</p>
-              <div class="amount">
-                <span>${{ selectedBet.amount }}</span>
-              </div>
-            </div>
-            <div class="body__main__middle">
-              <div class="acceptedBy">
-                <div class="flex">
-                  <h3>Accepted By:</h3>
-                  <span class="acceptedCountSpan">{{ selectedBet.acceptedBy.length }} / {{
-                      selectedBet.canAcceptNumber
-                    }}</span>
-                </div>
-
-                <div class="acceptedBy__users">
-                  <div v-if="selectedBet.acceptedBy.length > 0">
-                    <div class="user" v-for="user in selectedBet.acceptedBy" :key="user.userId">
-                      <p>{{ user.fullName }}</p>
-                    </div>
-                  </div>
-                  <div v-else>
-                    <p>No one accepted!</p>
-                  </div>
-                </div>
-              </div>
-              <div class="description">
-                <h3>Description:</h3>
-                <div class="text">
-                  <p>{{ selectedBet.description }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </template>
-      <template v-slot:submitBtn>
-        <button class="acceptBetBtn" v-if="selectedBet.userId !== $store.state.authStore.currentUser.id">Accept Bet
-        </button>
-      </template>
-    </Modal>
   </div>
 </template>
 
@@ -180,36 +179,59 @@ import { IScrambleChamp } from '@/models/ScrambleChamp'
 import UIHelper from '@/utility/UIHelper'
 import Helper from '@/utility/Helper'
 import BetService from '@/services/BetService'
-import { BetVm } from "@/types/ViewModels/BetVm";
+import { BetVm } from '@/types/ViewModels/BetVm'
 
 @Component({
   name: 'Dashboard',
   components: {
     Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
-    Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue')
-  }
+    Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue'),
+  },
 })
 export default class Dashboard extends Vue {
   loading = true
-
+  descendingHandicap = false
+  isSearchInputShowing = false
+  searchInput = ''
   currentView = 'Handicaps'
   dashboardViews = ['Handicaps', 'Rounds', 'Bets']
+  Bets: BetVm[] = []
+  selectedBet: BetVm | null = null
+  ScrambleChamps: IScrambleChamp[] = []
+
+  // Sandbaggers with Handicap pagination
+  size = 5
+  pageNumber = 0
+  Sandbaggers: SandbaggerWithHandicap[] = []
+
+  get sandbaggerCount(): number {
+    const l = this.Sandbaggers.length,
+      s = this.size
+    return Math.ceil(l / s)
+  }
+
+  changePage(status: string): void {
+    if (status === 'next') {
+      this.pageNumber++
+    } else {
+      this.pageNumber--
+    }
+  }
 
   handleViewChange(view: string): void {
     const viewButtons = document.querySelector('.viewButtons')
-    const buttons = viewButtons?.querySelector('.buttons')
+    const buttons = viewButtons?.querySelector('.buttons') as HTMLButtonElement
     if (view === 'Bets') {
       this.getBets()
     }
     if (view === 'Handicaps' && buttons) {
       buttons.scrollLeft = 0
     } else {
-      buttons!.scrollLeft = 100
+      buttons.scrollLeft = 100
     }
 
     this.currentView = view
   }
-
 
   mounted(): void {
     UIHelper.Header({ title: 'Dashboard', isShowing: true, current: 'main', bgColor: '#17252a' })
@@ -218,12 +240,15 @@ export default class Dashboard extends Vue {
   }
 
   get filteredSandbaggers(): SandbaggerWithHandicap[] {
-    return this.Sandbaggers.filter((sb) => {
+    const start = this.pageNumber * this.size,
+      end = start + this.size
+
+    var filteredSandbaggers = this.Sandbaggers.filter((sb) => {
       return sb.fullName.toLowerCase().includes(this.searchInput.toLowerCase())
     })
-  }
 
-  Sandbaggers: SandbaggerWithHandicap[] = []
+    return filteredSandbaggers.slice(start, end)
+  }
 
   async getUsers(): Promise<void> {
     this.loading = true
@@ -232,7 +257,6 @@ export default class Dashboard extends Vue {
       if (res.status === 200) {
         this.Sandbaggers = this.sortSandbaggersAscending(res.data)
         await this.scrambleChamps()
-
       }
     } catch (e) {
       console.log(e)
@@ -242,8 +266,6 @@ export default class Dashboard extends Vue {
       }, Helper.randomNumber(3000))
     }
   }
-
-  ScrambleChamps: IScrambleChamp[] = []
 
   async scrambleChamps(): Promise<void> {
     try {
@@ -271,9 +293,6 @@ export default class Dashboard extends Vue {
       }, Math.floor(Math.random() * 3000))
     }
   }
-
-
-  descendingHandicap = false
 
   toggleDescendingHandicaps(): void {
     this.descendingHandicap = !this.descendingHandicap
@@ -304,16 +323,9 @@ export default class Dashboard extends Vue {
     })
   }
 
-  isSearchInputShowing = false
-  searchInput = ''
-
   toggleSearch(): void {
     this.isSearchInputShowing = !this.isSearchInputShowing
   }
-
-  Bets: BetVm[] = []
-  selectedBet: BetVm | null = null
-
 
   selectBet(bet: BetVm): void {
     this.selectedBet = bet
@@ -328,13 +340,10 @@ export default class Dashboard extends Vue {
   formatDate(date: string): string {
     return Helper.formatDate(date)
   }
-
-
 }
 </script>
 
 <style scoped lang="scss">
-
 $topBGColor: $DarkBlue;
 $viewBtnBG: white;
 $viewBtnTextColor: $DarkBlue;
@@ -344,60 +353,58 @@ $latestTextColor: white;
 $searchBarTitleColor: white;
 
 $--viewBtnTitleFS: (
-    null: 1.4rem,
-    $mobile: 1.5rem,
-    $tablet: 1.6rem,
-    $tablet-landscape: 1.8rem
+  null: 1.4rem,
+  $mobile: 1.5rem,
+  $tablet: 1.6rem,
+  $tablet-landscape: 1.8rem,
 );
 $--viewBtnFS: (
-    null: .8rem,
-    $mobile: .9rem,
-    $tablet: 1rem
+  null: 0.8rem,
+  $mobile: 0.9rem,
+  $tablet: 1rem,
 );
 
 $--scrambleChampTitleFS: (
-    null: .9rem,
-    $mobile: 1rem,
-    $tablet: 1.2rem,
-    $tablet-landscape: 1.4rem
+  null: 0.9rem,
+  $mobile: 1rem,
+  $tablet: 1.2rem,
+  $tablet-landscape: 1.4rem,
 );
 $--scrambleChampNameFS: (
-    null: .7rem,
-    $mobile: .8rem,
-    $tablet: .9rem,
-    $tablet-landscape: 1rem
+  null: 0.7rem,
+  $mobile: 0.8rem,
+  $tablet: 0.9rem,
+  $tablet-landscape: 1rem,
 );
-
 
 $--clearBtnFS: (
-    null: .8rem,
-    $mobile: .9rem,
-    $tablet: 1rem,
-    $tablet-landscape: 1.2rem
+  null: 0.8rem,
+  $mobile: 0.9rem,
+  $tablet: 1rem,
+  $tablet-landscape: 1.2rem,
 );
 $--titleBarFS: (
-    null: .9rem,
-    $mobile: 1rem,
-    $tablet: 1.2rem,
-    $tablet-landscape: 1.4rem
+  null: 0.9rem,
+  $mobile: 1rem,
+  $tablet: 1.2rem,
+  $tablet-landscape: 1.4rem,
 );
 $--sandbaggerNameFS: (
-    null: .8rem,
-    $mobile: 1rem,
-    $tablet: 1.2rem,
-    $tablet-landscape: 1.6rem
+  null: 0.8rem,
+  $mobile: 1rem,
+  $tablet: 1.2rem,
+  $tablet-landscape: 1.6rem,
 );
 $--sandbaggerHandicapFS: (
-    null: .8rem,
-    $mobile: 1rem,
-    $tablet: 1.2rem,
-    $tablet-landscape: 1.6rem
+  null: 0.8rem,
+  $mobile: 1rem,
+  $tablet: 1.2rem,
+  $tablet-landscape: 1.6rem,
 );
 
-
 $--noBetsFoundFS: (
-    null: 1rem,
-    $mobile: 1.2rem
+  null: 1rem,
+  $mobile: 1.2rem,
 );
 .dashboard {
   padding: 0;
@@ -417,13 +424,11 @@ $--noBetsFoundFS: (
     @include desktopSmall {
       padding: 1rem 8rem 3rem 8rem;
     }
-
-
   }
 
   .bottom {
     transform: translateY(-30px);
-    padding: 0 .8rem 0 .8rem;
+    padding: 0 0.8rem 0 0.8rem;
     @include tablet {
       padding: 4rem 0;
       width: 80%;
@@ -434,8 +439,6 @@ $--noBetsFoundFS: (
     @include desktopSmall {
       padding: 3rem 8rem;
     }
-
-
   }
 
   .content {
@@ -455,7 +458,6 @@ $--noBetsFoundFS: (
       padding: 4rem;
     }
   }
-
 
   .bets {
     @include tablet {
@@ -568,7 +570,7 @@ $--noBetsFoundFS: (
       display: grid;
       grid-template-columns: 50px 2fr 1fr;
       border-bottom: 1px solid lightgrey;
-      padding-bottom: .5rem;
+      padding-bottom: 0.5rem;
       @include tablet {
         grid-template-columns: 75px 2fr 1fr;
         grid-template-rows: 50px;
@@ -609,14 +611,12 @@ $--noBetsFoundFS: (
 
       p {
         @include font-size($--titleBarFS);
-
       }
     }
 
     .sandbaggerList {
       margin-top: 0.5rem;
       padding: 0 0 0.5rem 0;
-
     }
 
     .sandbagger {
@@ -624,7 +624,7 @@ $--noBetsFoundFS: (
       border: 1px solid grey;
       border-radius: 5px;
       @include mobile {
-        margin-bottom: .8rem;
+        margin-bottom: 0.8rem;
       }
       @include tablet-landscape {
         margin-bottom: 1rem;
@@ -665,17 +665,13 @@ $--noBetsFoundFS: (
       }
 
       &__name {
-
         @include font-size($--sandbaggerNameFS);
-
       }
 
       &__handicap {
         @include font-size($--sandbaggerHandicapFS);
-
       }
     }
-
   }
 
   .scrambleChamps {
@@ -685,12 +681,11 @@ $--noBetsFoundFS: (
     }
 
     .title {
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
 
       h2 {
         color: white;
         @include font-size($--scrambleChampTitleFS);
-
       }
     }
 
@@ -704,11 +699,10 @@ $--noBetsFoundFS: (
       align-items: center;
       justify-content: center;
       flex: 0 0 25%;
-      padding: .2rem;
+      padding: 0.2rem;
       @include tablet {
-        padding: .5rem;
+        padding: 0.5rem;
       }
-
 
       .imgContainer {
         height: 60px;
@@ -720,7 +714,7 @@ $--noBetsFoundFS: (
 
         @include tablet {
           height: 80px;
-          margin-bottom: .5rem;
+          margin-bottom: 0.5rem;
         }
         @include tablet-landscape {
           height: 100px;
@@ -737,7 +731,6 @@ $--noBetsFoundFS: (
         @include font-size($--scrambleChampNameFS);
         text-align: center;
         color: white;
-
       }
     }
   }
@@ -749,19 +742,18 @@ $--noBetsFoundFS: (
       @include font-size($--viewBtnTitleFS);
 
       @include tablet-landscape {
-        margin-bottom: .5rem;
+        margin-bottom: 0.5rem;
       }
-
     }
 
     .buttons {
       overflow-x: auto;
       overflow-y: hidden;
       white-space: nowrap;
-      padding: 0.2rem .8rem .2rem 0;
+      padding: 0.2rem 0.8rem 0.2rem 0;
       margin: 0;
       @include tablet-landscape {
-        padding: .5rem .8rem;
+        padding: 0.5rem 0.8rem;
       }
     }
 
@@ -794,12 +786,12 @@ $--noBetsFoundFS: (
   }
 
   .searchBar {
-    margin: .5rem 0;
+    margin: 0.5rem 0;
     display: flex;
     align-items: center;
 
     @include mobile {
-      margin: .8rem 0;
+      margin: 0.8rem 0;
     }
 
     label {
@@ -811,15 +803,15 @@ $--noBetsFoundFS: (
       @include font-size($--inputFS);
 
       @include tablet-landscape {
-        padding: .8rem 2rem;
+        padding: 0.8rem 2rem;
       }
     }
 
     .clearBtnContainer {
-      padding: .3rem;
+      padding: 0.3rem;
 
       @include tablet-landscape {
-        padding: .5rem;
+        padding: 0.5rem;
       }
 
       .clearBtn {
@@ -950,18 +942,18 @@ $--noBetsFoundFS: (
   }
 
 
+
   .slide-fade-enter-active {
-    transition: all .3s ease-in;
+    transition: all 0.3s ease-in;
   }
 
   .slide-fade-leave-active {
-    transition: all .3s ease-out;
+    transition: all 0.3s ease-out;
   }
 
-  .slide-fade-enter, .slide-fade-leave-to {
+  .slide-fade-enter,
+  .slide-fade-leave-to {
     opacity: 0;
   }
-
 }
-
 </style>
