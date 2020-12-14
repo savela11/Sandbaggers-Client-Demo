@@ -1,20 +1,19 @@
 ﻿import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
 
-import { IEventResults } from '@/types/Events/EventResults'
-import { IScrambleChamp } from '@/models/ScrambleChamp'
+import { EventResultsVm, ScrambleChampVm } from "@/types/ViewModels/EventResultsVm";
 
 const url = '/EventResults'
 
 class EventResultsService {
-  static async ScrambleChamps(): Promise<AxiosResponse<IScrambleChamp[]>> {
+  static async ScrambleChamps(): Promise<AxiosResponse<ScrambleChampVm[]>> {
     return await apiClient.get(`${url}/ScrambleChamps`)
   }
 
-  static async EventResults(eventID: number): Promise<AxiosResponse<IEventResults>> {
+  static async EventResults(eventID: number): Promise<AxiosResponse<EventResultsVm>> {
     return await apiClient.get(url + `/Results/${eventID}`)
   }
-  static async UpdateEventResults(eventResults: IEventResults): Promise<AxiosResponse<boolean>> {
+  static async UpdateEventResults(eventResults: EventResultsVm): Promise<AxiosResponse<boolean>> {
     return await apiClient.put(url + `/UpdateEventResults/`, eventResults)
   }
 }

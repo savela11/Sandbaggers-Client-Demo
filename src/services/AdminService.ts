@@ -1,6 +1,6 @@
 ﻿import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
-import { ICreateEvent, IEventDto } from '@/types/Admin/Event'
+import { EventVm } from '@/types/ViewModels/EventVm'
 
 const url = '/admin'
 
@@ -10,17 +10,12 @@ interface ICreateRoleResponse {
 }
 
 class AdminService {
-  static async createEvent(createEvent: ICreateEvent): Promise<AxiosResponse<any>> {
-    return await apiClient.post(url + `/createEvent`, createEvent)
-  }
-  static async eventList(): Promise<AxiosResponse<IEventDto[]>> {
+  static async eventList(): Promise<AxiosResponse<EventVm[]>> {
     return await apiClient.get(url + `/eventList`)
   }
-  static async getEventById(id: string): Promise<AxiosResponse<IEventDto>> {
+  static async getEventById(id: string): Promise<AxiosResponse<EventVm>> {
     return await apiClient.get(url + `/GetEventById/${id}`)
   }
-
-
 }
 
 export default AdminService

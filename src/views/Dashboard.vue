@@ -140,29 +140,8 @@
               </div>
             </div>
           </div>
-          <div v-if="currentView === 'Bets'" class="bets">
-            <div class="bets__list" v-if="Bets.length > 0">
-              <div class="bet" v-for="bet in Bets" :key="bet.betId" @click="$router.push(`/bets/${bet.betId}`)">
-                <div class="flex">
-                  <p class="createdOn">Created: {{ formatDate(bet.createdOn) }}</p>
-                  <p>By: {{ bet.createdBy }}</p>
-                </div>
-                <div class="flex">
-                  <div>
-                    <h3 class="title">{{ bet.title }}</h3>
-                  </div>
-                  <div class="flex">
-                    <div class="amount">
-                      <span>${{ bet.amount }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div v-else class="noBets">
-              <p>No Bets found...</p>
-            </div>
-          </div>
+          <DashboardBets  v-if="currentView === 'Bets'" :bets="Bets"/>
+
         </div>
         <Loading v-if="loading" />
       </div>
@@ -172,20 +151,20 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { SandbaggerWithHandicap } from '@/types/DashboardTypes'
-import EventResultsService from '@/services/EventResultsService'
-import UsersService from '@/services/UsersService'
-import { IScrambleChamp } from '@/models/ScrambleChamp'
 import UIHelper from '@/utility/UIHelper'
 import Helper from '@/utility/Helper'
 import BetService from '@/services/BetService'
 import { BetVm } from '@/types/ViewModels/BetVm'
+import { SandbaggerWithHandicapVm } from "@/types/DashboardTypes";
+import DashboardService from "@/services/DashboardService";
+import { ScrambleChampVm } from "@/types/ViewModels/EventResultsVm";
 
 @Component({
   name: 'Dashboard',
   components: {
     Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
     Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue'),
+    DashboardBets: (): Promise<typeof import('*.vue')> => import('@/views/dashboard/dashboardBets.vue'),
   },
 })
 export default class Dashboard extends Vue {
@@ -197,12 +176,12 @@ export default class Dashboard extends Vue {
   dashboardViews = ['Handicaps', 'Rounds', 'Bets']
   Bets: BetVm[] = []
   selectedBet: BetVm | null = null
-  ScrambleChamps: IScrambleChamp[] = []
+  ScrambleChamps: ScrambleChampVm[] = []
 
   // Sandbaggers with Handicap pagination
   size = 5
   pageNumber = 0
-  Sandbaggers: SandbaggerWithHandicap[] = []
+  Sandbaggers: SandbaggerWithHandicapVm[] = []
 
   get sandbaggerCount(): number {
     const l = this.Sandbaggers.length,
@@ -236,27 +215,27 @@ export default class Dashboard extends Vue {
   mounted(): void {
     UIHelper.Header({ title: 'Dashboard', isShowing: true, current: 'main', bgColor: '#17252a' })
 
-    this.getUsers()
+    this.getDashboardData()
   }
 
-  get filteredSandbaggers(): SandbaggerWithHandicap[] {
+  get filteredSandbaggers(): SandbaggerWithHandicapVm[] {
     const start = this.pageNumber * this.size,
       end = start + this.size
 
-    var filteredSandbaggers = this.Sandbaggers.filter((sb) => {
-      return sb.fullName.toLowerCase().includes(this.searchInput.toLowerCase())
-    })
+    const filteredSandbaggers = this.Sandbaggers.filter((sb) => {
+      return sb.fullName.toLowerCase().includes(this.searchInput.toLowerCase());
+    });
 
     return filteredSandbaggers.slice(start, end)
   }
 
-  async getUsers(): Promise<void> {
+  async getDashboardData(): Promise<void> {
     this.loading = true
     try {
-      const res = await UsersService.SandbaggersWithHandicaps()
+      const res = await DashboardService.DashboardData()
       if (res.status === 200) {
-        this.Sandbaggers = this.sortSandbaggersAscending(res.data)
-        await this.scrambleChamps()
+        this.Sandbaggers = this.sortSandbaggersAscending(res.data.sandbaggersWithHandicaps)
+        this.ScrambleChamps = res.data.scrambleChamps;
       }
     } catch (e) {
       console.log(e)
@@ -267,21 +246,12 @@ export default class Dashboard extends Vue {
     }
   }
 
-  async scrambleChamps(): Promise<void> {
-    try {
-      const res = await EventResultsService.ScrambleChamps()
-      if (res.status === 200) {
-        this.ScrambleChamps = res.data
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
+
 
   async getBets(): Promise<void> {
     this.loading = true
     try {
-      const res = await BetService.AllActiveBets()
+      const res = await DashboardService.ActiveBets()
       if (res.status === 200) {
         this.Bets = res.data
       }
@@ -299,7 +269,7 @@ export default class Dashboard extends Vue {
     this.descendingHandicap ? (this.Sandbaggers = this.sortSandbaggersDescending(this.Sandbaggers)) : (this.Sandbaggers = this.sortSandbaggersAscending(this.Sandbaggers))
   }
 
-  sortSandbaggersDescending(sandbaggers: Array<SandbaggerWithHandicap>): Array<SandbaggerWithHandicap> {
+  sortSandbaggersDescending(sandbaggers: Array<SandbaggerWithHandicapVm>): Array<SandbaggerWithHandicapVm> {
     return sandbaggers.sort((a, b) => {
       if (a.handicap > b.handicap) {
         return -1
@@ -311,7 +281,7 @@ export default class Dashboard extends Vue {
     })
   }
 
-  sortSandbaggersAscending(sandbaggers: Array<SandbaggerWithHandicap>): Array<SandbaggerWithHandicap> {
+  sortSandbaggersAscending(sandbaggers: Array<SandbaggerWithHandicapVm>): Array<SandbaggerWithHandicapVm> {
     return sandbaggers.sort((a, b) => {
       if (a.handicap > b.handicap) {
         return 1
@@ -337,9 +307,7 @@ export default class Dashboard extends Vue {
     document.body.style.position = 'static'
   }
 
-  formatDate(date: string): string {
-    return Helper.formatDate(date)
-  }
+
 }
 </script>
 
@@ -402,10 +370,6 @@ $--sandbaggerHandicapFS: (
   $tablet-landscape: 1.6rem,
 );
 
-$--noBetsFoundFS: (
-  null: 1rem,
-  $mobile: 1.2rem,
-);
 .dashboard {
   padding: 0;
 
@@ -451,119 +415,14 @@ $--noBetsFoundFS: (
     }
     @include tablet {
       min-height: 600px;
-      padding: 2rem;
     }
     @include tablet-landscape {
       min-height: 400px;
-      padding: 4rem;
+      padding: 2rem;
     }
   }
 
-  .bets {
-    @include tablet {
-      padding: 1rem 0;
-    }
 
-    &__list {
-      @include tablet {
-        display: grid;
-        flex-wrap: wrap;
-        grid-template-columns: 1fr 1fr;
-        grid-auto-rows: 150px;
-        gap: 20px;
-      }
-
-      @include desktopSmall {
-        grid-template-columns: 1fr 1fr 1fr;
-      }
-
-      .bet {
-        padding: 0.5rem 0.5rem 1rem 0.5rem;
-        border-radius: 5px;
-        border-left: 5px solid #425a41;
-        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-        overflow: hidden;
-        height: 100px;
-        margin-bottom: 1rem;
-
-        @include tablet {
-          margin: 0;
-          height: auto;
-        }
-
-        .flex {
-          justify-content: space-between;
-          align-items: flex-start;
-
-          &:first-child {
-            margin-bottom: 1rem;
-          }
-
-          @include tablet {
-            align-items: center;
-          }
-        }
-
-        h3 {
-          color: $DarkBlue;
-          font-size: 1rem;
-        }
-
-        p {
-          color: grey;
-          font-size: 0.7rem;
-
-          @include tablet {
-            font-size: 0.8rem;
-          }
-        }
-
-        .showBetBtn {
-          border: none;
-          border-bottom: 1px solid $DarkBlue;
-          margin-right: 1rem;
-          font-size: 0.8rem;
-          padding: 0.3rem 0.5rem;
-
-          @include tablet {
-            font-size: 0.9rem;
-          }
-        }
-
-        .amount {
-          padding: 0.5rem;
-          border-radius: 50%;
-          background-color: #425a41;
-          height: 50px;
-          width: 50px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          box-shadow: 3px 3px 3px rgba(95, 95, 95, 0.8);
-          @include tablet {
-            width: 60px;
-            height: 60px;
-          }
-
-          span {
-            font-size: 1rem;
-            font-weight: bold;
-            color: white;
-          }
-        }
-      }
-    }
-
-    .noBets {
-      padding: 1rem;
-      display: flex;
-      justify-content: center;
-
-      p {
-        @include font-size($--noBetsFoundFS);
-      }
-    }
-  }
 
   .handicaps {
     .titleBar {

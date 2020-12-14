@@ -1,4 +1,4 @@
-﻿export interface RegisterUserForEvent {
+﻿export interface RegisterUserForEventDto {
   eventId: string
   id: string
   username: string

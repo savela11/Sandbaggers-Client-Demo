@@ -1,4 +1,3 @@
-import { EventTeamVm } from "@/types/ViewModels/EventTeamVm";
 
 export interface EventVm {
   eventId: number
@@ -11,7 +10,7 @@ export interface EventVm {
   location: EventLocationVm
   itineraries: Array<ItineraryVm>
   registeredUsers: Array<RegisteredUserVm>
-  teams: Array<EventTeamVm>
+  teams: Array<TeamVm>
 }
 
 
@@ -30,6 +29,22 @@ export interface ItineraryVm {
 }
 
 export interface RegisteredUserVm {
+  id: string;
+  username: string;
+  fullName: string;
+  image: string;
+}
+
+export interface TeamVm {
+  teamId: number;
+  name: string;
+  eventId: number;
+  captain: string;
+  teamMembers: Array<TeamMemberVm>
+  place: string;
+}
+
+export interface TeamMemberVm {
   id: string;
   username: string;
   fullName: string;

@@ -7,22 +7,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { IAdminLink } from '@/types/Navigation/INavBar'
-import { IHeader } from '@/types/UI/UIStoreTypes'
-@Component({ name: 'Admin' })
+import { Component, Vue } from "vue-property-decorator";
+import { IAdminLink } from "@/types/Navigation/INavBar";
+import { IHeader } from "@/types/UI/UIStoreTypes";
+
+@Component({ name: "Admin" })
 export default class Admin extends Vue {
-  activeAdminLink = 'Admin dashboard'
+  activeAdminLink = "Admin dashboard";
   adminLinks: IAdminLink[] = [
-    { name: 'Users', link: '/admin/users', icon: 'golf' },
-    { name: 'Roles', link: '/admin/roles', icon: 'golf' },
-    { name: 'Events', link: '/admin/events', icon: 'golf' },
-  ]
+    { name: "Users", link: "/admin/users", icon: "golf" },
+    { name: "Roles", link: "/admin/roles", icon: "golf" },
+    { name: "Events", link: "/admin/events", icon: "golf" }
+  ];
+
   mounted(): void {
 
   }
 
-  setHeader(): void {}
+  setHeader(): void {
+  }
 }
 </script>
 
@@ -32,6 +35,7 @@ export default class Admin extends Vue {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 0.5rem;
+
     a {
       text-align: center;
     }

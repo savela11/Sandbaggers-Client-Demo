@@ -66,7 +66,6 @@ export default class Login extends Vue {
     UIHelper.clickedButton("loginBTN");
     this.loading = true;
     const validForm = this.validateForm();
-
     if (validForm) {
       try {
         const res = await AuthService.loginUser(this.LoginForm);
@@ -74,7 +73,17 @@ export default class Login extends Vue {
           await this.$store.dispatch("authStore/SetLoggedInUser", res.data);
         }
       } catch (e) {
+        this.loading = false;
         if (e.data) {
+          const snackBar: ISnackBar = {
+            title: "Login Error",
+            message: e.data.message,
+            isSnackBarShowing: true,
+            classInfo: "error",
+            errors: []
+          };
+          await this.$store.dispatch("uiStore/_setSnackBar", snackBar, { root: true });
+        } else {
           const snackBar: ISnackBar = {
             title: "Login Error",
             message: e.data.message,
@@ -85,7 +94,7 @@ export default class Login extends Vue {
           await this.$store.dispatch("uiStore/_setSnackBar", snackBar, { root: true });
         }
 
-        this.loading = false;
+
       }
     } else {
       this.loading = false;

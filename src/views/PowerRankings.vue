@@ -6,10 +6,14 @@
         <div class="top">
           <button @click="toggleSearch" class="searchButton"><img src="@/assets/icons/search.svg" alt="search icon" /></button>
           <div class="selectEvent">
-            <label for="year">Year</label>
-            <select id="year" v-model="selectedYear">
-              <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
-            </select>
+            <SelectBox class="selectComponent" :showOptions="true" >
+              <template v-slot:selected>
+                <span>{{selectedYear}}</span>
+              </template>
+              <template v-slot:options>
+                <span class="option" v-for="year in years" :key="year">{{ year }}</span>
+              </template>
+            </SelectBox>
           </div>
         </div>
 
@@ -89,7 +93,9 @@
 import { Component, Vue } from 'vue-property-decorator'
 import UIHelper from '@/utility/UIHelper'
 
-@Component({ name: 'PowerRankings' })
+@Component({ name: 'PowerRankings', components: {
+    SelectBox: (): Promise<typeof import("*.vue")> => import("@/components/ui/SelectBox.vue")
+  } })
 export default class PowerRankings extends Vue {
   isSearchingUser = false
   selectedYear = '2020'

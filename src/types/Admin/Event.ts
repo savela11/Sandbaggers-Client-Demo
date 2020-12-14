@@ -1,22 +1,11 @@
-import { IEventResults } from '@/types/Events/EventResults'
-
-export interface IEventLocation {
-  name: string
-  locationId: number
-  streetNumbers: string
-  streetName: string
-  city: string
-  postalCode: string
-}
-
-export interface IRegisterUser {
+export interface RegisterUserForEventDto {
   eventId: string
   id: string
   username: string
   fullName: string
 }
 
-export interface IRegisteredUser {
+export interface RegisteredUserForEventDto {
   id: string
   username: string
   fullName: string
@@ -24,28 +13,7 @@ export interface IRegisteredUser {
   image: string
 }
 
-export interface IEventDto {
-  eventId: number
-  name: string
-  location: IEventLocation
-  teams: IEventTeam[]
-  registeredUsers: IRegisteredUser[]
-  eventResults?: IEventResults | null
-  year: string
-  createdOn: string
-  isPublished: boolean
-  isCurrentYear: boolean
-}
-
-export interface IEventTeam {
-  teamId: number
-  name: string
-  captain: string
-  eventId: number
-  teamMembers: IRegisterUser[]
-}
-
-export interface ICreateEvent {
+export interface CreateEventDto {
   name: string
   year: string
 }

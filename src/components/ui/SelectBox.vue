@@ -1,10 +1,12 @@
 <template>
-  <div class="select-wrapper" v-on="$listeners" >
+  <div class="select-wrapper" v-on="$listeners">
     <div class="select" :class="{open: showOptions}">
-      <div class="select__trigger" >
-        <slot name="selected">
-          <span>Select link</span>
-        </slot>
+      <div class="select__trigger">
+        <div class="selectedSpan">
+          <slot name="selected">
+            <span>Selected</span>
+          </slot>
+        </div>
         <div class="arrow"></div>
       </div>
       <div class="options" v-show="showOptions">
@@ -81,6 +83,10 @@ $--selectBoxOptionFS: (
       border-style: solid;
       border-color: #394a6d;
       border-radius: 3px;
+    }
+
+    .selectedSpan {
+      margin-right: .8rem;
     }
 
     .arrow {
