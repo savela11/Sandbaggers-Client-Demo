@@ -2,11 +2,7 @@
   <div class="app">
     <SnackBar v-if="this.$store.state.uiStore.snackBar.isSnackBarShowing" />
     <PageLoading v-if="this.$store.state.uiStore.pageLoading" />
-    <div v-if="Header.isShowing">
-      <AuthHeader v-if="Header.current === 'auth'" :backgroundColor="headerColor" :title="Header.title" />
-      <MainHeader v-if="Header.current === 'main' && LoggedInUser" :currentUser="LoggedInUser" :bgColor="Header.bgColor" />
-    </div>
-
+    <MainHeader v-if="Header.isShowing && Header.current === 'main' && LoggedInUser" :currentUser="LoggedInUser" :bgColor="Header.bgColor" />
     <router-view class="routerView" v-show="!isNavigationMenuShowing" />
 
     <div v-if="LoggedInUser">
@@ -275,15 +271,12 @@ export default class App extends Vue {
 <style lang="scss">
 .app {
   .routerView {
-    padding: 2rem 1rem;
     position: relative;
 
     @include tablet {
-      padding: 3rem;
     }
 
     @include tablet-landscape {
-      padding: 5rem;
     }
   }
 }

@@ -1,4 +1,4 @@
-﻿import axios from "axios";
+﻿import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 const url = process.env.VUE_APP_URL;
 import SecureLS from "secure-ls";
@@ -12,7 +12,7 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use(
-  (config) => {
+  (config:AxiosRequestConfig) => {
     config.withCredentials = true;
     axios.defaults.headers.common["Authorization"] = "";
     delete axios.defaults.headers.common["Authorization"];
@@ -29,7 +29,7 @@ apiClient.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
+  (error: AxiosError) => {
 
     console.log("error", error);
     return Promise.reject(error);
@@ -37,18 +37,20 @@ apiClient.interceptors.request.use(
 );
 
 apiClient.interceptors.response.use(
-  (response) => {
+  (response: AxiosResponse) => {
     if (process.env.NODE_ENV !== "production") {
       console.log("Response: ", response);
     }
 
     return response;
   },
-  async (error) => {
-
-    if (error.response.status === 401 || error.response.statusText === "Unauthorized" || error.response.status === 500 ) {
-      await store.dispatch("authStore/Logout");
+  async (error: AxiosError) => {
+    if (error.response) {
+      if (error.response.status === 401 || error.response.statusText === "Unauthorized" || error.response.status === 500) {
+        await store.dispatch("authStore/Logout");
+      }
     }
+
     // console.log('Response Error', error.response)
     return Promise.reject(error.response);
   }

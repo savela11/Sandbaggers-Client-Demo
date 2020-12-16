@@ -1,38 +1,20 @@
 ﻿<template>
   <div class="register">
-    <form v-if="!loading" class="form form--login">
-      <div class="form__field">
-        <label for="username">Username</label>
-        <input type="text" id="username" v-model.trim="registerForm.username" />
-      </div>
-      <div class="form__field">
-        <label for="email">Email</label>
-        <input type="email" id="email" v-model.trim="registerForm.email" />
-      </div>
-      <div class="form__field">
-        <label for="firstName">First Name</label>
-        <input type="text" id="firstName" v-model.trim="registerForm.firstName" />
-      </div>
-      <div class="form__field">
-        <label for="lastName">Last Name</label>
-        <input type="text" id="lastName" v-model.trim="registerForm.lastName" />
-      </div>
-      <div class="form__field">
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model.trim="registerForm.password" />
-      </div>
-      <div class="form__field">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" v-model.trim="registerForm.confirmPassword" />
-      </div>
-      <div class="form__field">
-        <label for="registrationCode">Registration Code</label>
-        <input type="text" id="registrationCode" v-model.trim="registerForm.registrationCode" />
-      </div>
-      <div class="btnContainer">
-        <button @click.prevent.stop="onSubmit" class="btn btn--blue btn--sm">Register</button>
-      </div>
-    </form>
+    <AuthHeader title="Register" />
+    <NewForm v-if="!loading" class="registerForm">
+      <template v-slot:fields>
+        <InputField type="text" label="Username" v-model.trim="registerForm.username" />
+        <InputField type="email" label="Email" v-model.trim="registerForm.email" />
+        <InputField type="text" label="First Name" v-model.trim="registerForm.firstName" />
+        <InputField type="text" label="Last Name" v-model.trim="registerForm.lastName" />
+        <InputField type="password" label="Password" v-model.trim="registerForm.password" />
+        <InputField type="password" label="Confirm Password" v-model.trim="registerForm.confirmPassword" />
+        <InputField type="text" label="Registration Code" v-model.trim="registerForm.registrationCode" />
+      </template>
+      <template v-slot:button>
+        <button @click.prevent.stop="onSubmit" class="btn btn--blue btn--sm" id="registerBtn">Register</button>
+      </template>
+    </NewForm>
     <div class="greyLinks" v-if="!loading">
       <p>
         Already have an account?
@@ -52,7 +34,10 @@ import { RegisterUserDto } from "@/types/DTO/AuthDto";
 @Component({
   name: "Register",
   components: {
-    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue")
+    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
+    AuthHeader: (): Promise<typeof import("*.vue")> => import("@/components/ui/Headers/AuthHeader.vue"),
+    NewForm: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/NewForm.vue"),
+    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue"),
   }
 })
 export default class Login extends Vue {
@@ -192,9 +177,7 @@ export default class Login extends Vue {
 </script>
 
 <style scoped lang="scss">
-.register {
-  .btn {
-    border-radius: 25px;
-  }
+.registerForm {
+  padding: 2rem;
 }
 </style>

@@ -20,26 +20,28 @@
     <section class="section section__middle"></section>
 
     <section v-if="!loading" class="section section__bottom">
+      <ProfileUserInfo v-if="currentView.title === 'Profile'" class="view profile" :currentUser="currentUser" />
+
       <!--      Profile-->
-      <form v-if="currentView.title === 'Profile'" class="view profile">
-        <div class="form__field">
-          <label for="firstName">First</label>
-          <input id="firstName" v-model="currentUser.profile.firstName" type="text" />
-        </div>
-        <div class="form__field">
-          <label for="lastName">Last</label>
-          <input id="lastName" v-model="currentUser.profile.lastName" type="text" />
-        </div>
-        <div class="form__field">
-          <label for="email">Email</label>
-          <input id="email" v-model="currentUser.email" type="email" />
-        </div>
-        <!-- TODO add formatter for phone number -->
-        <div class="form__field">
-          <label for="phone">Phone</label>
-          <input id="phone" v-model="currentUser.phoneNumber" type="tel" @input="formatPhone" />
-        </div>
-      </form>
+      <!--      <form v-if="currentView.title === 'Profile'" class="view profile">-->
+      <!--        <div class="form__field">-->
+      <!--          <label for="firstName">First</label>-->
+      <!--          <input id="firstName" v-model="currentUser.profile.firstName" type="text" />-->
+      <!--        </div>-->
+      <!--        <div class="form__field">-->
+      <!--          <label for="lastName">Last</label>-->
+      <!--          <input id="lastName" v-model="currentUser.profile.lastName" type="text" />-->
+      <!--        </div>-->
+      <!--        <div class="form__field">-->
+      <!--          <label for="email">Email</label>-->
+      <!--          <input id="email" v-model="currentUser.email" type="email" />-->
+      <!--        </div>-->
+      <!--        &lt;!&ndash; TODO add formatter for phone number &ndash;&gt;-->
+      <!--        <div class="form__field">-->
+      <!--          <label for="phone">Phone</label>-->
+      <!--          <input id="phone" v-model="currentUser.phoneNumber" type="tel" @input="formatPhone" />-->
+      <!--        </div>-->
+      <!--      </form>-->
       <!--      Settings -->
       <div v-if="currentView.title === 'Settings'" class="view settings">
         <div class="favorites">
@@ -153,6 +155,7 @@ interface IOptionView {
   components: {
     Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
     SelectBox: (): Promise<typeof import("*.vue")> => import("@/components/ui/SelectBox.vue"),
+    ProfileUserInfo: (): Promise<typeof import("*.vue")> => import("@/views/userProfile/profileUserInfo.vue"),
     ProfileBets: (): Promise<typeof import("*.vue")> => import("@/views/userProfile/profileBets.vue")
   }
 })

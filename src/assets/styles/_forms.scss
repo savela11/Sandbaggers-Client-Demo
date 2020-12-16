@@ -1,9 +1,9 @@
 
 
 .form {
-  padding: 0 1rem;
+  padding: 1rem;
   @include mobile {
-    padding: 0 2rem;
+    padding: 2rem 1rem;
   }
 
   &__field {

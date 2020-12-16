@@ -1,18 +1,16 @@
 ﻿<template>
   <div class="login">
-    <form v-if="!loading" class="form form--login">
-      <div class="form__field">
-        <label for="username">Username</label>
-        <input type="text" id="username" v-model.trim="LoginForm.username" />
-      </div>
-      <div class="form__field">
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model.trim="LoginForm.password" />
-      </div>
-      <div class="btnContainer">
+    <AuthHeader title="Login" />
+    <NewForm v-if="!loading" class="loginForm">
+      <template v-slot:fields>
+        <InputField type="text" label="Username" v-model.trim="LoginForm.username" />
+        <InputField type="password" label="Password" v-model.trim="LoginForm.password" />
+      </template>
+      <template v-slot:button>
         <button @click.prevent.stop="onSubmit" class="btn btn--blue btn--sm" id="loginBTN">Login</button>
-      </div>
-    </form>
+      </template>
+    </NewForm>
+
     <div class="greyLinks" v-if="!loading">
       <p>Need an account?
         <router-link to="/register">Register</router-link>
@@ -31,10 +29,16 @@ import { LoginUserDto } from "@/types/DTO/AuthDto";
 
 @Component({
   name: "Login",
-  components: { Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue") }
+  components: {
+    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
+    NewForm: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/NewForm.vue"),
+    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue"),
+    AuthHeader: (): Promise<typeof import("*.vue")> => import("@/components/ui/Headers/AuthHeader.vue")
+  }
 })
 export default class Login extends Vue {
   loading = false;
+  test = "";
   LoginForm: LoginUserDto = {
     username: "",
     password: ""
@@ -69,6 +73,7 @@ export default class Login extends Vue {
     if (validForm) {
       try {
         const res = await AuthService.loginUser(this.LoginForm);
+        console.log(res);
         if (res.status === 200) {
           await this.$store.dispatch("authStore/SetLoggedInUser", res.data);
         }
@@ -105,9 +110,7 @@ export default class Login extends Vue {
 </script>
 
 <style scoped lang="scss">
-.login {
-  .btn {
-    border-radius: 25px;
-  }
+.loginForm {
+  padding: 2rem;
 }
 </style>

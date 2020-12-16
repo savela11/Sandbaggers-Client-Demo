@@ -11,27 +11,27 @@ function loadView(view: string) {
 
 Vue.use(VueRouter);
 
-function authRoute(to: Route, from: Route, next: any): any {
-  UIHelper.PageLoading(true);
-  let headerName = "";
-  if (to.name) {
-
-    if (to.name !== "NotFound") {
-      headerName = to.name;
-    } else {
-      headerName = "Login";
-
-    }
-  }
-  if (store.state.authStore.isLoggedIn) {
-    next("/dashboard");
-  } else {
-    next();
-    UIHelper.Header({ current: "auth", isShowing: true, title: headerName, bgColor: "white" });
-    UIHelper.PageLoading(false);
-
-  }
-}
+// function authRoute(to: Route, from: Route, next: any): any {
+//   UIHelper.PageLoading(true);
+//   // let headerName = "";
+//   // if (to.name) {
+//   //
+//   //   if (to.name !== "NotFound") {
+//   //     headerName = to.name;
+//   //   } else {
+//   //     headerName = "Login";
+//   //
+//   //   }
+//   // }
+//   if (store.state.authStore.isLoggedIn) {
+//     next("/dashboard");
+//   } else {
+//     next();
+//     // UIHelper.Header({ current: "auth", isShowing: true, title: headerName, bgColor: "white" });
+//     // UIHelper.PageLoading(false);
+//
+//   }
+// }
 
 function guardRoute(to: Route, from: Route, next: any): any {
   let authenticated = false;
@@ -48,6 +48,7 @@ function guardRoute(to: Route, from: Route, next: any): any {
     UIHelper.Header({ current: "main", isShowing: true, title: headerTitle, bgColor: "white" });
   } else {
     store.dispatch("authStore/Logout").then();
+    UIHelper.PageLoading(false);
     next("/login");
   }
 }
@@ -58,19 +59,17 @@ const routes: Array<RouteConfig> = [
   {
     path: "*",
     name: "NotFound",
-    beforeEnter: authRoute,
-    component: loadView("auth/Login")
+    beforeEnter: guardRoute,
+    component: loadView("/Dashboard")
   },
   {
     path: "/register",
     name: "Register",
-    beforeEnter: authRoute,
     component: loadView("auth/Register")
   },
   {
     path: "/login",
     name: "Login",
-    beforeEnter: authRoute,
     component: loadView("auth/Login")
   },
   {
@@ -142,6 +141,13 @@ const routes: Array<RouteConfig> = [
     name: "PowerRankings",
     beforeEnter: guardRoute,
     component: loadView("PowerRankings")
+
+  },
+  {
+    path: "/powerRankings/CreatePowerRanking/:eventId/:userId",
+    name: "CreatePowerRanking",
+    beforeEnter: guardRoute,
+    component: loadView("powerRankings/CreatePowerRanking")
 
   },
   {
