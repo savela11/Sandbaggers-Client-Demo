@@ -46,6 +46,8 @@ function guardRoute(to: Route, from: Route, next: any): any {
     next();
     UIHelper.PageLoading(false);
     UIHelper.Header({ current: "main", isShowing: true, title: headerTitle, bgColor: "white" });
+
+
   } else {
     store.dispatch("authStore/Logout").then();
     UIHelper.PageLoading(false);
@@ -60,7 +62,7 @@ const routes: Array<RouteConfig> = [
     path: "*",
     name: "NotFound",
     beforeEnter: guardRoute,
-    component: loadView("/Dashboard")
+    component: loadView("Dashboard")
   },
   {
     path: "/register",
@@ -164,7 +166,8 @@ const routes: Array<RouteConfig> = [
     component: loadView("Gallery")
   },
 
-  { path: "/contacts",
+  {
+    path: "/contacts",
     name: "Contacts",
     beforeEnter: guardRoute,
     component: loadView("Contacts")

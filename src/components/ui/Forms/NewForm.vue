@@ -1,5 +1,5 @@
 <template>
-  <form class="c-form">
+  <form class="c-form" @click.prevent.stop>
     <div class="c-form__fields">
       <slot name="fields"></slot>
     </div>

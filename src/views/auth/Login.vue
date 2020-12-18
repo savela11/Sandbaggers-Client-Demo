@@ -1,16 +1,15 @@
 ﻿<template>
   <div class="login">
     <AuthHeader title="Login" />
-    <NewForm v-if="!loading" class="loginForm">
+    <NewForm class="loginForm" v-if="!loading">
       <template v-slot:fields>
-        <InputField type="text" label="Username" v-model.trim="LoginForm.username" />
-        <InputField type="password" label="Password" v-model.trim="LoginForm.password" />
+        <InputField label="Username" type="text" v-model="LoginForm.username" />
+        <InputField label="Password" type="password" v-model="LoginForm.password" />
       </template>
       <template v-slot:button>
         <button @click.prevent.stop="onSubmit" class="btn btn--blue btn--sm" id="loginBTN">Login</button>
       </template>
     </NewForm>
-
     <div class="greyLinks" v-if="!loading">
       <p>Need an account?
         <router-link to="/register">Register</router-link>
@@ -30,15 +29,14 @@ import { LoginUserDto } from "@/types/DTO/AuthDto";
 @Component({
   name: "Login",
   components: {
-    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
     NewForm: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/NewForm.vue"),
     InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue"),
+    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
     AuthHeader: (): Promise<typeof import("*.vue")> => import("@/components/ui/Headers/AuthHeader.vue")
   }
 })
 export default class Login extends Vue {
   loading = false;
-  test = "";
   LoginForm: LoginUserDto = {
     username: "",
     password: ""
@@ -51,15 +49,13 @@ export default class Login extends Vue {
 
   validateForm(): boolean {
     if (this.LoginForm.username === "" || this.LoginForm.password === "") {
-      const snackBar: ISnackBar = {
+      UIHelper.SnackBar({
         title: "Login Error",
-        message: "Please provide username and password",
+        message: "Please provide a username and password",
         isSnackBarShowing: true,
         classInfo: "error",
         errors: []
-      };
-
-      this.$store.dispatch("uiStore/_setSnackBar", snackBar);
+      });
       return false;
     } else {
       return true;
@@ -73,7 +69,6 @@ export default class Login extends Vue {
     if (validForm) {
       try {
         const res = await AuthService.loginUser(this.LoginForm);
-        console.log(res);
         if (res.status === 200) {
           await this.$store.dispatch("authStore/SetLoggedInUser", res.data);
         }
@@ -102,6 +97,13 @@ export default class Login extends Vue {
 
       }
     } else {
+      const snackBar: ISnackBar = {
+        title: "Login Error",
+        message: "Error",
+        isSnackBarShowing: true,
+        classInfo: "error",
+        errors: []
+      };
       this.loading = false;
       return;
     }
@@ -113,4 +115,5 @@ export default class Login extends Vue {
 .loginForm {
   padding: 2rem;
 }
+
 </style>

@@ -3,7 +3,7 @@ import UIHelper from '@/utility/UIHelper'
 import store from '@/store'
 
 function loadView(view: string) {
-  return (): Promise<object> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`)
+  return (): Promise<typeof import("*.vue")> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`);
 }
 
 function guardAdminRoute(to: Route, from: Route, next: any): any {
@@ -12,9 +12,12 @@ function guardAdminRoute(to: Route, from: Route, next: any): any {
     authenticated = true
   }
   if (authenticated) {
+    UIHelper.ToggleNavBar(false);
+    UIHelper.PageLoading(false);
+    UIHelper.Header({ current: "main", isShowing: true, title: 'Admin', bgColor: "white" });
     next()
   } else {
-    store.dispatch('authStore/Logout')
+    store.dispatch('authStore/Logout').then();
     next('/login')
   }
 }

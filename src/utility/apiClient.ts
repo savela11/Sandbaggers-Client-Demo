@@ -12,7 +12,7 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use(
-  (config:AxiosRequestConfig) => {
+  (config: AxiosRequestConfig) => {
     config.withCredentials = true;
     axios.defaults.headers.common["Authorization"] = "";
     delete axios.defaults.headers.common["Authorization"];
@@ -45,7 +45,7 @@ apiClient.interceptors.response.use(
     return response;
   },
   async (error: AxiosError) => {
-    if (error.response) {
+    if (error && error.response) {
       if (error.response.status === 401 || error.response.statusText === "Unauthorized" || error.response.status === 500) {
         await store.dispatch("authStore/Logout");
       }
