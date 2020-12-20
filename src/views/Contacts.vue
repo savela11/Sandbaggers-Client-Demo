@@ -3,7 +3,7 @@
     <div v-if="!loading">
       <div class="search input">
         <button class="toggleSearchBtn"><img :src="require('@/assets/icons/search.svg')" alt="Search icon" /></button>
-        <label class="hideLabel" for="search"></label><input v-model="searchInput" type="text" id="search" />
+        <label class="hideLabel" for="search"></label><input v-model="searchInput" class="text text--input" type="text" id="search" />
       </div>
       <div class="contactList" v-if="filteredContacts.length > 0">
         <div class="contact" v-for="contact in filteredContacts" :key="contact.fullName">
@@ -149,7 +149,6 @@ $--noContactInfoAvailableFS: (
     border: 1px solid lightgrey;
     border-radius: 5px;
     padding: 0.3rem 0.5rem;
-    @include font-size($--inputFS);
 
     @include tablet {
       padding: .5rem .8rem;

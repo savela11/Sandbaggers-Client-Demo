@@ -1,8 +1,8 @@
 ﻿$--preNextBtnFS: (
-  null: .8rem,
-  $mobile: .9rem,
-  $tablet: 1rem,
-  $tablet-landscape: 1.1rem,
+        null: .8rem,
+        $mobile: .9rem,
+        $tablet: 1rem,
+        $tablet-landscape: 1.1rem,
 );
 
 button {
@@ -32,6 +32,7 @@ button {
     background-color: $DarkBlue;
     color: white;
   }
+
   &--circle {
     border-radius: 50%;
     padding: 0;
@@ -40,10 +41,12 @@ button {
       padding: 0;
     }
   }
+
   &--tiny {
     font-size: 0.7rem;
     padding: 0.2rem 0.8rem;
   }
+
   &--xs {
     font-size: 0.8rem;
     padding: 0.3rem 1rem;
@@ -58,6 +61,7 @@ button {
       padding: 0.5rem 1.2rem;
     }
   }
+
   &--sm {
     font-size: 1rem;
     padding: 0.5rem 2rem;
@@ -70,6 +74,7 @@ button {
       padding: 0.7rem 2.8rem;
     }
   }
+
   &--md {
     font-size: 1.2rem;
     padding: 1rem 3rem;
@@ -77,47 +82,57 @@ button {
       font-size: 1.3rem;
     }
   }
+
   &--lg {
     padding: 1rem 4rem;
   }
+
   &--blue {
     color: white;
     background-color: $DarkBlue;
     border: 1px solid $DarkBlue;
   }
+
   &--white {
     color: $DarkBlue;
     background-color: white;
   }
+
   &--red {
     background-color: $danger;
     color: white;
     border: 1px solid $danger;
   }
+
   &--green {
     color: white;
     background-color: $primary;
     border: 1px solid $primary;
   }
+
   &--borderBlue {
     background-color: white;
     border: 1px solid $DarkBlue;
   }
+
   &--borderRed {
     background-color: white;
     color: $danger;
     border: 1px solid $danger;
   }
+
   &--borderGreen {
     background-color: white;
     border: 1px solid $DarkGreen;
   }
+
   &--borderBottom {
     border-top: none;
     border-left: none;
     border-right: none;
     box-shadow: 0 1px rgba(154, 154, 154, 0.8);
   }
+
   &.clicked {
     transform: translateY(4px);
   }
@@ -130,12 +145,27 @@ button {
   }
 }
 
+.iconBtn {
+  height: 30px;
+  width: 30px;
+  padding: .2rem;
+  border: none;
+
+  svg, img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+
+  }
+}
+
 .btnContainer {
   margin-top: 2rem;
 }
 
 .prevNextButtons {
   margin: 1rem 0;
+
   button {
     margin-right: 1rem;
     padding: 0.5rem 1.2rem;

@@ -97,13 +97,6 @@ export default class Login extends Vue {
 
       }
     } else {
-      const snackBar: ISnackBar = {
-        title: "Login Error",
-        message: "Error",
-        isSnackBarShowing: true,
-        classInfo: "error",
-        errors: []
-      };
       this.loading = false;
       return;
     }
@@ -112,6 +105,9 @@ export default class Login extends Vue {
 </script>
 
 <style scoped lang="scss">
+.login {
+  padding: 0;
+}
 .loginForm {
   padding: 2rem;
 }

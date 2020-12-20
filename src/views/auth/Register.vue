@@ -177,6 +177,9 @@ export default class Login extends Vue {
 </script>
 
 <style scoped lang="scss">
+.register {
+  padding: 0;
+}
 .registerForm {
   padding: 2rem;
 }

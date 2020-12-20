@@ -116,7 +116,7 @@ const routes: Array<RouteConfig> = [
     path: "/bets",
     name: "Bets",
     beforeEnter: guardRoute,
-    component: loadView("bet/Bets")
+    component: loadView("Bets")
 
   },
   {

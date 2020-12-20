@@ -1,0 +1,15 @@
+.text {
+  &--bold {
+    font-weight: bold;
+  }
+
+  &--noWrap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &--overflow-hidden {
+    overflow: hidden;
+  }
+}

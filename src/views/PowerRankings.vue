@@ -149,7 +149,7 @@ export default class PowerRankings extends Vue {
   showUsersWriteUpID: null | string = null;
   Users = [
     {
-      id: 1,
+      id: "1",
       name: "Andy Savela",
       rank: 1,
       images: [],
@@ -157,8 +157,8 @@ export default class PowerRankings extends Vue {
       handicap: 15.1,
       writeUp: "Here is a test writeup"
     },
-    { id: 2, name: "Mitch Howell", rank: 2, images: [], trending: "-2", handicap: 2.1, writeUp: "" },
-    { id: 3, name: "Matt Miller", rank: 3, images: [], trending: "-2", handicap: 10.1, writeUp: "" }
+    { id: "2", name: "Mitch Howell", rank: 2, images: [], trending: "-2", handicap: 2.1, writeUp: "" },
+    { id: "3", name: "Matt Miller", rank: 3, images: [], trending: "-2", handicap: 10.1, writeUp: "" }
   ];
   powerRankings = [] as Array<EventPowerRankingVm>;
   currentView = "Rankings";
@@ -186,7 +186,7 @@ export default class PowerRankings extends Vue {
     }
   }
 
-  toggleShowUsersWriteUp(id: number): void {
+  toggleShowUsersWriteUp(id: string): void {
     if (id === this.showUsersWriteUpID) {
       this.showUsersWriteUpID = null;
       return;

@@ -1,0 +1,86 @@
+$--tinyFS: (
+        null:.6rem,
+        $mobile:.7rem,
+        $tablet: .8rem
+);
+$--xsFS: (
+        null: .7rem,
+        $mobile:.8rem,
+        $tablet: .9rem
+);
+$--smFS: (
+        null: .8rem,
+        $mobile:.9rem,
+        $tablet: 1rem
+);
+$--mdFS: (
+        null: .9rem,
+        $mobile:1rem,
+        $tablet: 1.1rem
+);
+$--lgFS: (
+        null: 1rem,
+        $mobile:1.1rem,
+        $tablet: 1.2rem
+);
+$--xlFS: (
+        null: 1.1rem,
+        $mobile:1.2rem,
+        $tablet: 1.3rem
+);
+$--titleFS: (
+        null:1.2rem,
+        $mobile:1.3rem,
+        $tablet: 1.4rem
+);
+$--inputFS: (
+        null: .9rem,
+        $mobile: 1rem,
+        $tablet: 1.2rem
+);
+$--labelFS: (
+        null: .8rem,
+        $mobile: 1rem,
+);
+.text {
+  font-weight: normal;
+
+
+  //Font Size
+  &--tiny {
+    @include font-size($--tinyFS);
+  }
+
+  &--xs {
+    @include font-size($--xsFS);
+  }
+
+  &--sm {
+    @include font-size($--smFS);
+  }
+
+  &--md {
+    @include font-size($--mdFS)
+  }
+
+  &--lg {
+    @include font-size($--lgFS);
+  }
+
+  &--xl {
+    @include font-size($--xlFS);
+  }
+
+  &--title {
+    @include font-size($--titleFS);;
+  }
+
+  &--input {
+    @include font-size($--inputFS);
+  }
+
+  &--label {
+    @include font-size($--labelFS)
+  }
+
+}

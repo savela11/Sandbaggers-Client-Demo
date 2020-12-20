@@ -2,15 +2,4 @@
 @import './mixins/_mediaQueries.scss';
 @import './mixins/_fontSize.scss';
 @import './mixins/_lineHeight.scss';
-@import '_text.scss';
-@import '_button.scss';
 
-$--inputFS: (
-        null: .9rem,
-        $mobile: 1rem,
-        $tablet: 1.2rem
-);
-$--labelFS: (
-        null: .8rem,
-        $mobile: 1rem,
-);

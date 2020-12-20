@@ -279,6 +279,7 @@ export default class App extends Vue {
 <style lang="scss">
 .app {
   .routerView {
+    padding: 2rem 1rem;
     position: relative;
 
     @include tablet {

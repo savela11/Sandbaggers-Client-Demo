@@ -104,7 +104,7 @@
             <transition name="slide-fade">
               <div v-show="isSearchInputShowing" class="searchBar">
                 <label for="searchSB" class="hideLabel">Search</label>
-                <input id="searchSB" class="input" type="text" v-model="searchInput" placeholder="Search by name" />
+                <input id="searchSB" class="input text text--input" type="text" v-model="searchInput" placeholder="Search by name" />
                 <div class="clearBtnContainer">
                   <button class="clearBtn">Clear</button>
                 </div>
@@ -659,7 +659,6 @@ $--sandbaggerHandicapFS: (
 
     input {
       background-color: white;
-      @include font-size($--inputFS);
 
       @include tablet-landscape {
         padding: 0.8rem 2rem;

@@ -24,7 +24,7 @@
               <p>By: {{ bet.createdBy.fullName }}</p>
             </div>
             <div class="title">
-                <h2>{{ bet.title }}</h2>
+                <h2 class="text text--bold text--noWrap text--ellipsis text--xl">{{ bet.title }}</h2>
             </div>
             <div class="details">
               <div class="acceptedBy">
@@ -484,17 +484,17 @@ $--acceptedByDropDownBtnFS: (
       }
     }
 
-    h2 {
-      font-size: 1rem;
-      color: $DarkBlue;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-
-      @include mobile {
-        font-size: 1.2rem;
-      }
-    }
+    //h2 {
+    //  font-size: 1rem;
+    //  color: $DarkBlue;
+    //  white-space: nowrap;
+    //  overflow: hidden;
+    //  text-overflow: ellipsis;
+    //
+    //  @include mobile {
+    //    font-size: 1.2rem;
+    //  }
+    //}
 
     h3 {
       font-size: 0.8rem;
@@ -550,11 +550,9 @@ $--acceptedByDropDownBtnFS: (
     .createdBy {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 0.5rem;
     }
 
     .title {
-      padding: 1rem 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
