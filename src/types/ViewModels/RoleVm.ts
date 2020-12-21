@@ -1,8 +1,8 @@
 export interface RoleVm {
   id: string;
-  name: string;
-  users: Array<UserWithRoleVm>;
-  usersWithoutRole: Array<UserWithRoleVm>
+  roleName: string;
+  members: Array<UserWithRoleVm>;
+  nonMembers: Array<UserWithRoleVm>
 }
 
 export interface UserWithRoleVm {

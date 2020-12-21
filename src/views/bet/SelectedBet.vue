@@ -1,6 +1,6 @@
 <template>
   <div class="selectedBet">
-    <BtnWithText class="backBtn" @click="$router.back()" v-bind="{ img: 'backArrow', text: 'Back' }" />
+<!--    <BtnWithText class="backBtn" @click="$router.back()" v-bind="{ img: 'backArrow', text: 'Back' }" />-->
     <div v-if="selectedBet && !loading">
       <h2>{{ selectedBet.title }}</h2>
       <div class="createdBy section">
@@ -50,7 +50,6 @@
 import { Component, Vue } from "vue-property-decorator";
 import BetService from "@/services/BetService";
 import Helper from "@/utility/Helper";
-import BtnWithText from "@/components/ui/Buttons/BtnWithText.vue";
 import { LoggedInUserVm } from "@/types/ViewModels/UserVm";
 import { BetVm } from "@/types/ViewModels/BetVm";
 import { UserAcceptsBetDto } from "@/types/DTO/Bets/UserAcceptsBetDto";
@@ -58,7 +57,7 @@ import UIHelper from "@/utility/UIHelper";
 
 @Component({
   name: "SelectedBet",
-  components: { BtnWithText, Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue") }
+  components: {  Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue") }
 })
 export default class SelectedBet extends Vue {
   loading = true;

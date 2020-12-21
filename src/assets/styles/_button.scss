@@ -145,19 +145,6 @@ button {
   }
 }
 
-.iconBtn {
-  height: 30px;
-  width: 30px;
-  padding: .2rem;
-  border: none;
-
-  svg, img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-
-  }
-}
 
 .btnContainer {
   margin-top: 2rem;
@@ -185,5 +172,45 @@ button {
     &:last-child {
       margin: 0;
     }
+  }
+}
+
+
+.IconBtn {
+  padding: .3rem;
+  border: none;
+  background-color: transparent;
+
+  svg, img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+
+  }
+}
+
+
+.ViewBtns {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding: 0.2rem 0.8rem 0.2rem 0;
+  margin: 0;
+
+  .viewBtn {
+    border-radius: 3px;
+    border: 1px solid #17252a;
+    margin-right: 0.5rem;
+    display: inline-block;
+    padding: 0.5rem .8rem;
+    background-color: white;
+    text-transform: capitalize;
+    min-width: 75px;
+  }
+
+  .active {
+    background-color: #17252a;
+    color: white;
+    font-weight: bold;
   }
 }

@@ -30,6 +30,7 @@ import { Component, Vue } from "vue-property-decorator";
 import AuthService from "../../services/AuthService";
 import { ISnackBar } from "@/types/UI/SnackBar";
 import { RegisterUserDto } from "@/types/DTO/AuthDto";
+import UIHelper from "@/utility/UIHelper";
 
 @Component({
   name: "Register",
@@ -37,7 +38,7 @@ import { RegisterUserDto } from "@/types/DTO/AuthDto";
     Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
     AuthHeader: (): Promise<typeof import("*.vue")> => import("@/components/ui/Headers/AuthHeader.vue"),
     NewForm: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/NewForm.vue"),
-    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue"),
+    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue")
   }
 })
 export default class Login extends Vue {
@@ -54,11 +55,7 @@ export default class Login extends Vue {
     loginAfterRegister: false
   };
   show = true;
-  showPassword = false;
   showConfirmPassword = false;
-
-  mounted(): void {
-  }
 
   async onSubmit(): Promise<void> {
     this.loading = true;
@@ -83,22 +80,20 @@ export default class Login extends Vue {
         }
       } catch (e) {
         const errorList: string[] = [];
-        const snackBar: ISnackBar = {
-          title: "Error Registering Username",
-          message: "",
-          isSnackBarShowing: true,
-          classInfo: "error",
-          errors: []
-        };
+
         const parsedErrors = JSON.parse(e.data.message);
         if (e.data.message) {
           parsedErrors.forEach((error: any) => {
             errorList.push(error.Description);
           });
-          snackBar.errors = errorList;
         }
-
-        await this.$store.dispatch("uiStore/_setSnackBar", snackBar);
+        UIHelper.SnackBar({
+          title: "Error Registering",
+          message: "",
+          classInfo: "error",
+          isSnackBarShowing: true,
+          errors: errorList
+        });
         this.loading = false;
       }
     }
@@ -107,13 +102,7 @@ export default class Login extends Vue {
   validateForm(): boolean {
     let validForm = true;
     const errorList: string[] = [];
-    const snackBar: ISnackBar = {
-      title: "",
-      message: "",
-      isSnackBarShowing: true,
-      classInfo: "error",
-      errors: []
-    };
+
 
     if (this.registerForm.username === "") {
       validForm = false;
@@ -121,6 +110,10 @@ export default class Login extends Vue {
     }
     if (this.registerForm.loginAfterRegister === "true") {
       this.registerForm.loginAfterRegister = true;
+    }
+    if (this.registerForm.password.length < 6) {
+      validForm = false;
+      errorList.push("Password must be at least 6 characters long");
     }
     if (this.registerForm.password !== this.registerForm.confirmPassword) {
       validForm = false;
@@ -145,17 +138,24 @@ export default class Login extends Vue {
       errorList.push("Must provide a registration code");
     }
 
+
+    let errorTitle;
     if (!validForm) {
       this.loading = false;
       if (errorList.length > 1) {
-        snackBar.title = "Registration Errors";
+        errorTitle = "Registration Errors";
       } else {
-        snackBar.title = "Registration Error";
+        errorTitle = "Registration Error";
       }
     }
-    snackBar.errors = errorList;
     if (!validForm) {
-      this.$store.dispatch("uiStore/_setSnackBar", snackBar);
+      UIHelper.SnackBar({
+        title: errorTitle,
+        message: "",
+        isSnackBarShowing: true,
+        errors: errorList,
+        classInfo: "error"
+      });
     }
     return validForm;
   }
@@ -180,6 +180,7 @@ export default class Login extends Vue {
 .register {
   padding: 0;
 }
+
 .registerForm {
   padding: 2rem;
 }
