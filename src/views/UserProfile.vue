@@ -342,27 +342,33 @@ export default class UserProfile extends Vue {
 
   async updateCurrentUser(): Promise<void> {
     this.loading = true;
-    try {
-      const res = await ProfileService.UpdateUser(this.currentUser);
-      if (res.status === 200) {
+    const isUserVerified = this.verifyUserInfo();
+    if (isUserVerified) {
+      try {
+        const res = await ProfileService.UpdateUser(this.currentUser);
+        if (res.status === 200) {
+          setTimeout(() => {
+            this.currentUser = res.data;
+            this.$store.dispatch("authStore/UpdateUserSettings", res.data.settings);
+            UIHelper.SnackBar({
+              isSnackBarShowing: true,
+              title: "Updated",
+              message: "Your settings have been updated",
+              classInfo: "primary"
+            });
+          }, Math.floor(Math.random() * 3000));
+        }
+      } catch (e) {
+        console.log(e);
+      } finally {
         setTimeout(() => {
-          this.currentUser = res.data;
-          this.$store.dispatch("authStore/UpdateUserSettings", res.data.settings);
-          UIHelper.SnackBar({
-            isSnackBarShowing: true,
-            title: "Updated",
-            message: "Your settings have been updated",
-            classInfo: "primary"
-          });
-        }, Math.floor(Math.random() * 3000));
+          this.loading = false;
+        }, 3000);
       }
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setTimeout(() => {
-        this.loading = false;
-      }, 3000);
+    } else {
+      this.loading = false;
     }
+
   }
 
   async getUserProfile(): Promise<void> {
@@ -384,6 +390,29 @@ export default class UserProfile extends Vue {
     }
   }
 
+  verifyUserInfo(): boolean {
+    let isValid = true;
+    let errors: Array<string> = [];
+    if (this.currentUser.email == null || this.currentUser.email === "") {
+      isValid = false;
+      errors.push("Must provide a valid email");
+    }
+    if (this.currentUser.profile.firstName == null || this.currentUser.profile.firstName === "" || this.currentUser.profile.lastName == null || this.currentUser.profile.lastName === "") {
+      isValid = false;
+      errors.push("First name and Last name are required");
+    }
+    if(!isValid) {
+      UIHelper.SnackBar({
+        title: "Errors",
+        message: "Unable to update user profile",
+        isSnackBarShowing: true,
+        classInfo: "error",
+        errors: errors
+      });
+    }
+
+    return isValid;
+  }
 
   toggleOptions(option: number): void {
     if (this.selectedOption === option) {
@@ -407,9 +436,7 @@ export default class UserProfile extends Vue {
     this.toggleOptionMenu(false);
   }
 
-  formatPhone(): void {
-    this.currentUser.phoneNumber = Helper.formatPhone(this.currentUser.phoneNumber);
-  }
+
 
 
   goBack(): void {

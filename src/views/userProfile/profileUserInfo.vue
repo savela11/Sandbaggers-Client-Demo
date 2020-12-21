@@ -4,6 +4,8 @@
       <template v-slot:fields>
         <InputField type="text" label="First Name" className="primary" v-model="currentUser.profile.firstName" />
         <InputField type="text" label="Last Name" className="primary" v-model="currentUser.profile.lastName" />
+        <InputField type="email" label="Email" className="primary" v-model="currentUser.email" />
+        <InputField type="tel" label="Phone" className="primary" v-model="currentUser.phoneNumber" @input="formatPhone" />
       </template>
     </NewForm>
     <!--      <form v-if="currentView.title === 'Profile'" class="view profile">-->
@@ -32,6 +34,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import NewForm from "@/components/ui/Forms/NewForm.vue";
 import { UserVm } from "@/types/ViewModels/UserVm";
+import Helper from "@/utility/Helper";
 
 @Component({
   name: "ProfileUserInfo",
@@ -45,6 +48,9 @@ import { UserVm } from "@/types/ViewModels/UserVm";
 export default class ProfileUserInfo extends Vue {
   @Prop() currentUser!: UserVm;
 
+  formatPhone(): void {
+    this.currentUser.phoneNumber = Helper.formatPhone(this.currentUser.phoneNumber);
+  }
 
 
 }

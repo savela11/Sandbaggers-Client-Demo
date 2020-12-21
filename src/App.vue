@@ -155,16 +155,20 @@ export default class App extends Vue {
     }
   ];
   adminLinks: IAdminLink[] = [
-    { name: "Roles", link: "/admin/roles",  icon:
+    {
+      name: "Roles", link: "/admin/roles", icon:
           "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
           "<path d=\"M19.5 21C20.3284 21 21 20.3284 21 19.5C21 18.6716 20.3284 18 19.5 18C18.6716 18 18 18.6716 18 19.5C18 20.3284 18.6716 21 19.5 21Z\" fill=\"#17252A\"/>\n" +
           "<path d=\"M17 5.92L9 2V20H7V18.27C5.21 18.62 4 19.26 4 20C4 21.1 6.69 22 10 22C13.31 22 16 21.1 16 20C16 19.01 13.84 18.19 11 18.03V8.98L17 5.92Z\" fill=\"#17252A\"/>\n" +
-          "</svg>\n" },
-    { name: "Events", link: "/admin/events",  icon:
+          "</svg>\n"
+    },
+    {
+      name: "Events", link: "/admin/events", icon:
           "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
           "<path d=\"M19.5 21C20.3284 21 21 20.3284 21 19.5C21 18.6716 20.3284 18 19.5 18C18.6716 18 18 18.6716 18 19.5C18 20.3284 18.6716 21 19.5 21Z\" fill=\"#17252A\"/>\n" +
           "<path d=\"M17 5.92L9 2V20H7V18.27C5.21 18.62 4 19.26 4 20C4 21.1 6.69 22 10 22C13.31 22 16 21.1 16 20C16 19.01 13.84 18.19 11 18.03V8.98L17 5.92Z\" fill=\"#17252A\"/>\n" +
-          "</svg>\n" }
+          "</svg>\n"
+    }
   ];
 
   logout(): void {
@@ -301,6 +305,9 @@ export default class App extends Vue {
   @include tablet {
     padding: 0 0 1.5rem 0;
   }
+  @include tablet-landscape {
+    padding: 0 0 1rem 0;
+  }
 
   &.show {
     animation: showNavBar 0.3s linear forwards;
@@ -404,10 +411,9 @@ export default class App extends Vue {
     align-items: center;
     padding: 0;
     @include tablet-landscape {
-      padding: 0 5rem 0 0;
+
     }
     @include desktop {
-      padding: 0 5rem 0 2rem;
     }
 
     a {
@@ -427,6 +433,10 @@ export default class App extends Vue {
         font-size: 0.8rem;
         margin-right: 2rem;
       }
+      @include desktop {
+        font-size: .9rem;
+        margin-right: 3rem;
+      }
 
       img {
         object-fit: contain;
@@ -440,6 +450,9 @@ export default class App extends Vue {
 
       span {
         margin-top: 0.1rem;
+        @include tablet {
+          margin-top: .3rem;
+        }
       }
     }
   }
@@ -447,6 +460,20 @@ export default class App extends Vue {
   .svgContainer {
     height: 20px;
     width: 20px;
+    @include tablet {
+      height: 25px;
+      width: 25px;
+    }
+    @include desktop {
+      height: 30px;
+      width: 30px;
+    }
+
+    svg {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
   }
 
   @keyframes showNavBar {

@@ -2,7 +2,8 @@
   <div class="c-field-container">
     <div class="c-field" :class="[className, {active: value !== ''}]">
       <label class="c-field__label" :class="[`c-field__label--${type}`]" :for="label.replace(/ +/g, '')">{{ label }}</label>
-      <input v-if="type !== 'textarea'" :class="'c-field__' + type" :value="value" :id="label.replace(/ +/g, '')" :type="type" @input="$emit('input', $event.target.value)" />
+      <input v-if="type !== 'textarea' && type !== 'tel'" :class="'c-field__' + type" :value="value" :id="label.replace(/ +/g, '')" :type="type" @input="$emit('input', $event.target.value)" />
+      <input v-if="type !== 'textarea' && type === 'tel'" :class="'c-field__' + type" :value="value" maxlength="14" :id="label.replace(/ +/g, '')" :type="type" @input="$emit('input', $event.target.value)" />
       <textarea v-if="type === 'textarea'" class="c-field__textarea" :value="value" :id="label" :type="type" @input="$emit('input', $event.target.value)"></textarea>
     </div>
   </div>
@@ -19,6 +20,7 @@ export default class InputField extends Vue {
   @Prop({ default: "text" }) type?: string;
   @Prop({ default: "Value" }) value!: string;
   @Prop({ default: "default" }) className?: string;
+
 
 
 }
@@ -99,7 +101,7 @@ $--activeLabelFS: (
 
   }
 
-  &__text, &__textarea, &__password, &__email {
+  &__text, &__textarea, &__password, &__email, &__tel {
     padding: .5rem .2rem;
     border: none;
     outline: none;
