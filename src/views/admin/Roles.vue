@@ -53,6 +53,7 @@ import RoleService from "@/services/RoleService";
 // import { ISnackBar } from "@/types/UI/SnackBar";
 import { RoleVm, UserWithRoleVm } from "@/types/ViewModels/RoleVm";
 import { AddUserToRoleDto, RemoveUserFromRoleDto } from "@/types/DTO/Roles/RoleDtos";
+import UIHelper from "@/utility/UIHelper";
 
 @Component({
   components: {
@@ -97,6 +98,17 @@ export default class Roles extends Vue {
     };
     try {
       const res = await RoleService.AddUserToRole(addUserToRoleDto);
+      if (res.status === 200) {
+        UIHelper.SnackBar({
+          title: "Success",
+          message: `${selectedUser.fullName} has been added to ${this.selectedRole.roleName} role`,
+          isSnackBarShowing: true,
+          classInfo: "primary"
+        });
+        setTimeout(() => {
+          this.$router.go(0);
+        }, 3000);
+      }
     } catch (e) {
       console.log(e);
     } finally {
@@ -111,6 +123,17 @@ export default class Roles extends Vue {
     };
     try {
       const res = await RoleService.RemoveUserFromRole(removeUserFromRoleDto);
+      if (res.status === 200) {
+        UIHelper.SnackBar({
+          title: "Success",
+          message: `${selectedUser.fullName} has been removed from ${this.selectedRole.roleName} role`,
+          isSnackBarShowing: true,
+          classInfo: "primary"
+        });
+        setTimeout(() => {
+          this.$router.go(0);
+        }, 3000);
+      }
     } catch (e) {
       console.log(e);
     } finally {

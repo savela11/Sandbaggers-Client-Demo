@@ -16,17 +16,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import UIHelper from '@/utility/UIHelper'
+import { Component, Vue } from "vue-property-decorator";
+import UIHelper from "@/utility/UIHelper";
 
-@Component({ name: 'SnackBar' })
+@Component({ name: "SnackBar" })
 export default class SnackBar extends Vue {
   closeSnackBar(): void {
-    UIHelper.SnackBar({ isSnackBarShowing: false })
+    UIHelper.SnackBar({ isSnackBarShowing: false });
   }
 
   get snackBarClass(): void {
-    return this.$store.getters['uiStore/SnackBarClass']
+    return this.$store.getters["uiStore/SnackBarClass"];
   }
 }
 </script>
@@ -86,6 +86,13 @@ export default class SnackBar extends Vue {
     .title {
       background-color: rgba(165, 1, 1, 0.8);
       color: white;
+    }
+  }
+
+  .success {
+    .title {
+      color: white;
+      background-color: green;
     }
   }
 

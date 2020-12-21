@@ -1,6 +1,6 @@
 ﻿import apiClient from "../utility/apiClient";
 import { AxiosResponse } from "axios";
-import { RoleVm } from "@/types/ViewModels/RoleVm";
+import { RoleVm, UserWithRoleVm } from "@/types/ViewModels/RoleVm";
 import { AddUserToRoleDto, RemoveUserFromRoleDto } from "@/types/DTO/Roles/RoleDtos";
 
 const url = "/roles";
@@ -12,11 +12,11 @@ class RoleService {
   }
 
 
-  static async RemoveUserFromRole(removeUserFromRoleDto: RemoveUserFromRoleDto): Promise<AxiosResponse<RoleVm>> {
+  static async RemoveUserFromRole(removeUserFromRoleDto: RemoveUserFromRoleDto): Promise<AxiosResponse<UserWithRoleVm>> {
     return await apiClient.post(`${url}/RemoveUserFromRole`, removeUserFromRoleDto);
   }
 
-  static async AddUserToRole(addUserToRoleDto: AddUserToRoleDto): Promise<AxiosResponse<RoleVm>> {
+  static async AddUserToRole(addUserToRoleDto: AddUserToRoleDto): Promise<AxiosResponse<UserWithRoleVm>> {
     return await apiClient.post(`${url}/AddUserToRole`, addUserToRoleDto);
   }
 }
