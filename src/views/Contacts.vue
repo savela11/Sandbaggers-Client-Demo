@@ -129,6 +129,12 @@ $--noContactInfoAvailableFS: (
     width: 75%;
     margin: 1rem auto;
   }
+  @include tablet-landscape {
+    width: 50%;
+  }
+  @include desktop {
+    width: 30%;
+  }
 
   .toggleSearchBtn {
     height: 30px;
@@ -171,6 +177,9 @@ $--noContactInfoAvailableFS: (
 
   @include tablet-landscape {
     flex: 0 0 33%;
+  }
+  @include desktop {
+    flex: 0 0 25%;
   }
 
   .top {

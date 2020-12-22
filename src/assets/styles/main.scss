@@ -3,6 +3,7 @@
 @import "normalize";
 @import './_forms.scss';
 @import './font';
+@import './_backgroundColor';
 @import '_button.scss';
 
 html {
@@ -82,12 +83,25 @@ input {
   }
 }
 
-
 a {
   -webkit-tap-highlight-color: transparent;
 }
 
+.z {
+  z-index: 0;
 
+  &1 {
+    z-index: 1;
+  }
+
+  &2 {
+    z-index: 2;
+  }
+
+  &3 {
+    z-index: 3;
+  }
+}
 
 
 

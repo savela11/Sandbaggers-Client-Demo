@@ -1,37 +1,37 @@
 $--tinyFS: (
-        null:.6rem,
-        $mobile:.7rem,
-        $tablet: .8rem
-);
-$--xsFS: (
-        null: .7rem,
+        null:.7rem,
         $mobile:.8rem,
         $tablet: .9rem
 );
-$--smFS: (
+$--xsFS: (
         null: .8rem,
         $mobile:.9rem,
         $tablet: 1rem
 );
-$--mdFS: (
+$--smFS: (
         null: .9rem,
         $mobile:1rem,
         $tablet: 1.1rem
 );
-$--lgFS: (
+$--mdFS: (
         null: 1rem,
         $mobile:1.1rem,
         $tablet: 1.2rem
 );
-$--xlFS: (
+$--lgFS: (
         null: 1.1rem,
         $mobile:1.2rem,
         $tablet: 1.3rem
 );
-$--titleFS: (
-        null:1.2rem,
+$--xlFS: (
+        null: 1.2rem,
         $mobile:1.3rem,
         $tablet: 1.4rem
+);
+$--titleFS: (
+        null:1.3rem,
+        $mobile:1.4rem,
+        $tablet: 1.5rem
 );
 $--inputFS: (
         null: .9rem,

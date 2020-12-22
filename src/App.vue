@@ -34,10 +34,11 @@
           <div>
             <button id="logoutBTN" @click="logout" class="btn btn--xs btn--borderRed">Logout</button>
           </div>
+          <div class="closeNavMenu">
+            <button class="btn btn--xs" @click="closeNavigationMenu">Close</button>
+          </div>
         </div>
-        <div class="closeNavMenu">
-          <button class="btn btn--xs" @click="closeNavigationMenu">Close</button>
-        </div>
+
       </div>
       <div class="navBar" v-show="IsNavBarShowing && !isNavigationMenuShowing">
         <div class="navBar__container" v-if="IsNavBarShowing">
@@ -545,6 +546,9 @@ export default class App extends Vue {
         padding: 0.5rem 3rem;
         font-size: 1rem;
       }
+      @include desktop {
+        padding: .8rem 3rem;
+      }
 
       &:first-child {
         margin-right: 0.5rem;
@@ -569,6 +573,9 @@ export default class App extends Vue {
     @include tablet {
       margin-bottom: 10rem;
     }
+    @include tablet-landscape {
+      margin-bottom: 5rem;
+    }
 
     ul {
       padding: 0;
@@ -584,8 +591,22 @@ export default class App extends Vue {
       }
 
       @include tablet-landscape {
+        gap: 25px;
+        width: 75%;
+        margin: 0 auto;
+      }
+      @include desktopSmall {
+        gap: 30px;
         grid-auto-rows: 125px;
+      }
+      @include desktop {
         gap: 50px;
+        width: 70%;
+      }
+
+      @include desktopLarge {
+        width: 60%;
+        grid-auto-rows: 150px;
       }
 
       li {
@@ -638,20 +659,20 @@ export default class App extends Vue {
   }
 
   .extra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     button {
       @include tablet {
         font-size: 1.2rem;
       }
     }
+
+    .closeNavMenu {
+    }
   }
 
-  .closeNavMenu {
-    position: absolute;
-    bottom: 0;
-    right: 2rem;
-
-
-  }
 
   @keyframes showMenu {
     0% {

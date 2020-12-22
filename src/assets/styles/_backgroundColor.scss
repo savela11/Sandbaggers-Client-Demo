@@ -1,0 +1,18 @@
+@import './_colors';
+
+.bg {
+  &--transparent {
+    background-color: transparent;
+  }
+  &--white {
+    background-color: white;
+  }
+
+  &--primary {
+    background-color: $primary;
+  }
+
+  &--secondary {
+    background-color: $secondary;
+  }
+}
