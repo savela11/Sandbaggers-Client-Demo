@@ -165,7 +165,12 @@ const routes: Array<RouteConfig> = [
     beforeEnter: guardRoute,
     component: loadView("Gallery")
   },
-
+  {
+    path: "/gallery/:eventId",
+    name: "GalleryImages",
+    beforeEnter: guardRoute,
+    component: loadView("gallery/GalleryImages")
+  },
   {
     path: "/contacts",
     name: "Contacts",

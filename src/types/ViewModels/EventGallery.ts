@@ -1,5 +1,14 @@
 import { CreatedByUserVm } from "@/types/ViewModels/UserVm";
 
+
+export interface EventGalleryVm {
+  eventId: number;
+  mainImg: string;
+  name: string;
+  year: string;
+  images: Array<GalleryImgVm>
+}
+
 export interface GalleryWithNoImageVm {
   eventId: number
   year: string
@@ -22,6 +31,7 @@ export interface LikeImgVm {
   userId: string;
   fullName: string;
 }
+
 export interface CommentImgVm {
   commentId: string;
 

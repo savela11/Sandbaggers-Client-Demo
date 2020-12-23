@@ -133,6 +133,10 @@ button {
     box-shadow: 0 1px rgba(154, 154, 154, 0.8);
   }
 
+  &--borderNone {
+    border: none;
+  }
+
   &.clicked {
     transform: translateY(4px);
   }

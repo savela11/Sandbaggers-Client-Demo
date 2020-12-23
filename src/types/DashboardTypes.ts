@@ -10,6 +10,7 @@ export interface SandbaggerWithHandicapVm {
   id: string
   fullName: string
   handicap: number
+  image: string
 }
 
 

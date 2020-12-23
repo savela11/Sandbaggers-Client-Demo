@@ -10,8 +10,8 @@
           <div class="image"><img :src="contactImage(contact.image)" alt="logo" /></div>
           <div class="inner">
             <div class="top">
-              <h3 class="fullName">{{ contact.fullName }}</h3>
-              <p class="email" v-if="contact.email && contact.isContactEmailShowing">{{ contact.email }}</p>
+              <h3 class="fullName text text--bold text--center text--lg">{{ contact.fullName }}</h3>
+              <p class="email text text--center text--sm" v-if="contact.email && contact.isContactEmailShowing">{{ contact.email }}</p>
             </div>
             <div class="bottom">
               <div v-if="contact.isContactNumberShowing === true || contact.isContactEmailShowing === true">
@@ -102,16 +102,6 @@ export default class Contacts extends Vue {
 
 <style scoped lang="scss">
 
-$--fullNameFS: (
-    null: 1.1rem,
-    $mobile: 1.4rem,
-    $tablet-landscape: 1.2rem,
-    $desktopSmall: 1.4rem,
-);
-$--emailFS: (
-    null: .8rem,
-    $desktopSmall: 1rem
-);
 
 $--noUserFoundFS: (
     null: 1rem,
@@ -204,7 +194,7 @@ $--noContactInfoAvailableFS: (
 
   .inner {
     border-radius: 5px;
-    padding: 4rem 1rem 2rem 1rem;
+    padding: 2rem 1rem 2rem 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -223,7 +213,6 @@ $--noContactInfoAvailableFS: (
     height: 80px;
     width: 80px;
     margin: 0 auto;
-    padding: 0.8rem;
     border-radius: 50%;
     transform: translateY(45px);
     box-shadow: 0 2px 2px lightgrey;
@@ -244,7 +233,7 @@ $--noContactInfoAvailableFS: (
   .fullName {
     color: $PrimaryFS;
     line-height: 1.6;
-    @include font-size($--fullNameFS);
+
 
   }
 
@@ -253,7 +242,7 @@ $--noContactInfoAvailableFS: (
     line-height: 1.4;
     color: $SecondaryFS;
     font-weight: 500;
-    @include font-size($--emailFS);
+
   }
 
   .phone {
@@ -264,33 +253,24 @@ $--noContactInfoAvailableFS: (
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50px;
-    width: 50px;
-    margin-right: 1rem;
+    height: 40px;
+    width: 40px;
+    margin-right: 2rem;
     background-color: $DarkBlue;
     border: 1px solid $DarkBlue;
     border-radius: 100%;
-
+    padding: .5rem;
 
     &:last-of-type {
       margin: 0;
     }
 
-    @include mobile {
-      height: 50px;
-      width: 50px;
-      margin-right: 1.5rem;
-    }
-
 
     svg {
-      height: 20px;
-      width: 20px;
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
 
-      @include mobile {
-        height: 25px;
-        width: 25px;
-      }
     }
   }
 

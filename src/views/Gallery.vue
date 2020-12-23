@@ -16,7 +16,7 @@
                 </div>
               </div>
               <div class="info">
-                <router-link to="/link" class="text text--decoration-none text--center text--bold text--md color--white bg--secondary">View Images</router-link>
+                <router-link :to="`/gallery/${gallery.eventId}`" class="text text--decoration-none text--center text--bold text--md color--white bg--secondary">View Images</router-link>
               </div>
 
             </div>
@@ -109,14 +109,17 @@ export default class Gallery extends Vue {
       flex-direction: column;
       height: 100%;
 
+      @include tablet {
+        margin: 0 auto;
+        width: 80%;
+      }
+
       .top {
         flex: 0 0 20%;
         display: flex;
         justify-content: center;
 
-        h2 {
 
-        }
 
       }
 
@@ -138,6 +141,10 @@ export default class Gallery extends Vue {
           @include mobile {
             height: 300px;
             margin: 0 0 1.5rem 0;
+          }
+
+          @include tablet {
+          height: 450px;
           }
 
           &.noImage {
