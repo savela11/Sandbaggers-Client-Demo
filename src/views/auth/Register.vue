@@ -1,6 +1,5 @@
 ﻿<template>
   <div class="register">
-    <AuthHeader title="Register" />
     <NewForm v-if="!loading" class="registerForm">
       <template v-slot:fields>
         <InputField type="text" label="Username" v-model.trim="registerForm.username" />
@@ -36,7 +35,7 @@ import UIHelper from "@/utility/UIHelper";
   name: "Register",
   components: {
     Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
-    AuthHeader: (): Promise<typeof import("*.vue")> => import("@/components/ui/Headers/AuthHeader.vue"),
+    AuthHeader: (): Promise<typeof import("*.vue")> => import("@/components/ui/Headers/DefaultHeader.vue"),
     NewForm: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/NewForm.vue"),
     InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue")
   }

@@ -3,6 +3,14 @@
     font-weight: bold;
   }
 
+  &--bolder {
+    font-weight: 800;
+  }
+
+  &--boldest {
+    font-weight: 900
+  }
+
   &--center {
     text-align: center;
   }

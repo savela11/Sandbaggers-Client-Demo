@@ -1,6 +1,5 @@
 ﻿<template>
   <div class="login">
-    <AuthHeader title="Login" />
     <NewForm class="loginForm" v-if="!loading">
       <template v-slot:fields>
         <InputField label="Username" type="text" v-model="LoginForm.username" />
@@ -32,7 +31,6 @@ import { LoginUserDto } from "@/types/DTO/AuthDto";
     NewForm: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/NewForm.vue"),
     InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue"),
     Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
-    AuthHeader: (): Promise<typeof import("*.vue")> => import("@/components/ui/Headers/AuthHeader.vue")
   }
 })
 export default class Login extends Vue {

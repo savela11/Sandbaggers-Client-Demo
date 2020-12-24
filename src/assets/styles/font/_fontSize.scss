@@ -6,13 +6,20 @@ $--tinyFS: (
 $--xsFS: (
         null: .7rem,
         $mobile:.8rem,
-        $tablet: .9rem
+        $tablet: .9rem,
+        $tablet-landscape: 1rem,
+        $desktopSmall: 1.1rem,
+        $desktop: 1.2rem,
+        $desktopLarge: 1.3rem
 );
 $--smFS: (
         null: .9rem,
         $mobile:1rem,
         $tablet: 1.1rem,
-        $tablet-landscape: 1.2rem
+        $tablet-landscape: 1.2rem,
+        $desktopSmall: 1.3rem,
+        $desktop: 1.4rem,
+        $desktopLarge: 1.5rem
 );
 $--mdFS: (
         null: 1.1rem,
@@ -40,6 +47,13 @@ $--titleFS: (
         $desktopSmall: 2.1rem,
         $desktop: 2.2rem,
         $desktopLarge: 2.4rem
+);
+$--headerTitleFS: (
+        null: 1.6rem,
+        $mobile: 1.8rem,
+        $tablet: 2.2rem,
+        $tablet-landscape: 2.4rem,
+        $desktopSmall: 2.6rem,
 );
 $--inputFS: (
         null: .9rem,
@@ -81,6 +95,10 @@ $--labelFS: (
 
   &--title {
     @include font-size($--titleFS);;
+  }
+
+  &--headerTitle {
+    @include font-size($--headerTitleFS);
   }
 
   &--input {

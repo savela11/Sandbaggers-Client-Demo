@@ -1,68 +1,71 @@
 <template>
   <div class="app">
-    <SnackBar v-if="this.$store.state.uiStore.snackBar.isSnackBarShowing" />
-    <PageLoading v-if="this.$store.state.uiStore.pageLoading" />
-    <MainHeader v-if="Header.isShowing && Header.current === 'main' && LoggedInUser" :currentUser="LoggedInUser" :bgColor="Header.bgColor" />
-    <router-view class="routerView" v-show="!isNavigationMenuShowing" />
+<!--    <SnackBar v-if="this.$store.state.uiStore.snackBar.isSnackBarShowing" />-->
+<!--    <PageLoading v-if="this.$store.state.uiStore.pageLoading" />-->
+<!--    <MainHeader v-if="Header.isShowing && Header.current === 'main' && LoggedInUser" :currentUser="LoggedInUser" :bgColor="Header.bgColor" />-->
+    <component :is="this.$route.meta.layout || 'div'">
+      <router-view class="routerView" v-show="!isNavigationMenuShowing" />
 
-    <div v-if="LoggedInUser">
-      <div class="navMenu" v-show="isNavigationMenuShowing">
-        <div class="adminButtons" v-if="LoggedInUser.roles.includes('Admin')">
-          <button class="btn btn--xs" @click="toggleLinksView('Main')" :class="{ active: linksView === 'Main' }">Main</button>
-          <button class="btn btn--xs" @click="toggleLinksView('Admin')" :class="{ active: linksView === 'Admin' }">Admin</button>
-        </div>
-        <nav v-if="isNavigationMenuShowing">
-          <ul v-if="linksView === 'Main'">
-            <li v-for="link in userLinks" :key="link.name" @click.prevent.stop="closeNavigationMenu">
-              <router-link :to="link.link">
-                <!--                <img :src="link.icon" :alt="`${link.name} route}`" />-->
-                <div class="svgContainer" v-html="link.icon"></div>
-                <span>{{ link.name }}</span>
-              </router-link>
-            </li>
-          </ul>
-          <ul v-if="linksView === 'Admin'">
-            <li v-for="link in adminLinks" :key="link.name" @click.prevent.stop="closeNavigationMenu">
-              <router-link :to="link.link">
-                <div class="svgContainer" v-html="link.icon"></div>
-                <span>{{ link.name }}</span>
-              </router-link>
-            </li>
-          </ul>
-        </nav>
-        <div class="extra">
-          <div>
-            <button id="logoutBTN" @click="logout" class="btn btn--xs btn--borderRed">Logout</button>
-          </div>
-          <div class="closeNavMenu">
-            <button class="btn btn--xs" @click="closeNavigationMenu">Close</button>
-          </div>
-        </div>
+    </component>
 
-      </div>
-      <div class="navBar" v-show="IsNavBarShowing && !isNavigationMenuShowing">
-        <div class="navBar__container" v-if="IsNavBarShowing">
-          <div class="navBar__favorites">
-            <router-link v-for="link in favoriteLinks" :key="link.link" :to="link.link">
-              <!--              <img :src="favoriteLinkImg(link.name)" alt="" />-->
-              <div class="svgContainer" v-html="favoriteLinkImg(link.name)"></div>
-              <span>{{ link.name }}</span>
-            </router-link>
-          </div>
-          <div class="navBar__menu">
-            <button class="toggleMenuBtn" @click="toggleNavMenu">
-              <img src="@/assets/icons/bottomBar-menu.svg" alt="menu" />
-            </button>
-            <button class="hideNavBarBtn" @click="toggleNavBar(false)">
-              <img src="@/assets/icons/hideEye.svg" alt="hide navbar red eye." />
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="showNavBarBtn" v-show="!IsNavBarShowing">
-        <button @click="toggleNavBar(true)"><img src="@/assets/icons/showEye.svg" alt="Show Nav Bar Btn" /></button>
-      </div>
-    </div>
+<!--    <div v-if="LoggedInUser">-->
+<!--      <div class="navMenu" v-show="isNavigationMenuShowing">-->
+<!--        <div class="adminButtons" v-if="LoggedInUser.roles.includes('Admin')">-->
+<!--          <button class="btn btn&#45;&#45;xs" @click="toggleLinksView('Main')" :class="{ active: linksView === 'Main' }">Main</button>-->
+<!--          <button class="btn btn&#45;&#45;xs" @click="toggleLinksView('Admin')" :class="{ active: linksView === 'Admin' }">Admin</button>-->
+<!--        </div>-->
+<!--        <nav v-if="isNavigationMenuShowing">-->
+<!--          <ul v-if="linksView === 'Main'">-->
+<!--            <li v-for="link in userLinks" :key="link.name" @click.prevent.stop="closeNavigationMenu">-->
+<!--              <router-link :to="link.link">-->
+<!--                &lt;!&ndash;                <img :src="link.icon" :alt="`${link.name} route}`" />&ndash;&gt;-->
+<!--                <div class="svgContainer" v-html="link.icon"></div>-->
+<!--                <span>{{ link.name }}</span>-->
+<!--              </router-link>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--          <ul v-if="linksView === 'Admin'">-->
+<!--            <li v-for="link in adminLinks" :key="link.name" @click.prevent.stop="closeNavigationMenu">-->
+<!--              <router-link :to="link.link">-->
+<!--                <div class="svgContainer" v-html="link.icon"></div>-->
+<!--                <span>{{ link.name }}</span>-->
+<!--              </router-link>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </nav>-->
+<!--        <div class="extra">-->
+<!--          <div>-->
+<!--            <button id="logoutBTN" @click="logout" class="btn btn&#45;&#45;xs btn&#45;&#45;borderRed">Logout</button>-->
+<!--          </div>-->
+<!--          <div class="closeNavMenu">-->
+<!--            <button class="btn btn&#45;&#45;xs" @click="closeNavigationMenu">Close</button>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--      </div>-->
+<!--      <div class="navBar" v-show="IsNavBarShowing && !isNavigationMenuShowing">-->
+<!--        <div class="navBar__container" v-if="IsNavBarShowing">-->
+<!--          <div class="navBar__favorites">-->
+<!--            <router-link v-for="link in favoriteLinks" :key="link.link" :to="link.link">-->
+<!--              &lt;!&ndash;              <img :src="favoriteLinkImg(link.name)" alt="" />&ndash;&gt;-->
+<!--              <div class="svgContainer" v-html="favoriteLinkImg(link.name)"></div>-->
+<!--              <span>{{ link.name }}</span>-->
+<!--            </router-link>-->
+<!--          </div>-->
+<!--          <div class="navBar__menu">-->
+<!--            <button class="toggleMenuBtn" @click="toggleNavMenu">-->
+<!--              <img src="@/assets/icons/bottomBar-menu.svg" alt="menu" />-->
+<!--            </button>-->
+<!--            <button class="hideNavBarBtn" @click="toggleNavBar(false)">-->
+<!--              <img src="@/assets/icons/hideEye.svg" alt="hide navbar red eye." />-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="showNavBarBtn" v-show="!IsNavBarShowing">-->
+<!--        <button @click="toggleNavBar(true)"><img src="@/assets/icons/showEye.svg" alt="Show Nav Bar Btn" /></button>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 </template>
 
@@ -70,7 +73,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { IHeader } from "./types/UI/UIStoreTypes";
 import UIHelper from "./utility/UIHelper";
-import AuthHeader from "@/components/ui/Headers/AuthHeader.vue";
+import AuthHeader from "@/components/ui/Headers/DefaultHeader.vue";
 import MainHeader from "@/components/ui/Headers/MainHeader.vue";
 import SnackBar from "@/components/ui/SnackBar.vue";
 import PageLoading from "@/components/ui/PageLoading.vue";
