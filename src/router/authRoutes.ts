@@ -2,6 +2,7 @@ import UIHelper from "@/utility/UIHelper";
 import { Route } from "vue-router";
 import store from "../store/index";
 import AuthLayout from "@/layouts/authLayouts/AuthLayout.vue";
+import AuthLayoutNoNavBar from '@/layouts/authLayouts/AuthLayoutNoNavBar.vue';
 
 
 function loadView(view: string): () => Promise<typeof import("*.vue")> {
@@ -39,7 +40,10 @@ export default  [
     path: "/userProfile",
     name: "UserProfile",
     beforeEnter: guardRoute,
-    component: loadView("UserProfile")
+    component: loadView("UserProfile"),
+    meta: {
+      layout: AuthLayoutNoNavBar
+    }
   },
   {
     path: "/Dashboard",

@@ -1,4 +1,4 @@
-﻿import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+﻿import axios, { AxiosError, AxiosPromise, AxiosRequestConfig, AxiosResponse } from "axios";
 
 const url = process.env.VUE_APP_URL;
 import SecureLS from "secure-ls";
@@ -51,7 +51,16 @@ apiClient.interceptors.response.use(
       }
     }
 
-    // console.log('Response Error', error.response)
+    // console.log("Response Error", error.response);
+
+    if (error && error.message) {
+      if (error.message === "Network Error") {
+        await store.dispatch("authStore/Logout");
+        console.log("Error!", error.message);
+
+      }
+    }
+
     return Promise.reject(error.response);
   }
 );

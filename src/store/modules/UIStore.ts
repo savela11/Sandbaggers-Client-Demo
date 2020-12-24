@@ -1,6 +1,6 @@
 ﻿import { IRootState } from '@/store'
 import { ActionContext } from 'vuex'
-import { IHeader, IUIState } from '@/types/UI/UIStoreTypes'
+import { IHeader, IUIState } from '@/types/vuexStore/UIStore'
 import { ISnackBar } from '@/types/UI/SnackBar'
 
 const state: IUIState = {
@@ -11,8 +11,7 @@ const state: IUIState = {
     bgColor: 'white'
   },
   pageLoading: false,
-  isNavBarShowing: true,
-  isNavMenuShowing: false,
+
   snackBar: {
     title: '',
     message: '',
@@ -25,8 +24,7 @@ const state: IUIState = {
 
 const getters = {
   Header: (state: IUIState): IHeader => state.header,
-  IsNavBarShowing: (state: IUIState): boolean => state.isNavBarShowing,
-  IsNavMenuShowing: (state: IUIState): boolean => state.isNavMenuShowing,
+
   SnackBarClass: (state: IUIState): string | undefined => state.snackBar.classInfo,
 }
 
@@ -65,13 +63,6 @@ const mutations = {
 
 
 
-  SetNavBarShowingStatus(state: IUIState, showingStatus: boolean): void {
-    state.isNavBarShowing = showingStatus
-  },
-
-  SetNavMenuShowingStatus(state: IUIState, showingStatus: boolean): void {
-    state.isNavMenuShowing = showingStatus
-  },
 
   SetHeaderShowingStatus(state: IUIState, showingStatus: boolean): void {
     state.header.isShowing = showingStatus
@@ -124,13 +115,7 @@ const actions = {
     context.commit('SetPageLoadingStatus', loadingStatus)
   },
 
-  _setNavBarShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean): void {
-    context.commit('SetNavBarShowingStatus', showingStatus)
-  },
 
-  _setNavMenuShowingStatus(context: ActionContext<IUIState, IRootState>, showingStatus: boolean): void {
-    context.commit('SetNavMenuShowingStatus', showingStatus)
-  },
 
   _setSnackBar(context: ActionContext<IUIState, IRootState>, snackBar: ISnackBar): void {
     context.commit('SetSnackBar', snackBar)

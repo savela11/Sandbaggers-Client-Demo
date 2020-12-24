@@ -1,8 +1,8 @@
-import UIHelper from "@/utility/UIHelper";
 import Vue from "vue";
 import VueRouter, { RouteConfig, Route } from "vue-router";
 import store from "../store/index";
 import adminRoutes from "./adminRoutes";
+import authRoutes from "./authRoutes";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 
 function loadView(view: string) {
@@ -61,6 +61,7 @@ function defaultGuard(to:Route, from:Route, next:any): any {
 }
 
 const routes: Array<RouteConfig> = [
+  ...authRoutes,
   ...adminRoutes,
   {
     path: "*",

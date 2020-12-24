@@ -1,7 +1,7 @@
 <template>
   <div class="sandbagger" v-if="Sandbagger">
     <div class="top">
-      <div class="backButton" @click.prevent="setBackToDashboard">
+      <div class="backButton">
         <router-link to="/dashboard" class="btn btn--borderGreen btn--xs btn--borderBottom">Back</router-link>
       </div>
       <div class="imageContainer">
@@ -55,10 +55,6 @@ export default class Sandbagger extends Vue {
     this.getUserInfo();
   }
 
-  setBackToDashboard(): void {
-    UIHelper.ToggleNavBar(true);
-  }
-
   // get userHandicapHistory(): IHandicapHistory[] | null {
   //   if (this.Sandbagger && this.Sandbagger.handicapHistory.length > 0) {
   //     return this.Sandbagger.handicapHistory.sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
@@ -68,7 +64,6 @@ export default class Sandbagger extends Vue {
   // }
 
   async getUserInfo(): Promise<void> {
-    await UIHelper.ToggleNavBar(false);
     try {
       const res = await UserHistoryService.sandBaggerWithHistory(this.$route.params.id.toString());
       if (res.data) {
@@ -76,8 +71,6 @@ export default class Sandbagger extends Vue {
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      await UIHelper.Header({ title: "Sandbagger", isShowing: false });
     }
   }
 

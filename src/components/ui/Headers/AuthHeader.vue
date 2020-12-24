@@ -1,9 +1,51 @@
-.mainHeader {
-  box-shadow: 0 1px 6px rgba(102, 102, 102, 0.8);
+﻿<template>
+  <header class="authHeader">
+    <div class="authHeader__container" :style="{ backgroundColor: Header.bgColor }">
+      <div class="sbLogo"><img src="@/assets/SBLogo.png" alt="Sandbagger Logo" /></div>
+      <div class="profile" @click.prevent.stop="closeNavMenu">
+        <router-link to="/UserProfile"><img :src="currentUserImage" alt="Profile Image" /></router-link>
+      </div>
+    </div>
+  </header>
+</template>
+
+<script lang="ts">
+
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import { LoggedInUserVm } from "@/types/ViewModels/UserVm";
+import { IHeader } from "@/types/vuexStore/UIStore";
+import NavigationHelper from "@/utility/NavigationHelper";
+
+@Component({ name: 'AuthHeader' })
+export default class AuthHeader extends Vue {
+  @Prop() currentUser!: LoggedInUserVm
+  @Prop({ default: 'white' }) bgColor?: string
+
+  closeNavMenu(): void {
+    NavigationHelper.ToggleNavMenu(false)
+  }
+  get currentUserImage(): string {
+    if (this.currentUser.image == null) {
+      return require('@/assets/icons/avatar.svg')
+    } else {
+      return this.currentUser.image
+    }
+  }
+  get Header(): IHeader {
+    return this.$store.getters["uiStore/Header"];
+  }
+
+}
+</script>
+
+<style scoped lang="scss">
+.authHeader {
+  box-shadow: 0 1px 3px rgba(102, 102, 102, 0.5);
+  position: relative;
+  z-index: 3;
   &__container {
     position: relative;
     padding: 0.4rem 1rem;
-    border-bottom: 1px solid $DarkBlue;
     height: 60px;
     display: flex;
     justify-content: space-between;
@@ -111,3 +153,5 @@
     }
   }
 }
+
+</style>

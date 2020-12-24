@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { IHeader } from '@/types/UI/UIStoreTypes'
+import { IHeader } from '@/types/vuexStore/UIStore'
 
 @Component({ name: 'MockDrafts' })
 export default class MockDrafts extends Vue {

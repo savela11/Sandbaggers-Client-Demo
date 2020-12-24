@@ -9,7 +9,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { IAdminLink } from "@/types/Navigation/INavBar";
-import { IHeader } from "@/types/UI/UIStoreTypes";
+import { IHeader } from "@/types/vuexStore/UIStore";
 
 @Component({ name: "Admin" })
 export default class Admin extends Vue {

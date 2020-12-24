@@ -1,7 +1,7 @@
 ﻿<template>
   <div v-if="currentUser && currentUser.profile" class="userProfile">
     <section class="section section__top">
-      <button class="backBtn btn btn--borderGreen btn--xs btn--borderBottom" @click="goBack">Back</button>
+      <button class="backBtn btn btn--borderGreen btn--xs btn--borderBottom" @click="$router.back()">Back</button>
       <div class="imageContainer">
         <img alt="User profile image" v-bind:src="userProfileImage" />
       </div>
@@ -241,7 +241,6 @@ export default class UserProfile extends Vue {
     this.currentView = this.optionViews[0];
 
     this.getUserProfile();
-    UIHelper.ToggleNavBar(false);
   }
 
   @Watch("currentUser.profile.handicap", { immediate: true }) onHandicapChange(newVal: number, oldVal: number): void {
@@ -401,7 +400,7 @@ export default class UserProfile extends Vue {
       isValid = false;
       errors.push("First name and Last name are required");
     }
-    if(!isValid) {
+    if (!isValid) {
       UIHelper.SnackBar({
         title: "Errors",
         message: "Unable to update user profile",
@@ -434,14 +433,6 @@ export default class UserProfile extends Vue {
   toggleEditView(opt: IOptionView): void {
     this.currentView = opt;
     this.toggleOptionMenu(false);
-  }
-
-
-
-
-  goBack(): void {
-    this.$router.back();
-    UIHelper.ToggleNavBar(true);
   }
 }
 </script>

@@ -3,8 +3,6 @@
 export interface IUIState {
   header: IHeader
   pageLoading: boolean
-  isNavBarShowing: boolean
-  isNavMenuShowing: boolean
   snackBar: ISnackBar
   deviceSize: string
 }

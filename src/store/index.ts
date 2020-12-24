@@ -4,9 +4,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import SecureLS from 'secure-ls'
-import { IUIState } from '@/types/UI/UIStoreTypes'
-import authStore, { IAuthState } from '@/store/modules/AuthStore'
+import { IUIState } from '@/types/vuexStore/UIStore'
+import authStore from '@/store/modules/AuthStore'
 import uiStore from '@/store/modules/UIStore'
+import navigationStore from '@/store/modules/NavigationStore'
+import { IAuthState } from "@/types/vuexStore/AuthStore";
+import { NavigationStoreState } from "@/types/vuexStore/NavigationStore";
 
 Vue.use(Vuex)
 const ls = new SecureLS({ isCompression: false })
@@ -18,7 +21,8 @@ const ls = new SecureLS({ isCompression: false })
 export interface IRootState {
   authStore: IAuthState
   uiStore: IUIState
-  // testSTore: ITestStore
+  navigationStore: NavigationStoreState
+
 }
 
 export default new Vuex.Store({
@@ -42,8 +46,7 @@ export default new Vuex.Store({
   modules: {
     uiStore,
     authStore,
-
-    // TestStore,
+    navigationStore
   },
 }) as Store<IRootState>
 

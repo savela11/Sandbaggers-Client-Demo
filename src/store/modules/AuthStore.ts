@@ -4,13 +4,11 @@ import AuthService from "../../services/AuthService";
 import { ActionContext } from "vuex";
 import { IRootState } from "@/store";
 import { LoggedInUserVm, UserSettingsVm } from "@/types/ViewModels/UserVm";
+import { IAuthState } from "@/types/vuexStore/AuthStore";
 
 const ls = new SecureLS({ isCompression: false });
 
-export interface IAuthState {
-  currentUser: LoggedInUserVm | undefined
-  isLoggedIn: boolean
-}
+
 
 const state: IAuthState = {
   currentUser: undefined,
