@@ -47,11 +47,6 @@ export default class Gallery extends Vue {
 
   mounted(): void {
     this.getGalleries();
-    UIHelper.ToggleNavBar(false);
-  }
-
-  beforeDestroy(): void {
-    UIHelper.ToggleNavBar(true);
   }
 
   async getGalleries(): Promise<void> {

@@ -89,7 +89,8 @@ const state: NavigationStoreState = {
 const getters = {
   IsNavBarShowing: (state: NavigationStoreState): boolean => state.isNavBarShowing,
   IsNavMenuShowing: (state: NavigationStoreState): boolean => state.isNavMenuShowing,
-  UserLinks:(state:NavigationStoreState):Array<UserLink> => state.userLinks
+  UserLinks: (state: NavigationStoreState): Array<UserLink> => state.userLinks,
+  AdminLinks: (state: NavigationStoreState): Array<UserLink> => state.adminLinks
 };
 
 const mutations = {

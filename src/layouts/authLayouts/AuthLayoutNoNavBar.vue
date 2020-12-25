@@ -1,5 +1,6 @@
 <template>
   <div class="AuthLayoutNoNavBar">
+    <AuthHeader :current-user="LoggedInUser" />
       <slot />
   </div>
 </template>
@@ -9,13 +10,16 @@ import { Component, Vue } from "vue-property-decorator";
 import { LoggedInUserVm } from "@/types/ViewModels/UserVm";
 
 @Component({
-  name: "AuthLayout", components: {
+  name: "AuthLayoutNoNavBar", components: {
+    AuthHeader: (): Promise<typeof import("*.vue")> => import("@/components/ui/Headers/AuthHeader.vue"),
   }
 })
 
 
-export default class AuthLayout extends Vue {
-
+export default class AuthLayoutNoNavBar extends Vue {
+  get LoggedInUser(): LoggedInUserVm {
+    return this.$store.state.authStore.currentUser;
+  }
 
 }
 </script>

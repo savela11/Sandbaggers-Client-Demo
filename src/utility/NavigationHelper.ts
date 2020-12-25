@@ -23,7 +23,6 @@ export default class NavigationHelper {
         closeNavMenu?.classList.remove('show')
         document.body.style.position = 'static'
         document.body.style.overflowY = 'auto'
-        document.body.style.margin = '0 0 100px 0'
         setTimeout(() => {
           store.dispatch('navigationStore/_setNavMenuShowingStatus', status).then()
         }, 500)

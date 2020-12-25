@@ -1,27 +1,31 @@
 <template>
   <div class="navMenu">
-    <!--    <div class="adminButtons" v-if="LoggedInUser.roles.includes('Admin')">-->
-    <!--      <button class="btn btn&#45;&#45;xs" @click="toggleLinksView('Main')" :class="{ active: linksView === 'Main' }">Main</button>-->
-    <!--      <button class="btn btn&#45;&#45;xs" @click="toggleLinksView('Admin')" :class="{ active: linksView === 'Admin' }">Admin</button>-->
-    <!--    </div>-->
+    <div class="adminButtons" v-if="userRoles.includes('Admin')">
+      <button class="btn btn--xs" @click="toggleLinksView('Main')" :class="{ active: currentLinkView === 'Main' }">Main</button>
+      <button class="btn btn--xs" @click="toggleLinksView('Admin')" :class="{ active: currentLinkView === 'Admin' }">Admin</button>
+    </div>
     <nav>
-      <ul>
-        <li v-for="link in UserLinks" :key="link.name" @click.prevent.stop="closeNavMenu">
-          <router-link :to="link.link">
-            <!--                <img :src="link.icon" :alt="`${link.name} route}`" />-->
-            <div class="svgContainer" v-html="link.icon"></div>
-            <span>{{ link.name }}</span>
-          </router-link>
-        </li>
-      </ul>
-      <!--      <ul v-if="linksView === 'Admin'">-->
-      <!--        <li v-for="link in adminLinks" :key="link.name" @click.prevent.stop="closeNavigationMenu">-->
-      <!--          <router-link :to="link.link">-->
-      <!--            <div class="svgContainer" v-html="link.icon"></div>-->
-      <!--            <span>{{ link.name }}</span>-->
-      <!--          </router-link>-->
-      <!--        </li>-->
-      <!--      </ul>-->
+      <transition name="slide-fade">
+        <ul v-show="currentLinkView === 'Main'">
+          <li v-for="link in UserLinks" :key="link.name" @click.prevent.stop="closeNavMenu">
+            <router-link :to="link.link">
+              <!--                <img :src="link.icon" :alt="`${link.name} route}`" />-->
+              <div class="svgContainer" v-html="link.icon"></div>
+              <span>{{ link.name }}</span>
+            </router-link>
+          </li>
+        </ul>
+      </transition>
+      <transition name="slide-fade">
+        <ul v-show="currentLinkView === 'Admin'">
+          <li v-for="link in AdminLinks" :key="link.name" @click.prevent.stop="closeNavMenu">
+            <router-link :to="link.link">
+              <div class="svgContainer" v-html="link.icon"></div>
+              <span>{{ link.name }}</span>
+            </router-link>
+          </li>
+        </ul>
+      </transition>
     </nav>
     <div class="extra">
       <div>
@@ -45,16 +49,25 @@ import NavigationHelper from "@/utility/NavigationHelper";
 
 
 export default class NavMenu extends Vue {
+  @Prop() userRoles!: Array<string>;
+
+  currentLinkView = "Main";
+
   get UserLinks(): Array<UserLink> {
     return this.$store.getters["navigationStore/UserLinks"];
   }
 
+  get AdminLinks(): Array<UserLink> {
+    return this.$store.getters["navigationStore/AdminLinks"];
+  }
+
   toggleLinksView(view: string): void {
-    this.linksView = view;
+    this.currentLinkView = view;
+
   }
 
   closeNavMenu() {
-    NavigationHelper.ToggleNavMenu(false)
+    NavigationHelper.ToggleNavMenu(false);
   }
 
   logout(): void {
@@ -139,7 +152,8 @@ export default class NavMenu extends Vue {
 
   nav {
     margin-bottom: 5rem;
-    min-height: 200px;
+    min-height: 250px;
+    position: relative;
     @include tablet {
       margin-bottom: 10rem;
     }
@@ -242,6 +256,30 @@ export default class NavMenu extends Vue {
     .closeNavMenu {
     }
   }
+
+
+  .slide-fade-enter-active {
+    transition: all 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+
+  .slide-fade-leave-active {
+    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+
+  .slide-fade-enter, .slide-fade-leave-to {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+  }
+  //.slide-fade-enter {
+  //  transform: translateX(-100%);
+  //}
+  //.slide-fade-leave-to {
+  //
+  //  transform: translateX(100%);
+  //}
 
 
   @keyframes showMenu {

@@ -1,9 +1,9 @@
 <template>
   <div class="sandbagger" v-if="Sandbagger">
+    <div class="backBtn">
+      <router-link to="/dashboard" class="btn btn--borderGreen btn--xs btn--borderBottom">Back</router-link>
+    </div>
     <div class="top">
-      <div class="backButton">
-        <router-link to="/dashboard" class="btn btn--borderGreen btn--xs btn--borderBottom">Back</router-link>
-      </div>
       <div class="imageContainer">
         <img v-if="Sandbagger.image" :src="Sandbagger.image" alt="User Profile Image" />
         <img v-else src="@/assets/SBLogo.png" alt="User Profile Image" />
@@ -81,7 +81,7 @@ export default class Sandbagger extends Vue {
 </script>
 <style scoped lang="scss">
 .sandbagger {
-
+  padding: 0;
 
   .top {
     padding: 2rem 0 1rem 0;
@@ -181,23 +181,19 @@ export default class Sandbagger extends Vue {
     position: relative;
     z-index: 25;
     padding-top: 0.2rem;
-    height: 250px;
     overflow: hidden;
     transform: translateY(-25px);
 
     .container {
       border-top: 3px solid $DarkBlue;
       border-radius: 25px;
-      height: 100%;
       background-color: white;
-
+      padding: 1.5rem;
       @include tablet {
         transform: translateY(-5px);
       }
 
       .handicapHistory {
-        height: 100%;
-        padding: 2rem;
 
         .title {
           display: flex;
@@ -210,9 +206,9 @@ export default class Sandbagger extends Vue {
         }
 
         .handicapList {
-          padding: 0 .8rem 0 0;
+          padding: 0 1rem 0 0;
+          max-height: 300px;
           overflow-y: auto;
-          max-height: 100%;
         }
 
         .handicap {

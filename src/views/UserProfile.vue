@@ -1,7 +1,9 @@
 ﻿<template>
   <div v-if="currentUser && currentUser.profile" class="userProfile">
+    <div class="backBtn">
+      <button class="btn btn--borderGreen btn--xs btn--borderBottom" @click="$router.back()">Back</button>
+    </div>
     <section class="section section__top">
-      <button class="backBtn btn btn--borderGreen btn--xs btn--borderBottom" @click="$router.back()">Back</button>
       <div class="imageContainer">
         <img alt="User profile image" v-bind:src="userProfileImage" />
       </div>
@@ -537,12 +539,6 @@ $--selectBoxOptionFS: (
       @include font-size($--bottomTitleFS);
     }
   }
-}
-
-.backBtn {
-  left: 0.5rem;
-  position: absolute;
-  top: 0.5rem;
 }
 
 .imageContainer {
