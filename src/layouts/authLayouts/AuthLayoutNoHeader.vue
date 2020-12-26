@@ -4,7 +4,7 @@
       <slot />
     </div>
     <NavBar v-show="!IsNavMenuShowing" :is-nav-bar-showing="IsNavBarShowing" :is-nav-menu-showing="IsNavMenuShowing" :favoriteLinks="favoriteLinks" />
-    <NavMenu v-show="IsNavMenuShowing" />
+    <NavMenu v-show="IsNavMenuShowing" :userRoles="LoggedInUser.roles" />
   </div>
 </template>
 

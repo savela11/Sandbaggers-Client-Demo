@@ -124,11 +124,20 @@ export default class NavBar extends Vue {
     left: 50%;
     transform: translate(-50%, 0);
     @include tablet {
+      width: 60%;
       height: 60px;
       padding: 0.2rem 2rem;
     }
-    @include desktop {
+    @include tablet-landscape {
+      width: 50%;
+    }
+    @include desktopSmall {
+      width: 40%;
       height: 75px;
+
+    }
+    @include desktopLarge {
+      width: 30%;
     }
 
     &.show {
@@ -239,7 +248,6 @@ export default class NavBar extends Vue {
       }
       @include desktop {
         font-size: .9rem;
-        margin-right: 3rem;
       }
 
       img {
