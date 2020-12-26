@@ -1,19 +1,63 @@
 ﻿<template>
   <div class="register">
-    <NewForm v-if="!loading" class="registerForm">
-      <template v-slot:fields>
-        <InputField type="text" label="Username" v-model.trim="registerForm.username" />
-        <InputField type="email" label="Email" v-model.trim="registerForm.email" />
-        <InputField type="text" label="First Name" v-model.trim="registerForm.firstName" />
-        <InputField type="text" label="Last Name" v-model.trim="registerForm.lastName" />
-        <InputField type="password" label="Password" v-model.trim="registerForm.password" />
-        <InputField type="password" label="Confirm Password" v-model.trim="registerForm.confirmPassword" />
-        <InputField type="text" label="Registration Code" v-model.trim="registerForm.registrationCode" />
-      </template>
-      <template v-slot:button>
-        <button @click.prevent.stop="onSubmit" class="btn btn--blue btn--sm" id="registerBtn">Register</button>
-      </template>
-    </NewForm>
+    <form v-if="!loading" class="form" @submit.prevent.stop="onSubmit">
+      <!--      <InputField type="text" label="Username" v-model.trim="registerForm.username" />-->
+      <!--      <InputField type="email" label="Email" v-model.trim="registerForm.email" />-->
+      <!--      <InputField type="text" label="First Name" v-model.trim="registerForm.firstName" />-->
+      <!--      <InputField type="text" label="Last Name" v-model.trim="registerForm.lastName" />-->
+      <!--      <InputField type="password" label="Password" v-model.trim="registerForm.password" />-->
+      <!--      <InputField type="password" label="Confirm Password" v-model.trim="registerForm.confirmPassword" />-->
+      <!--      <InputField type="text" label="Registration Code" v-model.trim="registerForm.registrationCode" />-->
+
+      <InputField :isActive="registerForm.username !== ''">
+        <template v-slot:field>
+          <label for="Username">Username</label>
+          <input type="text" id="Username" v-model.trim="registerForm.username">
+        </template>
+      </InputField>
+      <InputField :isActive="registerForm.email !== ''">
+        <template v-slot:field>
+          <label for="email">Email</label>
+          <input type="email" id="email" v-model.trim="registerForm.email">
+        </template>
+      </InputField>
+      <InputField :isActive="registerForm.firstName !== ''">
+        <template v-slot:field>
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" v-model.trim="registerForm.firstName" />
+        </template>
+      </InputField>
+      <InputField :isActive="registerForm.lastName !== ''">
+        <template v-slot:field>
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" v-model.trim="registerForm.lastName" />
+        </template>
+      </InputField>
+      <InputField :isActive="registerForm.password !== ''">
+        <template v-slot:field>
+          <label for="password">Password</label>
+          <input type="password" id="password" v-model.trim="registerForm.password" />
+        </template>
+      </InputField>
+
+      <InputField :isActive="registerForm.confirmPassword !== ''">
+        <template v-slot:field>
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" v-model.trim="registerForm.confirmPassword" />
+        </template>
+      </InputField>
+
+      <InputField :isActive="registerForm.registrationCode !== ''">
+        <template v-slot:field>
+          <label for="registrationCode">Registration Code</label>
+          <input type="text" id="registrationCode" v-model.trim="registerForm.registrationCode" />
+        </template>
+      </InputField>
+
+
+      <input type="submit" value="Register" class="btn submit btn--blue btn--sm" id="registerBtn" />
+
+    </form>
     <div class="greyLinks" v-if="!loading">
       <p>
         Already have an account?
@@ -36,13 +80,11 @@ import UIHelper from "@/utility/UIHelper";
   components: {
     Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
     AuthHeader: (): Promise<typeof import("*.vue")> => import("@/components/ui/Headers/DefaultHeader.vue"),
-    NewForm: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/NewForm.vue"),
     InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue")
   }
 })
 export default class Login extends Vue {
   loading = false;
-
   registerForm: RegisterUserDto = {
     email: "",
     username: "",
@@ -181,6 +223,9 @@ export default class Login extends Vue {
 }
 
 .registerForm {
-  padding: 2rem;
+  width: 90%;
+  margin: 0 auto;
+  padding: 1rem;
+
 }
 </style>

@@ -1,14 +1,20 @@
 ﻿<template>
   <div class="login">
-    <NewForm class="loginForm" v-if="!loading">
-      <template v-slot:fields>
-        <InputField label="Username" type="text" v-model="LoginForm.username" />
-        <InputField label="Password" type="password" v-model="LoginForm.password" />
-      </template>
-      <template v-slot:button>
-        <button @click.prevent.stop="onSubmit" class="btn btn--blue btn--sm" id="loginBTN">Login</button>
-      </template>
-    </NewForm>
+    <form class="form" v-if="!loading" @submit.prevent.stop="onSubmit">
+      <InputField :isActive="LoginForm.username !== ''">
+        <template v-slot:field>
+          <label for="Username">Username</label>
+          <input type="text" id="Username" v-model="LoginForm.username">
+        </template>
+      </InputField>
+      <InputField :isActive="LoginForm.password !== ''">
+        <template v-slot:field>
+          <label for="Password">Password</label>
+          <input type="password" id="Password" v-model="LoginForm.password">
+        </template>
+      </InputField>
+      <input type="submit" value="Login" @click.prevent.stop="onSubmit" class="btn submit btn--blue btn--sm" id="loginBTN" />
+    </form>
     <div class="greyLinks" v-if="!loading">
       <p>Need an account?
         <router-link to="/register">Register</router-link>
@@ -30,7 +36,7 @@ import { LoginUserDto } from "@/types/DTO/AuthDto";
   components: {
     NewForm: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/NewForm.vue"),
     InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue"),
-    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
+    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue")
   }
 })
 export default class Login extends Vue {
@@ -106,6 +112,7 @@ export default class Login extends Vue {
 .login {
   padding: 0;
 }
+
 .loginForm {
   padding: 2rem;
 }

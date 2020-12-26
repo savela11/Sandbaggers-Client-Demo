@@ -1,10 +1,7 @@
 ﻿<template>
   <div class="c-field-container">
-    <div class="c-field" :class="[className, {active: value !== ''}]">
-      <label class="c-field__label" :class="[`c-field__label--${type}`]" :for="label.replace(/ +/g, '')">{{ label }}</label>
-      <input v-if="type !== 'textarea' && type !== 'tel'" :class="'c-field__' + type" :value="value" :id="label.replace(/ +/g, '')" :type="type" @input="$emit('input', $event.target.value)" />
-      <input v-if="type !== 'textarea' && type === 'tel'" :class="'c-field__' + type" :value="value" maxlength="14" :id="label.replace(/ +/g, '')" :type="type" @input="$emit('input', $event.target.value)" />
-      <textarea v-if="type === 'textarea'" class="c-field__textarea" :value="value" :id="label" :type="type" @input="$emit('input', $event.target.value)"></textarea>
+    <div class="c-field" :class="[className, {active: isActive}]">
+      <slot name="field"></slot>
     </div>
   </div>
 
@@ -16,11 +13,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({ name: "InputField", inheritAttrs: false })
 export default class InputField extends Vue {
-  @Prop({ default: "Label" }) label!: string;
-  @Prop({ default: "text" }) type?: string;
-  @Prop({ default: "Value" }) value!: string;
   @Prop({ default: "default" }) className?: string;
-
+  @Prop({ default: false }) isActive?: boolean;
 
 
 }
@@ -33,10 +27,11 @@ $--inputFS: (
     $tablet: 1.2rem
 );
 $--labelFS: (
-    null: .9rem,
+    null: .8rem,
+    $mobile: .9rem
 );
 $--activeLabelFS: (
-    null: .8rem,
+    null: .9rem,
     $tablet: 1rem
 );
 
@@ -70,30 +65,29 @@ $--activeLabelFS: (
     padding: .5rem 1rem;
   }
 
+
   &:active, &:focus, &:focus-within, &.active {
-    border: 1px solid $DarkGreen;
+    border: 2px solid $DarkGreen;
 
     label {
       top: 0;
       transform: translateY(-15px);
       background-color: white;
       border-radius: 5px;
+      font-weight: bold;
       color: $DarkGreen;
       @include font-size($--activeLabelFS);
     }
   }
 
-  &:active, &:focus, &:focus-within {
-    border: 2px solid $DarkGreen;
-  }
 
-
-  &__label {
+  label {
     position: absolute;
     color: rgba(134, 134, 134, .4);
     @include font-size($--labelFS);
 
-    &--text, &--password, &--email {
+
+    input {
       top: 50%;
       transform: translateY(-50%);
     }
@@ -101,7 +95,7 @@ $--activeLabelFS: (
 
   }
 
-  &__text, &__textarea, &__password, &__email, &__tel {
+  input, textarea {
     padding: .5rem .2rem;
     border: none;
     outline: none;
@@ -109,12 +103,11 @@ $--activeLabelFS: (
     @include font-size($--inputFS);
   }
 
-  &__text, &__password {
+  input {
     flex: auto;
-
   }
 
-  &__textarea {
+  textarea {
     flex: auto;
     min-height: 150px;
   }
@@ -123,20 +116,16 @@ $--activeLabelFS: (
 }
 
 .primary {
-
   &:active, &:focus, &:focus-within, &.active {
-    border: 1px solid $DarkBlue;
+    border: 2px solid $primary;
+
     label {
-      color: $DarkBlue;
+      color: $primary;
     }
   }
 
-  &:active, &:focus, &:focus-within {
-    border: 2px solid $DarkBlue;
-  }
-
   input, textarea {
-    color: $DarkBlue;
+    color: $primary;
   }
 
 }

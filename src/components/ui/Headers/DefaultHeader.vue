@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="heading__smallText">
-      <p class="text text--xs">{{ smallText }}</p>
+      <p class="text text--sm">{{ smallText }}</p>
     </div>
   </header>
 </template>

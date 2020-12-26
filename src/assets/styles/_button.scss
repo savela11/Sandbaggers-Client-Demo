@@ -32,7 +32,9 @@ button {
     background-color: $DarkBlue;
     color: white;
   }
-
+  &.submit {
+    margin: 1rem 0;
+  }
   &--circle {
     border-radius: 50%;
     padding: 0;
@@ -222,4 +224,9 @@ button {
 
 .backBtn {
   padding: 1rem;
+}
+
+
+.submitBtn {
+
 }
