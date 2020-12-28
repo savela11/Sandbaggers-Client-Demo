@@ -3,7 +3,14 @@
     <div class="modal__background" v-on="$listeners"></div>
     <div class="modal__container">
       <div class="modal__closeButton">
-        <button  v-on="$listeners"><img :src="require('@/assets/icons/closeX.svg')" alt="Close button"></button>
+        <IconBtn v-on="$listeners">
+          <template v-slot:svg>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.47 2 2 6.47 2 12C2 17.53 6.47 22 12 22C17.53 22 22 17.53 22 12C22 6.47 17.53 2 12 2ZM17 15.59L15.59 17L12 13.41L8.41 17L7 15.59L10.59 12L7 8.41L8.41 7L12 10.59L15.59 7L17 8.41L13.41 12L17 15.59Z" fill="#9F0000" />
+            </svg>
+
+          </template>
+        </IconBtn>
       </div>
       <div class="modal__header section" v-if="isHeader">
         <slot name="header"></slot>
@@ -14,7 +21,7 @@
       <div class="modal__footer section" v-if="isFooter">
         <slot name="footer"></slot>
         <div class="btnContainer">
-          <slot name="submitBtn"> </slot>
+          <slot name="submitBtn"></slot>
         </div>
       </div>
     </div>
@@ -22,34 +29,40 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from "vue-property-decorator";
 
-@Component({ name: 'Modal' })
-export default class Modal extends Vue {
-  @Prop({ default: true }) isHeader?: boolean
-  @Prop({ default: true }) isBody?: boolean
-  @Prop({ default: true }) isFooter?: boolean
-  deviceSize = 'mobile'
-  mounted(): void {
-    window.addEventListener('resize', this.handleDeviceSize)
-    this.handleDeviceSize()
+@Component({
+  name: "Modal", components: {
+    IconBtn: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/IconBtn.vue")
   }
+})
+export default class Modal extends Vue {
+  @Prop({ default: true }) isHeader?: boolean;
+  @Prop({ default: true }) isBody?: boolean;
+  @Prop({ default: true }) isFooter?: boolean;
+  deviceSize = "mobile";
+
+  mounted(): void {
+    window.addEventListener("resize", this.handleDeviceSize);
+    this.handleDeviceSize();
+  }
+
   destroyed(): void {
-    window.removeEventListener('resize', this.handleDeviceSize)
+    window.removeEventListener("resize", this.handleDeviceSize);
   }
 
   handleDeviceSize(): string | undefined {
-    let deviceSize
-    if (window.innerWidth > 300 && window.innerWidth < 768 && this.deviceSize !== 'mobile') {
-      deviceSize = 'mobile'
-    } else if (window.innerWidth >= 768 && window.innerWidth < 1024 && this.deviceSize !== 'tablet') {
-      deviceSize = 'tablet'
-    } else if (window.innerWidth >= 1024 && this.deviceSize !== 'desktop') {
-      deviceSize = 'desktop'
+    let deviceSize;
+    if (window.innerWidth > 300 && window.innerWidth < 768 && this.deviceSize !== "mobile") {
+      deviceSize = "mobile";
+    } else if (window.innerWidth >= 768 && window.innerWidth < 1024 && this.deviceSize !== "tablet") {
+      deviceSize = "tablet";
+    } else if (window.innerWidth >= 1024 && this.deviceSize !== "desktop") {
+      deviceSize = "desktop";
     } else {
-      return
+      return;
     }
-    this.deviceSize = deviceSize
+    this.deviceSize = deviceSize;
   }
 }
 </script>
@@ -61,52 +74,22 @@ export default class Modal extends Vue {
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 0.8rem;
+  padding: 0.3rem;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  h2 {
-    font-size: 1.2rem;
-    @include mobile {
-      font-size: 1.4rem;
-    }
-
-    @include tablet {
-      font-size: 1.6rem;
-    }
-  }
 
   &__closeButton {
     position: absolute;
     right: 0.5rem;
     top: 0.5rem;
-
-    button {
-      background-color: white;
-      padding: 0.3rem;
-      width: 25px;
-      height: 25px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: none;
-      @include mobile {
-        height: 40px;
-        width: 40px;
-      }
-      @include tablet {
-        width: 45px;
-        height: 45px;
-      }
-
-      img {
-        object-fit: cover;
-        height: 100%;
-        width: 100%;
-      }
+    @include tablet {
+      right: 1rem;
+      top: 1rem;
     }
+
   }
 
   &__background {
@@ -138,6 +121,11 @@ export default class Modal extends Vue {
       padding: 2rem 2rem 1rem 2rem;
       width: 75%;
       height: 60%;
+    }
+    @include tablet-landscape {
+      padding: 2rem;
+      width: 60%;
+      height: 75%;
     }
   }
 
@@ -171,41 +159,5 @@ export default class Modal extends Vue {
   }
 }
 
-@media (min-width: 1024px) {
-  .modal {
-    h2 {
-      font-size: 1.8rem;
-    }
-
-    &__closeButton {
-      button {
-      }
-    }
-
-    &__background {
-    }
-
-    &__container {
-      padding: 2rem;
-      width: 60%;
-      height: 75%;
-    }
-
-    .section {
-      &:last-child {
-      }
-    }
-
-    &__body {
-      .form {
-      }
-    }
-
-    &__footer {
-      .btnContainer {
-      }
-    }
-  }
-}
 
 </style>

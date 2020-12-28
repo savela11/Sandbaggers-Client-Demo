@@ -1,5 +1,67 @@
 ﻿<template>
   <div class="bets">
+    <Modal v-if="isAddingBet && !loading" @click="isAddingBet = false">
+      <template v-slot:header>
+        <h2 v-if="!loading">Add Bet</h2>
+      </template>
+      <template v-slot:body>
+        <form v-if="!modalLoading" class="form--addBet">
+          <!--          <div class="form__field">-->
+          <!--            <label for="title">Title</label>-->
+          <!--            <input type="text" id="title" v-model="addBetForm.title" />-->
+          <!--          </div>-->
+          <InputField :isActive="addBetForm.title !== ''" className="secondary">
+            <template v-slot:field>
+              <label for="title">Title</label>
+              <input type="text" id="title" v-model.trim="addBetForm.title" />
+            </template>
+          </InputField>
+          <div class="form__field">
+            <p class="amountTitle">
+              Active: <span id="spanActiveStatus"> {{ addBetForm.isActive ? "Yes" : "No" }}</span>
+            </p>
+            <div class="btns">
+              <button :class="{ clicked: addBetForm.isActive === true }" @click.prevent.stop="addBetForm.isActive = true">Yes</button>
+              <button :class="{ clicked: addBetForm.isActive === false }" @click.prevent.stop="addBetForm.isActive = false">No</button>
+            </div>
+          </div>
+          <div class="form__field">
+            <p class="amountTitle">
+              Amount: <span id="spanAmt">${{ addBetForm.amount }}</span>
+            </p>
+            <div class="btns">
+              <button v-for="(amount, index) in amounts" :key="amount" ref="amount" @click.prevent.stop="increaseBetAmount(amount, index)">${{ amount }}</button>
+            </div>
+          </div>
+          <div class="form__field">
+            <p class="amountTitle">
+              How many can accept? <span id="spanAcceptNum">{{ addBetForm.canAcceptNumber }}</span>
+            </p>
+            <div class="btns btns--acceptBetNum">
+              <button
+                  v-for="acceptedBets in numOfAcceptedBets"
+                  :key="acceptedBets"
+                  :class="{ clicked: addBetForm.canAcceptNumber === acceptedBets }"
+                  @click.prevent.stop="numberCanAcceptBet(acceptedBets)"
+              >
+                {{ acceptedBets }}
+              </button>
+            </div>
+          </div>
+
+          <InputField :isActive="addBetForm.description !== ''" className="secondary">
+            <template v-slot:field>
+              <label for="description">Description</label>
+              <textarea type="text" id="description" v-model.trim="addBetForm.description"></textarea>
+            </template>
+          </InputField>
+        </form>
+        <Loading v-else />
+      </template>
+      <template v-slot:submitBtn>
+        <button class="btn btn--xs btn--green" id="addBetBTN" :disabled="!validateForm || loading || modalLoading" @click.prevent.stop="createBet">Add</button>
+      </template>
+    </Modal>
 
     <div v-if="!loading">
       <div class="bets__viewButtons">
@@ -8,8 +70,14 @@
       <hr class="divider" />
       <div class="utilityBar">
         <div class="searchBets" v-if="currentView !== 'Amount'">
-          <label for="searchSB" class="hideLabel">Search</label>
-          <input id="searchSB" class="input" type="text" v-model="search" placeholder="Search Bets" />
+<!--          <label for="searchSB" class="hideLabel">Search</label>-->
+<!--          <input id="searchSB" class="input" type="text" v-model="search" placeholder="Search Bets" />-->
+          <InputField :isActive="search !== ''" className="search">
+            <template v-slot:field>
+              <label for="search">Search</label>
+              <input type="text" id="search" v-model.trim="search" />
+            </template>
+          </InputField>
         </div>
         <div class="createBet">
           <button @click="isAddingBet = true">
@@ -24,7 +92,7 @@
               <p>By: {{ bet.createdBy.fullName }}</p>
             </div>
             <div class="title">
-                <h2 class="text text--bold text--noWrap text--ellipsis text--xl">{{ bet.title }}</h2>
+              <h2 class="text text--bold text--noWrap text--ellipsis text--md">{{ bet.title }}</h2>
             </div>
             <div class="details">
               <div class="acceptedBy">
@@ -52,59 +120,6 @@
         <button v-on:click="changePage('previous')" :disabled="pageNumber === 0">Previous</button>
         <button v-on:click="changePage('next')" :disabled="pageNumber >= betCount - 1">Next</button>
       </div>
-      <Modal v-if="isAddingBet" @click="isAddingBet = false">
-        <template v-slot:header>
-          <h2 v-if="!loading">Add Bet</h2>
-        </template>
-        <template v-slot:body>
-          <form v-if="!modalLoading" class="form form--addBet">
-            <div class="form__field">
-              <label for="title">Title</label>
-              <input type="text" id="title" v-model="addBetForm.title" />
-            </div>
-            <div class="form__field">
-              <p class="amountTitle">
-                Active: <span id="spanActiveStatus"> {{ addBetForm.isActive ? "Yes" : "No" }}</span>
-              </p>
-              <div class="btns">
-                <button :class="{ clicked: addBetForm.isActive === true }" @click.prevent.stop="addBetForm.isActive = true">Yes</button>
-                <button :class="{ clicked: addBetForm.isActive === false }" @click.prevent.stop="addBetForm.isActive = false">No</button>
-              </div>
-            </div>
-            <div class="form__field">
-              <p class="amountTitle">
-                Amount: <span id="spanAmt">${{ addBetForm.amount }}</span>
-              </p>
-              <div class="btns">
-                <button v-for="(amount, index) in amounts" :key="amount" ref="amount" @click.prevent.stop="increaseBetAmount(amount, index)">${{ amount }}</button>
-              </div>
-            </div>
-            <div class="form__field">
-              <p class="amountTitle">
-                How many can accept? <span id="spanAcceptNum">{{ addBetForm.canAcceptNumber }}</span>
-              </p>
-              <div class="btns btns--acceptBetNum">
-                <button
-                    v-for="acceptedBets in numOfAcceptedBets"
-                    :key="acceptedBets"
-                    :class="{ clicked: addBetForm.canAcceptNumber === acceptedBets }"
-                    @click.prevent.stop="numberCanAcceptBet(acceptedBets)"
-                >
-                  {{ acceptedBets }}
-                </button>
-              </div>
-            </div>
-            <div class="form__field">
-              <label for="description">Description</label>
-              <textarea type="text" rows="10" id="description" v-model="addBetForm.description" />
-            </div>
-          </form>
-          <Loading v-else />
-        </template>
-        <template v-slot:submitBtn>
-          <button class="btn btn--xs btn--green" id="addBetBTN" :disabled="!validateForm || loading || modalLoading" @click.prevent.stop="createBet">Add</button>
-        </template>
-      </Modal>
     </div>
     <Loading v-else />
   </div>
@@ -123,7 +138,8 @@ import { UserAcceptsBetDto } from "@/types/DTO/Bets/UserAcceptsBetDto";
   name: "Bets",
   components: {
     Modal: (): Promise<typeof import("*.vue")> => import("@/components/ui/Modals/Modal.vue"),
-    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue")
+    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
+    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue")
   }
 })
 export default class Bets extends Vue {
@@ -352,7 +368,7 @@ $--acceptedByDropDownBtnFS: (
   }
 
   &__viewButtons {
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
     padding: 0.2rem 0.2rem 0.8rem 0.2rem;
@@ -381,7 +397,7 @@ $--acceptedByDropDownBtnFS: (
 
   .utilityBar {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
 
     .searchBets {
       flex: 0 1 80%;
@@ -392,16 +408,6 @@ $--acceptedByDropDownBtnFS: (
         flex: 0 1 40%;
       }
 
-      label {
-        padding: 0 0.5rem;
-        font-size: 0.8rem;
-      }
-
-      input {
-        @include tablet-landscape {
-          padding: 0.5rem 0.8rem;
-        }
-      }
     }
 
     .createBet {
@@ -432,10 +438,8 @@ $--acceptedByDropDownBtnFS: (
 
   &__list {
     border-radius: 5px;
-    min-height: 200px;
     margin-top: 2rem;
     @include mobile {
-      min-height: 300px;
     }
     @include tablet {
       display: grid;
@@ -595,6 +599,7 @@ $--acceptedByDropDownBtnFS: (
             border: 1px solid lightgrey;
             border-radius: 5px;
             padding: 1rem 1rem 5rem 1rem;
+
             li {
               padding: .5rem;
               border-bottom: 1px solid lightgrey;
@@ -729,29 +734,6 @@ $--acceptedByDropDownBtnFS: (
     }
   }
 
-  .prevNextButtons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-
-    button {
-      padding: 0.3rem 1rem;
-      @include font-size($--btnFS);
-      font-weight: bold;
-      background-color: $testBlue;
-      color: white;
-
-      &:disabled {
-        background-color: grey;
-        opacity: 0.3;
-      }
-
-      &:first-child {
-        margin-right: 1rem;
-      }
-    }
-  }
 }
 
 </style>

@@ -1,8 +1,44 @@
 <template>
   <div class="galleryImages" :class="{selected: selectedImage !== null}">
+    <PopUp class="popUp" v-if="isPopUpShowing" :showPopUp="showPopUp" @click.prevent.stop="togglePopUp(false)">
+      <template v-slot:title>
+        <h4 class="text my-1 my-md-2 text--bold text--md text--center color--primary text-vpLG--lg">Add Image</h4>
+      </template>
+      <template v-slot:content>
+        <div class="popUpBtns">
+          <button class="btn btn--active btn--tiny text text--xs color--primary text--fw-500" :class="{active: currentPopUpView === option}" v-for="option in popUpOptions" :key="option" @click="currentPopUpView = option">{{ option }}</button>
+        </div>
+
+        <div class="popUpViews">
+          <div class="view" v-show="currentPopUpView === 'Link'">
+            <InputField className="sm" :isActive="imageLink !== ''">
+              <template v-slot:field>
+                <label for="imageLink">Link</label>
+                <input type="text" id="imageLink" v-model.trim="imageLink" />
+              </template>
+            </InputField>
+          </div>
+          <div class="view" v-show="currentPopUpView === 'Upload'">
+
+
+          </div>
+
+        </div>
+      </template>
+    </PopUp>
+
     <div v-if="!selectedImage && !loading">
+      <div class="backBtn">
+        <button class="btn btn--borderGreen btn--xs btn--borderBottom" @click="$router.back()">Back</button>
+        <IconBtn className="float float--right" btnText="Add Image" @click.prevent.stop="togglePopUp(!showPopUp)">
+          <template v-slot:svg>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 13H13V17H11V13H7V11H11V7H13V11H17V13Z" fill="#17252A" />
+            </svg>
+          </template>
+        </IconBtn>
+      </div>
       <div class="top">
-        <button @click="$router.back()">Back</button>
         <h1 class="text text--bold text--title color--primary">{{ gallery.name }}</h1>
       </div>
       <div class="bottom">
@@ -41,7 +77,12 @@ import UIHelper from "@/utility/UIHelper";
 
 @Component({
   name: "GalleryImages",
-  components: { Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue") }
+  components: {
+    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
+    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue"),
+    IconBtn: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/IconBtn.vue"),
+    PopUp: (): Promise<typeof import("*.vue")> => import("@/components/ui/PopUp.vue")
+  }
 })
 
 
@@ -49,14 +90,35 @@ export default class GalleryImages extends Vue {
   loading = true;
   gallery = {} as EventGalleryVm;
   selectedImage = null as GalleryImgVm | null;
+  isPopUpShowing = false;
+  showPopUp = false;
+  popUpOptions = ["Link", "Upload"];
+  currentPopUpView = "Link";
+  imageLink = "";
 
   mounted(): void {
     this.getGallery();
-    UIHelper.ToggleNavBar(false);
   }
 
   selectImage(img: GalleryImgVm): void {
     this.selectedImage = img;
+  }
+
+  togglePopUp(status: boolean): void {
+    if (status) {
+      this.isPopUpShowing = true;
+      document.body.style.position = "fixed";
+    } else {
+      document.body.style.position = "static";
+
+      setTimeout(() => {
+        this.isPopUpShowing = false;
+      }, 1000);
+    }
+
+    this.$nextTick(() => {
+      this.showPopUp = status;
+    });
   }
 
   async getGallery(): Promise<void> {
@@ -77,26 +139,22 @@ export default class GalleryImages extends Vue {
 </script>
 
 <style scoped lang="scss">
-.galleryImages {
-  padding: 2rem .3rem;
 
-  @include tablet-landscape {
-    padding: 2rem 1rem;
-  }
+
+.galleryImages {
+  padding: 0 .3rem 1rem .3rem;
+
 
   &.selected {
     padding: 0;
   }
 }
 
+
 .top {
   padding: 0 .8rem;
   @include desktopSmall {
     padding: 0 2rem;
-  }
-
-  button {
-    float: right;
   }
 }
 
@@ -246,17 +304,30 @@ export default class GalleryImages extends Vue {
   }
 }
 
-//@media (max-width: 600px) {
-//  .gallery {
-//    grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
-//  }
-//}
-//
-//@media (max-width: 400px) {
-//  .gallery {
-//    grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
-//  }
-//}
+
+.popUp {
+  .popUpBtns {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 1rem 0;
+
+    button {
+
+      &:last-of-type {
+        margin-left: .5rem;
+      }
+    }
+  }
+
+
+  .popUpViews {
+    .view {
+      width: 80%;
+      margin: 0 auto;
+    }
+  }
+}
+
 
 @-moz-keyframes zoomin {
   0% {

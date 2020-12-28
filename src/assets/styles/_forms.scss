@@ -1,12 +1,21 @@
 
-
 .form {
-  padding: 2rem;
+  width: 90%;
+  margin: 0 auto;
+
+  @include tablet {
+    width: 60%;
+  }
+
+  @include tablet-landscape {
+    width: 50%;
+  }
 
   &__field {
     display: flex;
     flex-direction: column;
     padding: 0.5rem 0;
+
     label {
       margin: 0 0 0.3rem 0.3rem;
 

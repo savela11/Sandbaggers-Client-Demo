@@ -1,5 +1,6 @@
 <template>
-  <button v-on="$listeners" class="IconBtn" :style="{height: btnHeight + 'px', width: btnWidth + 'px'}">
+  <div class="IconBtn"  :class="[className, {'flex flex--column flex--iCenter': btnText}]">
+  <button v-on="$listeners"  >
     <slot name="svg">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M8.25 8.25C8.44891 8.25 8.63968 8.32902 8.78033 8.46967C8.92098 8.61032 9 8.80109 9 9V18C9 18.1989 8.92098 18.3897 8.78033 18.5303C8.63968 18.671 8.44891 18.75 8.25 18.75C8.05109 18.75 7.86032 18.671 7.71967 18.5303C7.57902 18.3897 7.5 18.1989 7.5 18V9C7.5 8.80109 7.57902 8.61032 7.71967 8.46967C7.86032 8.32902 8.05109 8.25 8.25 8.25V8.25ZM12 8.25C12.1989 8.25 12.3897 8.32902 12.5303 8.46967C12.671 8.61032 12.75 8.80109 12.75 9V18C12.75 18.1989 12.671 18.3897 12.5303 18.5303C12.3897 18.671 12.1989 18.75 12 18.75C11.8011 18.75 11.6103 18.671 11.4697 18.5303C11.329 18.3897 11.25 18.1989 11.25 18V9C11.25 8.80109 11.329 8.61032 11.4697 8.46967C11.6103 8.32902 11.8011 8.25 12 8.25V8.25ZM16.5 9C16.5 8.80109 16.421 8.61032 16.2803 8.46967C16.1397 8.32902 15.9489 8.25 15.75 8.25C15.5511 8.25 15.3603 8.32902 15.2197 8.46967C15.079 8.61032 15 8.80109 15 9V18C15 18.1989 15.079 18.3897 15.2197 18.5303C15.3603 18.671 15.5511 18.75 15.75 18.75C15.9489 18.75 16.1397 18.671 16.2803 18.5303C16.421 18.3897 16.5 18.1989 16.5 18V9Z" fill="#9F0000" />
@@ -7,6 +8,10 @@
       </svg>
     </slot>
   </button>
+    <span v-if="btnText" class="text text--tiny text-vpMD--xs">{{btnText}}</span>
+
+  </div>
+
 </template>
 
 <script lang="ts">
@@ -16,8 +21,9 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 
 export default class IconBtn extends Vue {
-  @Prop({ default: "35" }) btnHeight?: string;
-  @Prop({ default: "35" }) btnWidth?: string;
+
+  @Prop({default: "default"}) className?:string;
+  @Prop() btnText?: string;
 }
 </script>
 

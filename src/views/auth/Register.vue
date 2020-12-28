@@ -1,14 +1,6 @@
 ﻿<template>
   <div class="register">
     <form v-if="!loading" class="form" @submit.prevent.stop="onSubmit">
-      <!--      <InputField type="text" label="Username" v-model.trim="registerForm.username" />-->
-      <!--      <InputField type="email" label="Email" v-model.trim="registerForm.email" />-->
-      <!--      <InputField type="text" label="First Name" v-model.trim="registerForm.firstName" />-->
-      <!--      <InputField type="text" label="Last Name" v-model.trim="registerForm.lastName" />-->
-      <!--      <InputField type="password" label="Password" v-model.trim="registerForm.password" />-->
-      <!--      <InputField type="password" label="Confirm Password" v-model.trim="registerForm.confirmPassword" />-->
-      <!--      <InputField type="text" label="Registration Code" v-model.trim="registerForm.registrationCode" />-->
-
       <InputField :isActive="registerForm.username !== ''">
         <template v-slot:field>
           <label for="Username">Username</label>
@@ -218,14 +210,7 @@ export default class Login extends Vue {
 </script>
 
 <style scoped lang="scss">
-.register {
-  padding: 0;
-}
 
-.registerForm {
-  width: 90%;
-  margin: 0 auto;
-  padding: 1rem;
 
-}
+
 </style>

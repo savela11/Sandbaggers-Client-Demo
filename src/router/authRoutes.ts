@@ -4,6 +4,7 @@ import store from "../store/index";
 import AuthLayout from "@/layouts/authLayouts/AuthLayout.vue";
 import AuthLayoutNoNavBar from '@/layouts/authLayouts/AuthLayoutNoNavBar.vue';
 import AuthLayoutNoHeader from "@/layouts/authLayouts/AuthLayoutNoHeader.vue";
+import AuthLayoutNoBars from "@/layouts/authLayouts/AuthLayoutNoBars.vue";
 
 
 function loadView(view: string): () => Promise<typeof import("*.vue")> {
@@ -43,7 +44,7 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("UserProfile"),
     meta: {
-      layout: AuthLayoutNoNavBar
+      layout: AuthLayoutNoBars
     }
   },
   {
@@ -167,7 +168,7 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("gallery/GalleryImages"),
     meta: {
-      layout: AuthLayoutNoHeader
+      layout: AuthLayoutNoBars
     }
   },
   {

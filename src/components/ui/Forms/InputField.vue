@@ -22,9 +22,9 @@ export default class InputField extends Vue {
 
 <style scoped lang="scss">
 $--inputFS: (
-    null: 1rem,
-    $mobile: 1.1rem,
-    $tablet: 1.2rem
+    null: .8rem,
+    $mobile: .9rem,
+    $tablet: 1rem
 );
 $--labelFS: (
     null: .8rem,
@@ -67,7 +67,7 @@ $--activeLabelFS: (
 
 
   &:active, &:focus, &:focus-within, &.active {
-    border: 2px solid $DarkGreen;
+    border: 2px solid $PrimaryFS;
 
     label {
       top: 0;
@@ -75,7 +75,7 @@ $--activeLabelFS: (
       background-color: white;
       border-radius: 5px;
       font-weight: bold;
-      color: $DarkGreen;
+      color: $PrimaryFS;
       @include font-size($--activeLabelFS);
     }
   }
@@ -83,7 +83,7 @@ $--activeLabelFS: (
 
   label {
     position: absolute;
-    color: rgba(134, 134, 134, .4);
+    color: rgba(40, 40, 40, .7);
     @include font-size($--labelFS);
 
 
@@ -97,9 +97,10 @@ $--activeLabelFS: (
 
   input, textarea {
     padding: .5rem .2rem;
+    max-width: 100%;
     border: none;
     outline: none;
-    color: rgba(60, 60, 67, .7);
+    color: rgba(40, 40, 40, .7);
     @include font-size($--inputFS);
   }
 
@@ -115,6 +116,35 @@ $--activeLabelFS: (
 
 }
 
+.sm {
+  min-height: 40px;
+}
+
+.search {
+  min-height: 40px;
+  padding: .2rem .8rem;
+  border: 1px solid rgba(60, 60, 67, 0.2);
+  border-radius: 50px;
+
+  label {
+    color: rgba(60, 60, 67, 0.2);
+    padding: 0 .3rem;
+  }
+
+  &:active, &:focus, &:focus-within, &.active {
+    border: 2px solid rgba(60, 60, 67, 0.8);
+
+    label {
+      color: rgba(60, 60, 67, 0.8);
+      left: 1.5rem;
+    }
+  }
+
+  input, textarea {
+    color: rgba(60, 60, 67, 0.8);
+  }
+}
+
 .primary {
   &:active, &:focus, &:focus-within, &.active {
     border: 2px solid $primary;
@@ -128,6 +158,20 @@ $--activeLabelFS: (
     color: $primary;
   }
 
+}
+
+.secondary {
+  &:active, &:focus, &:focus-within, &.active {
+    border: 2px solid $secondary;
+
+    label {
+      color: $secondary;
+    }
+  }
+
+  input, textarea {
+    color: $secondary;
+  }
 }
 
 

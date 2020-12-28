@@ -2,19 +2,25 @@
   <div class="ideas">
     <Modal v-if="isAddingIdea" @click="toggleAddIdea(false)" :isFooter="false">
       <template v-slot:header>
-        <h2 v-if="!loading">Add Idea</h2>
+        <h2 v-if="!loading" class="text text--bold text--lg color--primary">Add Idea</h2>
       </template>
 
       <template v-slot:body>
-        <form v-if="!loading" class="form form--addIdea">
-          <div class="form__field">
-            <label for="title">Title</label>
-            <input type="text" id="title" v-model="addIdea.title" />
-          </div>
-          <div class="form__field">
-            <label for="description">Description</label>
-            <textarea type="text" rows="10" id="description" v-model="addIdea.description" />
-          </div>
+        <form v-if="!loading" class="form--addIdea">
+
+          <InputField className="sm secondary" :isActive="addIdea.title !== ''">
+            <template v-slot:field>
+              <label for="title">Title</label>
+              <input type="text" id="title" v-model.trim="addIdea.title" />
+            </template>
+          </InputField>
+
+          <InputField :isActive="addIdea.description !== ''">
+            <template v-slot:field>
+              <label for="description">Description</label>
+              <textarea type="text" id="description" v-model.trim="addIdea.description"></textarea>
+            </template>
+          </InputField>
           <div class="btnContainer">
             <button class="btn btn--sm btn--blue" id="addIdeaBTN" @click.prevent.stop="createIdea">Add</button>
           </div>
@@ -60,130 +66,127 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { IAddIdea } from '@/types/Idea'
-import IdeaService from '@/services/IdeaService'
-import Helper from '@/utility/Helper'
-import FormatMixins from '@/mixins/FormatMixins.vue'
-import UIHelper from '@/utility/UIHelper'
-import { IdeaVm } from '@/types/ViewModels/IdeaVm'
+import { Component, Vue } from "vue-property-decorator";
+import { IAddIdea } from "@/types/Idea";
+import IdeaService from "@/services/IdeaService";
+import Helper from "@/utility/Helper";
+import FormatMixins from "@/mixins/FormatMixins.vue";
+import UIHelper from "@/utility/UIHelper";
+import { IdeaVm } from "@/types/ViewModels/IdeaVm";
 
 @Component({
-  name: 'Ideas',
+  name: "Ideas",
   components: {
-    Modal: (): Promise<typeof import('*.vue')> => import('../components/ui/Modals/Modal.vue'),
-    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue')
+    Modal: (): Promise<typeof import("*.vue")> => import("../components/ui/Modals/Modal.vue"),
+    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
+    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue")
   },
   mixins: [FormatMixins]
 })
 export default class Ideas extends Vue {
   addIdea = {
-    title: '',
-    description: ''
-  } as IAddIdea
-  isAddingIdea = false
-  Ideas = [] as IdeaVm[]
-  showDescriptionById: number | null = null
-  loading = false
+    title: "",
+    description: ""
+  } as IAddIdea;
+  isAddingIdea = false;
+  Ideas = [] as IdeaVm[];
+  showDescriptionById: number | null = null;
+  loading = false;
 
-  editIdeaID: null | number = null
+  editIdeaID: null | number = null;
 
 
   mounted(): void {
-    this.getIdeas()
+    this.getIdeas();
 
   }
 
   editIdea(ideaId: number): void {
-    this.editIdeaID = ideaId
+    this.editIdeaID = ideaId;
   }
 
   // Idea pagination
-  size = 10
-  pageNumber = 0
+  size = 10;
+  pageNumber = 0;
 
   get paginatedIdeas(): IdeaVm[] {
     const start = this.pageNumber * this.size,
-        end = start + this.size
-    return this.Ideas.slice(start, end)
+        end = start + this.size;
+    return this.Ideas.slice(start, end);
   }
 
   get ideaCount(): number {
     const l = this.Ideas.length,
-        s = this.size
-    return Math.ceil(l / s)
+        s = this.size;
+    return Math.ceil(l / s);
   }
 
   changePage(status: string): void {
-    if (status === 'next') {
-      this.pageNumber++
+    if (status === "next") {
+      this.pageNumber++;
     } else {
-      this.pageNumber--
+      this.pageNumber--;
     }
-    UIHelper.verticalSmoothScroll(300, 'top')
+    UIHelper.verticalSmoothScroll(300, "top");
   }
 
   filterIdeas(ideas: Array<IdeaVm>): IdeaVm[] {
-    return ideas.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn))
+    return ideas.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn));
   }
 
   longString(str: string, num: number): string {
-    return Helper.formatLongString(str, num)
+    return Helper.formatLongString(str, num);
   }
 
   toggleAddIdea(status: boolean): void {
-    this.isAddingIdea = status
-    UIHelper.ToggleNavBar(!status)
+    this.isAddingIdea = status;
   }
 
   async createIdea(): Promise<void> {
-    this.loading = true
+    this.loading = true;
     try {
-      this.addIdea.userId = this.$store.state.authStore.currentUser.id
-      const res = await IdeaService.AddIdea(this.addIdea)
+      this.addIdea.userId = this.$store.state.authStore.currentUser.id;
+      const res = await IdeaService.AddIdea(this.addIdea);
       if (res.status === 200) {
-        this.Ideas.push(res.data)
+        this.Ideas.push(res.data);
         setTimeout(() => {
-          this.toggleAddIdea(false)
+          this.toggleAddIdea(false);
 
-        }, Math.floor(Math.random() * 3000))
+        }, Math.floor(Math.random() * 3000));
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     } finally {
       setTimeout(() => {
-        this.loading = false
-      }, 3000)
+        this.loading = false;
+      }, 3000);
     }
   }
 
   toggleShowDescription(id: number): void {
     if (this.showDescriptionById === id) {
-      this.showDescriptionById = null
-      return
+      this.showDescriptionById = null;
+      return;
     }
 
-    this.showDescriptionById = id
+    this.showDescriptionById = id;
   }
 
   async getIdeas(): Promise<void> {
     try {
-      const res = await IdeaService.AllIdeas()
-      this.Ideas = this.filterIdeas(res.data)
+      const res = await IdeaService.AllIdeas();
+      this.Ideas = this.filterIdeas(res.data);
 
 
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-$--inputFS: (
-    null: .8rem,
-    $mobile: .9rem
-);
+
 
 $--ideaTitleFS: (
     null: 1rem,
@@ -230,19 +233,6 @@ $--ideaEditBtnFS: (
     }
   }
 
-  .form--addIdea {
-    padding: 0;
-
-    input,
-    textarea {
-      border-radius: 5px;
-      @include font-size($--inputFS);
-    }
-
-    textarea {
-      min-height: 150px;
-    }
-  }
 
   &__list {
     margin-top: 1rem;

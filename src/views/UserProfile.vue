@@ -8,10 +8,10 @@
         <img alt="User profile image" v-bind:src="userProfileImage" />
       </div>
       <div class="userInfo">
-        <h1>{{ currentUser.fullName }}</h1>
+        <h1 class="text text--xl text--bold text--ls-0 color--primary">{{ currentUser.fullName }}</h1>
         <div class="handicapContainer">
           <div class="flexHandicap">
-            <p>Handicap:</p>
+            <p class="text text--sm color--secondary text--center text--fw-500">Handicap:</p>
             <label class="hideLabel" for="userHandicap"></label>
             <input id="userHandicap" v-model.lazy.number.trim="currentUser.profile.handicap" class="input" type="text" />
           </div>
@@ -22,28 +22,36 @@
     <section class="section section__middle"></section>
 
     <section v-if="!loading" class="section section__bottom">
-      <ProfileUserInfo v-if="currentView.title === 'Profile'" class="view profile" :currentUser="currentUser" />
+      <div class="view profile" v-if="currentView.title === 'Profile'">
+        <form class="form">
+          <InputField :isActive="currentUser.profile.firstName !== ''" className="secondary">
+            <template v-slot:field>
+              <label for="firstName">First Name</label>
+              <input type="text" id="firstName" v-model.trim="currentUser.profile.firstName" />
+            </template>
+          </InputField>
+          <InputField :isActive="currentUser.profile.lastName !== ''" className="secondary">
+            <template v-slot:field>
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" v-model.trim="currentUser.profile.lastName" />
+            </template>
+          </InputField>
+          <InputField :isActive="currentUser.email !== ''" className="secondary">
+            <template v-slot:field>
+              <label for="email">Email</label>
+              <input type="email" id="email" v-model.trim="currentUser.email" />
+            </template>
+          </InputField>
+          <InputField :isActive="currentUser.phoneNumber !== ''" className="secondary">
+            <template v-slot:field>
+              <label for="phoneNumber">Phone Number</label>
+              <input type="tel" id="phoneNumber" v-model.trim="currentUser.phoneNumber" @input="formatPhone" />
+            </template>
+          </InputField>
+        </form>
 
-      <!--      Profile-->
-      <!--      <form v-if="currentView.title === 'Profile'" class="view profile">-->
-      <!--        <div class="form__field">-->
-      <!--          <label for="firstName">First</label>-->
-      <!--          <input id="firstName" v-model="currentUser.profile.firstName" type="text" />-->
-      <!--        </div>-->
-      <!--        <div class="form__field">-->
-      <!--          <label for="lastName">Last</label>-->
-      <!--          <input id="lastName" v-model="currentUser.profile.lastName" type="text" />-->
-      <!--        </div>-->
-      <!--        <div class="form__field">-->
-      <!--          <label for="email">Email</label>-->
-      <!--          <input id="email" v-model="currentUser.email" type="email" />-->
-      <!--        </div>-->
-      <!--        &lt;!&ndash; TODO add formatter for phone number &ndash;&gt;-->
-      <!--        <div class="form__field">-->
-      <!--          <label for="phone">Phone</label>-->
-      <!--          <input id="phone" v-model="currentUser.phoneNumber" type="tel" @input="formatPhone" />-->
-      <!--        </div>-->
-      <!--      </form>-->
+      </div>
+
       <!--      Settings -->
       <div v-if="currentView.title === 'Settings'" class="view settings">
         <div class="favorites">
@@ -157,8 +165,8 @@ interface IOptionView {
   components: {
     Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
     SelectBox: (): Promise<typeof import("*.vue")> => import("@/components/ui/SelectBox.vue"),
-    ProfileUserInfo: (): Promise<typeof import("*.vue")> => import("@/views/userProfile/profileUserInfo.vue"),
-    ProfileBets: (): Promise<typeof import("*.vue")> => import("@/views/userProfile/profileBets.vue")
+    ProfileBets: (): Promise<typeof import("*.vue")> => import("@/views/userProfile/profileBets.vue"),
+    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue")
   }
 })
 export default class UserProfile extends Vue {
@@ -436,18 +444,16 @@ export default class UserProfile extends Vue {
     this.currentView = opt;
     this.toggleOptionMenu(false);
   }
+
+  formatPhone(): void {
+    this.currentUser.phoneNumber = Helper.formatPhone(this.currentUser.phoneNumber);
+  }
+
 }
 </script>
 
 <style lang="scss" scoped>
-$--userFullNameFS: (
-    null: 1.6rem,
-    $mobile: 1.8rem,
-);
-$--userHandicapFS: (
-    null: 0.9rem,
-    $mobile: 1.1rem,
-);
+
 $--optionBtnFS: (
     null: 0.8rem,
     $mobile: 0.9rem,
@@ -460,24 +466,7 @@ $--bottomTitleFS: (
     null: 1rem,
     $mobile: rem,
 );
-$--labelFS: (
-    null: 1.2rem,
-    $mobile: rem,
-    $tablet: rem,
-    $tablet-landscape: rem,
-    $desktopSmall: rem,
-    $desktop: rem,
-    $desktopLarge: rem,
-);
-$--inputFS: (
-    null: 1rem,
-    $mobile: 1.2rem,
-    $tablet: rem,
-    $tablet-landscape: rem,
-    $desktopSmall: rem,
-    $desktop: rem,
-    $desktopLarge: rem,
-);
+
 
 $--settingsTitleFS: (
     null: 1rem,
@@ -499,7 +488,7 @@ $--selectBoxOptionFS: (
 
 
 .userProfile {
-  padding: 0;
+  padding: 0 0 2rem 0;
 }
 
 .section {
@@ -510,7 +499,7 @@ $--selectBoxOptionFS: (
     border-bottom-right-radius: 25px;
     display: flex;
     flex-direction: column;
-    padding: 2rem 1rem;
+    padding: 1rem;
     position: relative;
     z-index: 2;
   }
@@ -544,13 +533,13 @@ $--selectBoxOptionFS: (
 .imageContainer {
   background-color: white;
   border-radius: 10px;
-  height: 125px;
+  height: 150px;
   padding: 0.5rem;
-  width: 125px;
+  width: 150px;
 
   @include mobile {
-    height: 150px;
-    width: 150px;
+    height: 200px;
+    width: 200px;
   }
 
   img {
@@ -566,16 +555,9 @@ $--selectBoxOptionFS: (
   align-items: center;
   display: flex;
   flex-direction: column;
-  margin: 1rem 0;
 
-  h1 {
-    @include font-size($--userFullNameFS);
-    color: $DarkBlue;
-    letter-spacing: 0;
-  }
 
   .handicapContainer {
-    margin: 0.5rem 0;
 
     .flexHandicap {
       align-items: center;
@@ -583,12 +565,6 @@ $--selectBoxOptionFS: (
       justify-content: center;
     }
 
-    p {
-      color: $SecondaryFS;
-      font-weight: 500;
-      @include font-size($--userHandicapFS);
-      text-align: center;
-    }
 
     input {
       background-color: transparent;
@@ -684,19 +660,13 @@ $--selectBoxOptionFS: (
 
 
 .view {
-  padding: 0 1rem;
 
-  @include mobile {
-  }
 
   label {
-    @include font-size($--labelFS);
     margin-left: 0.5rem;
   }
 
-  input {
-    @include font-size($--inputFS);
-  }
+
 }
 
 .settings {

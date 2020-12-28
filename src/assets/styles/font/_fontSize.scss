@@ -110,3 +110,222 @@ $--labelFS: (
   }
 
 }
+
+
+$--tinyFS-vpMD: (
+        $tablet: .7rem,
+        $tablet-landscape: .8rem,
+        $desktopSmall: .9rem,
+        $desktop: 1rem,
+        $desktopLarge: 1.1rem
+);
+$--xsFS-vpMD: (
+        $tablet: .9rem,
+        $tablet-landscape: 1rem,
+        $desktopSmall: 1.1rem,
+        $desktop: 1.2rem,
+        $desktopLarge: 1.3rem
+);
+$--smFS-vpMD: (
+        $tablet: 1.1rem,
+        $tablet-landscape: 1.2rem,
+        $desktopSmall: 1.3rem,
+        $desktop: 1.4rem,
+        $desktopLarge: 1.5rem
+);
+$--mdFS-vpMD: (
+        $tablet: 1.3rem,
+        $tablet-landscape: 1.4rem,
+        $desktopSmall: 1.5rem,
+        $desktop: 1.6rem,
+        $desktopLarge: 1.7rem
+);
+$--lgFS-vpMD: (
+        $tablet: 1.5rem,
+        $tablet-landscape: 1.6rem,
+        $desktopSmall: 1.7rem,
+        $desktop: 1.8rem,
+        $desktopLarge: 1.9rem
+);
+$--xlFS-vpMD: (
+        $tablet: 1.7rem,
+        $tablet-landscape: 1.8rem,
+        $desktopSmall: 1.9rem,
+        $desktop: 2rem,
+        $desktopLarge: 2.1rem
+);
+$--titleFS-vpMD: (
+        $tablet: 1.9rem,
+        $tablet-landscape: 2rem,
+        $desktopSmall: 2.1rem,
+        $desktop: 2.2rem,
+        $desktopLarge: 2.4rem
+);
+$--headerTitleFS-vpMD: (
+        $tablet: 2.3rem,
+        $tablet-landscape: 2.4rem,
+        $desktopSmall: 2.6rem,
+        $desktop: 2.7rem,
+        $desktopLarge: 2.8rem
+);
+$--inputFS-vpMD: (
+        $tablet: 1.2rem,
+        $tablet-landscape: 1.3,
+        $desktopSmall: 1.4rem,
+        $desktop: 1.5rem,
+        $desktopLarge: 1.6rem
+);
+$--labelFS-vpMD: (
+        $tablet: 1.1rem,
+        $tablet-landscape: 1.2rem,
+        $desktopSmall: 1.3rem,
+        $desktop: 1.4rem,
+        $desktopLarge: 1.5rem
+);
+.text-vpMD {
+  @include tablet {
+    &--tiny {
+      @include font-size($--tinyFS-vpMD);
+    }
+
+    &--xs {
+      @include font-size($--xsFS-vpMD);
+    }
+
+    &--sm {
+      @include font-size($--smFS-vpMD);
+    }
+
+    &--md {
+      @include font-size($--mdFS-vpMD)
+    }
+
+    &--lg {
+      @include font-size($--lgFS-vpMD);
+    }
+
+    &--xl {
+      @include font-size($--xlFS-vpMD);
+    }
+
+    &--title {
+      @include font-size($--titleFS-vpMD);;
+    }
+
+    &--headerTitle {
+      @include font-size($--headerTitleFS-vpMD);
+    }
+
+    &--input {
+      @include font-size($--inputFS-vpMD);
+    }
+
+    &--label {
+      @include font-size($--labelFS-vpMD)
+    }
+  }
+}
+
+$--tinyFS-vpLG: (
+        $tablet-landscape: .8rem,
+        $desktopSmall: .9rem,
+        $desktop: 1rem,
+        $desktopLarge: 1.1rem
+);
+$--xsFS-vpLG: (
+        $tablet-landscape: 1rem,
+        $desktopSmall: 1.1rem,
+        $desktop: 1.2rem,
+        $desktopLarge: 1.3rem
+);
+$--smFS-vpLG: (
+        $tablet-landscape: 1.2rem,
+        $desktopSmall: 1.3rem,
+        $desktop: 1.4rem,
+        $desktopLarge: 1.5rem
+);
+$--mdFS-vpLG: (
+        $tablet-landscape: 1.4rem,
+        $desktopSmall: 1.5rem,
+        $desktop: 1.6rem,
+        $desktopLarge: 1.7rem
+);
+$--lgFS-vpLG: (
+        $tablet-landscape: 1.6rem,
+        $desktopSmall: 1.7rem,
+        $desktop: 1.8rem,
+        $desktopLarge: 1.9rem
+);
+$--xlFS-vpLG: (
+        $tablet-landscape: 1.8rem,
+        $desktopSmall: 1.9rem,
+        $desktop: 2rem,
+        $desktopLarge: 2.1rem
+);
+$--titleFS-vpLG: (
+        $tablet-landscape: 2rem,
+        $desktopSmall: 2.1rem,
+        $desktop: 2.2rem,
+        $desktopLarge: 2.4rem
+);
+$--headerTitleFS-vpLG: (
+        $tablet-landscape: 2.4rem,
+        $desktopSmall: 2.6rem,
+        $desktop: 2.7rem,
+        $desktopLarge: 2.8rem
+);
+$--inputFS-vpLG: (
+        $tablet-landscape: 1.3rem,
+        $desktopSmall: 1.4rem,
+        $desktop: 1.5rem,
+        $desktopLarge: 1.6rem
+);
+$--labelFS-vpLG: (
+        $tablet-landscape: 1.2rem,
+        $desktopSmall: 1.3rem,
+        $desktop: 1.4rem,
+        $desktopLarge: 1.5rem
+);
+.text-vpLG {
+  @include tablet-landscape {
+    &--tiny {
+      @include font-size($--tinyFS-vpLG);
+    }
+
+    &--xs {
+      @include font-size($--xsFS-vpLG);
+    }
+
+    &--sm {
+      @include font-size($--smFS-vpLG);
+    }
+
+    &--md {
+      @include font-size($--mdFS-vpLG)
+    }
+
+    &--lg {
+      @include font-size($--lgFS-vpLG);
+    }
+
+    &--xl {
+      @include font-size($--xlFS-vpLG);
+    }
+
+    &--title {
+      @include font-size($--titleFS-vpLG);;
+    }
+
+    &--headerTitle {
+      @include font-size($--headerTitleFS-vpLG);
+    }
+
+    &--input {
+      @include font-size($--inputFS-vpLG);
+    }
+
+    &--label {
+      @include font-size($--labelFS-vpLG)
+    }
+  }
+}

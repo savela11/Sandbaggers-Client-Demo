@@ -1,15 +1,10 @@
 <template>
   <div class="app">
-    <!--    <SnackBar v-if="this.$store.state.uiStore.snackBar.isSnackBarShowing" />-->
+    <SnackBar v-if="this.$store.state.uiStore.snackBar.isSnackBarShowing" />
     <PageLoading v-if="this.$store.state.uiStore.pageLoading" />
     <component :is="this.$route.meta.layout || 'div'">
       <router-view class="routerView" />
     </component>
-
-    <!--        <div v-if="LoggedInUser">-->
-
-
-    <!--        </div>-->
   </div>
 </template>
 

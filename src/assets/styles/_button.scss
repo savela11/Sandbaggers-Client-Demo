@@ -19,7 +19,6 @@ button {
 }
 
 .btn {
-  font-size: 1rem;
   padding: 0.5rem 2rem;
   border-radius: 5px;
   border: none;
@@ -32,9 +31,11 @@ button {
     background-color: $DarkBlue;
     color: white;
   }
+
   &.submit {
     margin: 1rem 0;
   }
+
   &--circle {
     border-radius: 50%;
     padding: 0;
@@ -45,43 +46,35 @@ button {
   }
 
   &--tiny {
-    font-size: 0.7rem;
     padding: 0.2rem 0.8rem;
   }
 
   &--xs {
-    font-size: 0.8rem;
     padding: 0.3rem 1rem;
 
     @include mobile {
       padding: 0.4rem 1.1rem;
-      font-size: 0.9rem;
     }
 
     @include tablet {
-      font-size: 1.2rem;
       padding: 0.5rem 1.2rem;
     }
   }
 
   &--sm {
-    font-size: 1rem;
     padding: 0.5rem 2rem;
     @include mobile {
       padding: 0.5rem 2.5rem;
     }
 
     @include tablet {
-      font-size: 1.2rem;
       padding: 0.7rem 2.8rem;
     }
   }
 
   &--md {
-    font-size: 1.2rem;
     padding: 1rem 3rem;
     @include tablet {
-      font-size: 1.3rem;
     }
   }
 
@@ -153,7 +146,7 @@ button {
 
 
 .btnContainer {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .prevNextButtons {
@@ -183,9 +176,29 @@ button {
 
 
 .IconBtn {
-  padding: .3rem;
-  border: none;
-  background-color: transparent;
+
+  &.float {
+    &--right {
+      float: right;
+    }
+  }
+
+
+  button {
+    padding: .3rem;
+    border: none;
+    background-color: transparent;
+    height: 30px;
+    width: 30px;
+    @include mobile {
+      height: 35px;
+      width: 35px;
+    }
+    @include tablet {
+      height: 40px;
+      width: 40px;
+    }
+  }
 
   svg, img {
     height: 100%;
@@ -193,6 +206,8 @@ button {
     object-fit: cover;
 
   }
+
+
 }
 
 

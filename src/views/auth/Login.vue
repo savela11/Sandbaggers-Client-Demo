@@ -1,20 +1,23 @@
 ﻿<template>
   <div class="login">
-    <form class="form" v-if="!loading" @submit.prevent.stop="onSubmit">
-      <InputField :isActive="LoginForm.username !== ''">
-        <template v-slot:field>
-          <label for="Username">Username</label>
-          <input type="text" id="Username" v-model="LoginForm.username">
-        </template>
-      </InputField>
-      <InputField :isActive="LoginForm.password !== ''">
-        <template v-slot:field>
-          <label for="Password">Password</label>
-          <input type="password" id="Password" v-model="LoginForm.password">
-        </template>
-      </InputField>
-      <input type="submit" value="Login" @click.prevent.stop="onSubmit" class="btn submit btn--blue btn--sm" id="loginBTN" />
-    </form>
+    <div class="form" v-if="!loading">
+      <form  >
+        <InputField :isActive="LoginForm.username !== ''">
+          <template v-slot:field>
+            <label for="Username">Username</label>
+            <input type="text" id="Username" name="username" v-model.lazy="LoginForm.username">
+          </template>
+        </InputField>
+        <InputField :isActive="LoginForm.password !== ''">
+          <template v-slot:field>
+            <label for="Password">Password</label>
+            <input type="password" id="Password" name="password" autocomplete="new-password" v-model.lazy="LoginForm.password">
+          </template>
+        </InputField>
+      </form>
+      <button  @click.prevent="onSubmit" class="btn submit btn--blue btn--sm" id="loginBTN">Login</button>
+    </div>
+
     <div class="greyLinks" v-if="!loading">
       <p>Need an account?
         <router-link to="/register">Register</router-link>
@@ -34,7 +37,6 @@ import { LoginUserDto } from "@/types/DTO/AuthDto";
 @Component({
   name: "Login",
   components: {
-    NewForm: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/NewForm.vue"),
     InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue"),
     Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue")
   }
@@ -50,6 +52,9 @@ export default class Login extends Vue {
   mounted(): void {
   }
 
+  updateLoginForm(val: string): void {
+    this.LoginForm.username = val;
+  }
 
   validateForm(): boolean {
     if (this.LoginForm.username === "" || this.LoginForm.password === "") {
@@ -110,11 +115,6 @@ export default class Login extends Vue {
 
 <style scoped lang="scss">
 .login {
-  padding: 0;
-}
-
-.loginForm {
-  padding: 2rem;
 }
 
 </style>
