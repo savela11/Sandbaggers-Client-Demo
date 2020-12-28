@@ -35,45 +35,41 @@
         <button class="btn btn--xs" @click="closeNavMenu">Close</button>
       </div>
     </div>
-
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import UIHelper from "@/utility/UIHelper";
-import { UserLink } from "@/types/vuexStore/NavigationStore";
-import NavigationHelper from "@/utility/NavigationHelper";
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import UIHelper from '@/utility/UIHelper'
+import { UserLink } from '@/types/vuexStore/NavigationStore'
+import NavigationHelper from '@/utility/NavigationHelper'
 
-@Component({ name: "NavMenu" })
-
-
+@Component({ name: 'NavMenu' })
 export default class NavMenu extends Vue {
-  @Prop() userRoles!: Array<string>;
+  @Prop() userRoles!: Array<string>
 
-  currentLinkView = "Main";
+  currentLinkView = 'Main'
 
   get UserLinks(): Array<UserLink> {
-    return this.$store.getters["navigationStore/UserLinks"];
+    return this.$store.getters['navigationStore/UserLinks']
   }
 
   get AdminLinks(): Array<UserLink> {
-    return this.$store.getters["navigationStore/AdminLinks"];
+    return this.$store.getters['navigationStore/AdminLinks']
   }
 
   toggleLinksView(view: string): void {
-    this.currentLinkView = view;
-
+    this.currentLinkView = view
   }
 
-  closeNavMenu() {
-    NavigationHelper.ToggleNavMenu(false);
+  closeNavMenu(): void {
+    NavigationHelper.ToggleNavMenu(false)
   }
 
   logout(): void {
-    UIHelper.clickedButton("logoutBTN");
-    NavigationHelper.ToggleNavMenu(false);
-    this.$store.dispatch("authStore/Logout");
+    UIHelper.clickedButton('logoutBTN')
+    NavigationHelper.ToggleNavMenu(false)
+    this.$store.dispatch('authStore/Logout')
   }
 }
 </script>
@@ -130,7 +126,7 @@ export default class NavMenu extends Vue {
         font-size: 1rem;
       }
       @include desktop {
-        padding: .8rem 3rem;
+        padding: 0.8rem 3rem;
       }
 
       &:first-child {
@@ -257,16 +253,16 @@ export default class NavMenu extends Vue {
     }
   }
 
-
   .slide-fade-enter-active {
-    transition: all 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all 1s cubic-bezier(1, 0.5, 0.8, 1);
   }
 
   .slide-fade-leave-active {
-    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
   }
 
-  .slide-fade-enter, .slide-fade-leave-to {
+  .slide-fade-enter,
+  .slide-fade-leave-to {
     position: absolute;
     top: 0;
     left: 0;
@@ -280,7 +276,6 @@ export default class NavMenu extends Vue {
   //
   //  transform: translateX(100%);
   //}
-
 
   @keyframes showMenu {
     0% {
