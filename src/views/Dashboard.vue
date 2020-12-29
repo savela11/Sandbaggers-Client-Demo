@@ -48,52 +48,52 @@
     <div class="top">
       <div class="scrambleChamps" v-if="ScrambleChamps.length > 0">
         <div class="title">
-          <h2>Scramble Champs</h2>
+          <h2 class="text text--md text--bold color--white">Scramble Champs</h2>
         </div>
         <div class="flexContainer">
           <div class="champ" v-for="champ in ScrambleChamps" :key="champ.userId">
             <div class="imgContainer">
               <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
             </div>
-            <p>{{ champ.fullName }}</p>
+            <p class="text text--xs color--white text--center">{{ champ.fullName }}</p>
           </div>
         </div>
       </div>
       <div class="scrambleChamps" v-else>
         <div class="title">
-          <h2>Scramble Champs</h2>
+          <h2 class="text text--md text--bold color--white">Scramble Champs</h2>
         </div>
         <div class="flexContainer">
           <div class="champ">
             <div class="imgContainer">
               <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
             </div>
-            <p>Sandbagger #1</p>
+            <p class="text text--xs color--white text--center">Sandbagger #1</p>
           </div>
           <div class="champ">
             <div class="imgContainer">
               <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
             </div>
-            <p>Sandbagger #2</p>
+            <p class="text text--xs color--white text--center">Sandbagger #2</p>
           </div>
           <div class="champ">
             <div class="imgContainer">
               <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
             </div>
-            <p>Sandbagger #3</p>
+            <p class="text text--xs color--white text--center">Sandbagger #3</p>
           </div>
           <div class="champ">
             <div class="imgContainer">
               <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
             </div>
-            <p>Sandbagger #4</p>
+            <p class="text text--xs color--white text--center">Sandbagger #4</p>
           </div>
         </div>
       </div>
       <div class="viewButtons">
-        <h2>Latest</h2>
+        <h2 class="text text--lg color--white text--bold">Latest</h2>
         <div class="buttons">
-          <button v-for="view in dashboardViews" :key="view" @click="handleViewChange(view)" :class="{ active: view === currentView }">{{ view }}</button>
+          <button v-for="view in dashboardViews" :key="view" @click="handleViewChange(view)" class="text text--center text--xs" :class="{ active: view === currentView }">{{ view }}</button>
         </div>
       </div>
     </div>
@@ -106,7 +106,7 @@
                 <label for="searchSB" class="hideLabel">Search</label>
                 <input id="searchSB" class="input text text--input" type="text" v-model="searchInput" placeholder="Search by name" />
                 <div class="clearBtnContainer">
-                  <button class="clearBtn">Clear</button>
+                  <button class="clearBtn text text--xs">Clear</button>
                 </div>
               </div>
             </transition>
@@ -116,8 +116,12 @@
                   <img src="@/assets/icons/search.svg" alt="search icon" />
                 </button>
               </div>
-              <div><p>Name</p></div>
-              <div @click="toggleDescendingHandicaps"><p>Handicap</p></div>
+              <div>
+                <p class="text text--sm text-vpMD--md">Name</p>
+              </div>
+              <div @click="toggleDescendingHandicaps">
+                <p class="text text--sm text-vpMD--md">Handicap</p>
+              </div>
             </div>
             <div class="sandbaggerList">
               <div class="sandbagger" v-for="sb in filteredSandbaggers" :key="sb.id">
@@ -127,12 +131,12 @@
                     <img v-else :src="sb.image" alt="account icon">
                   </div>
                   <div>
-                    <span class="sandbagger__name">
+                    <span class="sandbagger__name text text--sm text-vpMD--md">
                       {{ sb.fullName }}
                     </span>
                   </div>
                   <div>
-                    <span class="sandbagger__handicap">{{ sb.handicap }}</span>
+                    <span class="sandbagger__handicap text text--sm text-vpMD--md">{{ sb.handicap }}</span>
                   </div>
                 </router-link>
               </div>
@@ -317,60 +321,8 @@ export default class Dashboard extends Vue {
 $topBGColor: $DarkBlue;
 $viewBtnBG: white;
 $viewBtnTextColor: $DarkBlue;
-$viewBtnActiveText: white;
-$viewBtnActiveBG: $DarkBlue;
-$latestTextColor: white;
 $searchBarTitleColor: white;
 
-$--viewBtnTitleFS: (
-    null: 1.4rem,
-    $mobile: 1.5rem,
-    $tablet: 1.6rem,
-    $tablet-landscape: 1.8rem,
-);
-$--viewBtnFS: (
-    null: 0.8rem,
-    $mobile: 0.9rem,
-    $tablet: 1rem,
-);
-
-$--scrambleChampTitleFS: (
-    null: 0.9rem,
-    $mobile: 1rem,
-    $tablet: 1.2rem,
-    $tablet-landscape: 1.4rem,
-);
-$--scrambleChampNameFS: (
-    null: 0.7rem,
-    $mobile: 0.8rem,
-    $tablet: 0.9rem,
-    $tablet-landscape: 1rem,
-);
-
-$--clearBtnFS: (
-    null: 0.8rem,
-    $mobile: 0.9rem,
-    $tablet: 1rem,
-    $tablet-landscape: 1.2rem,
-);
-$--titleBarFS: (
-    null: 0.9rem,
-    $mobile: 1rem,
-    $tablet: 1.2rem,
-    $tablet-landscape: 1.4rem,
-);
-$--sandbaggerNameFS: (
-    null: 0.8rem,
-    $mobile: 1rem,
-    $tablet: 1.2rem,
-    $tablet-landscape: 1.6rem,
-);
-$--sandbaggerHandicapFS: (
-    null: 0.8rem,
-    $mobile: 1rem,
-    $tablet: 1.2rem,
-    $tablet-landscape: 1.6rem,
-);
 
 .dashboard {
   padding: 0;
@@ -425,130 +377,12 @@ $--sandbaggerHandicapFS: (
   }
 
 
-  .handicaps {
-    .titleBar {
-      display: grid;
-      grid-template-columns: 50px 2fr 1fr;
-      border-bottom: 1px solid lightgrey;
-      padding-bottom: 0.5rem;
-      @include tablet {
-        grid-template-columns: 75px 2fr 1fr;
-        grid-template-rows: 50px;
-        gap: 20px;
-      }
-      @include tablet-landscape {
-        grid-template-rows: 60px;
-        grid-template-columns: 100px 2fr 1fr;
-      }
-
-      .searchButton {
-        border: none;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        @include tablet {
-          height: 100%;
-          width: 100%;
-        }
-
-        img {
-          height: 100%;
-          width: 100%;
-          object-fit: contain;
-        }
-      }
-
-      & > div {
-        display: flex;
-        align-items: center;
-        padding: 5px;
-
-        &:last-child {
-          justify-content: center;
-        }
-      }
-
-      p {
-        @include font-size($--titleBarFS);
-      }
-    }
-
-    .sandbaggerList {
-      margin-top: 0.5rem;
-      padding: 0 0 0.5rem 0;
-    }
-
-    .sandbagger {
-      margin-bottom: 0.5rem;
-      border: 1px solid grey;
-      border-radius: 5px;
-      @include mobile {
-        margin-bottom: 0.8rem;
-      }
-      @include tablet-landscape {
-        margin-bottom: 1rem;
-      }
-
-      img {
-        height: 30px;
-        width: 30px;
-        object-fit: cover;
-        border-radius: 50%;
-      }
-
-      a {
-        padding: 0.5rem 0;
-        color: black;
-        text-decoration: none;
-        display: grid;
-        grid-template-columns: 50px 2fr 1fr;
-        @include mobile {
-        }
-        @include tablet {
-          gap: 20px;
-          grid-template-columns: 75px 2fr 1fr;
-        }
-
-        @include tablet-landscape {
-          grid-template-columns: 100px 2fr 1fr;
-        }
-
-        & > div {
-          padding: 5px;
-          display: flex;
-          align-items: center;
-
-          &:last-child {
-            justify-content: center;
-          }
-        }
-      }
-
-      &__name {
-        @include font-size($--sandbaggerNameFS);
-      }
-
-      &__handicap {
-        @include font-size($--sandbaggerHandicapFS);
-      }
-    }
-  }
-
   .scrambleChamps {
     margin-bottom: 1rem;
     @include tablet-landscape {
       margin-bottom: 2rem;
     }
 
-    .title {
-      margin-bottom: 0.5rem;
-
-      h2 {
-        color: white;
-        @include font-size($--scrambleChampTitleFS);
-      }
-    }
 
     .flexContainer {
       display: flex;
@@ -567,15 +401,11 @@ $--sandbaggerHandicapFS: (
 
       .imgContainer {
         height: 60px;
-
         border-radius: 5px;
         padding: 0.3rem;
-        margin-bottom: 0.2rem;
         background-color: white;
-
         @include tablet {
           height: 80px;
-          margin-bottom: 0.5rem;
         }
         @include tablet-landscape {
           height: 100px;
@@ -588,63 +418,10 @@ $--sandbaggerHandicapFS: (
         object-fit: contain;
       }
 
-      p {
-        @include font-size($--scrambleChampNameFS);
-        text-align: center;
-        color: white;
-      }
+
     }
   }
 
-  .viewButtons {
-    h2 {
-      color: $latestTextColor;
-      padding: 0 0 0.5rem 0.5rem;
-      @include font-size($--viewBtnTitleFS);
-
-      @include tablet-landscape {
-        margin-bottom: 0.5rem;
-      }
-    }
-
-    .buttons {
-      overflow-x: auto;
-      overflow-y: hidden;
-      white-space: nowrap;
-      padding: 0.2rem 0.8rem 0.2rem 0;
-      margin: 0;
-      @include tablet-landscape {
-        padding: 0.5rem 0.8rem;
-      }
-    }
-
-    button {
-      margin-right: 0.5rem;
-      display: inline-block;
-      min-width: 100px;
-      @include font-size($--viewBtnFS);
-      padding: 0.8rem 1rem;
-      border: 2px solid white;
-      background-color: $viewBtnBG;
-      font-weight: bold;
-      color: $viewBtnTextColor;
-      @include tablet {
-        height: 3rem;
-        min-width: 125px;
-        margin-right: 0.8rem;
-        padding: 0.5rem 1rem;
-      }
-
-      &.active {
-        color: $viewBtnActiveText;
-        background-color: $viewBtnActiveBG;
-      }
-
-      &:last-child {
-        margin: 0;
-      }
-    }
-  }
 
   .searchBar {
     margin: 0.5rem 0;
@@ -675,7 +452,7 @@ $--sandbaggerHandicapFS: (
       }
 
       .clearBtn {
-        @include font-size($--clearBtnFS);
+
         font-weight: bold;
         border: none;
         color: grey;
@@ -802,17 +579,188 @@ $--sandbaggerHandicapFS: (
   }
 
 
-  .slide-fade-enter-active {
-    transition: all 0.3s ease-in;
+}
+
+.viewButtons {
+  h2 {
+    padding: 0 0 0 0.5rem;
   }
 
-  .slide-fade-leave-active {
-    transition: all 0.3s ease-out;
+  .buttons {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 0 0.8rem 0 0;
+    margin: 0;
+    @include tablet-landscape {
+      padding: 0.5rem 0.8rem;
+    }
   }
 
-  .slide-fade-enter,
-  .slide-fade-leave-to {
-    opacity: 0;
+  button {
+    margin-right: 0.5rem;
+    display: inline-block;
+    min-width: 100px;
+    padding: 0.8rem 1rem;
+    border: 2px solid white;
+    background-color: $viewBtnBG;
+    font-weight: bold;
+    color: $DarkBlue;
+    @include tablet {
+      height: 3rem;
+      min-width: 125px;
+      margin-right: 0.8rem;
+      padding: 0.5rem 1rem;
+    }
+
+    &.active {
+      color: white;
+      background-color: $DarkBlue;
+    }
+
+    &:last-child {
+      margin: 0;
+    }
   }
+}
+
+.handicaps {
+  .titleBar {
+    display: grid;
+    grid-template-columns: 50px 2fr 1fr;
+    border-bottom: 1px solid lightgrey;
+    padding-bottom: 0.5rem;
+    @include tablet {
+      padding: .5rem 1rem;
+      grid-template-columns: 75px 2fr 1fr;
+      grid-template-rows: 50px;
+      gap: 20px;
+    }
+    @include tablet-landscape {
+      grid-template-rows: 60px;
+      grid-template-columns: 100px 2fr 1fr;
+    }
+
+    .searchButton {
+      border: none;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @include tablet {
+        height: 100%;
+        width: 100%;
+      }
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+
+    & > div {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+
+      &:last-child {
+        justify-content: center;
+      }
+    }
+
+    p {
+    }
+  }
+
+  .sandbaggerList {
+    margin-top: 0.5rem;
+    padding: 0 0 0.5rem 0;
+  }
+
+  .sandbagger {
+    margin-bottom: 0.5rem;
+    border: 1px solid grey;
+    border-radius: 5px;
+    @include mobile {
+      margin-bottom: 0.8rem;
+    }
+    @include tablet-landscape {
+      margin-bottom: 1rem;
+    }
+
+    img {
+      height: 30px;
+      width: 30px;
+      object-fit: cover;
+      border-radius: 50%;
+      @include mobile {
+        height: 35px;
+        width: 35px;
+      }
+      @include tablet {
+        height: 40px;
+        width: 40px;
+      }
+      @include tablet-landscape {
+        height: 45px;
+        width: 45px;
+      }
+      @include desktopSmall {
+        height: 50px;
+        width: 50px;
+      }
+    }
+
+    a {
+      padding: 0.5rem 0;
+      color: black;
+      text-decoration: none;
+      display: grid;
+      grid-template-columns: 50px 2fr 1fr;
+      @include mobile {
+      }
+      @include tablet {
+        padding: .5rem 1rem;
+        gap: 20px;
+        grid-template-columns: 75px 2fr 1fr;
+      }
+
+      @include tablet-landscape {
+        grid-template-columns: 100px 2fr 1fr;
+      }
+
+      & > div {
+        padding: 5px;
+        display: flex;
+        align-items: center;
+
+        &:last-child {
+          justify-content: center;
+        }
+      }
+    }
+
+    &__name {
+
+    }
+
+    &__handicap {
+
+    }
+  }
+}
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease-in;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-enter,
+.slide-fade-leave-to {
+  opacity: 0;
 }
 </style>
