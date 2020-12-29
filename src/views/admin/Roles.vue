@@ -2,14 +2,14 @@
   <div class="roles">
     <div v-if="!loading && selectedRole">
       <div class="utility">
-        <button class="btn btn--xs btn--borderBottom btn--borderGreen">Create</button>
+        <button class="btn btn--xs btn--borderBottom btn--border-darkGreen">Create</button>
         <SelectBoxComponent
-            :options.sync="filterOptions"
-            displayValue="roleName"
-            :selectedOption.sync="selectedRole"
-            :showOptions="showOptions"
-            @select-option="selectRole"
-            @toggle-show-options="toggleShowOptions"
+          :options.sync="filterOptions"
+          displayValue="roleName"
+          :selectedOption.sync="selectedRole"
+          :showOptions="showOptions"
+          @select-option="selectRole"
+          @toggle-show-options="toggleShowOptions"
         />
       </div>
       <div class="selectedRole">
@@ -21,7 +21,10 @@
             <IconBtn @click="removeUserWithRole(user)">
               <template v-slot:svg>
                 <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12.5 0C5.5971 0 0 5.5971 0 12.5C0 19.4029 5.5971 25 12.5 25C19.4029 25 25 19.4029 25 12.5C25 5.5971 19.4029 0 12.5 0ZM17.8571 13.1696C17.8571 13.2924 17.7567 13.3929 17.6339 13.3929H7.36607C7.2433 13.3929 7.14286 13.2924 7.14286 13.1696V11.8304C7.14286 11.7076 7.2433 11.6071 7.36607 11.6071H17.6339C17.7567 11.6071 17.8571 11.7076 17.8571 11.8304V13.1696Z" fill="#9F0000" />
+                  <path
+                    d="M12.5 0C5.5971 0 0 5.5971 0 12.5C0 19.4029 5.5971 25 12.5 25C19.4029 25 25 19.4029 25 12.5C25 5.5971 19.4029 0 12.5 0ZM17.8571 13.1696C17.8571 13.2924 17.7567 13.3929 17.6339 13.3929H7.36607C7.2433 13.3929 7.14286 13.2924 7.14286 13.1696V11.8304C7.14286 11.7076 7.2433 11.6071 7.36607 11.6071H17.6339C17.7567 11.6071 17.8571 11.7076 17.8571 11.8304V13.1696Z"
+                    fill="#9F0000"
+                  />
                 </svg>
               </template>
             </IconBtn>
@@ -33,7 +36,10 @@
             <IconBtn @click="addUserToRole(user)">
               <template v-slot:svg>
                 <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12.5 0C5.6 0 0 5.6 0 12.5C0 19.4 5.6 25 12.5 25C19.4 25 25 19.4 25 12.5C25 5.6 19.4 0 12.5 0ZM18.75 13.75H13.75V18.75H11.25V13.75H6.25V11.25H11.25V6.25H13.75V11.25H18.75V13.75Z" fill="#167230" />
+                  <path
+                    d="M12.5 0C5.6 0 0 5.6 0 12.5C0 19.4 5.6 25 12.5 25C19.4 25 25 19.4 25 12.5C25 5.6 19.4 0 12.5 0ZM18.75 13.75H13.75V18.75H11.25V13.75H6.25V11.25H11.25V6.25H13.75V11.25H18.75V13.75Z"
+                    fill="#167230"
+                  />
                 </svg>
               </template>
             </IconBtn>
@@ -46,120 +52,118 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator'
 // import { IAddOrRemoveUseFromRole, ICreateRole, IRoleDto, IUserWithRole } from "@/types/Admin/Role";
-import RoleService from "@/services/RoleService";
+import RoleService from '@/services/RoleService'
 // import UIHelper from '@/utility/UIHelper'
 // import { ISnackBar } from "@/types/UI/SnackBar";
-import { RoleVm, UserWithRoleVm } from "@/types/ViewModels/RoleVm";
-import { AddUserToRoleDto, RemoveUserFromRoleDto } from "@/types/DTO/Roles/RoleDtos";
-import UIHelper from "@/utility/UIHelper";
+import { RoleVm, UserWithRoleVm } from '@/types/ViewModels/RoleVm'
+import { AddUserToRoleDto, RemoveUserFromRoleDto } from '@/types/DTO/Roles/RoleDtos'
+import UIHelper from '@/utility/UIHelper'
 
 @Component({
   components: {
-    SelectBoxComponent: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/SelectBox.vue"),
-    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
-    IconBtn: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/IconBtn.vue"),
-    ViewBtns: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/ViewBtns.vue")
-  }
+    SelectBoxComponent: (): Promise<typeof import('*.vue')> => import('@/components/ui/Forms/SelectBox.vue'),
+    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
+    IconBtn: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/IconBtn.vue'),
+    ViewBtns: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/ViewBtns.vue'),
+  },
 })
 export default class Roles extends Vue {
-  loading = true;
-  roles = [] as Array<RoleVm>;
-  selectedRole = {} as RoleVm;
-  showOptions = false;
-  viewButtons = ["with", "without"];
-  activeViewBtn = "with";
+  loading = true
+  roles = [] as Array<RoleVm>
+  selectedRole = {} as RoleVm
+  showOptions = false
+  viewButtons = ['with', 'without']
+  activeViewBtn = 'with'
 
   mounted(): void {
-    this.getRoles();
+    this.getRoles()
   }
 
   toggleActiveView(selectedBtn: string): void {
-    this.activeViewBtn = selectedBtn;
+    this.activeViewBtn = selectedBtn
   }
 
   toggleShowOptions(val: boolean): void {
-    this.showOptions = val;
+    this.showOptions = val
   }
 
   get filterOptions(): Array<RoleVm> | [] {
     if (this.selectedRole) {
-      return this.roles.filter((r) => r.roleName !== this.selectedRole.roleName);
+      return this.roles.filter((r) => r.roleName !== this.selectedRole.roleName)
     } else {
-      return [];
+      return []
     }
   }
 
   async addUserToRole(selectedUser: UserWithRoleVm): Promise<void> {
     const addUserToRoleDto: AddUserToRoleDto = {
       roleName: this.selectedRole.roleName,
-      userId: selectedUser.id
-    };
+      userId: selectedUser.id,
+    }
     try {
-      const res = await RoleService.AddUserToRole(addUserToRoleDto);
+      const res = await RoleService.AddUserToRole(addUserToRoleDto)
       if (res.status === 200) {
         UIHelper.SnackBar({
-          title: "Success",
+          title: 'Success',
           message: `${selectedUser.fullName} has been added to ${this.selectedRole.roleName} role`,
           isSnackBarShowing: true,
-          classInfo: "primary"
-        });
+          classInfo: 'primary',
+        })
         setTimeout(() => {
-          this.$router.go(0);
-        }, 3000);
+          this.$router.go(0)
+        }, 3000)
       }
     } catch (e) {
-      console.log(e);
+      console.log(e)
     } finally {
-
     }
   }
 
   async removeUserWithRole(selectedUser: UserWithRoleVm): Promise<void> {
     const removeUserFromRoleDto: RemoveUserFromRoleDto = {
       roleName: this.selectedRole.roleName,
-      userId: selectedUser.id
-    };
+      userId: selectedUser.id,
+    }
     try {
-      const res = await RoleService.RemoveUserFromRole(removeUserFromRoleDto);
+      const res = await RoleService.RemoveUserFromRole(removeUserFromRoleDto)
       if (res.status === 200) {
         UIHelper.SnackBar({
-          title: "Success",
+          title: 'Success',
           message: `${selectedUser.fullName} has been removed from ${this.selectedRole.roleName} role`,
           isSnackBarShowing: true,
-          classInfo: "primary"
-        });
+          classInfo: 'primary',
+        })
         setTimeout(() => {
-          this.$router.go(0);
-        }, 3000);
+          this.$router.go(0)
+        }, 3000)
       }
     } catch (e) {
-      console.log(e);
+      console.log(e)
     } finally {
-
     }
   }
 
   async getRoles(): Promise<void> {
     try {
-      const res = await RoleService.roleList();
+      const res = await RoleService.roleList()
       if (res.status === 200) {
-        this.roles = res.data;
-        this.selectedRole = res.data.find(r => r.roleName === "Admin") as RoleVm;
+        this.roles = res.data
+        this.selectedRole = res.data.find((r) => r.roleName === 'Admin') as RoleVm
       }
     } catch (e) {
-      console.log(e);
+      console.log(e)
     } finally {
       setTimeout(() => {
-        this.loading = false;
-      }, Math.floor(Math.random() * 3000));
+        this.loading = false
+      }, Math.floor(Math.random() * 3000))
     }
   }
 
   selectRole(role: RoleVm): void {
-    this.selectedRole = role;
-    this.showOptions = false;
+    this.selectedRole = role
+    this.showOptions = false
   }
 }
 </script>
@@ -172,11 +176,11 @@ export default class Roles extends Vue {
 }
 
 .selectedRole {
-  padding: .5rem;
+  padding: 0.5rem;
 
   .roleOptions {
     button {
-      margin-right: .5rem;
+      margin-right: 0.5rem;
     }
   }
 
@@ -188,11 +192,10 @@ export default class Roles extends Vue {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
     border-radius: 3px;
     border: 1px solid $DarkBlue;
-    margin-bottom: .5rem;
-
+    margin-bottom: 0.5rem;
   }
 }
 </style>

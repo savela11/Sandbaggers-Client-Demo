@@ -1,0 +1,39 @@
+.btn {
+
+  &--tiny {
+    padding: 0.2rem 0.8rem;
+  }
+
+  &--xs {
+    padding: 0.3rem 1rem;
+
+    @include mobile {
+      padding: 0.4rem 1.1rem;
+    }
+
+    @include tablet {
+      padding: 0.5rem 1.2rem;
+    }
+  }
+
+  &--sm {
+    padding: 0.5rem 2rem;
+    @include mobile {
+      padding: 0.5rem 2.5rem;
+    }
+
+    @include tablet {
+      padding: 0.7rem 2.8rem;
+    }
+  }
+
+  &--md {
+    padding: 1rem 3rem;
+    @include tablet {
+    }
+  }
+
+  &--lg {
+    padding: 1rem 4rem;
+  }
+}

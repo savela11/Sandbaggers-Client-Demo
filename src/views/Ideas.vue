@@ -7,7 +7,6 @@
 
       <template v-slot:body>
         <form v-if="!loading" class="form--addIdea">
-
           <InputField className="sm secondary" :isActive="addIdea.title !== ''">
             <template v-slot:field>
               <label for="title">Title</label>
@@ -22,7 +21,7 @@
             </template>
           </InputField>
           <div class="btnContainer">
-            <button class="btn btn--sm btn--blue" id="addIdeaBTN" @click.prevent.stop="createIdea">Add</button>
+            <button class="btn btn--sm btn--bg-darkBlue" id="addIdeaBTN" @click.prevent.stop="createIdea">Add</button>
           </div>
         </form>
         <Loading v-if="loading" />
@@ -30,7 +29,7 @@
     </Modal>
     <div class="addIdea">
       <button @click="toggleAddIdea(true)">
-        <img :src="require('@/assets/icons/addCircle.svg')" alt="add circle">
+        <img :src="require('@/assets/icons/addCircle.svg')" alt="add circle" />
       </button>
     </div>
     <div class="ideas__list">
@@ -41,9 +40,8 @@
         </div>
         <div class="section createdBy">
           <p class="createdByFullName">By: {{ idea.createdBy.fullName }}</p>
-          <button class="btn btn--xs btn--borderBlue btn--borderBottom" @click="toggleShowDescription(idea.id)">view</button>
+          <button class="btn btn--xs btn--border-darkBlue btn--borderBottom" @click="toggleShowDescription(idea.id)">view</button>
         </div>
-
 
         <div class="section description" v-show="showDescriptionById === idea.id" :class="[showDescriptionById === idea.id ? 'show' : 'hide']">
           <hr class="divider" />
@@ -52,7 +50,6 @@
           </div>
           <div class="description__text">
             <p v-if="showDescriptionById === idea.id">{{ idea.description }}</p>
-
           </div>
         </div>
       </div>
@@ -61,156 +58,147 @@
         <button v-on:click="changePage('next')" :disabled="pageNumber >= ideaCount - 1">Next</button>
       </div>
     </div>
-
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { IAddIdea } from "@/types/Idea";
-import IdeaService from "@/services/IdeaService";
-import Helper from "@/utility/Helper";
-import FormatMixins from "@/mixins/FormatMixins.vue";
-import UIHelper from "@/utility/UIHelper";
-import { IdeaVm } from "@/types/ViewModels/IdeaVm";
+import { Component, Vue } from 'vue-property-decorator'
+import { IAddIdea } from '@/types/Idea'
+import IdeaService from '@/services/IdeaService'
+import Helper from '@/utility/Helper'
+import FormatMixins from '@/mixins/FormatMixins.vue'
+import UIHelper from '@/utility/UIHelper'
+import { IdeaVm } from '@/types/ViewModels/IdeaVm'
 
 @Component({
-  name: "Ideas",
+  name: 'Ideas',
   components: {
-    Modal: (): Promise<typeof import("*.vue")> => import("../components/ui/Modals/Modal.vue"),
-    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
-    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue")
+    Modal: (): Promise<typeof import('*.vue')> => import('../components/ui/Modals/Modal.vue'),
+    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
+    InputField: (): Promise<typeof import('*.vue')> => import('@/components/ui/Forms/InputField.vue'),
   },
-  mixins: [FormatMixins]
+  mixins: [FormatMixins],
 })
 export default class Ideas extends Vue {
   addIdea = {
-    title: "",
-    description: ""
-  } as IAddIdea;
-  isAddingIdea = false;
-  Ideas = [] as IdeaVm[];
-  showDescriptionById: number | null = null;
-  loading = false;
+    title: '',
+    description: '',
+  } as IAddIdea
+  isAddingIdea = false
+  Ideas = [] as IdeaVm[]
+  showDescriptionById: number | null = null
+  loading = false
 
-  editIdeaID: null | number = null;
-
+  editIdeaID: null | number = null
 
   mounted(): void {
-    this.getIdeas();
-
+    this.getIdeas()
   }
 
   editIdea(ideaId: number): void {
-    this.editIdeaID = ideaId;
+    this.editIdeaID = ideaId
   }
 
   // Idea pagination
-  size = 10;
-  pageNumber = 0;
+  size = 10
+  pageNumber = 0
 
   get paginatedIdeas(): IdeaVm[] {
     const start = this.pageNumber * this.size,
-        end = start + this.size;
-    return this.Ideas.slice(start, end);
+      end = start + this.size
+    return this.Ideas.slice(start, end)
   }
 
   get ideaCount(): number {
     const l = this.Ideas.length,
-        s = this.size;
-    return Math.ceil(l / s);
+      s = this.size
+    return Math.ceil(l / s)
   }
 
   changePage(status: string): void {
-    if (status === "next") {
-      this.pageNumber++;
+    if (status === 'next') {
+      this.pageNumber++
     } else {
-      this.pageNumber--;
+      this.pageNumber--
     }
-    UIHelper.verticalSmoothScroll(300, "top");
+    UIHelper.verticalSmoothScroll(300, 'top')
   }
 
   filterIdeas(ideas: Array<IdeaVm>): IdeaVm[] {
-    return ideas.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn));
+    return ideas.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn))
   }
 
   longString(str: string, num: number): string {
-    return Helper.formatLongString(str, num);
+    return Helper.formatLongString(str, num)
   }
 
   toggleAddIdea(status: boolean): void {
-    this.isAddingIdea = status;
+    this.isAddingIdea = status
   }
 
   async createIdea(): Promise<void> {
-    this.loading = true;
+    this.loading = true
     try {
-      this.addIdea.userId = this.$store.state.authStore.currentUser.id;
-      const res = await IdeaService.AddIdea(this.addIdea);
+      this.addIdea.userId = this.$store.state.authStore.currentUser.id
+      const res = await IdeaService.AddIdea(this.addIdea)
       if (res.status === 200) {
-        this.Ideas.push(res.data);
+        this.Ideas.push(res.data)
         setTimeout(() => {
-          this.toggleAddIdea(false);
-
-        }, Math.floor(Math.random() * 3000));
+          this.toggleAddIdea(false)
+        }, Math.floor(Math.random() * 3000))
       }
     } catch (e) {
-      console.log(e);
+      console.log(e)
     } finally {
       setTimeout(() => {
-        this.loading = false;
-      }, 3000);
+        this.loading = false
+      }, 3000)
     }
   }
 
   toggleShowDescription(id: number): void {
     if (this.showDescriptionById === id) {
-      this.showDescriptionById = null;
-      return;
+      this.showDescriptionById = null
+      return
     }
 
-    this.showDescriptionById = id;
+    this.showDescriptionById = id
   }
 
   async getIdeas(): Promise<void> {
     try {
-      const res = await IdeaService.AllIdeas();
-      this.Ideas = this.filterIdeas(res.data);
-
-
+      const res = await IdeaService.AllIdeas()
+      this.Ideas = this.filterIdeas(res.data)
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-
-
 $--ideaTitleFS: (
-    null: 1rem,
-    $mobile: 1.2rem
+  null: 1rem,
+  $mobile: 1.2rem,
 );
 $--ideaCreatedOnFS: (
-    null: .7rem,
-    $mobile: rem
+  null: 0.7rem,
+  $mobile: rem,
 );
 $--ideaCreatedByFS: (
-    null: .8rem,
-    $mobile: .9rem
+  null: 0.8rem,
+  $mobile: 0.9rem,
 );
 $--ideaDescriptionFS: (
-    null: .8rem,
-    $mobile: 1rem
+  null: 0.8rem,
+  $mobile: 1rem,
 );
 $--ideaDescriptionLH: (
-    null: 1.6,
+  null: 1.6,
 );
 
-
 $--ideaEditBtnFS: (
-    null: .9rem,
+  null: 0.9rem,
 );
 .ideas {
   .addIdea {
@@ -218,7 +206,7 @@ $--ideaEditBtnFS: (
       height: 35px;
       width: 35px;
       border: none;
-      padding: .2rem;
+      padding: 0.2rem;
 
       @include mobile {
         height: 40px;
@@ -233,10 +221,8 @@ $--ideaEditBtnFS: (
     }
   }
 
-
   &__list {
     margin-top: 1rem;
-
   }
 
   .idea {
@@ -251,12 +237,10 @@ $--ideaEditBtnFS: (
     &.autoHeight {
       height: auto;
     }
-
-
   }
 
   .section {
-    margin-bottom: .2rem;
+    margin-bottom: 0.2rem;
   }
 
   .title {
@@ -284,13 +268,12 @@ $--ideaEditBtnFS: (
       color: $SecondaryFS;
       @include font-size($--ideaCreatedByFS);
     }
-
   }
 
   .description {
     overflow: hidden;
     opacity: 0;
-    padding: .5rem;
+    padding: 0.5rem;
     margin: 1rem 0 0 0;
     border-radius: 5px;
 
@@ -311,7 +294,7 @@ $--ideaEditBtnFS: (
     }
 
     &__edit {
-      margin: .5rem 0;
+      margin: 0.5rem 0;
       display: flex;
       justify-content: flex-end;
 
@@ -319,7 +302,7 @@ $--ideaEditBtnFS: (
         border: none;
         color: $DarkGreen;
         font-weight: bold;
-        padding: .3rem;
+        padding: 0.3rem;
         @include font-size($--ideaEditBtnFS);
       }
     }
@@ -327,13 +310,10 @@ $--ideaEditBtnFS: (
     &__text {
       max-height: 150px;
       overflow-y: auto;
-      padding: .5rem;
+      padding: 0.5rem;
     }
   }
-
-
 }
-
 
 @keyframes slideDown {
   0% {

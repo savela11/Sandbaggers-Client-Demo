@@ -15,7 +15,7 @@
           </template>
         </InputField>
 
-        <input type="submit" class="btn submit btn--blue btn--sm" id="loginBTN" value="Login" />
+        <input type="submit" class="btn submit btn--bg-darkBlue btn--sm" id="loginBTN" value="Login" />
       </form>
     </div>
 

@@ -1,0 +1,27 @@
+.btn {
+
+  &--bg {
+    &-darkBlue {
+      color: white;
+      background-color: $DarkBlue;
+      border: 1px solid $DarkBlue;
+    }
+
+    &-white {
+      color: $DarkBlue;
+      background-color: white;
+    }
+
+    &-darkGreen {
+      color: white;
+      background-color: $primary;
+      border: 1px solid $primary;
+    }
+
+    &-red {
+      background-color: $danger;
+      color: white;
+      border: 1px solid $danger;
+    }
+  }
+}

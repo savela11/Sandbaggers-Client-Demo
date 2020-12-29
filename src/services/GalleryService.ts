@@ -1,17 +1,26 @@
-import apiClient from "../utility/apiClient";
-import { AxiosResponse } from "axios";
-import { EventGalleryVm, GalleryWithNoImageVm } from "@/types/ViewModels/EventGallery";
+import apiClient from '../utility/apiClient'
+import { AxiosResponse } from 'axios'
+import { EventGalleryVm, GalleryImgVm, GalleryWithNoImageVm } from '@/types/ViewModels/EventGallery'
+import { AddImageToGalleryDto } from '@/types/DTO/GalleryDtos'
 
-const url = "/Gallery";
+const url = '/Gallery'
 
 class GalleryService {
   static async Galleries(): Promise<AxiosResponse<Array<GalleryWithNoImageVm>>> {
-    return await apiClient.get(`${url}/Galleries`);
+    return await apiClient.get(`${url}/Galleries`)
   }
 
   static async Gallery(eventId: string): Promise<AxiosResponse<EventGalleryVm>> {
-    return await apiClient.get(`${url}/Gallery/${eventId}`);
+    return await apiClient.get(`${url}/Gallery/${eventId}`)
+  }
+
+  static async UploadImage(image: any): Promise<AxiosResponse> {
+    return await apiClient.post(`${url}/UploadImageToGallery`, image)
+  }
+
+  static async AddImageToGallery(addImageDto: AddImageToGalleryDto): Promise<AxiosResponse<GalleryImgVm>> {
+    return await apiClient.post(`${url}/AddImageToGallery`, addImageDto)
   }
 }
 
-export default GalleryService;
+export default GalleryService

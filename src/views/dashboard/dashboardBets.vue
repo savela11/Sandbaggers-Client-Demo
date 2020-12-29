@@ -24,7 +24,7 @@
           </div>
 
           <div class="flex">
-            <button class="viewBetBtn btn btn--xs btn--borderBlue btn--borderBottom" @click="$router.push(`/bets/${bet.betId}`)">View</button>
+            <button class="viewBetBtn btn btn--xs btn--border-darkBlue btn--borderBottom" @click="$router.push(`/bets/${bet.betId}`)">View</button>
           </div>
         </div>
       </div>
@@ -40,69 +40,67 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { BetVm } from "@/types/ViewModels/BetVm";
-import Helper from "@/utility/Helper";
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { BetVm } from '@/types/ViewModels/BetVm'
+import Helper from '@/utility/Helper'
 
-@Component({ name: "DashboardBets" })
+@Component({ name: 'DashboardBets' })
 export default class DashboardBets extends Vue {
-  @Prop() bets!: Array<BetVm>;
+  @Prop() bets!: Array<BetVm>
 
-  searchInput = "";
-  isSearchInputShowing = false;
+  searchInput = ''
+  isSearchInputShowing = false
 
-  size = 10;
-  pageNumber = 0;
+  size = 10
+  pageNumber = 0
 
   get betCount(): number {
     const l = this.bets.length,
-        s = this.size;
-    return Math.ceil(l / s);
+      s = this.size
+    return Math.ceil(l / s)
   }
 
   changePage(status: string): void {
-    if (status === "next") {
-      this.pageNumber++;
+    if (status === 'next') {
+      this.pageNumber++
     } else {
-      this.pageNumber--;
+      this.pageNumber--
     }
   }
 
   get filteredBets(): BetVm[] {
     const start = this.pageNumber * this.size,
-        end = start + this.size;
+      end = start + this.size
 
     const filterBets = this.bets.filter((b) => {
-      return b.createdBy.fullName.toLowerCase().includes(this.searchInput.toLowerCase());
-    });
-    return filterBets.slice(start, end);
+      return b.createdBy.fullName.toLowerCase().includes(this.searchInput.toLowerCase())
+    })
+    return filterBets.slice(start, end)
   }
 
-
   formatDate(date: string): string {
-    return Helper.formatDate(date);
+    return Helper.formatDate(date)
   }
 }
 </script>
 
-
 <style scoped lang="scss">
 $--noBetsFoundFS: (
-    null: 1rem,
-    $mobile: 1.2rem,
+  null: 1rem,
+  $mobile: 1.2rem,
 );
 $--betTitleFS: (
-    null: .9rem,
-    $mobile: 1rem
+  null: 0.9rem,
+  $mobile: 1rem,
 );
 $--betCreatedByFS: (
-    null: .7rem,
-    $tablet: .8rem
+  null: 0.7rem,
+  $tablet: 0.8rem,
 );
 
 $--viewBetBtnFS: (
-    null: .8rem,
-    $mobile: .9rem
+  null: 0.8rem,
+  $mobile: 0.9rem,
 );
 .dashboardBets {
   @include tablet {
@@ -111,19 +109,16 @@ $--viewBetBtnFS: (
 }
 
 .betList {
-
   @include tablet {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
     grid-auto-rows: 160px;
   }
-
-
 }
 
 .bet {
-  padding: .8rem;
+  padding: 0.8rem;
   border-radius: 5px;
   border-left: 5px solid #425a41;
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
@@ -141,23 +136,19 @@ $--viewBetBtnFS: (
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
   p {
     color: grey;
     @include font-size($--betCreatedByFS);
-
-
   }
 
   .flex {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: .5rem;
-
-
+    margin-bottom: 0.5rem;
   }
 
   .title {
@@ -167,10 +158,8 @@ $--viewBetBtnFS: (
     text-overflow: ellipsis;
   }
 
-
   .viewBetBtn {
     @include font-size($--viewBetBtnFS);
-
   }
 
   .amount {
@@ -215,7 +204,6 @@ $--viewBetBtnFS: (
     display: flex;
     margin-right: 1rem;
   }
-
 }
 
 .noBets {
@@ -227,5 +215,4 @@ $--viewBetBtnFS: (
     @include font-size($--noBetsFoundFS);
   }
 }
-
 </style>

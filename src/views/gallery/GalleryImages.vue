@@ -1,12 +1,20 @@
 <template>
-  <div class="galleryImages" :class="{selected: selectedImage !== null}">
+  <div class="galleryImages" :class="{ selected: selectedImage !== null }">
     <PopUp class="popUp" v-if="isPopUpShowing" :showPopUp="showPopUp" @click.prevent.stop="togglePopUp(false)">
       <template v-slot:title>
         <h4 class="text my-1 my-md-2 text--bold text--md text--center color--primary text-vpLG--lg">Add Image</h4>
       </template>
       <template v-slot:content>
         <div class="popUpBtns">
-          <button class="btn btn--active btn--tiny text text--xs color--primary text--fw-500" :class="{active: currentPopUpView === option}" v-for="option in popUpOptions" :key="option" @click="currentPopUpView = option">{{ option }}</button>
+          <button
+            class="btn btn--active btn--xs text text--xs color--primary text--fw-500"
+            :class="{ active: currentPopUpView === option }"
+            v-for="option in popUpOptions"
+            :key="option"
+            @click="currentPopUpView = option"
+          >
+            {{ option }}
+          </button>
         </div>
 
         <div class="popUpViews">
@@ -17,19 +25,18 @@
                 <input type="text" id="imageLink" v-model.trim="imageLink" />
               </template>
             </InputField>
+            <button class="btn btn--sm btn--bg-darkBlue text text--sm" @click.prevent.stop="addImageToGallery">Submit</button>
           </div>
           <div class="view" v-show="currentPopUpView === 'Upload'">
-
-
+            <input type="file" @change.prevent="uploadImage($event.target.files)" id="fileInput" />
           </div>
-
         </div>
       </template>
     </PopUp>
 
     <div v-if="!selectedImage && !loading">
       <div class="backBtn">
-        <button class="btn btn--borderGreen btn--xs btn--borderBottom" @click="$router.back()">Back</button>
+        <button class="btn btn--border-darkGreen btn--xs btn--borderBottom text text--xs" @click="$router.back()">Back</button>
         <IconBtn className="float float--right" btnText="Add Image" @click.prevent.stop="togglePopUp(!showPopUp)">
           <template v-slot:svg>
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,114 +52,140 @@
         <div class="gallery">
           <div class="gallery__image" v-for="img in gallery.images" :key="img.imageId" @click.prevent.stop="selectImage(img)">
             <div class="content">
-              <img :src="img.image" alt="image">
+              <img :src="img.image" alt="image" />
               <p class="createdByUser text text--xs color--white text--bold z1">{{ img.createdBy.fullName }}</p>
             </div>
-
           </div>
         </div>
-
       </div>
     </div>
     <div v-else-if="selectedImage && !loading" class="selectedImage">
       <button class="backToGalleryBtn text color--primary z1 bg--white btn btn--xs text--noWrap">Back To Images</button>
       <div class="selectedImage__img">
         <p class="createdByUser text text--sm color--white text--bold z1">{{ selectedImage.createdBy.fullName }}</p>
-        <img :src="selectedImage.image" alt="Selected Image">
+        <img :src="selectedImage.image" alt="Selected Image" />
       </div>
-      <div class="selectedImage__comments">
-
-      </div>
+      <div class="selectedImage__comments"></div>
     </div>
     <Loading v-else />
-
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import GalleryService from "@/services/GalleryService";
-import { EventGalleryVm, GalleryImgVm } from "@/types/ViewModels/EventGallery";
-import UIHelper from "@/utility/UIHelper";
+import { Component, Vue } from 'vue-property-decorator'
+import GalleryService from '@/services/GalleryService'
+import { EventGalleryVm, GalleryImgVm } from '@/types/ViewModels/EventGallery'
+import UIHelper from '@/utility/UIHelper'
+import { AddImageToGalleryDto } from '@/types/DTO/GalleryDtos'
 
 @Component({
-  name: "GalleryImages",
+  name: 'GalleryImages',
   components: {
-    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
-    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue"),
-    IconBtn: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/IconBtn.vue"),
-    PopUp: (): Promise<typeof import("*.vue")> => import("@/components/ui/PopUp.vue")
-  }
+    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
+    InputField: (): Promise<typeof import('*.vue')> => import('@/components/ui/Forms/InputField.vue'),
+    IconBtn: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/IconBtn.vue'),
+    PopUp: (): Promise<typeof import('*.vue')> => import('@/components/ui/PopUp.vue'),
+  },
 })
-
-
 export default class GalleryImages extends Vue {
-  loading = true;
-  gallery = {} as EventGalleryVm;
-  selectedImage = null as GalleryImgVm | null;
-  isPopUpShowing = false;
-  showPopUp = false;
-  popUpOptions = ["Link", "Upload"];
-  currentPopUpView = "Link";
-  imageLink = "";
+  loading = true
+  gallery = {} as EventGalleryVm
+  selectedImage = null as GalleryImgVm | null
+  isPopUpShowing = false
+  showPopUp = false
+  popUpOptions = ['Link', 'Upload']
+  currentPopUpView = 'Link'
+  imageLink = ''
 
   mounted(): void {
-    this.getGallery();
+    this.getGallery()
   }
 
   selectImage(img: GalleryImgVm): void {
-    this.selectedImage = img;
+    this.selectedImage = img
   }
 
   togglePopUp(status: boolean): void {
     if (status) {
-      this.isPopUpShowing = true;
-      document.body.style.position = "fixed";
+      this.isPopUpShowing = true
+      document.body.style.position = 'fixed'
     } else {
-      document.body.style.position = "static";
+      document.body.style.position = 'static'
 
       setTimeout(() => {
-        this.isPopUpShowing = false;
-      }, 1000);
+        this.isPopUpShowing = false
+      }, 1000)
     }
 
     this.$nextTick(() => {
-      this.showPopUp = status;
-    });
+      this.showPopUp = status
+    })
+  }
+
+  async uploadImage(files: FileList): Promise<void> {
+    try {
+      const image = files[0]
+      const formData = new FormData()
+      formData.append(this.gallery.name, image, image.name)
+      const res = await GalleryService.UploadImage(formData)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  async addImageToGallery(): Promise<void> {
+    const addImageDto: AddImageToGalleryDto = {
+      eventId: this.gallery.eventId,
+      createdByUserId: this.$store.state.authStore.currentUser.id,
+      image: this.imageLink,
+    }
+    try {
+      const res = await GalleryService.AddImageToGallery(addImageDto)
+      if (res.status === 200) {
+        UIHelper.SnackBar({
+          title: 'Success',
+          message: `Image added to ${this.gallery.name}`,
+          isSnackBarShowing: true,
+          classInfo: 'primary',
+        })
+        this.togglePopUp(false)
+        setTimeout(() => {
+          this.$router.go(0)
+        }, Math.floor(Math.random() * 4000))
+      }
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   async getGallery(): Promise<void> {
     try {
-      const res = await GalleryService.Gallery(this.$route.params.eventId);
+      const res = await GalleryService.Gallery(this.$route.params.eventId)
       if (res.status === 200) {
-        this.gallery = res.data;
+        this.gallery = res.data
         setTimeout(() => {
-          this.loading = false;
-        }, Math.floor(Math.random() * 4000));
+          this.loading = false
+        }, Math.floor(Math.random() * 4000))
       }
     } catch (e) {
-      this.loading = false;
-      console.log(e);
+      this.loading = false
+      console.log(e)
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-
-
 .galleryImages {
-  padding: 0 .3rem 1rem .3rem;
-
+  padding: 0 0.3rem 1rem 0.3rem;
 
   &.selected {
     padding: 0;
   }
 }
 
-
 .top {
-  padding: 0 .8rem;
+  padding: 0 0.8rem;
   @include desktopSmall {
     padding: 0 2rem;
   }
@@ -179,7 +212,6 @@ export default class GalleryImages extends Vue {
 
   @include desktopSmall {
     grid-template-columns: repeat(auto-fill, minmax(15%, 1fr));
-
   }
 
   &__image {
@@ -199,10 +231,10 @@ export default class GalleryImages extends Vue {
     }
 
     @include desktop {
-      padding: .1rem;
+      padding: 0.1rem;
     }
 
-    @media(max-width: 767px) {
+    @media (max-width: 767px) {
       &:nth-of-type(2n + 1) {
         grid-row-end: span 10;
       }
@@ -216,7 +248,6 @@ export default class GalleryImages extends Vue {
         grid-row-end: span 16;
       }
     }
-
 
     &:hover img {
       box-shadow: 0 0 32px #333;
@@ -236,14 +267,12 @@ export default class GalleryImages extends Vue {
       width: 100%;
       height: 100%;
       border-radius: 8px;
-      box-shadow: 0 0 16px rgba(51, 51, 51, .4);
+      box-shadow: 0 0 16px rgba(51, 51, 51, 0.4);
       transition: all 1.5s ease;
       object-fit: cover;
       object-position: center center;
-      filter: brightness(calc(.6 * (1 + 1)));
+      filter: brightness(calc(0.6 * (1 + 1)));
     }
-
-
   }
 }
 
@@ -286,24 +315,21 @@ export default class GalleryImages extends Vue {
   }
 
   &__comments {
-
   }
 }
-
 
 .createdByUser {
   margin: 0;
   position: absolute;
-  bottom: .6rem;
+  bottom: 0.6rem;
   left: 0.6rem;
   transition: all 1.5s ease;
 
   @include tablet {
-    bottom: .8rem;
-    left: .8rem;
+    bottom: 0.8rem;
+    left: 0.8rem;
   }
 }
-
 
 .popUp {
   .popUpBtns {
@@ -312,22 +338,19 @@ export default class GalleryImages extends Vue {
     margin: 0 0 1rem 0;
 
     button {
-
       &:last-of-type {
-        margin-left: .5rem;
+        margin-left: 0.5rem;
       }
     }
   }
 
-
   .popUpViews {
     .view {
-      width: 80%;
+      width: 90%;
       margin: 0 auto;
     }
   }
 }
-
 
 @-moz-keyframes zoomin {
   0% {
@@ -408,6 +431,4 @@ export default class GalleryImages extends Vue {
     transform: rotate(0deg);
   }
 }
-
-
 </style>

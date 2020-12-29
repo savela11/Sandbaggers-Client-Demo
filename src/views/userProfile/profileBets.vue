@@ -11,7 +11,7 @@
             </div>
           </div>
           <div class="card__bottom">
-            <button class="btn btn--tiny btn--borderGreen" @click.prevent.stop="selectBet(bet)">View</button>
+            <button class="btn btn--tiny btn--border-darkGreen" @click.prevent.stop="selectBet(bet)">View</button>
           </div>
         </div>
       </div>
@@ -64,8 +64,8 @@
         </form>
 
         <div class="sect btns">
-          <button @click.prevent.stop="selectedBet = null" class="btn btn--xs btn--borderBottom btn--borderRed">Cancel</button>
-          <button @click.prevent.stop="updateSelectedBet" class="btn btn--xs btn--borderBottom btn--borderGreen">Update</button>
+          <button @click.prevent.stop="selectedBet = null" class="btn btn--xs btn--borderBottom btn--border-red">Cancel</button>
+          <button @click.prevent.stop="updateSelectedBet" class="btn btn--xs btn--borderBottom btn--border-darkGreen">Update</button>
         </div>
       </div>
     </div>

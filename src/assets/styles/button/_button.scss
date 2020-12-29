@@ -1,8 +1,12 @@
-﻿$--preNextBtnFS: (
-  null: 0.8rem,
-  $mobile: 0.9rem,
-  $tablet: 1rem,
-  $tablet-landscape: 1.1rem,
+﻿@import './_btnSize';
+@import './_btnBgColor';
+@import './_btnBorder';
+@import './_btnPosition';
+$--preNextBtnFS: (
+        null: 0.8rem,
+        $mobile: 0.9rem,
+        $tablet: 1rem,
+        $tablet-landscape: 1.1rem,
 );
 
 button {
@@ -19,12 +23,10 @@ button {
 }
 
 .btn {
-  padding: 0.5rem 2rem;
   border-radius: 5px;
-  border: none;
   box-shadow: 0 2px rgba(154, 154, 154, 0.8);
   text-decoration: none;
-  color: $DarkBlue;
+  border: none;
 
   &.active {
     background-color: $DarkBlue;
@@ -44,92 +46,11 @@ button {
     }
   }
 
-  &--tiny {
-    padding: 0.2rem 0.8rem;
-  }
 
-  &--xs {
-    padding: 0.3rem 1rem;
 
-    @include mobile {
-      padding: 0.4rem 1.1rem;
-    }
 
-    @include tablet {
-      padding: 0.5rem 1.2rem;
-    }
-  }
 
-  &--sm {
-    padding: 0.5rem 2rem;
-    @include mobile {
-      padding: 0.5rem 2.5rem;
-    }
 
-    @include tablet {
-      padding: 0.7rem 2.8rem;
-    }
-  }
-
-  &--md {
-    padding: 1rem 3rem;
-    @include tablet {
-    }
-  }
-
-  &--lg {
-    padding: 1rem 4rem;
-  }
-
-  &--blue {
-    color: white;
-    background-color: $DarkBlue;
-    border: 1px solid $DarkBlue;
-  }
-
-  &--white {
-    color: $DarkBlue;
-    background-color: white;
-  }
-
-  &--red {
-    background-color: $danger;
-    color: white;
-    border: 1px solid $danger;
-  }
-
-  &--green {
-    color: white;
-    background-color: $primary;
-    border: 1px solid $primary;
-  }
-
-  &--borderBlue {
-    background-color: white;
-    border: 1px solid $DarkBlue;
-  }
-
-  &--borderRed {
-    background-color: white;
-    color: $danger;
-    border: 1px solid $danger;
-  }
-
-  &--borderGreen {
-    background-color: white;
-    border: 1px solid $DarkGreen;
-  }
-
-  &--borderBottom {
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    box-shadow: 0 1px rgba(154, 154, 154, 0.8);
-  }
-
-  &--borderNone {
-    border: none;
-  }
 
   &.clicked {
     transform: translateY(4px);
@@ -230,7 +151,4 @@ button {
 
 .backBtn {
   padding: 1rem;
-}
-
-.submitBtn {
 }

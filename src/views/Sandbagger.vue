@@ -1,7 +1,7 @@
 <template>
   <div class="sandbagger" v-if="Sandbagger">
     <div class="backBtn">
-      <router-link to="/dashboard" class="btn btn--borderGreen btn--xs btn--borderBottom">Back</router-link>
+      <router-link to="/dashboard" class="btn btn--border-darkGreen btn--xs btn--borderBottom">Back</router-link>
     </div>
     <div class="top">
       <div class="imageContainer">
@@ -39,20 +39,20 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import FormatMixins from "@/mixins/FormatMixins.vue";
-import UserHistoryService from "@/services/UserHistoryService";
-import UIHelper from "@/utility/UIHelper";
-import { UserHistoryVm } from "@/types/ViewModels/UserHistoryVm";
+import { Component, Vue } from 'vue-property-decorator'
+import FormatMixins from '@/mixins/FormatMixins.vue'
+import UserHistoryService from '@/services/UserHistoryService'
+import UIHelper from '@/utility/UIHelper'
+import { UserHistoryVm } from '@/types/ViewModels/UserHistoryVm'
 
-@Component({ name: "Sandbagger", mixins: [FormatMixins] })
+@Component({ name: 'Sandbagger', mixins: [FormatMixins] })
 export default class Sandbagger extends Vue {
-  Sandbagger = {} as UserHistoryVm;
-  views = ["Handicaps", "Bets", "Stats"];
-  currentView = "Handicaps";
+  Sandbagger = {} as UserHistoryVm
+  views = ['Handicaps', 'Bets', 'Stats']
+  currentView = 'Handicaps'
 
   mounted(): void {
-    this.getUserInfo();
+    this.getUserInfo()
   }
 
   // get userHandicapHistory(): IHandicapHistory[] | null {
@@ -65,17 +65,17 @@ export default class Sandbagger extends Vue {
 
   async getUserInfo(): Promise<void> {
     try {
-      const res = await UserHistoryService.sandBaggerWithHistory(this.$route.params.id.toString());
+      const res = await UserHistoryService.sandBaggerWithHistory(this.$route.params.id.toString())
       if (res.data) {
-        this.Sandbagger = res.data;
+        this.Sandbagger = res.data
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
   setCurrentView(view: string): void {
-    this.currentView = view;
+    this.currentView = view
   }
 }
 </script>
@@ -194,7 +194,6 @@ export default class Sandbagger extends Vue {
       }
 
       .handicapHistory {
-
         .title {
           display: flex;
           justify-content: space-between;

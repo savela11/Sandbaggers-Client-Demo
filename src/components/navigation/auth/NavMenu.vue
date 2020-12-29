@@ -1,8 +1,8 @@
 <template>
   <div class="navMenu">
     <div class="adminButtons" v-if="userRoles.includes('Admin')">
-      <button class="btn btn--xs" @click="toggleLinksView('Main')" :class="{ active: currentLinkView === 'Main' }">Main</button>
-      <button class="btn btn--xs" @click="toggleLinksView('Admin')" :class="{ active: currentLinkView === 'Admin' }">Admin</button>
+      <button class="btn btn--xs text text--sm" @click="toggleLinksView('Main')" :class="{ active: currentLinkView === 'Main' }">Main</button>
+      <button class="btn btn--xs text text--sm" @click="toggleLinksView('Admin')" :class="{ active: currentLinkView === 'Admin' }">Admin</button>
     </div>
     <nav>
       <transition name="slide-fade">
@@ -29,7 +29,7 @@
     </nav>
     <div class="extra">
       <div>
-        <button id="logoutBTN" @click="logout" class="btn btn--xs btn--borderRed">Logout</button>
+        <button id="logoutBTN" @click="logout" class="btn btn--xs btn--border-red">Logout</button>
       </div>
       <div class="closeNavMenu">
         <button class="btn btn--xs" @click="closeNavMenu">Close</button>

@@ -2,23 +2,22 @@
   <div>
     <Loading v-if="loading" />
     <div v-else>
-      <button @click="$router.back()" class="backBtn btn btn--borderGreen btn--xs btn--borderBottom">Back</button>
+      <button @click="$router.back()" class="backBtn btn btn--border-darkGreen btn--xs btn--borderBottom">Back</button>
       <div class="formContainer">
         <p class="updatedOn"><strong>Last Updated:</strong> {{ Idea.updatedOn }}</p>
         <form class="form">
           <div class="form__field">
             <label for="title">Title</label>
-            <input id='title' type="text" v-model="Idea.title">
+            <input id="title" type="text" v-model="Idea.title" />
           </div>
           <div class="form__field">
             <label for="description">Description</label>
-            <textarea id='description' type="text" v-model="Idea.description"></textarea>
+            <textarea id="description" type="text" v-model="Idea.description"></textarea>
           </div>
         </form>
         <div class="btnContainer">
-          <button @click.prevent.stop="UpdateIdea" class="btn btn--green btn--sm">Update</button>
+          <button @click.prevent.stop="UpdateIdea" class="btn btn--darkGreen btn--sm">Update</button>
         </div>
-
       </div>
     </div>
   </div>
@@ -33,7 +32,7 @@ import UIHelper from '@/utility/UIHelper'
 
 @Component({
   name: 'EditIdea',
-  components: { Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue') }
+  components: { Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue') },
 })
 export default class EditIdea extends Vue {
   loading = true
@@ -46,7 +45,7 @@ export default class EditIdea extends Vue {
   async GetIdea(): Promise<void> {
     const getIdea: GetIdeaDto = {
       ideaId: parseInt(this.$route.params.id),
-      userId: this.$store.state.authStore.currentUser.id
+      userId: this.$store.state.authStore.currentUser.id,
     }
     try {
       const res = await IdeaService.Idea(getIdea)
@@ -67,16 +66,14 @@ export default class EditIdea extends Vue {
     try {
       const res = await IdeaService.UpdateIdea(this.Idea)
       if (res.status === 200) {
-
         setTimeout(() => {
           UIHelper.SnackBar({
             title: 'Success',
             message: 'Your Idea has been updated!',
             isSnackBarShowing: true,
-            classInfo: 'primary'
+            classInfo: 'primary',
           })
           this.$router.push('/ideas')
-
         }, Math.floor(Math.random() * 3000))
       }
     } catch (e) {
@@ -86,16 +83,13 @@ export default class EditIdea extends Vue {
 }
 </script>
 
-
 <style scoped lang="scss">
 .formContainer {
   margin: 3rem 0;
-
-
 }
 
 .updatedOn {
-  font-size: .8rem;
+  font-size: 0.8rem;
   color: $SecondaryFS;
   text-align: right;
 }

@@ -18,7 +18,7 @@
         </div>
 
         <div class="btnContainer">
-          <button class="btn btn--blue btn--sm" id="createPowerRankingBtn">Create</button>
+          <button class="btn btn--bg-darkBlue btn--sm" id="createPowerRankingBtn">Create</button>
         </div>
       </form>
     </div>
@@ -26,57 +26,50 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import PowerRankingService from "@/services/PowerRankingService";
-import UIHelper from "@/utility/UIHelper";
-import { RegisteredUserVm } from "@/types/ViewModels/EventVm";
+import { Component, Vue } from 'vue-property-decorator'
+import PowerRankingService from '@/services/PowerRankingService'
+import UIHelper from '@/utility/UIHelper'
+import { RegisteredUserVm } from '@/types/ViewModels/EventVm'
 
-@Component({ name: "CreatePowerRanking" })
+@Component({ name: 'CreatePowerRanking' })
 export default class CreatePowerRanking extends Vue {
-
   createPowerRankingForm = {
-    userId: "",
+    userId: '',
     rank: 0,
-    trending: "",
-    writeUp: ""
-  };
-
-  registeredUsers = [] as Array<RegisteredUserVm>;
-
-  mounted(): void {
-    UIHelper.ToggleNavBar(false);
-    this.getRegisteredUsers();
+    trending: '',
+    writeUp: '',
   }
 
+  registeredUsers = [] as Array<RegisteredUserVm>
+
+  mounted(): void {
+    this.getRegisteredUsers()
+  }
 
   async getRegisteredUsers(): Promise<void> {
     try {
-      const res = await PowerRankingService.EventRegisteredUsers(parseInt(this.$route.params.eventId));
+      const res = await PowerRankingService.EventRegisteredUsers(parseInt(this.$route.params.eventId))
       if (res.data.length < 1) {
         UIHelper.SnackBar({
-          title: "Error",
-          message: "Not able to find registered user",
+          title: 'Error',
+          message: 'Not able to find registered user',
           isSnackBarShowing: true,
-          classInfo: "error"
-        });
-        return this.$router.back();
+          classInfo: 'error',
+        })
+        return this.$router.back()
       }
       if (res.status === 200) {
-        this.registeredUsers = res.data;
+        this.registeredUsers = res.data
       }
     } catch (e) {
-      console.log(e);
+      console.log(e)
     } finally {
-
     }
   }
-
 }
 </script>
 
-
 <style scoped lang="scss">
-
 .createForm {
   margin: 1rem 0;
 }
