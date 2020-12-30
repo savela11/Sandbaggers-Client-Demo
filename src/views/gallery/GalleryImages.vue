@@ -29,6 +29,10 @@
           </div>
           <div class="view" v-show="currentPopUpView === 'Upload'">
             <input type="file" @change.prevent="uploadImage($event.target.files)" id="fileInput" />
+            <div class="uploadedImage" v-if="uploadedImageLink">
+              <img :src="uploadedImageLink" alt="UploadedImage" />
+            </div>
+            <button class="btn btn--sm btn--bg-darkBlue text text--sm" @click.prevent.stop="addImageToGallery">Submit</button>
           </div>
         </div>
       </template>
@@ -96,6 +100,7 @@ export default class GalleryImages extends Vue {
   popUpOptions = ['Link', 'Upload']
   currentPopUpView = 'Link'
   imageLink = ''
+  uploadedImageLink: string | null = null
 
   mounted(): void {
     this.getGallery()
@@ -126,8 +131,12 @@ export default class GalleryImages extends Vue {
     try {
       const image = files[0]
       const formData = new FormData()
+
       formData.append(this.gallery.name, image, image.name)
       const res = await GalleryService.UploadImage(formData)
+      if (res.status === 200) {
+        this.uploadedImageLink = res.data
+      }
     } catch (e) {
       console.log(e)
     }
@@ -139,6 +148,10 @@ export default class GalleryImages extends Vue {
       createdByUserId: this.$store.state.authStore.currentUser.id,
       image: this.imageLink,
     }
+    if (this.uploadedImageLink) {
+      addImageDto.image = this.uploadedImageLink
+    }
+
     try {
       const res = await GalleryService.AddImageToGallery(addImageDto)
       if (res.status === 200) {
@@ -348,6 +361,18 @@ export default class GalleryImages extends Vue {
     .view {
       width: 90%;
       margin: 0 auto;
+      .uploadedImage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+
+        img {
+          height: 100px;
+          width: 100px;
+          object-fit: contain;
+        }
+      }
     }
   }
 }

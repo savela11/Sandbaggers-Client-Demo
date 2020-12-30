@@ -1,11 +1,14 @@
 <template>
-  <div class="popUp" :class="{showPopUp: showPopUp === true}">
+  <div class="popUp" :class="{ showPopUp: showPopUp === true }">
     <div class="popUp__backDrop"></div>
     <div class="container" :class="[showPopUp === true ? 'show' : 'hide']">
       <IconBtn className="float--right" v-on="$listeners">
         <template v-slot:svg>
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2C6.47 2 2 6.47 2 12C2 17.53 6.47 22 12 22C17.53 22 22 17.53 22 12C22 6.47 17.53 2 12 2ZM17 15.59L15.59 17L12 13.41L8.41 17L7 15.59L10.59 12L7 8.41L8.41 7L12 10.59L15.59 7L17 8.41L13.41 12L17 15.59Z" fill="#9F0000" />
+            <path
+              d="M12 2C6.47 2 2 6.47 2 12C2 17.53 6.47 22 12 22C17.53 22 22 17.53 22 12C22 6.47 17.53 2 12 2ZM17 15.59L15.59 17L12 13.41L8.41 17L7 15.59L10.59 12L7 8.41L8.41 7L12 10.59L15.59 7L17 8.41L13.41 12L17 15.59Z"
+              fill="#9F0000"
+            />
           </svg>
         </template>
       </IconBtn>
@@ -21,16 +24,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component({
-  name: "PopUp", components: {
-    IconBtn: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/IconBtn.vue")
-  }
+  name: 'PopUp',
+  components: {
+    IconBtn: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/IconBtn.vue'),
+  },
 })
 export default class PopUp extends Vue {
-  @Prop({ default: false }) showPopUp!: boolean;
-
+  @Prop({ default: false }) showPopUp!: boolean
 }
 </script>
 
@@ -46,7 +49,6 @@ export default class PopUp extends Vue {
     left: 0;
   }
 
-
   &__backDrop {
     position: absolute;
     top: 0;
@@ -54,7 +56,7 @@ export default class PopUp extends Vue {
     bottom: 0;
     left: 0;
     background-color: black;
-    opacity: .5;
+    opacity: 0.5;
     width: 100%;
     height: 100%;
   }
@@ -73,7 +75,6 @@ export default class PopUp extends Vue {
     @include tablet {
       width: 60%;
       min-height: 400px;
-
     }
 
     @include tablet-landscape {
@@ -91,17 +92,15 @@ export default class PopUp extends Vue {
       animation: showPopUp 0.5s linear forwards;
     }
 
-
     &__title {
       @include tablet {
       }
-
-
     }
 
     .content {
       max-height: 200px;
       overflow-y: auto;
+      overflow-x: hidden;
       min-height: 150px;
 
       @include tablet {
@@ -110,7 +109,6 @@ export default class PopUp extends Vue {
     }
   }
 }
-
 
 @keyframes showPopUp {
   0% {

@@ -14,8 +14,8 @@ class GalleryService {
     return await apiClient.get(`${url}/Gallery/${eventId}`)
   }
 
-  static async UploadImage(image: any): Promise<AxiosResponse> {
-    return await apiClient.post(`${url}/UploadImageToGallery`, image)
+  static async UploadImage(uploadData: any): Promise<AxiosResponse<string>> {
+    return await apiClient.post(`${url}/UploadImageToGallery`, uploadData)
   }
 
   static async AddImageToGallery(addImageDto: AddImageToGalleryDto): Promise<AxiosResponse<GalleryImgVm>> {
