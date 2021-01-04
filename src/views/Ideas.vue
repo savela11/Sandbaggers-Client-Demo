@@ -21,7 +21,7 @@
             </template>
           </InputField>
           <div class="btnContainer">
-            <button class="btn btn--sm btn--bg-darkBlue" id="addIdeaBTN" @click.prevent.stop="createIdea">Add</button>
+            <button class="btn btn--sm text text--sm btn--bg-darkBlue" id="addIdeaBTN" @click.prevent.stop="createIdea">Add</button>
           </div>
         </form>
         <Loading v-if="loading" />
@@ -40,13 +40,13 @@
         </div>
         <div class="section createdBy">
           <p class="createdByFullName">By: {{ idea.createdBy.fullName }}</p>
-          <button class="btn btn--xs btn--border-darkBlue btn--borderBottom" @click="toggleShowDescription(idea.id)">view</button>
+          <button class="btn btn--xs btn--border-darkBlue btn--borderBottom text text--sm" @click="toggleShowDescription(idea.id)">view</button>
         </div>
 
         <div class="section description" v-show="showDescriptionById === idea.id" :class="[showDescriptionById === idea.id ? 'show' : 'hide']">
           <hr class="divider" />
           <div class="description__edit" v-if="$store.state.authStore.currentUser.id === idea.createdBy.id">
-            <router-link :to="`/ideas/editIdea/${idea.id}`">Edit</router-link>
+            <router-link class="btn btn--xs text text--sm" :to="`/ideas/editIdea/${idea.id}`">Edit</router-link>
           </div>
           <div class="description__text">
             <p v-if="showDescriptionById === idea.id">{{ idea.description }}</p>

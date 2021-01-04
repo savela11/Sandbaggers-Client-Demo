@@ -24,9 +24,8 @@ button {
 
 .btn {
   border-radius: 5px;
-  box-shadow: 0 2px rgba(154, 154, 154, 0.8);
+  //box-shadow: 0 2px rgba(154, 154, 154, 0.8);
   text-decoration: none;
-  border: none;
 
   &.active {
     background-color: $DarkBlue;

@@ -1,7 +1,7 @@
 ﻿<template>
   <div v-if="currentUser && currentUser.profile" class="userProfile">
     <div class="backBtn">
-      <button class="btn btn--border-darkGreen btn--xs btn--borderBottom" @click="$router.back()">Back</button>
+      <button class="btn btn--border-darkGreen btn--xs btn--borderBottom" @click.prevent.stop="$router.back">Back</button>
     </div>
     <section class="section section__top">
       <div class="imageContainer">
@@ -117,7 +117,7 @@
 
       <!--      Update Button-->
       <div class="updateBtnContainer" v-show="currentView.title !== 'Bets'">
-        <button v-show="currentView.title" class="btn btn--border-darkGreen" @click.stop.prevent="updateCurrentUser">Update</button>
+        <button v-show="currentView.title" class="btn btn--xs btn--border-darkGreen" @click.stop.prevent="updateCurrentUser">Update</button>
       </div>
     </section>
 

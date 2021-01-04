@@ -2,8 +2,13 @@
 import UIHelper from '@/utility/UIHelper'
 import store from '@/store'
 
+import AuthLayout from '@/layouts/authLayouts/AuthLayout.vue'
+import AuthLayoutNoNavBar from '@/layouts/authLayouts/AuthLayoutNoNavBar.vue'
+import AuthLayoutNoHeader from '@/layouts/authLayouts/AuthLayoutNoHeader.vue'
+import AuthLayoutNoBars from '@/layouts/authLayouts/AuthLayoutNoBars.vue'
+
 function loadView(view: string) {
-  return (): Promise<typeof import("*.vue")> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`);
+  return (): Promise<typeof import('*.vue')> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`)
 }
 
 function guardAdminRoute(to: Route, from: Route, next: any): any {
@@ -12,11 +17,11 @@ function guardAdminRoute(to: Route, from: Route, next: any): any {
     authenticated = true
   }
   if (authenticated) {
-    UIHelper.PageLoading(false);
-    UIHelper.Header({ current: "main", isShowing: true, title: 'Admin', bgColor: "white" });
+    UIHelper.PageLoading(false)
+    UIHelper.Header({ current: 'main', isShowing: true, title: 'Admin', bgColor: 'white' })
     next()
   } else {
-    store.dispatch('authStore/Logout').then();
+    store.dispatch('authStore/Logout').then()
     next('/login')
   }
 }
@@ -52,11 +57,13 @@ export default [
   },
 
   {
-    path: '/admin/events',
-    name: 'Admin Events',
+    path: '/admin/eventManager',
+    name: 'Event Manager',
     beforeEnter: guardAdminRoute,
-    component: loadView('admin/events/AdminEvents'),
-    meta: {},
+    component: loadView('admin/EventManager'),
+    meta: {
+      layout: AuthLayout,
+    },
   },
   {
     path: '/admin/events/createEvent',

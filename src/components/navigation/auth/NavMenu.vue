@@ -29,10 +29,10 @@
     </nav>
     <div class="extra">
       <div>
-        <button id="logoutBTN" @click="logout" class="btn btn--xs btn--border-red">Logout</button>
+        <button id="logoutBTN" @click="logout" class="btn btn--xs btn--border-red btn--borderBottom text text--xs">Logout</button>
       </div>
       <div class="closeNavMenu">
-        <button class="btn btn--xs" @click="closeNavMenu">Close</button>
+        <button class="btn btn--xs btn--borderBottom btn--border-darkBlue text text--xs" @click="closeNavMenu">Close</button>
       </div>
     </div>
   </div>
@@ -113,7 +113,7 @@ export default class NavMenu extends Vue {
     }
 
     button {
-      width: 5rem;
+      min-width: 5rem;
       @include tablet {
         width: auto;
         padding: 0.5rem 3rem;
