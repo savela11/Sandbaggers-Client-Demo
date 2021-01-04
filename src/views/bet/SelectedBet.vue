@@ -1,6 +1,6 @@
 <template>
   <div class="selectedBet">
-<!--    <BtnWithText class="backBtn" @click="$router.back()" v-bind="{ img: 'backArrow', text: 'Back' }" />-->
+    <!--    <BtnWithText class="backBtn" @click="$router.back()" v-bind="{ img: 'backArrow', text: 'Back' }" />-->
     <div v-if="selectedBet && !loading">
       <h2>{{ selectedBet.title }}</h2>
       <div class="createdBy section">
@@ -33,98 +33,95 @@
       <div class="description section">
         <h3>Description:</h3>
 
-        <div class="descriptionBorder ">
+        <div class="descriptionBorder">
           <div class="inner">
             <p>{{ selectedBet.description }}</p>
-
           </div>
         </div>
       </div>
-
     </div>
     <Loading v-else />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import BetService from "@/services/BetService";
-import Helper from "@/utility/Helper";
-import { LoggedInUserVm } from "@/types/ViewModels/UserVm";
-import { BetVm } from "@/types/ViewModels/BetVm";
-import { UserAcceptsBetDto } from "@/types/DTO/Bets/UserAcceptsBetDto";
-import UIHelper from "@/utility/UIHelper";
+import { Component, Vue } from 'vue-property-decorator'
+import BetService from '@/services/BetService'
+import Helper from '@/utility/Helper'
+import { LoggedInUserVm } from '@/types/ViewModels/UserVm'
+import { BetVm } from '@/types/ViewModels/BetVm'
+import { UserAcceptsBetDto } from '@/types/DTO/Bets/UserAcceptsBetDto'
+import UIHelper from '@/utility/UIHelper'
 
 @Component({
-  name: "SelectedBet",
-  components: {  Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue") }
+  name: 'SelectedBet',
+  components: { Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue') },
 })
 export default class SelectedBet extends Vue {
-  loading = true;
-  currentUser = {} as LoggedInUserVm;
-  selectedBet: BetVm | null = null;
+  loading = true
+  currentUser = {} as LoggedInUserVm
+  selectedBet: BetVm | null = null
 
   mounted(): void {
-    this.getSelectedBet();
-    this.currentUser = this.$store.state.authStore.currentUser;
+    this.getSelectedBet()
+    this.currentUser = this.$store.state.authStore.currentUser
   }
 
   get canUserAcceptBet(): boolean {
     const userIds = this.selectedBet?.acceptedBy.map((b) => {
-      return b.id;
-    });
+      return b.id
+    })
     // if the selected bet is the person who made the bet
     // or if user already accepted the bet
     // return false
 
     if (this.selectedBet && this.selectedBet.createdBy.id === this.currentUser.id) {
-      return false;
+      return false
     } else if (userIds && userIds.includes(this.currentUser.id)) {
-      return false;
-    } else return !(this.selectedBet && this.selectedBet.acceptedBy.length === this.selectedBet.canAcceptNumber);
-
+      return false
+    } else return !(this.selectedBet && this.selectedBet.acceptedBy.length === this.selectedBet.canAcceptNumber)
   }
 
   formatDate(date: string): string {
-    return Helper.formatDate(date);
+    return Helper.formatDate(date)
   }
 
   async getSelectedBet(): Promise<void> {
-    this.loading = true;
+    this.loading = true
     try {
-      const res = await BetService.GetBetById(parseInt(this.$route.params.betId));
+      const res = await BetService.GetBetById(parseInt(this.$route.params.betId))
       if (res.status === 200) {
-        this.selectedBet = res.data;
+        this.selectedBet = res.data
       }
     } catch (e) {
-      console.log(e);
-      this.$router.back();
+      console.log(e)
+      this.$router.go(-1)
     } finally {
       setTimeout(() => {
-        this.loading = false;
-      }, Math.floor(Math.random() * 2000));
+        this.loading = false
+      }, Math.floor(Math.random() * 2000))
     }
   }
 
   async acceptBet(): Promise<void> {
-    this.loading = true;
+    this.loading = true
     if (this.selectedBet) {
       const userAcceptsBet: UserAcceptsBetDto = {
         userId: this.currentUser.id,
-        betId: this.selectedBet.betId
-      };
+        betId: this.selectedBet.betId,
+      }
       try {
-        const res = await BetService.UserAcceptsBet(userAcceptsBet);
+        const res = await BetService.UserAcceptsBet(userAcceptsBet)
         if (res.status === 200) {
-          this.selectedBet.acceptedBy.push(res.data);
-          UIHelper.SnackBar({title: "Success", message: "Your bet was accepted.", isSnackBarShowing: true, classInfo: 'primary'})
+          this.selectedBet.acceptedBy.push(res.data)
+          UIHelper.SnackBar({ title: 'Success', message: 'Your bet was accepted.', isSnackBarShowing: true, classInfo: 'primary' })
         }
       } catch (e) {
-        console.log(e);
+        console.log(e)
       } finally {
         setTimeout(() => {
-          this.loading = false;
-        }, Math.floor(Math.random() * 3000));
+          this.loading = false
+        }, Math.floor(Math.random() * 3000))
       }
     }
   }
@@ -132,45 +129,43 @@ export default class SelectedBet extends Vue {
 </script>
 
 <style scoped lang="scss">
-
 $--betTitleFS: (
-    null: 1rem,
-    $mobile: 1.2rem
+  null: 1rem,
+  $mobile: 1.2rem,
 );
 $--sectionTitleFS: (
-    null: 1rem,
-    $mobile: 1.2rem
+  null: 1rem,
+  $mobile: 1.2rem,
 );
 
 $--createdByFS: (
-    null: .8rem,
-    $mobile: 1rem
+  null: 0.8rem,
+  $mobile: 1rem,
 );
 $--descriptionParaFS: (
-    null: .9rem,
-    $mobile: 1rem
+  null: 0.9rem,
+  $mobile: 1rem,
 );
 
 $--notAcceptedFS: (
-    null: .8rem,
-    $mobile: .9rem
+  null: 0.8rem,
+  $mobile: 0.9rem,
 );
 
-
 $--acceptedByNameFS: (
-    null: .8rem,
-    $mobile: .9rem
+  null: 0.8rem,
+  $mobile: 0.9rem,
 );
 
 $--acceptedCountSpanFS: (
-    null: .9rem,
-    $mobile: 1rem
+  null: 0.9rem,
+  $mobile: 1rem,
 );
 
 .selectedBet {
   .backBtn {
     float: right;
-    padding: 0 .5rem;
+    padding: 0 0.5rem;
 
     button {
       height: 40px;
@@ -186,17 +181,14 @@ $--acceptedCountSpanFS: (
 
   h3 {
     @include font-size($--sectionTitleFS);
-    margin: .5rem .5rem .5rem 0;
+    margin: 0.5rem 0.5rem 0.5rem 0;
     color: $PrimaryFS;
   }
-
 
   .section {
     display: flex;
     align-items: center;
     padding: 0.5rem 0;
-
-
   }
 
   .createdBy {
@@ -205,7 +197,6 @@ $--acceptedCountSpanFS: (
     p {
       color: $SecondaryFS;
       @include font-size($--createdByFS);
-
     }
   }
 
@@ -234,12 +225,11 @@ $--acceptedCountSpanFS: (
           justify-content: flex-end;
         }
       }
-
     }
 
     .two {
       width: 100%;
-      margin: .5rem 0;
+      margin: 0.5rem 0;
 
       .notAccepted {
         p {
@@ -252,17 +242,17 @@ $--acceptedCountSpanFS: (
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-auto-rows: 80px;
-        gap: .3rem;
+        gap: 0.3rem;
 
         @include mobile {
           grid-auto-rows: 90px;
-          gap: .5rem;
+          gap: 0.5rem;
         }
 
         .user {
-          padding: .5rem;
+          padding: 0.5rem;
           border-radius: 5px;
-          box-shadow: 0 3px 5px rgba(128, 128, 128, .6);
+          box-shadow: 0 3px 5px rgba(128, 128, 128, 0.6);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -275,8 +265,8 @@ $--acceptedCountSpanFS: (
 
           .indexNum {
             position: absolute;
-            top: .2rem;
-            left: .5rem;
+            top: 0.2rem;
+            left: 0.5rem;
             color: $DarkGreen;
             font-weight: 600;
           }
@@ -284,15 +274,12 @@ $--acceptedCountSpanFS: (
       }
     }
 
-
     button {
       color: green;
       font-weight: bold;
       border: none;
       text-decoration: underline;
     }
-
-
   }
 
   .description {
@@ -305,7 +292,7 @@ $--acceptedCountSpanFS: (
       padding: 0;
 
       .inner {
-        border: .8rem solid white;
+        border: 0.8rem solid white;
         align-items: flex-start;
         border-radius: 5px;
         max-height: 350px;
@@ -317,8 +304,6 @@ $--acceptedCountSpanFS: (
         @include mobile {
           border: 1rem solid white;
         }
-
-
       }
 
       p {
@@ -327,12 +312,9 @@ $--acceptedCountSpanFS: (
         line-height: 1.6;
         color: $SecondaryFS;
         white-space: pre-wrap;
-        padding: 0 .5rem 1rem .5rem;
-
-
+        padding: 0 0.5rem 1rem 0.5rem;
       }
     }
   }
-
 }
 </style>

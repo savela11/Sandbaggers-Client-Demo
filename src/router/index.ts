@@ -1,15 +1,15 @@
-import Vue from "vue";
-import VueRouter, { RouteConfig, Route } from "vue-router";
-import store from "../store/index";
-import adminRoutes from "./adminRoutes";
-import authRoutes from "./authRoutes";
-import DefaultLayout from "@/layouts/DefaultLayout.vue";
+import Vue from 'vue'
+import VueRouter, { RouteConfig, Route } from 'vue-router'
+import store from '../store/index'
+import adminRoutes from './adminRoutes'
+import authRoutes from './authRoutes'
+import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 function loadView(view: string) {
-  return (): Promise<typeof import("*.vue")> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`);
+  return (): Promise<typeof import('*.vue')> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`)
 }
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 // function authRoute(to: Route, from: Route, next: any): any {
 //   UIHelper.PageLoading(true);
@@ -55,49 +55,48 @@ Vue.use(VueRouter);
 //   }
 // }
 
-
-function defaultGuard(to:Route, from:Route, next:any): any {
-  store.dispatch('authStore/Logout').then();
+function defaultGuard(to: Route, from: Route, next: any): any {
+  store.dispatch('authStore/Logout').then()
+  next()
 }
 
 const routes: Array<RouteConfig> = [
   ...authRoutes,
   ...adminRoutes,
   {
-    path: "*",
-    name: "NotFound",
+    path: '*',
+    name: 'NotFound',
     beforeEnter: defaultGuard,
-    component: loadView("NotFound"),
+    component: loadView('NotFound'),
     meta: {
-      layout: DefaultLayout
-    }
+      layout: DefaultLayout,
+    },
   },
   {
-    path: "/register",
-    name: "Register",
-    component: loadView("auth/Register"),
+    path: '/register',
+    name: 'Register',
+    component: loadView('auth/Register'),
     meta: {
-      layout: DefaultLayout
-    }
+      layout: DefaultLayout,
+    },
   },
   {
-    path: "/login",
-    name: "Login",
-    component: loadView("auth/Login"),
+    path: '/login',
+    name: 'Login',
+    component: loadView('auth/Login'),
     meta: {
-      layout: DefaultLayout
-    }
+      layout: DefaultLayout,
+    },
   },
-
-];
+]
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes,
   scrollBehavior(to, from, savedPosition): any {
-    return { x: 0, y: 0 };
-  }
-});
+    return { x: 0, y: 0 }
+  },
+})
 
-export default router;
+export default router

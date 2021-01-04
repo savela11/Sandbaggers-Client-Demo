@@ -39,21 +39,27 @@ export default [
     name: 'Roles',
     beforeEnter: guardAdminRoute,
     component: loadView('admin/Roles'),
-    meta: {},
+    meta: {
+      layout: AuthLayout,
+    },
   },
   {
     path: '/admin/roles/createRole',
     name: 'CreateRole',
     beforeEnter: guardAdminRoute,
     component: loadView('admin/role/CreateRole'),
-    meta: {},
+    meta: {
+      layout: AuthLayout,
+    },
   },
   {
     path: '/admin/roles/editRole/:id',
     name: 'EditRole',
     beforeEnter: guardAdminRoute,
     component: loadView('admin/role/EditRole'),
-    meta: {},
+    meta: {
+      layout: AuthLayout,
+    },
   },
 
   {
@@ -70,20 +76,26 @@ export default [
     name: 'Create Event',
     beforeEnter: guardAdminRoute,
     component: loadView('admin/events/CreateEvent'),
-    meta: {},
+    meta: {
+      layout: AuthLayout,
+    },
   },
   {
     path: '/admin/events/editEvent/:id',
     name: 'Edit Event',
     beforeEnter: guardAdminRoute,
     component: loadView('admin/events/EditEvent'),
-    meta: {},
+    meta: {
+      layout: AuthLayout,
+    },
   },
   {
     path: '/admin/events/eventTeams/:eventId',
     name: 'Event Teams',
     beforeEnter: guardAdminRoute,
     component: loadView('admin/events/EventTeams'),
-    meta: {},
+    meta: {
+      layout: AuthLayout,
+    },
   },
 ]

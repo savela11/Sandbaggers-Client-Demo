@@ -1,7 +1,7 @@
 ﻿<template>
   <div v-if="currentUser && currentUser.profile" class="userProfile">
     <div class="backBtn">
-      <button class="btn btn--border-darkGreen btn--xs btn--borderBottom" @click.prevent.stop="$router.back">Back</button>
+      <button class="btn btn--border-darkGreen btn--xs btn--borderBottom" @click.prevent.stop="$router.go(-1)">Back</button>
     </div>
     <section class="section section__top">
       <div class="imageContainer">

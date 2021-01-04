@@ -40,7 +40,7 @@
 
     <div v-if="!selectedImage && !loading">
       <div class="backBtn">
-        <button class="btn btn--border-darkGreen btn--xs btn--borderBottom text text--xs" @click="$router.back()">Back</button>
+        <button class="btn btn--border-darkGreen btn--xs btn--borderBottom text text--xs" @click="$router.go(-1)">Back</button>
         <IconBtn className="float float--right" btnText="Add Image" @click.prevent.stop="togglePopUp(!showPopUp)">
           <template v-slot:svg>
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

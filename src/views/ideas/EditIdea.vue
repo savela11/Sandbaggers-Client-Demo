@@ -2,7 +2,7 @@
   <div>
     <Loading v-if="loading" />
     <div v-else>
-      <button @click="$router.back()" class="backBtn btn btn--border-darkGreen btn--xs btn--borderBottom">Back</button>
+      <button @click="$router.go(-1)" class="backBtn btn btn--border-darkGreen btn--xs btn--borderBottom">Back</button>
       <div class="formContainer">
         <p class="updatedOn"><strong>Last Updated:</strong> {{ Idea.updatedOn }}</p>
         <form class="form">
@@ -56,7 +56,7 @@ export default class EditIdea extends Vue {
         }, Math.floor(Math.random() * 3000))
       }
     } catch (e) {
-      this.$router.back()
+      this.$router.go(-1)
       console.log(e)
     }
   }

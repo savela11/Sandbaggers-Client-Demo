@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="$router.back()">Back</button>
+    <button @click="$router.go(-1)">Back</button>
 
     <div class="createForm">
       <form class="form">
@@ -56,7 +56,7 @@ export default class CreatePowerRanking extends Vue {
           isSnackBarShowing: true,
           classInfo: 'error',
         })
-        return this.$router.back()
+        return this.$router.go(-1)
       }
       if (res.status === 200) {
         this.registeredUsers = res.data

@@ -76,7 +76,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/apple-icon.png"
   },
   {
-    "revision": "57f8543ecdaab4d4dd64",
+    "revision": "b21f16ce228512568c23",
     "url": "/css/app.a3706cf8.css"
   },
   {
@@ -156,8 +156,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/css/view-Sandbagger-vue.3e94d8e3.css"
   },
   {
-    "revision": "46592d43759fa5b1b543",
-    "url": "/css/view-UserProfile-vue.85e46a28.css"
+    "revision": "ffdfd79273331ca23b8f",
+    "url": "/css/view-UserProfile-vue.84be7597.css"
   },
   {
     "revision": "58006c57eb1ad3c78a15",
@@ -304,12 +304,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/showEye.c5d89ad6.svg"
   },
   {
-    "revision": "ba788cd76da6d2405ee8ef5db7a3b066",
+    "revision": "c5d70b0fa467eddc2c61328eca5fb463",
     "url": "/index.html"
   },
   {
-    "revision": "57f8543ecdaab4d4dd64",
-    "url": "/js/app.db30201c.js"
+    "revision": "b21f16ce228512568c23",
+    "url": "/js/app.c297d7d9.js"
   },
   {
     "revision": "c62da18257ba19ab6c5d",
@@ -408,8 +408,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/view-Sandbagger-vue.fda72bac.js"
   },
   {
-    "revision": "46592d43759fa5b1b543",
-    "url": "/js/view-UserProfile-vue.971bf1d7.js"
+    "revision": "ffdfd79273331ca23b8f",
+    "url": "/js/view-UserProfile-vue.c5eb79e8.js"
   },
   {
     "revision": "58006c57eb1ad3c78a15",
