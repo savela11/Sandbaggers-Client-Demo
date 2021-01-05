@@ -2,22 +2,24 @@
   <div>
     <Loading v-if="loading" />
     <div v-else>
-      <button @click="$router.go(-1)" class="backBtn btn btn--border-darkGreen btn--xs btn--borderBottom">Back</button>
+      <button @click="$router.go(-1)" class="btn btn--border-darkGreen btn--xs btn--borderBottom text text--sm">Back</button>
       <div class="formContainer">
-        <p class="updatedOn"><strong>Last Updated:</strong> {{ Idea.updatedOn }}</p>
-        <form class="form">
-          <div class="form__field">
-            <label for="title">Title</label>
-            <input id="title" type="text" v-model="Idea.title" />
-          </div>
-          <div class="form__field">
-            <label for="description">Description</label>
-            <textarea id="description" type="text" v-model="Idea.description"></textarea>
-          </div>
+        <p class="updatedOn"><strong>Last Updated:</strong> {{ formatDate(Idea.updatedOn) }}</p>
+        <form class="form" @submit.prevent.stop="UpdateIdea">
+          <InputField :isActive="Idea.title !== ''">
+            <template v-slot:field>
+              <label for="title">Title</label>
+              <input type="text" id="title" v-model.trim="Idea.title" />
+            </template>
+          </InputField>
+          <InputField :isActive="Idea.description !== ''">
+            <template v-slot:field>
+              <label for="description">Description</label>
+              <textarea type="text" id="description" v-model.trim="Idea.description"></textarea>
+            </template>
+          </InputField>
+          <input type="submit" class="btn btn--sm text text--sm btn--border-darkGreen" value="Update" />
         </form>
-        <div class="btnContainer">
-          <button @click.prevent.stop="UpdateIdea" class="btn btn--darkGreen btn--sm">Update</button>
-        </div>
       </div>
     </div>
   </div>
@@ -29,10 +31,14 @@ import IdeaService from '@/services/IdeaService'
 import { GetIdeaDto } from '@/types/DTO/Ideas/GetIdeaDto'
 import { IdeaVm } from '@/types/ViewModels/IdeaVm'
 import UIHelper from '@/utility/UIHelper'
+import Helper from '@/utility/Helper'
 
 @Component({
   name: 'EditIdea',
-  components: { Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue') },
+  components: {
+    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
+    InputField: (): Promise<typeof import('*.vue')> => import('@/components/ui/Forms/InputField.vue'),
+  },
 })
 export default class EditIdea extends Vue {
   loading = true
@@ -40,6 +46,10 @@ export default class EditIdea extends Vue {
 
   mounted(): void {
     this.GetIdea()
+  }
+
+  formatDate(date: string): string {
+    return Helper.formatDate(date)
   }
 
   async GetIdea(): Promise<void> {
@@ -104,7 +114,6 @@ textarea {
 }
 
 .btnContainer {
-  padding: 0 2rem;
   display: flex;
   justify-content: flex-end;
 }
