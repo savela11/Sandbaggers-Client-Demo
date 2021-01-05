@@ -10,7 +10,12 @@
   @include tablet-landscape {
     width: 50%;
   }
-
+fieldset {
+  outline: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
   &__field {
     display: flex;
     flex-direction: column;

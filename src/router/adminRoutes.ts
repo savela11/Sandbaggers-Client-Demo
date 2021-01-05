@@ -72,10 +72,10 @@ export default [
     },
   },
   {
-    path: '/admin/events/createEvent',
+    path: '/admin/createEvent',
     name: 'Create Event',
     beforeEnter: guardAdminRoute,
-    component: loadView('admin/events/CreateEvent'),
+    component: loadView('admin/CreateEvent'),
     meta: {
       layout: AuthLayout,
     },
