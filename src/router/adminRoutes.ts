@@ -81,10 +81,10 @@ export default [
     },
   },
   {
-    path: '/admin/events/editEvent/:id',
+    path: '/admin/editEvent/:id',
     name: 'Edit Event',
     beforeEnter: guardAdminRoute,
-    component: loadView('admin/events/EditEvent'),
+    component: loadView('admin/EditEvent'),
     meta: {
       layout: AuthLayout,
     },

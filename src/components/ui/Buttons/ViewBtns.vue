@@ -1,6 +1,6 @@
 <template>
   <div class="ViewBtns">
-    <button v-for="(btn, index) in viewButtons" class="viewBtn text text--sm" :class="{'active': activeViewBtn === btn}" :key="index" @click="selectedBtn(btn)">{{ btn }}</button>
+    <button v-for="(btn, index) in viewButtons" class="viewBtn text text--sm" :class="{'active': activeViewBtn === btn}" :key="index" @click.prevent.stop="selectedBtn(btn)">{{ btn }}</button>
   </div>
 </template>
 

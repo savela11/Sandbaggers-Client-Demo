@@ -67,10 +67,7 @@ export default class CreateEvent extends Vue {
       const res = await EventService.CreateEvent(this.createEventForm);
       if (res.status === 200) {
         UIHelper.SnackBar({ title: "Success", message: `${res.data.name} Event has been created`, classInfo: "primary", isSnackBarShowing: true, errors: [] });
-        this.loading = false;
-        setTimeout(() => {
-          this.$router.push("/admin/EventManager");
-        }, Math.floor(Math.random() * 4000));
+        await this.$router.push("/admin/EventManager");
 
       }
     } catch (e) {

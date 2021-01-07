@@ -15,24 +15,31 @@
       <div class="eventList">
         <div class="selectedEvent" v-if="selectedYear">
           <div class="title">
-
             <h2 class="text text--lg text--bold color--primary">{{ selectedYear.name }}</h2>
-            <IconBtn>
+            <IconBtn btn-text="Edit" :link-btn="true" :link="`/Admin/EditEvent/${selectedYear.eventId}`">
               <template v-slot:svg>
-                
+                <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M3.125 17.9688V21.875H7.03125L18.5521 10.3542L14.6458 6.44792L3.125 17.9688ZM21.5729 7.33334C21.9792 6.92709 21.9792 6.27084 21.5729 5.86459L19.1354 3.42709C18.7292 3.02084 18.0729 3.02084 17.6667 3.42709L15.7604 5.33334L19.6667 9.23959L21.5729 7.33334V7.33334Z"
+                    fill="#17252A" />
+                </svg>
               </template>
             </IconBtn>
           </div>
-          
+
 
           <div class="selectedEvent__grid">
             <div class="location">
-              <h3 class="text text--sm">Location</h3>
-              <p>{{ selectedYear.location.name }}</p>
-              <p>{{ selectedYear.location.city }}</p>
-              <p>{{ selectedYear.location.postalCode }}</p>
-              <p>{{ selectedYear.location.streetName }}</p>
-              <p>{{ selectedYear.location.streetNumbers }}</p>
+              <h3 class="text text--md text--bold color--secondary">Location</h3>
+              <p class="text text--sm color--secondary my-03">{{ selectedYear.location.name }}</p>
+              <div class="flex flex--iCenter">
+                <p class="text text--sm color--secondary mr-03 my-03">{{ selectedYear.location.streetNumbers }}</p>
+                <p class="text text--sm color--secondary my-03">{{ selectedYear.location.streetName }}</p>
+              </div>
+              <div class="flex flex--iCenter">
+                <p class="text text--sm color--secondary mr-03 my-03">{{ selectedYear.location.city }}</p>
+                <p class="text text--sm color--secondary my-03">{{ selectedYear.location.postalCode }}</p>
+              </div>
             </div>
             <div class="registeredUsers">
 
@@ -98,6 +105,13 @@ export default class EventManager extends Vue {
 <style scoped lang="scss">
 .EventManager {
   .utility {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.selectedEvent {
+  .title {
     display: flex;
     justify-content: space-between;
   }

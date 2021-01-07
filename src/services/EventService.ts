@@ -14,6 +14,15 @@ class EventService {
     return await apiClient.post(`${url}/CreateEvent`, createEventForm);
 
   }
+
+  static async GetEventById(id: string): Promise<AxiosResponse<EventVm>> {
+   return await apiClient.get(`${url}/GetEventById/${id}`)
+  }
+
+  static async UpdateEvent(Event: EventVm): Promise<AxiosResponse> {
+    return await apiClient.post(`${url}/UpdateEvent`, Event)
+
+  }
 }
 
 
