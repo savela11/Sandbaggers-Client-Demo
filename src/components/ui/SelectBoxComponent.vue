@@ -9,7 +9,7 @@
           <div class="arrow"></div>
         </div>
         <div class="options" v-show="showSelectOptions">
-          <span class="option text text--md" v-for="option in options" :key="option[keyValue]">{{ option[optionValue] }}</span>
+          <span @click.prevent.stop="selectOption(option)" class="option text text--md" v-for="option in options" :key="option[keyValue]">{{ option[optionValue] }}</span>
         </div>
       </div>
     </div>
@@ -29,6 +29,9 @@ export default class SelectBoxComponent extends Vue {
   @Prop() keyValue!: string | number;
   @Prop() optionValue!: string | number;
 
+  selectOption(option: any): void {
+    this.$emit("select-option", option);
+  }
 }
 </script>
 

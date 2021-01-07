@@ -112,19 +112,26 @@ export default class Login extends Vue {
       } catch (e) {
         const errorList: string[] = []
 
-        const parsedErrors = JSON.parse(e.data.message)
-        if (e.data.message) {
+        console.log(e.response);
+
+        if (e.response.data) {
+          const parsedErrors = JSON.parse(e.response.data.message)
           parsedErrors.forEach((error: any) => {
             errorList.push(error.Description)
           })
+
+          UIHelper.SnackBar({
+            title: 'Error Registering',
+            message: '',
+            classInfo: 'error',
+            isSnackBarShowing: true,
+            errors: errorList,
+          })
+        }else {
+          UIHelper.SnackBar({ title: "Error", message: `There was an error registering`, classInfo: `error`, isSnackBarShowing: true, errors: undefined });
+
         }
-        UIHelper.SnackBar({
-          title: 'Error Registering',
-          message: '',
-          classInfo: 'error',
-          isSnackBarShowing: true,
-          errors: errorList,
-        })
+
         this.loading = false
       }
     }

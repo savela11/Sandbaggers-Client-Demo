@@ -9,12 +9,36 @@
             </svg>
           </template>
         </IconBtn>
-        <SelectBoxComponent :selected="selectedYear.year" :options="Events" keyValue="eventId" optionValue="year" :showSelectOptions="showSelectOptions"
-                            @click.prevent.stop="toggleSelectBox" />
+        <SelectBoxComponent v-if="selectedYear" :selected="selectedYear.year" :options="Events" keyValue="eventId" optionValue="year" :showSelectOptions="showSelectOptions"
+                            @click.prevent.stop="toggleSelectBox" @select-option="selectOption" />
       </div>
       <div class="eventList">
         <div class="selectedEvent" v-if="selectedYear">
-          <h2 class="text text--lg text--bold color--primary">{{ selectedYear.name }}</h2>
+          <div class="title">
+
+            <h2 class="text text--lg text--bold color--primary">{{ selectedYear.name }}</h2>
+            <IconBtn>
+              <template v-slot:svg>
+                
+              </template>
+            </IconBtn>
+          </div>
+          
+
+          <div class="selectedEvent__grid">
+            <div class="location">
+              <h3 class="text text--sm">Location</h3>
+              <p>{{ selectedYear.location.name }}</p>
+              <p>{{ selectedYear.location.city }}</p>
+              <p>{{ selectedYear.location.postalCode }}</p>
+              <p>{{ selectedYear.location.streetName }}</p>
+              <p>{{ selectedYear.location.streetNumbers }}</p>
+            </div>
+            <div class="registeredUsers">
+
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
@@ -47,6 +71,11 @@ export default class EventManager extends Vue {
 
   toggleSelectBox(): void {
     this.showSelectOptions = !this.showSelectOptions;
+  }
+
+  selectOption(option: EventVm): void {
+    this.selectedYear = option;
+    this.showSelectOptions = false;
   }
 
   async getEvents(): Promise<void> {
