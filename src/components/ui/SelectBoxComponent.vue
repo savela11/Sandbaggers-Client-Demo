@@ -128,7 +128,6 @@ export default class SelectBoxComponent extends Vue {
       position: absolute;
       display: block;
       top: 100%;
-      left: 0;
       right: 0;
       border: 1px solid #394a6d;
       border-top: none;

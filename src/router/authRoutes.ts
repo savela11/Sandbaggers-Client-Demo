@@ -134,10 +134,10 @@ export default  [
 
   },
   {
-    path: "/powerRankings/CreatePowerRanking/:eventId/:userId",
-    name: "CreatePowerRanking",
+    path: "/powerRanking/edit/:eventId",
+    name: "EditPowerRanking",
     beforeEnter: guardRoute,
-    component: loadView("powerRankings/CreatePowerRanking"),
+    component: loadView("powerRankings/EditPowerRanking"),
     meta: {
       layout: AuthLayout
     }

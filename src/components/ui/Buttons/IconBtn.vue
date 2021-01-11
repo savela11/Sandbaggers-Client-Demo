@@ -1,6 +1,6 @@
 <template>
-  <div class="IconBtn" :class="[className, {'flex flex--column flex--iCenter': btnText}]">
-    <button v-on="$listeners" v-if="!linkBtn">
+  <div class="IconBtn" :class="[ {'flex flex--column flex--iCenter': btnText}]">
+    <button v-on="$listeners" v-if="!linkBtn" :class="className">
       <slot name="svg">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -49,6 +49,7 @@ export default class IconBtn extends Vue {
 <style scoped lang="scss">
 
 .IconBtn {
+
   &.float {
     &--right {
       float: right;
@@ -68,6 +69,16 @@ export default class IconBtn extends Vue {
     @include tablet {
       height: 40px;
       width: 40px;
+    }
+
+
+    &.circle {
+      border-radius: 50%;
+      padding: .1rem;
+    }
+
+    &.white {
+      background-color: white;
     }
   }
 
