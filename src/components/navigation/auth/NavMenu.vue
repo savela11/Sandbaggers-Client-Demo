@@ -1,8 +1,10 @@
 <template>
   <div class="navMenu">
     <div class="adminButtons" v-if="userRoles.includes('Admin')">
-      <button class="btn btn--xs text text--sm btn--borderBottom btn--border-darkBlue" @click="toggleLinksView('Main')" :class="{ active: currentLinkView === 'Main' }">Main</button>
-      <button class="btn btn--xs text text--sm btn--borderBottom btn--border-darkBlue" @click="toggleLinksView('Admin')" :class="{ active: currentLinkView === 'Admin' }">Admin</button>
+      <button class="btn btn--xs text text--sm btn--borderBottom btn--border-darkBlue" @click="toggleLinksView('Main')" :class="{ active: currentLinkView === 'Main' }">Main
+      </button>
+      <button class="btn btn--xs text text--sm btn--borderBottom btn--border-darkBlue" @click="toggleLinksView('Admin')" :class="{ active: currentLinkView === 'Admin' }">Admin
+      </button>
     </div>
     <nav>
       <transition name="slide-fade">
@@ -11,7 +13,7 @@
             <router-link :to="link.link">
               <!--                <img :src="link.icon" :alt="`${link.name} route}`" />-->
               <div class="svgContainer" v-html="link.icon"></div>
-              <span>{{ link.name }}</span>
+              <span class="text text--xs">{{ link.name }}</span>
             </router-link>
           </li>
         </ul>
@@ -39,37 +41,37 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import UIHelper from '@/utility/UIHelper'
-import { UserLink } from '@/types/vuexStore/NavigationStore'
-import NavigationHelper from '@/utility/NavigationHelper'
+import { Component, Prop, Vue } from "vue-property-decorator";
+import UIHelper from "@/utility/UIHelper";
+import { UserLink } from "@/types/vuexStore/NavigationStore";
+import NavigationHelper from "@/utility/NavigationHelper";
 
-@Component({ name: 'NavMenu' })
+@Component({ name: "NavMenu" })
 export default class NavMenu extends Vue {
-  @Prop() userRoles!: Array<string>
+  @Prop() userRoles!: Array<string>;
 
-  currentLinkView = 'Main'
+  currentLinkView = "Main";
 
   get UserLinks(): Array<UserLink> {
-    return this.$store.getters['navigationStore/UserLinks']
+    return this.$store.getters["navigationStore/UserLinks"];
   }
 
   get AdminLinks(): Array<UserLink> {
-    return this.$store.getters['navigationStore/AdminLinks']
+    return this.$store.getters["navigationStore/AdminLinks"];
   }
 
   toggleLinksView(view: string): void {
-    this.currentLinkView = view
+    this.currentLinkView = view;
   }
 
   closeNavMenu(): void {
-    NavigationHelper.ToggleNavMenu(false)
+    NavigationHelper.ToggleNavMenu(false);
   }
 
   logout(): void {
-    UIHelper.clickedButton('logoutBTN')
-    NavigationHelper.ToggleNavMenu(false)
-    this.$store.dispatch('authStore/Logout')
+    UIHelper.clickedButton("logoutBTN");
+    NavigationHelper.ToggleNavMenu(false);
+    this.$store.dispatch("authStore/Logout");
   }
 }
 </script>
@@ -79,8 +81,15 @@ export default class NavMenu extends Vue {
   padding: 2rem 1rem;
   position: relative;
   transform: translateY(150%);
+  min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  @include mobile {
+    min-height: calc(100vh - 80px);
+  }
   @include tablet {
     padding: 5rem;
+    min-height: calc(100vh - 100px);
   }
   @include tablet-landscape {
     padding: 2rem 5rem;
@@ -97,6 +106,14 @@ export default class NavMenu extends Vue {
   .svgContainer {
     height: 25px;
     width: 25px;
+    @include tablet {
+      height: 30px;
+      width: 30px;
+    }
+    @include desktop {
+      height: 40px;
+      width: 40px;
+    }
   }
 
   .adminButtons {
@@ -181,11 +198,11 @@ export default class NavMenu extends Vue {
       }
       @include desktop {
         gap: 50px;
-        width: 70%;
+        width: 60%;
       }
 
       @include desktopLarge {
-        width: 60%;
+        width: 50%;
         grid-auto-rows: 150px;
       }
 
@@ -220,16 +237,10 @@ export default class NavMenu extends Vue {
 
           span {
             margin-top: 0.5rem;
-            font-size: 0.6rem;
             color: $DarkBlue;
             text-align: center;
 
-            @include mobile {
-              font-size: 0.7rem;
-            }
-
             @include tablet {
-              font-size: 1rem;
               margin-top: 1rem;
             }
           }
@@ -269,6 +280,7 @@ export default class NavMenu extends Vue {
     right: 0;
     opacity: 0;
   }
+
   //.slide-fade-enter {
   //  transform: translateX(-100%);
   //}

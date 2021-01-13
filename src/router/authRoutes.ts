@@ -19,9 +19,13 @@ function guardRoute(to: Route, from: Route, next: any): any {
   if (store.state.authStore.isLoggedIn) {
     authenticated = true;
   }
-
+console.log(to);
   const headerTitle = "";
-
+if(to.meta.backBtn) {
+  store.dispatch("navigationStore/_setBackBtnShowingStatus", true).then()
+}else {
+  store.dispatch("navigationStore/_setBackBtnShowingStatus", false).then()
+}
   if (authenticated) {
     next();
     UIHelper.PageLoading(false);
@@ -139,7 +143,8 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("powerRankings/EditPowerRanking"),
     meta: {
-      layout: AuthLayout
+      layout: AuthLayout,
+      backBtn: true
     }
 
   },

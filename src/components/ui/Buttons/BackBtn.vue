@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class='BackBtn flex mb-1' :class="justify">
+  <div class='BackBtn flex' :class="justify">
     <div class="flex flex--column flex--center flex--iCenter">
       <button @click.prevent.stop="$router.go(-1)">
         <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +32,7 @@ export default class BackBtn extends Vue {
 
 <style scoped lang="scss">
 .BackBtn {
-
+  padding: .3rem .5rem 0 .5rem;
 
   button, a {
     padding: 0.3rem;

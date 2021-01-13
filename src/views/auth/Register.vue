@@ -112,17 +112,18 @@ export default class Login extends Vue {
       } catch (e) {
         const errorList: string[] = []
 
-        console.log(e.response);
+
 
         if (e.response.data) {
-          const parsedErrors = JSON.parse(e.response.data.message)
-          parsedErrors.forEach((error: any) => {
-            errorList.push(error.Description)
-          })
+          if(e.response.data.errors.length > 0) {
+            e.response.data.errors.forEach((error: any) => {
+              errorList.push(error)
+            })
+          }
 
           UIHelper.SnackBar({
-            title: 'Error Registering',
-            message: '',
+            title: "Error",
+            message:  e.response.data.message,
             classInfo: 'error',
             isSnackBarShowing: true,
             errors: errorList,

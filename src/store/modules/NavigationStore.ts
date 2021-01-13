@@ -5,6 +5,7 @@ import { NavigationStoreState, UserLink } from '@/types/vuexStore/NavigationStor
 const state: NavigationStoreState = {
   isNavBarShowing: true,
   isNavMenuShowing: false,
+  isBackBtnShowing: false,
   userLinks: [
     {
       name: 'Dashboard',
@@ -92,6 +93,7 @@ const state: NavigationStoreState = {
 const getters = {
   IsNavBarShowing: (state: NavigationStoreState): boolean => state.isNavBarShowing,
   IsNavMenuShowing: (state: NavigationStoreState): boolean => state.isNavMenuShowing,
+  IsBackBtnShowing:(state: NavigationStoreState): boolean => state.isBackBtnShowing,
   UserLinks: (state: NavigationStoreState): Array<UserLink> => state.userLinks,
   AdminLinks: (state: NavigationStoreState): Array<UserLink> => state.adminLinks,
 }
@@ -104,6 +106,9 @@ const mutations = {
   SetNavMenuShowingStatus(state: NavigationStoreState, showingStatus: boolean): void {
     state.isNavMenuShowing = showingStatus
   },
+  SetBackBtnShowingStatus(state: NavigationStoreState, showingStatus: boolean):void {
+    state.isBackBtnShowing = showingStatus
+  }
 }
 
 const actions = {
@@ -114,6 +119,9 @@ const actions = {
   _setNavMenuShowingStatus(context: ActionContext<NavigationStoreState, IRootState>, showingStatus: boolean): void {
     context.commit('SetNavMenuShowingStatus', showingStatus)
   },
+  _setBackBtnShowingStatus(context: ActionContext<NavigationStoreState, IRootState>, showingStatus: boolean):void {
+    context.commit('SetBackBtnShowingStatus', showingStatus);
+  }
 }
 
 export default {

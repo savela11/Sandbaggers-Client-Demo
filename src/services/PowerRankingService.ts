@@ -14,6 +14,15 @@ class PowerRankingService {
   static async EventRegisteredUsers(eventId: number): Promise<AxiosResponse<Array<RegisteredUserVm>>> {
     return await apiClient.get(`${url}/EventRegisteredUsers/${eventId}`);
   }
+
+  static async PowerRanking(eventId: string): Promise<AxiosResponse<EventPowerRankingVm>> {
+    return await apiClient.get(`${url}/PowerRankingById/${eventId}`);
+
+  }
+
+  static async UpdatePowerRanking(PowerRanking: EventPowerRankingVm): Promise<AxiosResponse<EventPowerRankingVm>> {
+    return await apiClient.post(`${url}/UpdatePowerRanking/`, PowerRanking);
+  }
 }
 
 export default PowerRankingService;

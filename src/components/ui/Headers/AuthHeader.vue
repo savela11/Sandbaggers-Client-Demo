@@ -32,7 +32,8 @@ import NavigationHelper from "@/utility/NavigationHelper";
 
 @Component({
   name: "AuthHeader", components: {
-    IconBtn: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/IconBtn.vue")
+    IconBtn: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/IconBtn.vue"),
+
   }
 })
 export default class AuthHeader extends Vue {
@@ -63,6 +64,14 @@ export default class AuthHeader extends Vue {
   box-shadow: 0 1px 3px rgba(102, 102, 102, 0.5);
   position: relative;
   z-index: 3;
+
+  .backBtn {
+    position: absolute;
+    bottom: -45px;
+    left: 10px;
+    padding: 0;
+    z-index: 10;
+  }
 
   &__container {
     position: relative;

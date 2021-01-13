@@ -22,17 +22,18 @@ export default class InputField extends Vue {
 
 <style scoped lang="scss">
 $--inputFS: (
-    null: .8rem,
-    $mobile: .9rem,
-    $tablet: 1rem
+  null: .8rem,
+  $mobile: .9rem,
+  $tablet: 1rem,
+  $tablet-landscape: 1.2rem,
 );
 $--labelFS: (
-    null: .8rem,
-    $mobile: .9rem
+  null: .8rem,
+  $mobile: .9rem
 );
 $--activeLabelFS: (
-    null: .9rem,
-    $tablet: 1rem
+  null: .9rem,
+  $tablet: 1rem
 );
 
 .c-field-container {
@@ -100,8 +101,13 @@ $--activeLabelFS: (
     max-width: 100%;
     border: none;
     outline: none;
+    line-height: 1.4;
     color: rgba(40, 40, 40, .7);
     @include font-size($--inputFS);
+    @include tablet {
+      padding: .8rem;
+      line-height: 1.6;
+    }
   }
 
   input {

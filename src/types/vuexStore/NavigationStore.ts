@@ -1,6 +1,7 @@
 export interface NavigationStoreState {
   isNavBarShowing: boolean,
   isNavMenuShowing: boolean,
+  isBackBtnShowing: boolean,
   userLinks: Array<UserLink>
   adminLinks: Array<UserLink>
 }
