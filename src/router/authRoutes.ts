@@ -19,7 +19,7 @@ function guardRoute(to: Route, from: Route, next: any): any {
   if (store.state.authStore.isLoggedIn) {
     authenticated = true;
   }
-console.log(to);
+
   const headerTitle = "";
 if(to.meta.backBtn) {
   store.dispatch("navigationStore/_setBackBtnShowingStatus", true).then()
@@ -48,7 +48,8 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("UserProfile"),
     meta: {
-      layout: AuthLayoutNoBars
+      layout: AuthLayoutNoBars,
+      backBtn: true
     }
   },
   {
@@ -66,7 +67,8 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("Sandbagger"),
     meta: {
-      layout: AuthLayoutNoNavBar
+      layout: AuthLayoutNoNavBar,
+      backBtn: true
     }
   },
   {

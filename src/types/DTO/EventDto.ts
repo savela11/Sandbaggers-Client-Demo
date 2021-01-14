@@ -4,9 +4,7 @@ export interface CreateEventDto {
 }
 
 export interface RegisterUserForEventDto {
-  eventId: string
-  id: string
-  username: string
-  fullName: string
+  eventId: number,
+  userId: string
 }
 

@@ -14,9 +14,7 @@
       </template>
     </PopUp>
     <div v-if='currentUser && currentUser.profile'>
-      <div class='backBtn'>
-        <button class='btn btn--border-darkGreen btn--xs btn--borderBottom' @click.prevent.stop='$router.go(-1)'>Back</button>
-      </div>
+
       <section class='section section__top'>
         <IconBtn class='uploadBtn' btn-text='Profile Image' @click.prevent.stop='togglePopUp(true)'>
           <template v-slot:svg>

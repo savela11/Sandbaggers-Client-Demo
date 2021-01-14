@@ -23,7 +23,7 @@
           <li v-for="link in AdminLinks" :key="link.name" @click.prevent.stop="closeNavMenu">
             <router-link :to="link.link">
               <div class="svgContainer" v-html="link.icon"></div>
-              <span>{{ link.name }}</span>
+              <span  class="text text--xs">{{ link.name }}</span>
             </router-link>
           </li>
         </ul>

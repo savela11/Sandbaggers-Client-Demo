@@ -17,6 +17,12 @@ function guardAdminRoute(to: Route, from: Route, next: any): any {
     authenticated = true
   }
   if (authenticated) {
+
+    if(to.meta.backBtn) {
+      store.dispatch("navigationStore/_setBackBtnShowingStatus", true).then()
+    }else {
+      store.dispatch("navigationStore/_setBackBtnShowingStatus", false).then()
+    }
     UIHelper.PageLoading(false)
     UIHelper.Header({ current: 'main', isShowing: true, title: 'Admin', bgColor: 'white' })
     next()
@@ -87,6 +93,7 @@ export default [
     component: loadView('admin/EditEvent'),
     meta: {
       layout: AuthLayout,
+      backBtn: true
     },
   },
   {

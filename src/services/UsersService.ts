@@ -6,8 +6,9 @@ const url = '/users'
 class UsersService {
 
 
+  static async AllUsers() {
 
-
+  }
 }
 
 export default UsersService

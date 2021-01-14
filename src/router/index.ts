@@ -55,6 +55,11 @@ Vue.use(VueRouter)
 //   }
 // }
 
+function noGuard(to: Route, from: Route, next: any): any {
+  store.dispatch("navigationStore/_setBackBtnShowingStatus", false).then()
+  next();
+}
+
 function defaultGuard(to: Route, from: Route, next: any): any {
   store.dispatch('authStore/Logout').then()
   next()
@@ -75,6 +80,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/register',
     name: 'Register',
+    beforeEnter: noGuard,
     component: loadView('auth/Register'),
     meta: {
       layout: DefaultLayout,
@@ -83,6 +89,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/login',
     name: 'Login',
+    beforeEnter: noGuard,
     component: loadView('auth/Login'),
     meta: {
       layout: DefaultLayout,

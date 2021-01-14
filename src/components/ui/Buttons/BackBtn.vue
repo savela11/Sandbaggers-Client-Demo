@@ -33,6 +33,12 @@ export default class BackBtn extends Vue {
 <style scoped lang="scss">
 .BackBtn {
   padding: .3rem .5rem 0 .5rem;
+  @include tablet {
+    padding: .5rem 1rem 0 1rem;
+  }
+  @include tablet-landscape {
+    padding: 1rem 2rem 0 2rem;
+  }
 
   button, a {
     padding: 0.3rem;

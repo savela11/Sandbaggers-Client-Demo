@@ -50,3 +50,18 @@ export interface TeamMemberVm {
   fullName: string;
   image: string;
 }
+
+export interface AdminEventManagerVm {
+  eventId: number
+  name: string
+  year: string;
+  isCurrentYear: boolean;
+  isPublished: boolean
+  createdOn: string;
+  updatedOn: string;
+  location: EventLocationVm
+  itineraries: Array<ItineraryVm>
+  registeredUsers: Array<RegisteredUserVm>;
+  unRegisteredUsers: Array<RegisteredUserVm>;
+  teams: Array<TeamVm>
+}

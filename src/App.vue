@@ -36,25 +36,28 @@ export default class App extends Vue {
 <style lang="scss">
 .app {
   .routerView {
+    min-height: 100vh;
     padding: 2rem 1rem;
     position: relative;
+    margin-bottom: 70px;
     @include mobile {
       padding: 2rem 1.5rem;
     }
 
-    &.withBackBtn {
-      padding: 0 1rem;
-      @include mobile {
-        padding: 0 1.5rem;
-      }
-
-    }
 
     @include tablet {
     }
 
     @include tablet-landscape {
     }
+  }
+
+  .withBackBtn {
+    padding: 0 1rem;
+    @include mobile {
+      padding: 0 1.5rem;
+    }
+
   }
 }
 

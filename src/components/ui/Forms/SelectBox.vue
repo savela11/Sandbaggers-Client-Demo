@@ -7,7 +7,8 @@
         <span class="box__arrow"></span>
       </div>
       <div class="options" v-show="showOptions">
-        <span class="option text text--md color--primary" v-for="(option, index) in allOptions" :key="index" @click.prevent.stop="selectOption(option)">{{ option[displayValue] }}</span>
+        <span class="option text text--md color--primary" v-for="(option, index) in allOptions" :key="index" @click.prevent.stop="selectOption(option)">{{ option[displayValue]
+          }}</span>
       </div>
     </div>
 
@@ -132,7 +133,7 @@ export default class SelectBox extends Vue {
       padding: .5rem;
       right: 0;
       position: absolute;
-      left: 0;
+      min-width: 100%;
       background-color: white;
       box-shadow: 0 5px 5px lightgrey;
       border-bottom-right-radius: 2px;
