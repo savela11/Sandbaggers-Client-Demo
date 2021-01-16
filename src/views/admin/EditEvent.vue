@@ -50,6 +50,28 @@
           </div>
         </div>
         <div v-show="currentView === 'itinerary'" class="view">
+          <div class="flex flex--end">
+            <IconBtn btn-text="Add" @click.prevent.stop="addItinerary">
+              <template v-slot:svg>
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 13H13V17H11V13H7V11H11V7H13V11H17V13Z" fill="#17252A" />
+                </svg>
+              </template>
+            </IconBtn>
+          </div>
+          <div class="itinerary" v-for="(itinerary, index) in Event.itineraries" :key="index">
+            <div class="flex flex--iCenter flex--between">
+              <div>
+                <p class="my-03 text text--xs text--bold color--secondary">Day:</p>
+                <p class="my-03 day">{{ itinerary.day }} </p>
+              </div>
+              <div class="flex flex--iCenter">
+                <p class="my-03 text text--xs text--bold color--secondary">Time:</p>
+                <p class="m-03 text text--sm ">{{ itinerary.time }}</p>
+              </div>
+            </div>
+            <div>{{ itinerary.description }}</div>
+          </div>
         </div>
         <div v-show="currentView === 'teams'" class="view">
 
@@ -96,9 +118,9 @@
 </template>
 <script lang="ts"> import { Component, Vue } from "vue-property-decorator";
 import EventService from "@/services/EventService";
-import { AdminEventManagerVm, EventVm, RegisteredUserVm } from "@/types/ViewModels/EventVm";
+import { AdminEventManagerVm, RegisteredUserVm } from "@/types/ViewModels/EventVm";
 import UIHelper from "@/utility/UIHelper";
-import UsersService from "@/services/UsersService";
+
 import { RegisterUserForEventDto } from "@/types/DTO/EventDto";
 
 @Component({
@@ -124,6 +146,10 @@ import { RegisterUserForEventDto } from "@/types/DTO/EventDto";
   selectedView(btnView: string): void {
 
     this.currentView = btnView;
+  }
+
+  addItinerary(): void {
+    this.Event.itineraries.push({ day: "Monday", time: "5pm", description: "Short description" });
   }
 
   async UpdateEvent(): Promise<void> {
@@ -229,5 +255,18 @@ import { RegisterUserForEventDto } from "@/types/DTO/EventDto";
   margin-bottom: 0.5rem;
 }
 
+.itinerary {
+  margin: .5rem 0;
+  border: 1px solid $DarkBlue;
+  padding: 1rem;
+  border-radius: 3px;
+
+  .day {
+  @include dynamicFontSize(1.5);
+  }
+
+  & > div {
+  }
+}
 
 </style>

@@ -10,6 +10,11 @@
   }
 }
 
+
+@mixin dynamicFontSize($a) {
+  font-size: clamp(.5rem * $a, 2vw * $a, 1.5rem * $a);
+}
+
 //Example:
 //$--selector: (
 //null: 1.2rem,
