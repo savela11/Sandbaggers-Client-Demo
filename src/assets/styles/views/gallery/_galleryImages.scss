@@ -1,0 +1,264 @@
+﻿@use "../../globals" as g;
+
+.galleryImages {
+  padding: 0 0.3rem 1rem 0.3rem;
+
+  &.selected {
+    padding: 0;
+  }
+}
+
+.top {
+  padding: 0 0.8rem;
+  @include g.desktopSmall {
+    padding: 0 2rem;
+  }
+}
+
+.bottom {
+  padding: 1rem 0;
+  @include g.desktopSmall {
+    padding: 1rem;
+  }
+}
+
+.gallery {
+  display: grid;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+  //grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(25%, 48%));
+  grid-auto-rows: 10px;
+  justify-content: center;
+  @include g.tablet {
+    grid-template-columns: repeat(auto-fill, minmax(24%, 1fr));
+  }
+
+  @include g.desktopSmall {
+    grid-template-columns: repeat(auto-fill, minmax(15%, 1fr));
+  }
+
+  &__image {
+    grid-row-end: span 16;
+    //transition: grid-row-start 300ms linear;
+    //transition: transform 300ms ease;
+    transition: all 0.5s ease;
+    cursor: pointer;
+    width: 100%;
+    position: relative;
+    @include g.tablet {
+      grid-row-end: span 16;
+    }
+
+    @include g.desktopSmall {
+      grid-row-end: span 22;
+    }
+
+    @include g.desktop {
+      padding: 0.1rem;
+    }
+
+    @media (max-width: 767px) {
+      &:nth-of-type(2n + 1) {
+        grid-row-end: span 10;
+      }
+    }
+
+    &:nth-of-type(2n + 2) {
+      @include g.tablet {
+        grid-row-end: span 12;
+      }
+      @include g.desktopSmall {
+        grid-row-end: span 16;
+      }
+    }
+
+    &:hover img {
+      box-shadow: 0 0 32px #333;
+      transform: scale(1.025);
+    }
+
+    &:hover .createdByUser {
+      transform: scale(1.1);
+    }
+
+    .content {
+      height: 100%;
+      width: 100%;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      box-shadow: 0 0 16px rgba(51, 51, 51, 0.4);
+      transition: all 1.5s ease;
+      object-fit: cover;
+      object-position: center center;
+      filter: brightness(calc(0.6 * (1 + 1)));
+    }
+  }
+}
+
+.selectedImage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  @include g.tablet {
+    padding: 2rem;
+  }
+
+  .backToGalleryBtn {
+    position: absolute;
+    left: 50%;
+    top: 1rem;
+    transform: translateX(-50%);
+  }
+
+  &__img {
+    position: relative;
+    @include g.tablet {
+      max-width: 80%;
+      flex: 0 0 25%;
+    }
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-position: center center;
+      object-fit: contain;
+    }
+  }
+
+  &__comments {
+  }
+}
+
+.createdByUser {
+  margin: 0;
+  position: absolute;
+  bottom: 0.6rem;
+  left: 0.6rem;
+  transition: all 1.5s ease;
+
+  @include g.tablet {
+    bottom: 0.8rem;
+    left: 0.8rem;
+  }
+}
+
+.popUp {
+  .popUpBtns {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 1rem 0;
+
+    button {
+      &:last-of-type {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+
+  .popUpViews {
+    .view {
+      width: 90%;
+      margin: 0 auto;
+
+      .uploadedImage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+
+        img {
+          height: 100px;
+          width: 100px;
+          object-fit: contain;
+        }
+      }
+    }
+  }
+}
+
+@-moz-keyframes zoomIn {
+  0% {
+    max-width: 50%;
+    transform: rotate(-30deg);
+    filter: blur(4px);
+  }
+  30% {
+    filter: blur(4px);
+    transform: rotate(-80deg);
+  }
+  70% {
+    max-width: 50%;
+    transform: rotate(45deg);
+  }
+  100% {
+    max-width: 100%;
+    transform: rotate(0deg);
+  }
+}
+
+@-webkit-keyframes zoomIn {
+  0% {
+    max-width: 50%;
+    transform: rotate(-30deg);
+    filter: blur(4px);
+  }
+  30% {
+    filter: blur(4px);
+    transform: rotate(-80deg);
+  }
+  70% {
+    max-width: 50%;
+    transform: rotate(45deg);
+  }
+  100% {
+    max-width: 100%;
+    transform: rotate(0deg);
+  }
+}
+
+@-o-keyframes zoomIn {
+  0% {
+    max-width: 50%;
+    transform: rotate(-30deg);
+    filter: blur(4px);
+  }
+  30% {
+    filter: blur(4px);
+    transform: rotate(-80deg);
+  }
+  70% {
+    max-width: 50%;
+    transform: rotate(45deg);
+  }
+  100% {
+    max-width: 100%;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes zoomIn {
+  0% {
+    max-width: 50%;
+    transform: rotate(-30deg);
+    filter: blur(4px);
+  }
+  30% {
+    filter: blur(4px);
+    transform: rotate(-80deg);
+  }
+  70% {
+    max-width: 50%;
+    transform: rotate(45deg);
+  }
+  100% {
+    max-width: 100%;
+    transform: rotate(0deg);
+  }
+}

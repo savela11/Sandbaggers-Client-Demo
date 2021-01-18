@@ -31,36 +31,5 @@ export default class BackBtn extends Vue {
 </script>
 
 <style scoped lang="scss">
-.BackBtn {
-  padding: .3rem .5rem 0 .5rem;
-  @include tablet {
-    padding: .5rem 1rem 0 1rem;
-  }
-  @include tablet-landscape {
-    padding: 1rem 2rem 0 2rem;
-  }
-
-  button, a {
-    padding: 0.3rem;
-    border: none;
-    background-color: transparent;
-    height: 30px;
-    width: 30px;
-    @include mobile {
-      height: 35px;
-      width: 35px;
-    }
-    @include tablet {
-      height: 40px;
-      width: 40px;
-    }
-  }
-
-  svg,
-  img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-}
+@use "~@/assets/styles/components/_backBtn";
 </style>

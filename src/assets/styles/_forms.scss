@@ -1,4 +1,4 @@
-
+@use './mixins/mediaQueries' as *;
 .form {
   width: 90%;
   margin: 0 auto;
@@ -105,4 +105,12 @@ fieldset {
   }
 
 
+}
+
+.hideLabel {
+  display: none;
+}
+
+input {
+  box-sizing: border-box;
 }

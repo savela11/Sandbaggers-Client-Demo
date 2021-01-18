@@ -23,7 +23,8 @@ module.exports = {
   css: {
     loaderOptions: {
       scss: {
-        additionalData: '@import "~@/assets/styles/_globals.scss";',
+        implementation: require('sass'),
+        // additionalData: '@import "~@/assets/styles/_globals.scss";',
       },
     },
   },

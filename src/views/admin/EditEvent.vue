@@ -1,15 +1,14 @@
 ﻿<template>
-  <div class='EditEvent'>
+  <div class="EditEvent">
     <div v-if="!loading && Event.eventId">
       <ViewBtns :view-buttons="views" :active-view-btn="currentView" @selected-btn="selectedView" />
-      <div class="views ">
-
+      <div class="views">
         <div v-show="currentView === 'main'" class="view">
           <form class="form" @submit.prevent.stop="UpdateEvent">
             <InputField :isActive="Event.name !== ''">
               <template v-slot:field><label for="name">Event Name</label> <input type="text" id="name" v-model.trim="Event.name" /></template>
             </InputField>
-            <input type="submit" value="Update" class="btn btn--sm my-1 btn--bg-darkBlue">
+            <input type="submit" value="Update" class="btn btn--sm my-1 btn--bg-darkBlue" />
           </form>
         </div>
         <div v-show="currentView === 'registration'" class="view">
@@ -46,12 +45,21 @@
                 </IconBtn>
               </div>
             </div>
-
           </div>
         </div>
         <div v-show="currentView === 'itinerary'" class="view">
-          <div class="flex flex--end">
-            <IconBtn btn-text="Add" @click.prevent.stop="addItinerary">
+          <div class="flex" :class="[ isAddingItineraries === true ? 'flex--between' : 'flex--end']">
+            <IconBtn v-if="isAddingItineraries" btn-text="Cancel" class="ml-04" @click.prevent.stop="addItinerary('cancel')">
+              <template v-slot:svg>
+                <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.5 0C5.625 0 0 5.625 0 12.5C0 19.375 5.625 25 12.5 25C19.375 25 25 19.375 25 12.5C25 5.625 19.375 0 12.5 0ZM12.5 2.77778C14.6528 2.77778 16.6667 3.54167 18.3333 4.72222L4.72222 18.3333C3.54167 16.6667 2.77778 14.6528 2.77778 12.5C2.77778 7.15278 7.15278 2.77778 12.5 2.77778ZM12.5 22.2222C10.3472 22.2222 8.33333 21.4583 6.66667 20.2778L20.2778 6.66667C21.4583 8.33333 22.2222 10.3472 22.2222 12.5C22.2222 17.8472 17.8472 22.2222 12.5 22.2222Z"
+                    fill="#9F0000" />
+                </svg>
+
+              </template>
+            </IconBtn>
+            <IconBtn btn-text="Add" @click.prevent.stop="addItinerary('add')">
               <template v-slot:svg>
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 13H13V17H11V13H7V11H11V7H13V11H17V13Z" fill="#17252A" />
@@ -59,23 +67,54 @@
               </template>
             </IconBtn>
           </div>
-          <div class="itinerary" v-for="(itinerary, index) in Event.itineraries" :key="index">
-            <div class="flex flex--iCenter flex--between">
-              <div>
-                <p class="my-03 text text--xs text--bold color--secondary">Day:</p>
-                <p class="my-03 day">{{ itinerary.day }} </p>
+          <div v-if="isAddingItineraries">
+            <div class="itinerary toBeAdded" v-for="(itinerary, index) in addedItinerary" :key="index">
+              <h3 class="text text--sm color--primary text--bold px-04">Added Itinery #{{ index + 1 }}</h3>
+              <div class="itinerary__top toBeAdded__top">
+                <InputField :isActive="itinerary.day !== ''">
+                  <template v-slot:field>
+                    <label :for="'Day' + index">Day</label>
+                    <input type="text" :id="'Day' + index" v-model.trim="itinerary.day" />
+                  </template>
+                </InputField>
+                <InputField :isActive="itinerary.time !== ''">
+                  <template v-slot:field>
+                    <label for="time">Time</label>
+                    <input type="text" id="time" v-model.trim="itinerary.time" />
+                  </template>
+                </InputField>
               </div>
-              <div class="flex flex--iCenter">
-                <p class="my-03 text text--xs text--bold color--secondary">Time:</p>
-                <p class="m-03 text text--sm ">{{ itinerary.time }}</p>
+              <div class="itinerary__bottom toBeAdded__bottom">
+                <InputField :isActive="itinerary.description !== ''">
+                  <template v-slot:field>
+                    <label for="description">Description</label>
+                    <textarea type="text" id="description" v-model.trim="itinerary.description"></textarea>
+                  </template>
+                </InputField>
               </div>
             </div>
-            <div>{{ itinerary.description }}</div>
+            <button class="btn btn--sm my-1 btn--bg-darkBlue" @click.prevent.stop="addItinerary('save')">Update</button>
+          </div>
+          <div v-else-if="!isAddingItineraries && Event.itineraries.length > 0">
+            <div class="itinerary" v-for="(itinerary, index) in Event.itineraries" :key="index">
+              <div class="itinerary__top">
+                <div class="itinerary__bar">
+                  <p class="itinerary__title">Day:</p>
+                  <p class="itinerary__val">{{ itinerary.day }}</p>
+                </div>
+                <div class="itinerary__bar">
+                  <p class="itinerary__title">Time:</p>
+                  <p class="itinerary__val">{{ itinerary.time }}</p>
+                </div>
+              </div>
+              <div class="itinerary__bottom">
+                <p class="itinerary__title">Description:</p>
+                <p class="itinerary__val itinerary__val--description">{{ itinerary.description }}</p>
+              </div>
+            </div>
           </div>
         </div>
-        <div v-show="currentView === 'teams'" class="view">
-
-        </div>
+        <div v-show="currentView === 'teams'" class="view"></div>
         <div v-show="currentView === 'location'" class="view">
           <form class="form" @submit.prevent.stop="UpdateEvent">
             <InputField :isActive="Event.location.name !== ''">
@@ -108,7 +147,7 @@
                 <input type="text" id="zip" v-model.trim="Event.location.postalCode" />
               </template>
             </InputField>
-            <input type="submit" value="Update" class="btn btn--sm my-1 btn--bg-darkBlue">
+            <input type="submit" value="Update" class="btn btn--sm my-1 btn--bg-darkBlue" />
           </form>
         </div>
       </div>
@@ -116,9 +155,10 @@
     <Loading v-else />
   </div>
 </template>
-<script lang="ts"> import { Component, Vue } from "vue-property-decorator";
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 import EventService from "@/services/EventService";
-import { AdminEventManagerVm, RegisteredUserVm } from "@/types/ViewModels/EventVm";
+import { AdminEventManagerVm, ItineraryVm, RegisteredUserVm } from "@/types/ViewModels/EventVm";
 import UIHelper from "@/utility/UIHelper";
 
 import { RegisterUserForEventDto } from "@/types/DTO/EventDto";
@@ -127,29 +167,47 @@ import { RegisterUserForEventDto } from "@/types/DTO/EventDto";
   name: "EditEvent",
   components: {
     Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
-    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue"),
+    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/InputField.vue"),
     BackBtn: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/BackBtn.vue"),
     ViewBtns: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/ViewBtns.vue"),
     IconBtn: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/IconBtn.vue")
   }
-}) export default class EditEvent extends Vue {
+})
+export default class EditEvent extends Vue {
   loading = true;
   Event = {} as AdminEventManagerVm;
-
+  addedItinerary = [] as ItineraryVm[];
   views: Array<string> = ["main", "registration", "itinerary", "teams", "location"];
   currentView = "main";
+  isAddingItineraries = false;
 
   mounted(): void {
     this.getEvent();
   }
 
   selectedView(btnView: string): void {
-
     this.currentView = btnView;
   }
 
-  addItinerary(): void {
-    this.Event.itineraries.push({ day: "Monday", time: "5pm", description: "Short description" });
+  addItinerary(status: string): void {
+    if (status === "add") {
+      this.isAddingItineraries = true;
+      this.addedItinerary.push({ day: "", time: "", description: "" });
+      return;
+    } else if (status === "cancel") {
+      this.isAddingItineraries = false;
+      this.addedItinerary = [];
+      return;
+    } else if (status === "save") {
+      this.addedItinerary.forEach(itn => {
+        if (itn.day !== "" || itn.description !== "" || itn.time !== "") {
+          this.Event.itineraries.push(itn);
+        }
+      });
+      this.UpdateEvent();
+      this.addItinerary("cancel");
+    }
+
   }
 
   async UpdateEvent(): Promise<void> {
@@ -158,12 +216,15 @@ import { RegisterUserForEventDto } from "@/types/DTO/EventDto";
       const res = await EventService.UpdateEvent(this.Event);
       if (res.status === 200) {
         UIHelper.SnackBar({ title: "Success", message: `${this.Event.name} has been updated`, classInfo: `primary`, isSnackBarShowing: true, errors: undefined });
-        setTimeout(() => {
-          this.$router.push("/Admin/EventManager");
-        }, Math.floor(Math.random() * 3000));
+
       }
     } catch (e) {
       console.log(e);
+    } finally {
+      setTimeout(() => {
+        this.loading = false;
+      }, Math.floor(Math.random() * 3000));
+
     }
   }
 
@@ -173,7 +234,6 @@ import { RegisterUserForEventDto } from "@/types/DTO/EventDto";
       if (res.status === 200) {
         this.Event = res.data;
       }
-
     } catch (e) {
       console.log(e);
       UIHelper.SnackBar({ title: "Error", message: `No Event Found`, classInfo: `error`, isSnackBarShowing: true, errors: undefined });
@@ -181,8 +241,6 @@ import { RegisterUserForEventDto } from "@/types/DTO/EventDto";
       setTimeout(() => {
         this.$router.go(-1);
       }, Math.floor(Math.random() * 3000));
-
-
     } finally {
       setTimeout(() => {
         this.loading = false;
@@ -202,13 +260,11 @@ import { RegisterUserForEventDto } from "@/types/DTO/EventDto";
       if (status === "register") {
         res = await EventService.RegisterUserForEvent(registerUserForEventDto);
 
-        userIndex = this.Event.unRegisteredUsers.findIndex(u => u.id === registerUserForEventDto.userId);
-
+        userIndex = this.Event.unRegisteredUsers.findIndex((u) => u.id === registerUserForEventDto.userId);
       } else {
         res = await EventService.UnRegisterUserFromEvent(registerUserForEventDto);
 
-        userIndex = this.Event.registeredUsers.findIndex(u => u.id === registerUserForEventDto.userId);
-
+        userIndex = this.Event.registeredUsers.findIndex((u) => u.id === registerUserForEventDto.userId);
       }
 
       if (res.status === 200) {
@@ -222,51 +278,12 @@ import { RegisterUserForEventDto } from "@/types/DTO/EventDto";
           this.Event.unRegisteredUsers.unshift(user[0]);
         }
       }
-
     } catch (e) {
       console.log(e);
-
     } finally {
-
-
     }
   }
-
-
 }
 </script>
 
-<style scoped lang="scss">
-.EditEvent {
-
-}
-
-.views {
-  padding: 2rem .5rem;
-}
-
-.user {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  border-radius: 3px;
-  border: 1px solid #17252a;
-  margin-bottom: 0.5rem;
-}
-
-.itinerary {
-  margin: .5rem 0;
-  border: 1px solid $DarkBlue;
-  padding: 1rem;
-  border-radius: 3px;
-
-  .day {
-  @include dynamicFontSize(1.5);
-  }
-
-  & > div {
-  }
-}
-
-</style>
+<style scoped lang="scss">@import '~@/assets/styles/views/admin/_editEvent';</style>

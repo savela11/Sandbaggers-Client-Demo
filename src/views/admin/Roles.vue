@@ -52,71 +52,71 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from "vue-property-decorator";
 // import { IAddOrRemoveUseFromRole, ICreateRole, IRoleDto, IUserWithRole } from "@/types/Admin/Role";
-import RoleService from '@/services/RoleService'
+import RoleService from "@/services/RoleService";
 // import UIHelper from '@/utility/UIHelper'
 // import { ISnackBar } from "@/types/UI/SnackBar";
-import { RoleVm, UserWithRoleVm } from '@/types/ViewModels/RoleVm'
-import { AddUserToRoleDto, RemoveUserFromRoleDto } from '@/types/DTO/Roles/RoleDtos'
-import UIHelper from '@/utility/UIHelper'
+import { RoleVm, UserWithRoleVm } from "@/types/ViewModels/RoleVm";
+import { AddUserToRoleDto, RemoveUserFromRoleDto } from "@/types/DTO/Roles/RoleDtos";
+import UIHelper from "@/utility/UIHelper";
 
 @Component({
   components: {
-    SelectBoxComponent: (): Promise<typeof import('*.vue')> => import('@/components/ui/Forms/SelectBox.vue'),
-    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
-    IconBtn: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/IconBtn.vue'),
-    ViewBtns: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/ViewBtns.vue'),
-  },
+
+    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
+    IconBtn: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/IconBtn.vue"),
+    ViewBtns: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/ViewBtns.vue")
+  }
 })
 export default class Roles extends Vue {
-  loading = true
-  roles = [] as Array<RoleVm>
-  selectedRole = {} as RoleVm
-  showOptions = false
-  viewButtons = ['with', 'without']
-  activeViewBtn = 'with'
+  loading = true;
+  roles = [] as Array<RoleVm>;
+  selectedRole = {} as RoleVm;
+  showOptions = false;
+  viewButtons = ["with", "without"];
+  activeViewBtn = "with";
 
   mounted(): void {
-    this.getRoles()
+    this.getRoles();
   }
 
   toggleActiveView(selectedBtn: string): void {
-    this.activeViewBtn = selectedBtn
+    this.activeViewBtn = selectedBtn;
   }
 
   toggleShowOptions(val: boolean): void {
-    this.showOptions = val
+    this.showOptions = val;
   }
 
   get filterOptions(): Array<RoleVm> | [] {
     if (this.selectedRole) {
-      return this.roles.filter((r) => r.roleName !== this.selectedRole.roleName)
+      return this.roles.filter((r) => r.roleName !== this.selectedRole.roleName);
     } else {
-      return []
+      return [];
     }
   }
 
   async addUserToRole(selectedUser: UserWithRoleVm): Promise<void> {
     const addUserToRoleDto: AddUserToRoleDto = {
       roleName: this.selectedRole.roleName,
-      userId: selectedUser.id,
-    }
+      userId: selectedUser.id
+    };
     try {
-      const res = await RoleService.AddUserToRole(addUserToRoleDto)
+      const res = await RoleService.AddUserToRole(addUserToRoleDto);
       if (res.status === 200) {
         UIHelper.SnackBar({
-          title: 'Success',
+          title: "Success",
           message: `${selectedUser.fullName} has been added to ${this.selectedRole.roleName} role`,
           isSnackBarShowing: true,
-          classInfo: 'primary',
-        })
+          classInfo: "primary"
+        });
         setTimeout(() => {
-          this.$router.go(0)
-        }, 3000)
+          this.$router.go(0);
+        }, 3000);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     } finally {
     }
   }
@@ -124,78 +124,50 @@ export default class Roles extends Vue {
   async removeUserWithRole(selectedUser: UserWithRoleVm): Promise<void> {
     const removeUserFromRoleDto: RemoveUserFromRoleDto = {
       roleName: this.selectedRole.roleName,
-      userId: selectedUser.id,
-    }
+      userId: selectedUser.id
+    };
     try {
-      const res = await RoleService.RemoveUserFromRole(removeUserFromRoleDto)
+      const res = await RoleService.RemoveUserFromRole(removeUserFromRoleDto);
       if (res.status === 200) {
         UIHelper.SnackBar({
-          title: 'Success',
+          title: "Success",
           message: `${selectedUser.fullName} has been removed from ${this.selectedRole.roleName} role`,
           isSnackBarShowing: true,
-          classInfo: 'primary',
-        })
+          classInfo: "primary"
+        });
         setTimeout(() => {
-          this.$router.go(0)
-        }, 3000)
+          this.$router.go(0);
+        }, 3000);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     } finally {
     }
   }
 
   async getRoles(): Promise<void> {
     try {
-      const res = await RoleService.roleList()
+      const res = await RoleService.roleList();
       if (res.status === 200) {
-        this.roles = res.data
-        this.selectedRole = res.data.find((r) => r.roleName === 'Admin') as RoleVm
+        this.roles = res.data;
+        this.selectedRole = res.data.find((r) => r.roleName === "Admin") as RoleVm;
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     } finally {
       setTimeout(() => {
-        this.loading = false
-      }, Math.floor(Math.random() * 3000))
+        this.loading = false;
+      }, Math.floor(Math.random() * 3000));
     }
   }
 
   selectRole(role: RoleVm): void {
-    this.selectedRole = role
-    this.showOptions = false
+    this.selectedRole = role;
+    this.showOptions = false;
   }
 }
 </script>
 
 <style scoped lang="scss">
-.utility {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
-
-.selectedRole {
-  padding: 0.5rem;
-
-  .roleOptions {
-    button {
-      margin-right: 0.5rem;
-    }
-  }
-
-  .users {
-    margin: 1rem 0;
-  }
-
-  .user {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    border-radius: 3px;
-    border: 1px solid $DarkBlue;
-    margin-bottom: 0.5rem;
-  }
-}
+@use "~@/assets/styles/views/admin/_roles";
 </style>

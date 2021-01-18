@@ -103,17 +103,5 @@ export default class EventManager extends Vue {
 </script>
 
 <style scoped lang="scss">
-.EventManager {
-  .utility {
-    display: flex;
-    justify-content: space-between;
-  }
-}
-
-.selectedEvent {
-  .title {
-    display: flex;
-    justify-content: space-between;
-  }
-}
+@use "~@/assets/styles/views/admin/_eventManager";
 </style>

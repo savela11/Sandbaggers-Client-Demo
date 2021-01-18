@@ -1,0 +1,409 @@
+﻿@use '../../globals' as g;
+$--optionBtnFS: (
+        null: 0.8rem,
+        g.$mQ-mobile: 0.9rem,
+);
+$--editTitleFS: (
+        null: 1.2rem,
+        g.$mQ-mobile: rem,
+);
+$--bottomTitleFS: (
+        null: 1rem,
+        g.$mQ-mobile: rem,
+);
+
+$--settingsTitleFS: (
+        null: 1rem,
+        g.$mQ-mobile: 1.1rem,
+);
+$--settingsParaFS: (
+        null: 0.8rem,
+        g.$mQ-mobile: 0.9rem,
+);
+$--settingsContactBtnFS: (
+        null: 0.8rem,
+        g.$mQ-mobile: 0.9rem,
+);
+
+$--selectBoxOptionFS: (
+        null: 0.8rem,
+        g.$mQ-mobile: 0.9rem,
+);
+
+.userProfile {
+  padding: 0 0 2rem 0;
+}
+
+.section {
+  &__top {
+    align-items: center;
+    background-color: white;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__middle {
+    align-items: flex-end;
+    background-color: g.$color-DarkBlue;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    display: flex;
+    flex-wrap: nowrap;
+    height: 25px;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 1rem 2rem;
+    position: relative;
+    transform: translateY(-20px);
+    z-index: 1;
+  }
+
+  &__bottom {
+    padding: 0 1rem;
+
+    h2 {
+      @include g.font-size($--bottomTitleFS);
+    }
+  }
+}
+
+.uploadBtn {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+}
+
+.imageContainer {
+  background-color: white;
+  border-radius: 10px;
+  height: 150px;
+  padding: 0.5rem;
+  width: 150px;
+
+  @include g.mobile {
+    height: 200px;
+    width: 200px;
+  }
+
+  img {
+    border-radius: 10px;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    width: 100%;
+  }
+}
+
+.userInfo {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+
+  .handicapContainer {
+    .flexHandicap {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
+
+    input {
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid g.$color-SecondaryFS;
+      flex: 0 0 25%;
+      line-height: 1;
+      margin-left: 0.3rem;
+    }
+  }
+}
+
+.menuContainer {
+  align-items: center;
+
+  bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  right: 0.3rem;
+  height: 50px;
+  width: 50px;
+  z-index: 2;
+
+  .toggleMenuBtn {
+    background-color: white;
+    border: none;
+    border-radius: 0;
+    width: 35px;
+    height: 35px;
+    padding: 0.2rem;
+
+    svg {
+      height: 100%;
+      object-fit: cover;
+      width: 100%;
+    }
+  }
+
+  .optionMenu {
+    background-color: white;
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    bottom: 0;
+    box-shadow: 0 5px 5px rgba(128, 128, 128, 0.6);
+    padding: 0.8rem;
+    position: absolute;
+    right: 0;
+    transform: translate(-20px, -60px);
+    z-index: 5;
+
+    h2 {
+      margin: 0.5rem;
+      @include g.font-size($--editTitleFS);
+    }
+
+    &__grid {
+      display: grid;
+      gap: 0.4rem;
+      grid-auto-rows: 60px;
+      grid-template-columns: repeat(3, 75px);
+      padding: 0.8rem 0;
+      @include g.mobile {
+        grid-auto-rows: 80px;
+        grid-template-columns: repeat(3, 90px);
+      }
+
+      button {
+        align-items: center;
+        border: none;
+        box-shadow: 0 3px 3px grey;
+        @include g.font-size($--optionBtnFS);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0.2rem;
+      }
+    }
+
+    .imageSpan {
+      height: 25px;
+      margin-bottom: 0.1rem;
+      width: 25px;
+
+      @include g.mobile {
+        height: 30px;
+        margin-bottom: 0.2rem;
+        width: 30px;
+      }
+    }
+  }
+}
+
+.view {
+  label {
+    margin-left: 0.5rem;
+  }
+}
+
+.settings {
+  h2 {
+    @include g.font-size($--settingsTitleFS);
+  }
+
+  p {
+    @include g.font-size($--settingsParaFS);
+  }
+
+  select {
+  }
+
+  .custom-select-wrapper {
+    position: relative;
+    user-select: none;
+    width: 100%;
+    max-width: 125px;
+
+    .custom-select {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      border-width: 0 2px 0 2px;
+      border-style: solid;
+      border-color: #394a6d;
+      border-radius: 3px;
+
+      &__trigger {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.2rem 0.5rem;
+        @include g.font-size($--selectBoxOptionFS);
+        font-weight: 300;
+        color: #3b3b3b;
+        background: #ffffff;
+        cursor: pointer;
+        border-width: 2px 0 2px 0;
+        border-style: solid;
+        border-color: #394a6d;
+        border-radius: 3px;
+      }
+
+      .arrow {
+        position: relative;
+        height: 10px;
+        width: 10px;
+
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          width: 0.15rem;
+          height: 100%;
+          transition: all 0.5s;
+        }
+
+        &::before {
+          left: 0;
+          transform: rotate(45deg);
+          background-color: #394a6d;
+        }
+
+        &::after {
+          left: 6px;
+          transform: rotate(-45deg);
+          background-color: #394a6d;
+        }
+      }
+    }
+
+    .custom-options {
+      position: absolute;
+      display: block;
+      top: 100%;
+      left: 0;
+      right: 0;
+      border: 1px solid #394a6d;
+      border-top: none;
+      background: #fff;
+      transition: all 0.5s;
+      pointer-events: none;
+      z-index: 2;
+
+      .custom-option {
+        position: relative;
+        display: block;
+        padding: 0.5rem;
+        @include g.font-size($--selectBoxOptionFS);
+        font-weight: 300;
+        color: #3b3b3b;
+        cursor: pointer;
+        transition: all 0.5s;
+      }
+
+      .custom-option:hover {
+        cursor: pointer;
+        background-color: #b2b2b2;
+      }
+
+      .custom-option.selected {
+        color: #ffffff;
+        background-color: #305c91;
+      }
+    }
+  }
+
+  .open .arrow::before {
+    left: -5px;
+    transform: rotate(-45deg);
+  }
+
+  .open .arrow::after {
+    left: 5px;
+    transform: rotate(45deg);
+  }
+
+  .custom-select.open .custom-options {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+
+  .favorites {
+  }
+
+  .favoriteLink {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0.8rem;
+
+    .selectComponent {
+      flex: 0 0 60%;
+    }
+  }
+
+  .contacts {
+    &__flex {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin: 1rem 0;
+    }
+
+    &__btns {
+      align-items: center;
+      display: flex;
+      margin-left: 1rem;
+
+      button {
+        @include g.font-size($--settingsContactBtnFS);
+        background-color: white;
+        border: 1px solid g.$color-DarkBlue;
+        color: g.$color-DarkBlue;
+        margin-right: 0.5rem;
+        padding: 0.3rem 1.2rem;
+
+        &:last-of-type {
+          margin: 0;
+        }
+
+        &.active {
+          color: white;
+          background-color: g.$color-DarkBlue;
+        }
+      }
+    }
+  }
+}
+
+.updateBtnContainer {
+  padding: 2rem 1rem;
+  @include g.mobile {
+    padding: 2rem;
+  }
+
+  button {
+    color: g.$color-DarkGreen;
+    font-weight: bold;
+  }
+}
+
+.popUpView {
+  .view {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+
+
+}

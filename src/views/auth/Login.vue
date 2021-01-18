@@ -39,7 +39,7 @@ import { LoginUserDto } from "@/types/DTO/AuthDto";
 @Component({
   name: "Login",
   components: {
-    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue"),
+    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/InputField.vue"),
     Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue")
   }
 })

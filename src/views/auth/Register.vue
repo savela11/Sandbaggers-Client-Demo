@@ -70,7 +70,7 @@ import UIHelper from '@/utility/UIHelper'
   components: {
     Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
     AuthHeader: (): Promise<typeof import('*.vue')> => import('@/components/ui/Headers/DefaultHeader.vue'),
-    InputField: (): Promise<typeof import('*.vue')> => import('@/components/ui/Forms/InputField.vue'),
+    InputField: (): Promise<typeof import('*.vue')> => import('@/components/ui/InputField.vue'),
   },
 })
 export default class Login extends Vue {

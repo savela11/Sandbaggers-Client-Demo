@@ -1,0 +1,131 @@
+﻿@use "../../globals" as g;
+.gallery {
+  padding: 2rem 0.5rem;
+
+  .list {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+
+
+  }
+
+  .event {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      @include g.tablet {
+        margin: 0 auto;
+        width: 80%;
+      }
+
+      .top {
+        flex: 0 0 20%;
+        display: flex;
+        justify-content: center;
+
+
+
+      }
+
+      .bottom {
+        border-radius: 5px;
+        flex: 0 0 80%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding: 0.3rem .3rem 1rem .3rem;
+
+        .imgContainer {
+          flex: auto;
+          height: 250px;
+          width: 100%;
+          position: relative;
+          margin: 0 0 1rem 0;
+          border-radius: 5px;
+          @include g.mobile {
+            height: 300px;
+            margin: 0 0 1.5rem 0;
+          }
+
+          @include g.tablet {
+            height: 450px;
+          }
+
+          &.noImage {
+            background-color: rgba(23, 37, 42, .8);
+
+            img {
+              opacity: .4;
+            }
+          }
+
+          &::after {
+            content: '';
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            position: absolute;
+            background-color: rgba(23, 37, 42, .3);
+            border-radius: 5px;
+            z-index: 1;
+
+          }
+
+          img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+          }
+
+          .numOfImages {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            p {
+            }
+          }
+        }
+
+        .info {
+          flex: 0 0 25%;
+          background-color: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          a {
+            display: block;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            width: 100%;
+            @include g.mobile {
+              padding: 1.2rem 2rem;
+            }
+          }
+
+        }
+
+      }
+    }
+
+
+  }
+}

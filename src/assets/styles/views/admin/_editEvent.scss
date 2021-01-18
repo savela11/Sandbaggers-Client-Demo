@@ -1,0 +1,68 @@
+﻿@use '../../globals' as g;
+
+.EditEvent {
+  @include g.tablet {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+}
+
+.views {
+  padding: 2rem 0.5rem;
+}
+
+.user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  border: 1px solid g.$color-DarkBlue;
+  margin-bottom: 0.5rem;
+}
+
+.itinerary {
+  margin: 0.5rem 0;
+  border: 1px solid g.$color-DarkBlue;
+  padding: 1rem;
+  border-radius: 3px;
+
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__bar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__title {
+    margin: 0 0 .3rem 0;
+    @include g.font-size(g.$font-xs);
+    font-weight: bold;
+  }
+
+  &__val {
+    margin: 0 .2rem .3rem 0.2rem;
+    @include g.font-size(g.$font-xs);
+    color: g.$color-SecondaryFS;
+  }
+
+  &__bottom {
+    margin-top: .5rem;
+  }
+
+}
+
+.toBeAdded {
+  &__top {
+    flex-wrap: wrap;
+  }
+
+  &__bottom {
+    margin-top: 0;
+  }
+}

@@ -25,10 +25,14 @@
 }
 
 .py {
-  @extend .p;
   &-0 {
     padding-top: 0;
     padding-bottom: 0;
+  }
+
+  &-02 {
+    padding-top: .2rem;
+    padding-bottom: .2rem;
   }
 
   &-03 {
@@ -81,6 +85,62 @@
   &-0 {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  &-01 {
+    padding-left: .1rem;
+    padding-right: .1rem;
+  }
+
+  &-02 {
+    padding-left: .2rem;
+    padding-right: .2rem;
+  }
+
+  &-03 {
+    padding-left: .3rem;
+    padding-right: .3rem;
+  }
+
+  &-04 {
+    padding-left: .4rem;
+    padding-right: .4rem;
+  }
+
+  &-05 {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+
+  &-1 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+  }
+
+  &-2 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+
+  }
+
+  &-3 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+
+  }
+
+  &-4 {
+
+    padding-left: 4rem;
+    padding-right: 4rem;
+
+  }
+
+  &-5 {
+    padding-left: 5rem;
+    padding-right: 5rem;
+
   }
 }
 

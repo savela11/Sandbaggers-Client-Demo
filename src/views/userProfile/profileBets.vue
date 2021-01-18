@@ -76,222 +76,69 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
-import { BetVm } from '@/types/ViewModels/BetVm'
-import Helper from '@/utility/Helper'
-import { AcceptedByUserVm } from '@/types/ViewModels/UserVm'
+import { Component, Emit, Prop, Vue } from "vue-property-decorator";
+import { BetVm } from "@/types/ViewModels/BetVm";
+import Helper from "@/utility/Helper";
+import { AcceptedByUserVm } from "@/types/ViewModels/UserVm";
 
 @Component({
-  name: 'ProfileBets',
+  name: "ProfileBets",
   components: {
-    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
-  },
+    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue")
+  }
 })
 export default class ProfileBets extends Vue {
-  @Prop() bets!: Array<BetVm>
-  selectedBet: BetVm | null = null
+  @Prop() bets!: Array<BetVm>;
+  selectedBet: BetVm | null = null;
 
   formatDate(date: string): string {
-    return Helper.formatDate(date)
+    return Helper.formatDate(date);
   }
 
   selectBet(bet: BetVm): void {
     if (this.selectedBet && bet.betId === this.selectedBet.betId) {
-      this.selectedBet = null
+      this.selectedBet = null;
     }
-    this.selectedBet = bet
+    this.selectedBet = bet;
   }
 
   async deleteSelectedBet(): Promise<void> {
     if (this.selectedBet !== null) {
-      console.log(this.selectedBet)
+      console.log(this.selectedBet);
       return new Promise(() => {
-        this.$emit('delete-bet', this.selectedBet)
+        this.$emit("delete-bet", this.selectedBet);
         this.$nextTick(() => {
-          this.selectedBet = null
-        })
-      })
+          this.selectedBet = null;
+        });
+      });
     }
   }
 
   removeAcceptedUser(acceptedUser: AcceptedByUserVm): void {
-    console.log(acceptedUser)
+    console.log(acceptedUser);
     if (this.selectedBet) {
-      const acceptedUserIndex = this.selectedBet.acceptedBy.findIndex((u) => u.id === acceptedUser.id)
+      const acceptedUserIndex = this.selectedBet.acceptedBy.findIndex((u) => u.id === acceptedUser.id);
 
-      this.selectedBet.acceptedBy.splice(acceptedUserIndex, 1)
+      this.selectedBet.acceptedBy.splice(acceptedUserIndex, 1);
     }
   }
 
   async updateSelectedBet(): Promise<void> {
     if (this.selectedBet) {
       return new Promise(() => {
-        this.$emit('update-bet', this.selectedBet)
+        this.$emit("update-bet", this.selectedBet);
 
         this.$nextTick(() => {
-          this.selectedBet = null
-        })
-      })
+          this.selectedBet = null;
+        });
+      });
     } else {
-      return
+      return;
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-$--profileBetsTitleFS: (
-  null: 1.1rem,
-  $mobile: 1.2rem,
-);
-
-$--betTitleFS: (
-  null: 0.9rem,
-  $mobile: 1rem,
-);
-$--betCreatedOnFS: (
-  null: 0.7rem,
-  $mobile: 0.8rem,
-);
-
-$--noBetsCreatedFS: (
-  null: 1rem,
-  $mobile: 1.2rem,
-);
-
-$--noAcceptedUsersFS: (
-  null: 0.7rem,
-  $mobile: 0.8rem,
-);
-
-$--selectedBetProp: (
-  null: 0.8rem,
-  $mobile: 0.9rem,
-);
-
-.sect {
-  margin: 1rem 0;
-
-  &.btns {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-
-.betList {
-  h2 {
-    @include font-size($--profileBetsTitleFS);
-    margin: 1rem 0;
-    color: $PrimaryFS;
-  }
-
-  p {
-    @include font-size($--betCreatedOnFS);
-  }
-
-  .card {
-    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    border-radius: 5px;
-    padding: 1rem;
-    border-left: 5px solid $DarkGreen;
-    height: 125px;
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-
-    @include mobile {
-      margin-bottom: 1.5rem;
-    }
-
-    @include tablet {
-      margin: 0;
-    }
-
-    &__top {
-      &__title {
-        h3 {
-          margin: 0 0 0.3rem 0;
-          @include font-size($--betTitleFS);
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-    }
-
-    &__bottom {
-      display: flex;
-      justify-content: flex-end;
-    }
-  }
-}
-
-.noBets {
-  display: flex;
-  justify-content: center;
-  padding: 3rem;
-
-  p {
-    color: $SecondaryFS;
-    @include font-size($--noBetsCreatedFS);
-  }
-}
-
-button {
-  border: none;
-  padding: 0.2rem;
-}
-
-.selectedBet {
-  .deleteBtn {
-    display: flex;
-    justify-content: flex-end;
-
-    button {
-    }
-
-    svg {
-      height: 25px;
-      width: 25px;
-    }
-  }
-
-  p {
-    @include font-size($--selectedBetProp);
-  }
-
-  textarea {
-    min-height: 150px;
-  }
-
-  .acceptedUsers {
-    &__user {
-      border-radius: 3px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-      margin: 0.2rem 0;
-
-      button {
-      }
-
-      svg {
-        height: 20px;
-        width: 20px;
-      }
-    }
-  }
-
-  .noneAccepted {
-    padding: 1rem;
-
-    p {
-      @include font-size($--noAcceptedUsersFS);
-      color: #8b2635;
-    }
-  }
-}
+@use "~@/assets/styles/views/userProfile/_profileBets";
 </style>

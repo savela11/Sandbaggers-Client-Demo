@@ -1,0 +1,157 @@
+﻿@use "../../globals" as g;
+
+$--ideaTitleFS: (
+        null: 1rem,
+        g.$mQ-mobile: 1.2rem,
+);
+$--ideaCreatedOnFS: (
+        null: 0.7rem,
+        g.$mQ-mobile: rem,
+);
+$--ideaCreatedByFS: (
+        null: 0.8rem,
+        g.$mQ-mobile: 0.9rem,
+);
+$--ideaDescriptionFS: (
+        null: 0.8rem,
+        g.$mQ-mobile: 1rem,
+);
+$--ideaDescriptionLH: (
+        null: 1.6,
+);
+
+$--ideaEditBtnFS: (
+        null: 0.9rem,
+);
+.ideas {
+  .addIdea {
+    button {
+      height: 35px;
+      width: 35px;
+      border: none;
+      padding: 0.2rem;
+
+      @include g.mobile {
+        height: 40px;
+        width: 40px;
+      }
+    }
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__list {
+    margin-top: 1rem;
+  }
+
+  .idea {
+    padding: 1.2rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    box-shadow: 3px 3px 5px lightgrey;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    &.autoHeight {
+      height: auto;
+    }
+  }
+
+  .section {
+    margin-bottom: 0.2rem;
+  }
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .ideaTitle {
+    @include g.font-size($--ideaTitleFS);
+    color: g.$color-PrimaryFS;
+  }
+
+  .ideaCreatedOn {
+    @include g.font-size($--ideaCreatedOnFS);
+    color: g.$color-SecondaryFS;
+  }
+
+  .createdBy {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .createdByFullName {
+      color: g.$color-SecondaryFS;
+      @include g.font-size($--ideaCreatedByFS);
+    }
+  }
+
+  .description {
+    overflow: hidden;
+    opacity: 0;
+    padding: 0.5rem;
+    margin: 1rem 0 0 0;
+    border-radius: 5px;
+
+    p {
+      @include g.font-size($--ideaDescriptionFS);
+      @include g.line-height($--ideaDescriptionLH);
+      white-space: pre-line;
+      color: grey;
+    }
+
+    &.show {
+      animation: slideDown 1s linear forwards;
+    }
+
+    &.hide {
+      animation: slideUp 1s linear forwards;
+      padding: 0;
+    }
+
+    &__edit {
+      margin: 0.5rem 0;
+      display: flex;
+      justify-content: flex-end;
+
+      button {
+        border: none;
+        color: g.$color-DarkGreen;
+        font-weight: bold;
+        padding: 0.3rem;
+        @include g.font-size($--ideaEditBtnFS);
+      }
+    }
+
+    &__text {
+      max-height: 150px;
+      overflow-y: auto;
+      padding: 0.5rem;
+    }
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,176 @@
+﻿@use '../../globals' as g;
+$--noUserFoundFS: (
+        null: 1rem,
+        g.$mQ-mobile: 1.1rem,
+);
+$--noContactInfoAvailableFS: (
+        null: 0.8rem,
+        g.$mQ-mobile: 0.9rem,
+);
+.search {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  @include g.tablet {
+    width: 75%;
+    margin: 1rem auto;
+  }
+  @include g.tablet-landscape {
+    width: 50%;
+  }
+  @include g.desktop {
+    width: 30%;
+  }
+
+  .toggleSearchBtn {
+    height: 30px;
+    width: 30px;
+    padding: 0.2rem;
+    border: none;
+    margin-right: 0.5rem;
+  }
+
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  input {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    padding: 0.3rem 0.5rem;
+
+    @include g.tablet {
+      padding: 0.5rem 0.8rem;
+    }
+  }
+}
+
+.contactList {
+  @include g.tablet {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.contact {
+  margin: 0;
+  padding: 0 1rem;
+  @include g.tablet {
+    flex: 0 0 50%;
+  }
+
+  @include g.tablet-landscape {
+    flex: 0 0 33%;
+  }
+  @include g.desktop {
+    flex: 0 0 25%;
+  }
+
+  .top {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .bottom {
+    & > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    p {
+      @include g.font-size($--noContactInfoAvailableFS);
+      color: #8b2635;
+    }
+  }
+
+  .inner {
+    border-radius: 5px;
+    padding: 2rem 1rem 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 8px lightgrey;
+    height: 225px;
+
+    @include g.mobile {
+      height: 250px;
+    }
+  }
+
+  .image {
+    background-color: white;
+    height: 80px;
+    width: 80px;
+    margin: 0 auto;
+    border-radius: 50%;
+    transform: translateY(45px);
+    box-shadow: 0 2px 2px lightgrey;
+
+    @include g.mobile {
+      height: 90px;
+      width: 90px;
+    }
+
+    img {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+    }
+  }
+
+  .fullName {
+    color: g.$color-PrimaryFS;
+    line-height: 1.6;
+  }
+
+  .email {
+    text-align: center;
+    line-height: 1.4;
+    color: g.$color-SecondaryFS;
+    font-weight: 500;
+  }
+
+  .phone {
+  }
+
+  .contactIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    margin-right: 2rem;
+    background-color: g.$color-DarkBlue;
+    border: 1px solid g.$color-DarkBlue;
+    border-radius: 100%;
+    padding: 0.5rem;
+
+    &:last-of-type {
+      margin: 0;
+    }
+
+    svg {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+}
+
+.notFound {
+  padding: 5rem;
+  display: flex;
+  justify-content: center;
+
+  p {
+    color: g.$color-Crimson;
+    font-weight: bold;
+    @include g.font-size($--noUserFoundFS);
+  }
+}

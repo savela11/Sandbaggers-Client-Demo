@@ -47,46 +47,5 @@ export default class IconBtn extends Vue {
 </script>
 
 <style scoped lang="scss">
-
-.IconBtn {
-
-  &.float {
-    &--right {
-      float: right;
-    }
-  }
-
-  button, a {
-    padding: 0.3rem;
-    border: none;
-    background-color: transparent;
-    height: 30px;
-    width: 30px;
-    @include mobile {
-      height: 35px;
-      width: 35px;
-    }
-    @include tablet {
-      height: 40px;
-      width: 40px;
-    }
-
-
-    &.circle {
-      border-radius: 50%;
-      padding: .1rem;
-    }
-
-    &.white {
-      background-color: white;
-    }
-  }
-
-  svg,
-  img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-}
+@use "~@/assets/styles/components/_iconBtn";
 </style>

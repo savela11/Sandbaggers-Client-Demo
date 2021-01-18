@@ -1,0 +1,131 @@
+﻿@use '../../globals' as g;
+$--noBetsFoundFS: (
+        null: 1rem,
+        g.$mQ-mobile: 1.2rem,
+);
+$--betTitleFS: (
+        null: 0.9rem,
+        g.$mQ-mobile: 1rem,
+);
+$--betCreatedByFS: (
+        null: 0.7rem,
+        g.$mQ-tablet: 0.8rem,
+);
+
+$--viewBetBtnFS: (
+        null: 0.8rem,
+        g.$mQ-mobile: 0.9rem,
+);
+.dashboardBets {
+  @include g.tablet {
+    padding: 1rem 0;
+  }
+}
+
+.betList {
+  @include g.tablet {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    grid-auto-rows: 160px;
+  }
+}
+
+.bet {
+  padding: 0.8rem;
+  border-radius: 5px;
+  border-left: 5px solid #425a41;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  margin-bottom: 1rem;
+
+  @include g.tablet {
+    margin: 0;
+    height: auto;
+  }
+
+  h3 {
+    color: g.$color-DarkBlue;
+    @include g.font-size($--betTitleFS);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: grey;
+    @include g.font-size($--betCreatedByFS);
+  }
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .title {
+    flex: 0 0 75%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .viewBetBtn {
+    @include g.font-size($--viewBetBtnFS);
+  }
+
+  .amount {
+    padding: 0.5rem;
+    border-radius: 50%;
+    background-color: #425a41;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 3px 3px 3px rgba(95, 95, 95, 0.8);
+    @include g.tablet {
+      width: 60px;
+      height: 60px;
+    }
+
+    span {
+     font-size: 1rem;
+      font-weight: bold;
+      color: white;
+    }
+  }
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  button {
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .inputContainer {
+    flex: auto;
+    display: flex;
+    margin-right: 1rem;
+  }
+}
+
+.noBets {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+
+  p {
+    @include g.font-size($--noBetsFoundFS);
+  }
+}

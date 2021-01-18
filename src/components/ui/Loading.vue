@@ -18,58 +18,5 @@ export default class Loading extends Vue {
 </script>
 
 <style scoped lang="scss">
-.loadingContainer {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 10%
-}
-
-.loading {
-  display: inline-block;
-  padding: 0.5rem;
-
-  &--small {
-    width: 100px;
-    height: 100px;
-  }
-
-  &--medium {
-    width: 150px;
-    height: 150px;
-  }
-
-  &::after {
-    content: '';
-    display: block;
-    border-radius: 50%;
-    border: 6px solid $DarkBlue;
-    width: 100%;
-    height: 100%;
-    border-color: $DarkBlue transparent $DarkBlue transparent;
-    animation: loading 1.2s linear infinite;
-  }
-}
-
-p {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin: 2rem 0;
-  color: $DarkBlue;
-  opacity: .8;
-  @include mobile {
-    margin: 3rem 0;
-    font-size: 1.4rem;
-  }
-}
-
-@keyframes loading {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+@use "~@/assets/styles/components/_loading";
 </style>

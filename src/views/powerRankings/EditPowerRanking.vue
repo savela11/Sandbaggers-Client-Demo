@@ -35,7 +35,7 @@ import NavigationHelper from "@/utility/NavigationHelper";
   name: "EditPowerRanking",
   components: {
     Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
-    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue"),
+    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/InputField.vue"),
     ViewBtns: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/ViewBtns.vue")
 
   }
@@ -90,18 +90,5 @@ async updatePowerRanking():Promise<void> {
 </script>
 
 <style scoped lang="scss">
-.EditPowerRanking {
-  @include tablet {
-    width: 80%;
-    margin: 0 auto;
-  }
-
-  .view {
-    textarea {
-      @include tablet {
-        min-height: 300px;
-      }
-    }
-  }
-}
+@use "~@/assets/styles/views/powerRanking/_editPowerRanking";
 </style>

@@ -1,0 +1,101 @@
+﻿@use '../globals' as g;
+.popUp {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  &.showPopUp {
+    left: 0;
+  }
+
+  &__backDrop {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: black;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+  }
+
+  .container {
+    position: fixed;
+    background-color: white;
+    width: 90%;
+    border: 2px solid g.$color-DarkBlue;
+    border-radius: 5px;
+    padding: 1rem 1rem 2rem 1rem;
+    z-index: 11;
+    top: 50%;
+    left: 50%;
+    transform: translate(150%, -50%);
+    @include g.tablet {
+      width: 60%;
+      min-height: 400px;
+    }
+
+    @include g.tablet-landscape {
+      width: 50%;
+    }
+    @include g.desktopSmall {
+      width: 40%;
+    }
+
+    &.hide {
+      animation: hidePopUp 0.5s linear forwards;
+    }
+
+    &.show {
+      animation: showPopUp 0.5s linear forwards;
+    }
+
+    &__title {
+      @include g.tablet {
+      }
+    }
+
+    .content {
+      max-height: 200px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      min-height: 150px;
+
+      @include g.tablet {
+        max-height: 500px;
+      }
+    }
+  }
+}
+
+@keyframes showPopUp {
+  0% {
+    transform: translate(150%, -50%);
+  }
+  //50% {
+  //  transform: translateX(100%);
+  //  opacity: 0.5;
+  //}
+
+  100% {
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes hidePopUp {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+
+  //50% {
+  //  transform: translateX(100%);
+  //  opacity: 0.5;
+  //}
+
+  100% {
+    transform: translate(150%, -50%);
+  }
+}

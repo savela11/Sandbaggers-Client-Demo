@@ -1,13 +1,11 @@
-﻿//@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
+﻿@use "normalize";
+@use './text';
+@use './forms';
+@use './button';
+@use './flex';
+@use './margin';
+@use './padding';
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@import "normalize";
-@import './_forms.scss';
-@import './_margin.scss';
-@import './_padding.scss';
-@import './_flex.scss';
-@import './font';
-@import './_backgroundColor';
-@import './button/_button.scss';
 
 html {
   font-family: 'Raleway', sans-serif;
@@ -38,18 +36,7 @@ body {
 }
 
 
-.hideLabel {
-  display: none;
-}
 
-input {
-  box-sizing: border-box;
-}
-
-.loading {
-  display: flex;
-  justify-content: center;
-}
 
 .divider {
   color: rgba(0, 0, 0, 0.87);

@@ -46,7 +46,7 @@ export default  [
     path: "/userProfile",
     name: "UserProfile",
     beforeEnter: guardRoute,
-    component: loadView("UserProfile"),
+    component: loadView("userProfile/UserProfile"),
     meta: {
       layout: AuthLayoutNoBars,
       backBtn: true
@@ -56,7 +56,7 @@ export default  [
     path: "/Dashboard",
     name: "Dashboard",
     beforeEnter: guardRoute,
-    component: loadView("Dashboard"),
+    component: loadView("dashboard/Dashboard"),
     meta: {
       layout: AuthLayout
     }
@@ -72,20 +72,20 @@ export default  [
     }
   },
   {
-    path: "/sandbaggerEvents",
+    path: "/Events",
     name: "Events",
     beforeEnter: guardRoute,
-    component: loadView("event/SandbaggerEvents"),
+    component: loadView("event/Events"),
     meta: {
       layout: AuthLayout
     }
 
   },
   {
-    path: "/sandbaggerEvents/:eventId",
+    path: "/Event/:eventId",
     name: "SandbaggerEvent",
     beforeEnter: guardRoute,
-    component: loadView("event/SandbaggerEvent"),
+    component: loadView("event/Event"),
     meta: {
       layout: AuthLayout
     }
@@ -95,7 +95,7 @@ export default  [
     path: "/bets",
     name: "Bets",
     beforeEnter: guardRoute,
-    component: loadView("Bets"),
+    component: loadView("bet/Bets"),
     meta: {
       layout: AuthLayout
     }
@@ -115,7 +115,7 @@ export default  [
     path: "/ideas",
     name: "Ideas",
     beforeEnter: guardRoute,
-    component: loadView("Ideas"),
+    component: loadView("idea/Ideas"),
     meta: {
       layout: AuthLayout
     }
@@ -124,7 +124,7 @@ export default  [
     path: "/ideas/editIdea/:id",
     name: "EditIdea",
     beforeEnter: guardRoute,
-    component: loadView("ideas/EditIdea"),
+    component: loadView("idea/EditIdea"),
     meta: {
       layout: AuthLayout
     }
@@ -133,7 +133,7 @@ export default  [
     path: "/powerRankings",
     name: "PowerRankings",
     beforeEnter: guardRoute,
-    component: loadView("PowerRankings"),
+    component: loadView("powerRankings/PowerRankings"),
     meta: {
       layout: AuthLayout
     }
@@ -154,7 +154,7 @@ export default  [
     path: "/mockDrafts",
     name: "MockDrafts",
     beforeEnter: guardRoute,
-    component: loadView("MockDrafts"),
+    component: loadView("mockDraft/MockDrafts"),
     meta: {
       layout: AuthLayout
     }
@@ -164,7 +164,7 @@ export default  [
     path: "/gallery",
     name: "Gallery",
     beforeEnter: guardRoute,
-    component: loadView("Gallery"),
+    component: loadView("gallery/Gallery"),
     meta: {
       layout: AuthLayoutNoHeader
     }
@@ -182,7 +182,7 @@ export default  [
     path: "/contacts",
     name: "Contacts",
     beforeEnter: guardRoute,
-    component: loadView("Contacts"),
+    component: loadView("contact/Contacts"),
     meta: {
       layout: AuthLayout
     }

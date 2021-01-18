@@ -37,7 +37,7 @@ import UIHelper from "@/utility/UIHelper";
 
 @Component({
   name: "CreateEvent", components: {
-    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/Forms/InputField.vue"),
+    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/InputField.vue"),
     BackBtn: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/BackBtn.vue"),
     Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue")
   }
@@ -88,7 +88,5 @@ export default class CreateEvent extends Vue {
 </script>
 
 <style scoped lang="scss">
-.CreateEvent {
-  padding: 1rem;
-}
+@use "~@/assets/styles/views/admin/_createEvent";
 </style>

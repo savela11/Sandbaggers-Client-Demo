@@ -1,0 +1,365 @@
+﻿@use '../../globals' as g;
+$--selectBoxOptionFS: (
+        null: .8rem,
+        g.$mQ-mobile: .9rem
+);
+$--powerRankingTitleFS: (
+        null: 1.2rem,
+        g.$mQ-mobile: 1.4rem
+);
+.powerRankings {
+  h1 {
+    color: g.$color-PrimaryFS;
+    @include g.font-size($--powerRankingTitleFS);
+  }
+}
+
+.currentViewBtns {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding: 0.2rem 0.8rem 0.2rem 0;
+  margin: 0;
+
+  button {
+    margin-right: 0.5rem;
+    display: inline-block;
+    min-width: 100px;
+    font-size: 0.8rem;
+    padding: 0.8rem 1rem;
+    border: 2px solid #17252a;
+    border-radius: 3px;
+    background-color: white;
+    font-weight: bold;
+    color: #17252a;
+
+
+    &.active {
+      color: white;
+      background-color: #17252a;
+    }
+  }
+}
+
+.createPowerRankingBtn {
+  border: none;
+  border-bottom: 1px solid g.$color-SecondaryFS;
+  font-size: .8rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: g.$color-SecondaryFS;
+}
+
+.views {
+
+
+}
+
+.view {
+  h2 {
+    color: g.$color-DarkBlue;
+    font-size: 1rem;
+  }
+
+  .titleBar {
+    padding: 0.5rem;
+    display: flex;
+
+    & > div:nth-child(1) {
+      flex: 0 0 25%;
+    }
+
+    & > div:nth-child(2) {
+      flex: auto;
+    }
+
+    p {
+      font-size: 0.8rem;
+    }
+  }
+
+  .user {
+    padding: 0.3rem;
+    margin: 0 0 2rem 0;
+    height: 75px;
+    border: 1px solid g.$color-DarkBlue;
+    border-radius: 5px;
+    position: relative;
+
+    &.active {
+      height: auto;
+      min-height: 125px;
+      display: flex;
+      flex-direction: column;
+
+      .toggleWriteup {
+        button {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .top {
+      display: flex;
+      padding: 0.3rem;
+      align-items: center;
+      height: 100%;
+
+      .rank {
+        flex: 0 0 25%;
+        display: flex;
+        justify-content: flex-start;
+
+        .circle {
+          border-radius: 50%;
+          border: 1px solid g.$color-DarkBlue;
+          width: 25px;
+          height: 25px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: g.$color-DarkBlue;
+
+          p {
+            font-weight: bold;
+            color: white;
+            font-size: 0.8rem;
+          }
+        }
+      }
+
+      .sandbagger {
+        flex: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .name {
+          h3 {
+            font-size: 1rem;
+            font-weight: normal;
+          }
+        }
+
+        .handicap {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          p {
+            font-size: 0.6rem;
+          }
+
+          span {
+            font-size: 0.6rem;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+
+    .bottom {
+      flex: 1;
+      border-top: 1px solid lightgrey;
+
+      .images {
+        overflow: auto;
+        white-space: nowrap;
+        padding: 0.5rem;
+
+        .image {
+          height: 125px;
+          width: 125px;
+          display: inline-block;
+          color: white;
+          text-align: center;
+          padding: 0.3rem;
+          text-decoration: none;
+
+          img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+            border-radius: 3px;
+            box-shadow: 0 5px 5px grey;
+          }
+        }
+      }
+
+      .writeUp {
+        padding: 0.5rem;
+
+        p {
+          font-size: 0.9rem;
+        }
+      }
+    }
+
+    .toggleWriteup {
+      display: flex;
+      position: absolute;
+      justify-content: flex-end;
+      padding: 0 1rem;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      transform: translateY(16px);
+
+      button {
+        font-size: 0.6rem;
+        border-radius: 3px;
+        color: g.$color-DarkBlue;
+        height: 25px;
+        width: 25px;
+        border: none;
+        background-color: white;
+        padding: 0;
+
+        svg {
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
+        }
+      }
+    }
+  }
+
+  &.registeredUsers {
+    .user {
+      .top {
+        padding: .3rem .8rem;
+      }
+    }
+
+  }
+
+}
+
+.title {
+
+}
+
+.editPowerRanking {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search {
+  margin-top: 1rem;
+
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+
+    .searchButton {
+      padding: 0.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 0.5rem;
+      height: 40px;
+      width: 40px;
+      border: none;
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+
+    .selectEvent {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        padding-left: 0.3rem;
+      }
+
+      select {
+        font-size: 0.8rem;
+        display: block;
+        padding: 0.6em 1.4em 0.5em 0.8em;
+        width: 75px;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin: 0;
+        border: 1px solid rgba(211, 211, 211, 0.8);
+        border-radius: 3px;
+        appearance: none;
+        background-color: #fff;
+      }
+    }
+  }
+
+  .bottom {
+    .searchBar {
+      input {
+        font-size: 1.1rem;
+        width: 100%;
+        padding: 0.5rem 0.8rem;
+        border: 1px solid lightgrey;
+        border-radius: 25px;
+      }
+    }
+  }
+}
+
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+{
+  opacity: 0;
+}
+
+@media (min-width: 375px) {
+  .powerRankings {
+
+
+    .writeUps {
+
+      .user {
+        padding: 0.5rem;
+
+        .top {
+          padding: 0.5rem;
+
+          .rank {
+            .circle {
+              height: 30px;
+              width: 30px;
+
+              p {
+                font-size: 1.1rem;
+              }
+            }
+          }
+
+          .sandbagger {
+            .name {
+              h3 {
+                font-size: 1.2rem;
+              }
+            }
+
+            .handicap {
+              p {
+                font-size: 0.8rem;
+              }
+
+              span {
+                font-size: 0.8rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

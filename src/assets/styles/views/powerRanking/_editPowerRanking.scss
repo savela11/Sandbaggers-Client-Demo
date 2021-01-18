@@ -1,0 +1,16 @@
+﻿@use "../../globals" as g;
+
+.EditPowerRanking {
+  @include g.tablet {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .view {
+    textarea {
+      @include g.tablet {
+        min-height: 300px;
+      }
+    }
+  }
+}

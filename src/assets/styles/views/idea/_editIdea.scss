@@ -1,0 +1,24 @@
+﻿@use '../../globals' as g;
+.formContainer {
+  margin: 3rem 0;
+}
+
+.updatedOn {
+  font-size: 0.8rem;
+  color: g.$color-SecondaryFS;
+  text-align: right;
+}
+
+input {
+  border-radius: 5px;
+}
+
+textarea {
+  border-radius: 5px;
+  min-height: 200px;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: flex-end;
+}

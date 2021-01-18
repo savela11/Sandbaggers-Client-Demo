@@ -1,0 +1,190 @@
+﻿@use '../../globals' as g;
+
+$--betTitleFS: (
+        null: 1rem,
+        g.$mQ-mobile: 1.2rem,
+);
+$--sectionTitleFS: (
+        null: 1rem,
+        g.$mQ-mobile: 1.2rem,
+);
+
+$--createdByFS: (
+        null: 0.8rem,
+        g.$mQ-mobile: 1rem,
+);
+$--descriptionParaFS: (
+        null: 0.9rem,
+        g.$mQ-mobile: 1rem,
+);
+
+$--notAcceptedFS: (
+        null: 0.8rem,
+        g.$mQ-mobile: 0.9rem,
+);
+
+$--acceptedByNameFS: (
+        null: 0.8rem,
+        g.$mQ-mobile: 0.9rem,
+);
+
+$--acceptedCountSpanFS: (
+        null: 0.9rem,
+        g.$mQ-mobile: 1rem,
+);
+
+.selectedBet {
+  .backBtn {
+    float: right;
+    padding: 0 0.5rem;
+
+    button {
+      height: 40px;
+      width: 40px;
+    }
+  }
+
+  h2 {
+    color: g.$color-PrimaryFS;
+    @include g.font-size($--betTitleFS);
+    margin-bottom: 1.5rem;
+  }
+
+  h3 {
+    @include g.font-size($--sectionTitleFS);
+    margin: 0.5rem 0.5rem 0.5rem 0;
+    color: g.$color-PrimaryFS;
+  }
+
+  .section {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0;
+  }
+
+  .createdBy {
+    justify-content: space-between;
+
+    p {
+      color: g.$color-SecondaryFS;
+      @include g.font-size($--createdByFS);
+    }
+  }
+
+  .acceptedBy {
+    flex-direction: column;
+    align-items: flex-start;
+
+    span {
+      @include g.font-size($--acceptedCountSpanFS);
+      font-weight: 500;
+      color: g.$color-SecondaryFS;
+    }
+
+    .one {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+
+      & > div {
+        flex: auto;
+        display: flex;
+        align-items: center;
+
+        &:last-child {
+          justify-content: flex-end;
+        }
+      }
+    }
+
+    .two {
+      width: 100%;
+      margin: 0.5rem 0;
+
+      .notAccepted {
+        p {
+          color: g.$color-SecondaryFS;
+          @include g.font-size($--notAcceptedFS);
+        }
+      }
+
+      .acceptedUsers {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 80px;
+        gap: 0.3rem;
+
+        @include g.mobile {
+          grid-auto-rows: 90px;
+          gap: 0.5rem;
+        }
+
+        .user {
+          padding: 0.5rem;
+          border-radius: 5px;
+          box-shadow: 0 3px 5px rgba(128, 128, 128, 0.6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+
+          h4 {
+            font-weight: 500;
+            @include g.font-size($--acceptedByNameFS);
+          }
+
+          .indexNum {
+            position: absolute;
+            top: 0.2rem;
+            left: 0.5rem;
+            color: g.$color-DarkGreen;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+
+    button {
+      color: green;
+      font-weight: bold;
+      border: none;
+      text-decoration: underline;
+    }
+  }
+
+  .description {
+    display: block;
+
+    .descriptionBorder {
+      flex-direction: column;
+      align-items: flex-start;
+      border: 1px solid lightgrey;
+      padding: 0;
+
+      .inner {
+        border: 0.8rem solid white;
+        align-items: flex-start;
+        border-radius: 5px;
+        max-height: 350px;
+        min-height: 300px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        position: relative;
+
+        @include g.mobile {
+          border: 1rem solid white;
+        }
+      }
+
+      p {
+        flex: auto;
+        @include g.font-size($--descriptionParaFS);
+        line-height: 1.6;
+        color: g.$color-SecondaryFS;
+        white-space: pre-wrap;
+        padding: 0 0.5rem 1rem 0.5rem;
+      }
+    }
+  }
+}

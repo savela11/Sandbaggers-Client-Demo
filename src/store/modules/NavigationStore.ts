@@ -16,8 +16,8 @@ const state: NavigationStoreState = {
         '</svg>\n',
     },
     {
-      name: 'Sandbaggers',
-      link: '/sandbaggerEvents',
+      name: 'Events',
+      link: '/Events',
       icon:
         '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">\n' +
         '<path d="M19.5 21C20.3284 21 21 20.3284 21 19.5C21 18.6716 20.3284 18 19.5 18C18.6716 18 18 18.6716 18 19.5C18 20.3284 18.6716 21 19.5 21Z" fill="#17252A"/>\n' +
