@@ -14,11 +14,20 @@
   }
 
   .withBackBtn {
-    padding: 0 1rem;
+    padding: .8rem 1rem;
     @include g.mobile {
-      padding: 0 1.5rem;
+      padding: .8rem 1.5rem;
     }
 
+    @include g.tablet {
+      padding: 1rem 2rem;
+    }
+    @include g.tablet-landscape {
+      padding: 2rem 3rem;
+    }
+    @include g.desktopSmall {
+      padding: 5rem;
+    }
   }
 }
 

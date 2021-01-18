@@ -25,10 +25,15 @@
       padding: 0.8rem 1rem;
     }
     @include g.tablet {
-
       height: 100px;
       align-items: center;
       padding: 1rem 2rem;
+    }
+    @include g.tablet-landscape {
+      padding: 1rem 4rem;
+    }
+    @include g.desktopSmall {
+      padding: 1rem 6rem;
     }
 
     h1 {
@@ -45,6 +50,12 @@
 
     .sbLogo {
       width: 60px;
+      height: 100%;
+
+      @include g.tablet {
+        width: 70px;
+        height: 70px;
+      }
     }
 
 

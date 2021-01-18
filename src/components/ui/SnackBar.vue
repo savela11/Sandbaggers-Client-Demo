@@ -5,10 +5,10 @@
         <strong>{{ this.$store.state.uiStore.snackBar.title }}</strong>
       </div>
       <div class="content">
-        <p>{{ this.$store.state.uiStore.snackBar.message }}</p>
+        <p class="text text--sm">{{ this.$store.state.uiStore.snackBar.message }}</p>
 
         <ul>
-          <li v-for="(error, index) in this.$store.state.uiStore.snackBar.errors" :key="index">{{ error }}</li>
+          <li class="text text--sm" v-for="(error, index) in this.$store.state.uiStore.snackBar.errors" :key="index">{{ error }}</li>
         </ul>
       </div>
     </div>

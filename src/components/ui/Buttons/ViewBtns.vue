@@ -21,5 +21,5 @@ export default class ViewBtns extends Vue {
 </script>
 
 <style scoped lang="scss">
-
+@use "~@/assets/styles/components/_viewBtns.scss";
 </style>

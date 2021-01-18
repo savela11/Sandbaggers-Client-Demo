@@ -1,53 +1,78 @@
 ﻿<template>
   <div class="EditEvent">
     <div v-if="!loading && Event.eventId">
+      <h1 class="text text--title text--bold color--primary">{{ Event.name }}</h1>
       <ViewBtns :view-buttons="views" :active-view-btn="currentView" @selected-btn="selectedView" />
       <div class="views">
-        <div v-show="currentView === 'main'" class="view">
+        <div v-if="currentView === 'main'" class="view">
           <form class="form" @submit.prevent.stop="UpdateEvent">
+            <div class="toggle">
+              <h2 class="text text--md text--bold color--primary">Current Event:</h2>
+              <div class="toggle__buttons">
+                <button class="btn btn--tiny btn--border-darkBlue mr-02" :class="{active: Event.isCurrentYear === true}" @click.prevent.stop="Event.isCurrentYear = true">Yes
+                </button>
+                <button class="btn btn--tiny btn--border-darkBlue " :class="{active: Event.isCurrentYear === false}" @click.prevent.stop="Event.isCurrentYear = false">No</button>
+              </div>
+            </div>
+            <div class="toggle">
+              <h2 class="text text--md text--bold color--primary">Active:</h2>
+              <div class="toggle__buttons">
+                <button class="btn btn--tiny btn--border-darkBlue mr-02" :class="{active: Event.isPublished === true}" @click.prevent.stop="Event.isPublished = true">Yes</button>
+                <button class="btn btn--tiny btn--border-darkBlue " :class="{active: Event.isPublished === false}" @click.prevent.stop="Event.isPublished = false">No</button>
+              </div>
+            </div>
             <InputField :isActive="Event.name !== ''">
               <template v-slot:field><label for="name">Event Name</label> <input type="text" id="name" v-model.trim="Event.name" /></template>
             </InputField>
+
             <input type="submit" value="Update" class="btn btn--sm my-1 btn--bg-darkBlue" />
           </form>
         </div>
-        <div v-show="currentView === 'registration'" class="view">
+        <div v-if="currentView === 'registration'" class="view">
           <div class="users">
             <div class="registered">
               <h3 class="text text--base color--secondary">Registered</h3>
-              <div class="user" v-for="user in Event.registeredUsers" :key="user.id">
-                <p class="text text--lg">{{ user.fullName }}</p>
-                <IconBtn @click="registration(user)">
-                  <template v-slot:svg>
-                    <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M12.5 0C5.5971 0 0 5.5971 0 12.5C0 19.4029 5.5971 25 12.5 25C19.4029 25 25 19.4029 25 12.5C25 5.5971 19.4029 0 12.5 0ZM17.8571 13.1696C17.8571 13.2924 17.7567 13.3929 17.6339 13.3929H7.36607C7.2433 13.3929 7.14286 13.2924 7.14286 13.1696V11.8304C7.14286 11.7076 7.2433 11.6071 7.36607 11.6071H17.6339C17.7567 11.6071 17.8571 11.7076 17.8571 11.8304V13.1696Z"
-                        fill="#9F0000"
-                      />
-                    </svg>
-                  </template>
-                </IconBtn>
+              <div class="users__wrapper">
+                <div class="user" v-for="user in Event.registeredUsers" :key="user.id">
+                  <div class="user__container">
+                    <p class="text text--lg">{{ user.fullName }}</p>
+                    <IconBtn @click="registration(user)">
+                      <template v-slot:svg>
+                        <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M12.5 0C5.5971 0 0 5.5971 0 12.5C0 19.4029 5.5971 25 12.5 25C19.4029 25 25 19.4029 25 12.5C25 5.5971 19.4029 0 12.5 0ZM17.8571 13.1696C17.8571 13.2924 17.7567 13.3929 17.6339 13.3929H7.36607C7.2433 13.3929 7.14286 13.2924 7.14286 13.1696V11.8304C7.14286 11.7076 7.2433 11.6071 7.36607 11.6071H17.6339C17.7567 11.6071 17.8571 11.7076 17.8571 11.8304V13.1696Z"
+                            fill="#9F0000"
+                          />
+                        </svg>
+                      </template>
+                    </IconBtn>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="notRegistered">
               <h3 class="text text--base color--secondary">Not Registered</h3>
-              <div class="user" v-for="user in Event.unRegisteredUsers" :key="user.id">
-                <p class="text text--lg">{{ user.fullName }}</p>
-                <IconBtn @click="registration(user, 'register')">
-                  <template v-slot:svg>
-                    <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M12.5 0C5.6 0 0 5.6 0 12.5C0 19.4 5.6 25 12.5 25C19.4 25 25 19.4 25 12.5C25 5.6 19.4 0 12.5 0ZM18.75 13.75H13.75V18.75H11.25V13.75H6.25V11.25H11.25V6.25H13.75V11.25H18.75V13.75Z"
-                        fill="#167230"
-                      />
-                    </svg>
-                  </template>
-                </IconBtn>
+              <div class="users__wrapper">
+                <div class="user" v-for="user in Event.unRegisteredUsers" :key="user.id">
+                  <div class="user__container">
+                    <p class="text text--lg">{{ user.fullName }}</p>
+                    <IconBtn @click="registration(user, 'register')">
+                      <template v-slot:svg>
+                        <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M12.5 0C5.6 0 0 5.6 0 12.5C0 19.4 5.6 25 12.5 25C19.4 25 25 19.4 25 12.5C25 5.6 19.4 0 12.5 0ZM18.75 13.75H13.75V18.75H11.25V13.75H6.25V11.25H11.25V6.25H13.75V11.25H18.75V13.75Z"
+                            fill="#167230"
+                          />
+                        </svg>
+                      </template>
+                    </IconBtn>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div v-show="currentView === 'itinerary'" class="view">
+        <div v-if="currentView === 'itinerary'" class="view">
           <div class="flex" :class="[ isAddingItineraries === true ? 'flex--between' : 'flex--end']">
             <IconBtn v-if="isAddingItineraries" btn-text="Cancel" class="ml-04" @click.prevent.stop="addItinerary('cancel')">
               <template v-slot:svg>
@@ -67,55 +92,69 @@
               </template>
             </IconBtn>
           </div>
-          <div v-if="isAddingItineraries">
+          <div class="itinWrapper" v-if="isAddingItineraries">
             <div class="itinerary toBeAdded" v-for="(itinerary, index) in addedItinerary" :key="index">
-              <h3 class="text text--sm color--primary text--bold px-04">Added Itinery #{{ index + 1 }}</h3>
-              <div class="itinerary__top toBeAdded__top">
-                <InputField :isActive="itinerary.day !== ''">
-                  <template v-slot:field>
-                    <label :for="'Day' + index">Day</label>
-                    <input type="text" :id="'Day' + index" v-model.trim="itinerary.day" />
-                  </template>
-                </InputField>
-                <InputField :isActive="itinerary.time !== ''">
-                  <template v-slot:field>
-                    <label for="time">Time</label>
-                    <input type="text" id="time" v-model.trim="itinerary.time" />
-                  </template>
-                </InputField>
+              <div class="itinerary__wrapper">
+                <h3 class="text text--sm color--primary text--bold px-04">Added Itinery #{{ index + 1 }}</h3>
+                <div class="itinerary__top toBeAdded__top">
+                  <InputField :isActive="itinerary.day !== ''">
+                    <template v-slot:field>
+                      <label :for="'Day' + index">Day</label>
+                      <input type="text" :id="'Day' + index" v-model.trim="itinerary.day" />
+                    </template>
+                  </InputField>
+                  <InputField :isActive="itinerary.time !== ''">
+                    <template v-slot:field>
+                      <label for="time">Time</label>
+                      <input type="text" id="time" v-model.trim="itinerary.time" />
+                    </template>
+                  </InputField>
+                </div>
+                <div class="itinerary__bottom toBeAdded__bottom">
+                  <InputField :isActive="itinerary.description !== ''">
+                    <template v-slot:field>
+                      <label for="description">Description</label>
+                      <textarea type="text" id="description" v-model.trim="itinerary.description"></textarea>
+                    </template>
+                  </InputField>
+                </div>
               </div>
-              <div class="itinerary__bottom toBeAdded__bottom">
-                <InputField :isActive="itinerary.description !== ''">
-                  <template v-slot:field>
-                    <label for="description">Description</label>
-                    <textarea type="text" id="description" v-model.trim="itinerary.description"></textarea>
-                  </template>
-                </InputField>
-              </div>
+
             </div>
             <button class="btn btn--sm my-1 btn--bg-darkBlue" @click.prevent.stop="addItinerary('save')">Update</button>
           </div>
-          <div v-else-if="!isAddingItineraries && Event.itineraries.length > 0">
+          <div class="itinWrapper" v-else-if="!isAddingItineraries && Event.itineraries.length > 0">
             <div class="itinerary" v-for="(itinerary, index) in Event.itineraries" :key="index">
-              <div class="itinerary__top">
-                <div class="itinerary__bar">
-                  <p class="itinerary__title">Day:</p>
-                  <p class="itinerary__val">{{ itinerary.day }}</p>
+              <div class="itinerary__wrapper">
+                <IconBtn class="itinerary__editBtn" btn-text="Edit" @click.prevent.stop="selectItinerary(itinerary)">
+                  <template v-slot:svg>
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04V7.04Z"
+                        fill="#17252A" />
+                    </svg>
+                  </template>
+                </IconBtn>
+                <div class="itinerary__top">
+                  <div class="itinerary__bar">
+                    <p class="itinerary__title">Day:</p>
+                    <p class="itinerary__val">{{ itinerary.day }}</p>
+                  </div>
+                  <div class="itinerary__bar">
+                    <p class="itinerary__title">Time:</p>
+                    <p class="itinerary__val">{{ itinerary.time }}</p>
+                  </div>
                 </div>
-                <div class="itinerary__bar">
-                  <p class="itinerary__title">Time:</p>
-                  <p class="itinerary__val">{{ itinerary.time }}</p>
+                <div class="itinerary__bottom">
+                  <p class="itinerary__title">Description:</p>
+                  <p class="itinerary__val itinerary__val--description text--noWrap text--ellipsis">{{ itinerary.description }}</p>
                 </div>
-              </div>
-              <div class="itinerary__bottom">
-                <p class="itinerary__title">Description:</p>
-                <p class="itinerary__val itinerary__val--description">{{ itinerary.description }}</p>
               </div>
             </div>
           </div>
         </div>
-        <div v-show="currentView === 'teams'" class="view"></div>
-        <div v-show="currentView === 'location'" class="view">
+        <div v-if="currentView === 'teams'" class="view"></div>
+        <div v-if="currentView === 'location'" class="view">
           <form class="form" @submit.prevent.stop="UpdateEvent">
             <InputField :isActive="Event.location.name !== ''">
               <template v-slot:field>
@@ -180,6 +219,7 @@ export default class EditEvent extends Vue {
   views: Array<string> = ["main", "registration", "itinerary", "teams", "location"];
   currentView = "main";
   isAddingItineraries = false;
+  editItinerary = null;
 
   mounted(): void {
     this.getEvent();
@@ -210,6 +250,10 @@ export default class EditEvent extends Vue {
 
   }
 
+  selectItinerary(itinerary: ItineraryVm): void {
+    console.log(itinerary);
+  }
+
   async UpdateEvent(): Promise<void> {
     this.loading = true;
     try {
@@ -220,6 +264,8 @@ export default class EditEvent extends Vue {
       }
     } catch (e) {
       console.log(e);
+      UIHelper.SnackBar({ title: "Error", message: `${e.data.message}`, classInfo: `error`, isSnackBarShowing: true, errors: undefined });
+
     } finally {
       setTimeout(() => {
         this.loading = false;

@@ -8,7 +8,7 @@
             fill="#17252A" />
         </svg>
       </button>
-      <span class="text text--tiny text-vpMD--xs">Back</span>
+      <span class="text text--tiny">Back</span>
     </div>
   </div>
 </template>

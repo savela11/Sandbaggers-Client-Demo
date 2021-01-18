@@ -25,7 +25,7 @@
         </svg>
       </slot>
     </router-link>
-    <span v-if="btnText" class="text text--tiny text-vpMD--xs">{{ btnText }}</span>
+    <span v-if="btnText" class="text text--tiny">{{ btnText }}</span>
 
   </div>
 
