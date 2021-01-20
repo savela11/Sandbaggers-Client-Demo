@@ -1,12 +1,9 @@
 ﻿<template>
   <div class='CreateEvent'>
     <div v-if="!loading">
-      <BackBtn />
-
-
       <form class="form" @submit.prevent.stop="createEvent">
         <fieldset>
-          <legend class="text text--lg text--fw-600 color--primary my-1">Create Event</legend>
+          <legend class="text text--xl text--fw-600 color--primary text--bold">Create Event</legend>
           <InputField :isActive="createEventForm.name !== ''">
             <template v-slot:field>
               <label for="name">Event Name</label>

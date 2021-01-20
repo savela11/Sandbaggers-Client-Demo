@@ -50,12 +50,13 @@ export default [
     },
   },
   {
-    path: '/admin/roles/createRole',
+    path: '/admin/createRole',
     name: 'CreateRole',
     beforeEnter: guardAdminRoute,
-    component: loadView('admin/role/CreateRole'),
+    component: loadView('admin/CreateRole'),
     meta: {
-      layout: AuthLayout,
+      layout: AuthLayoutNoHeader,
+      backBtn: true
     },
   },
   {
@@ -75,6 +76,7 @@ export default [
     component: loadView('admin/EventManager'),
     meta: {
       layout: AuthLayout,
+
     },
   },
   {
@@ -83,7 +85,8 @@ export default [
     beforeEnter: guardAdminRoute,
     component: loadView('admin/CreateEvent'),
     meta: {
-      layout: AuthLayout,
+      layout: AuthLayoutNoHeader,
+      backBtn: true
     },
   },
   {

@@ -2,13 +2,13 @@
   <div class="snackBar" @click="closeSnackBar">
     <div class="snackBar__wrapper" :class="snackBarClass">
       <div class="title">
-        <strong>{{ this.$store.state.uiStore.snackBar.title }}</strong>
+        <strong class="title__text ">{{ this.$store.state.uiStore.snackBar.title }}</strong>
       </div>
       <div class="content">
-        <p class="text text--sm">{{ this.$store.state.uiStore.snackBar.message }}</p>
+        <p class="content__text ">{{ this.$store.state.uiStore.snackBar.message }}</p>
 
-        <ul>
-          <li class="text text--sm" v-for="(error, index) in this.$store.state.uiStore.snackBar.errors" :key="index">{{ error }}</li>
+        <ul class="errorList">
+          <li class="errorList__item" v-for="(error, index) in this.$store.state.uiStore.snackBar.errors" :key="index">{{ error }}</li>
         </ul>
       </div>
     </div>

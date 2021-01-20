@@ -59,156 +59,149 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import AuthService from '../../services/AuthService'
-import { ISnackBar } from '@/types/UI/SnackBar'
-import { RegisterUserDto } from '@/types/DTO/AuthDto'
-import UIHelper from '@/utility/UIHelper'
+import { Component, Vue } from "vue-property-decorator";
+import AuthService from "../../services/AuthService";
+import { ISnackBar } from "@/types/UI/SnackBar";
+import { RegisterUserDto } from "@/types/DTO/AuthDto";
+import UIHelper from "@/utility/UIHelper";
 
 @Component({
-  name: 'Register',
+  name: "Register",
   components: {
-    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
-    AuthHeader: (): Promise<typeof import('*.vue')> => import('@/components/ui/Headers/DefaultHeader.vue'),
-    InputField: (): Promise<typeof import('*.vue')> => import('@/components/ui/InputField.vue'),
-  },
+    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
+    AuthHeader: (): Promise<typeof import("*.vue")> => import("@/components/ui/Headers/DefaultHeader.vue"),
+    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/InputField.vue")
+  }
 })
 export default class Login extends Vue {
-  loading = false
+  loading = false;
   registerForm: RegisterUserDto = {
-    email: '',
-    username: '',
-    password: '',
-    confirmPassword: '',
-    firstName: '',
-    lastName: '',
-    registrationCode: '',
-    loginAfterRegister: false,
-  }
-  show = true
-  showConfirmPassword = false
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    firstName: "",
+    lastName: "",
+    registrationCode: "",
+    loginAfterRegister: false
+  };
+  show = true;
+  showConfirmPassword = false;
 
   async onSubmit(): Promise<void> {
-    this.loading = true
+    this.loading = true;
     if (this.validateForm()) {
       try {
-        const res = await AuthService.registerUser(this.registerForm)
+        const res = await AuthService.registerUser(this.registerForm);
+        console.log(res);
+        if (res.status === 200) {
+          UIHelper.SnackBar({ title: "Success", message: `${res.data.username} has been created`, classInfo: `primary`, isSnackBarShowing: true, errors: undefined });
 
-        if (this.registerForm.loginAfterRegister && res.status === 200) {
-          const loginUser = {
-            username: this.registerForm.username,
-            password: this.registerForm.password,
-          }
           setTimeout(() => {
-            this.loading = true
-            this.$store.dispatch('authStore/LoginUser', { loginUser })
-          }, 4000)
-        } else {
-          setTimeout(() => {
-            this.loading = true
-            this.$router.push('/login')
-          }, 3000)
+
+            this.$router.push("/login");
+          }, 3000);
         }
-      } catch (e) {
-        const errorList: string[] = []
 
+      } catch (e) {
+        const errorList: string[] = [];
 
 
         if (e.response.data) {
-          if(e.response.data.errors.length > 0) {
+          if (e.response.data.errors.length > 0) {
             e.response.data.errors.forEach((error: any) => {
-              errorList.push(error)
-            })
+              errorList.push(error);
+            });
           }
 
           UIHelper.SnackBar({
             title: "Error",
-            message:  e.response.data.message,
-            classInfo: 'error',
+            message: e.response.data.message,
+            classInfo: "error",
             isSnackBarShowing: true,
-            errors: errorList,
-          })
-        }else {
+            errors: errorList
+          });
+        } else {
           UIHelper.SnackBar({ title: "Error", message: `There was an error registering`, classInfo: `error`, isSnackBarShowing: true, errors: undefined });
 
         }
 
-        this.loading = false
+        this.loading = false;
       }
     }
   }
 
   validateForm(): boolean {
-    let validForm = true
-    const errorList: string[] = []
+    let validForm = true;
+    const errorList: string[] = [];
 
-    if (this.registerForm.username === '') {
-      validForm = false
-      errorList.push('Must provide a username')
+    if (this.registerForm.username === "") {
+      validForm = false;
+      errorList.push("Must provide a username");
     }
-    if (this.registerForm.loginAfterRegister === 'true') {
-      this.registerForm.loginAfterRegister = true
+    if (this.registerForm.loginAfterRegister === "true") {
+      this.registerForm.loginAfterRegister = true;
     }
     if (this.registerForm.password.length < 6) {
-      validForm = false
-      errorList.push('Password must be at least 6 characters long')
+      validForm = false;
+      errorList.push("Password must be at least 6 characters long");
     }
     if (this.registerForm.password !== this.registerForm.confirmPassword) {
-      validForm = false
-      errorList.push('Passwords must match')
+      validForm = false;
+      errorList.push("Passwords must match");
     }
-    if (this.registerForm.firstName === '') {
-      validForm = false
-      errorList.push('Must provide a first name')
-    }
-
-    if (this.registerForm.password === '') {
-      validForm = false
-      errorList.push('Must provide a password')
-    }
-    if (this.registerForm.email === '') {
-      validForm = false
-      errorList.push('Must Provide an email')
+    if (this.registerForm.firstName === "") {
+      validForm = false;
+      errorList.push("Must provide a first name");
     }
 
-    if (this.registerForm.registrationCode === '') {
-      validForm = false
-      errorList.push('Must provide a registration code')
+    if (this.registerForm.password === "") {
+      validForm = false;
+      errorList.push("Must provide a password");
+    }
+    if (this.registerForm.email === "") {
+      validForm = false;
+      errorList.push("Must Provide an email");
     }
 
-    let errorTitle
+    if (this.registerForm.registrationCode === "") {
+      validForm = false;
+      errorList.push("Must provide a registration code");
+    }
+
+    let errorTitle;
     if (!validForm) {
-      this.loading = false
+      this.loading = false;
       if (errorList.length > 1) {
-        errorTitle = 'Registration Errors'
+        errorTitle = "Registration Errors";
       } else {
-        errorTitle = 'Registration Error'
+        errorTitle = "Registration Error";
       }
     }
     if (!validForm) {
       UIHelper.SnackBar({
         title: errorTitle,
-        message: '',
+        message: "",
         isSnackBarShowing: true,
         errors: errorList,
-        classInfo: 'error',
-      })
+        classInfo: "error"
+      });
     }
-    return validForm
+    return validForm;
   }
 
   resetForm(): void {
-    this.registerForm.email = ''
-    this.registerForm.username = ''
-    this.registerForm.password = ''
-    this.registerForm.confirmPassword = ''
-    this.registerForm.firstName = ''
-    this.registerForm.registrationCode = ''
-    this.registerForm.loginAfterRegister = false
-    this.show = false
+    this.registerForm.email = "";
+    this.registerForm.username = "";
+    this.registerForm.password = "";
+    this.registerForm.confirmPassword = "";
+    this.registerForm.firstName = "";
+    this.registerForm.registrationCode = "";
+    this.registerForm.loginAfterRegister = false;
+    this.show = false;
     this.$nextTick(() => {
-      this.show = true
-    })
+      this.show = true;
+    });
   }
 }
 </script>

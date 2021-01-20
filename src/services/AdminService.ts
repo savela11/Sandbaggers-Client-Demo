@@ -4,10 +4,6 @@ import { EventVm } from '@/types/ViewModels/EventVm'
 
 const url = '/admin'
 
-interface ICreateRoleResponse {
-  errors: []
-  succeeded: boolean
-}
 
 class AdminService {
   static async eventList(): Promise<AxiosResponse<EventVm[]>> {

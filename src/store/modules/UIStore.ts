@@ -15,7 +15,7 @@ const state: IUIState = {
   snackBar: {
     title: '',
     message: '',
-    errors: '',
+    errors: [],
     classInfo: '',
     isSnackBarShowing: false
   } as ISnackBar,
