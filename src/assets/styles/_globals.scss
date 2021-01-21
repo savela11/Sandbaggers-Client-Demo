@@ -6,6 +6,7 @@
 @forward './mixins/mediaQueries';
 @forward "./mixins/fontSize";
 @forward "./mixins/lineHeight";
+@forward './mixins/universal';
 @forward "./vars/colors" as color-*;
 @forward "./vars/mediaQuerySizes" as mQ-*;
 @forward './vars/font' as font-*;

@@ -3,6 +3,7 @@
   "arrowParens": "always",
   "singleQuote": true,
   "vueIndentScriptAndStyle": false,
+  "embeddedLanguageFormatting": "auto",
   "endOfLine": "auto",
   "printWidth": 180
 }

@@ -46,11 +46,11 @@
       </template>
     </Modal>
     <div class="top">
-      <div class="scrambleChamps" v-if="ScrambleChamps.length > 0">
-        <div class="title">
-          <h2 class="text text--md text--bold color--white">Scramble Champs</h2>
+      <div class="scrambleChamps">
+        <div class="scrambleChamps__title">
+          <h2 class="scrambleChamps__title__text">Scramble Champs</h2>
         </div>
-        <div class="flexContainer">
+        <div class="scrambleChamps__list flex" v-if="ScrambleChamps.length > 0">
           <div class="champ" v-for="champ in ScrambleChamps" :key="champ.userId">
             <div class="imgContainer">
               <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
@@ -58,12 +58,7 @@
             <p class="text text--xs color--white text--center">{{ champ.fullName }}</p>
           </div>
         </div>
-      </div>
-      <div class="scrambleChamps" v-else>
-        <div class="title">
-          <h2 class="text text--md text--bold color--white">Scramble Champs</h2>
-        </div>
-        <div class="flexContainer">
+        <div class="scrambleChamps__list flex" v-else>
           <div class="champ">
             <div class="imgContainer">
               <img src="@/assets/SBLogo.png" alt="Sandbagger Logo" />
@@ -90,10 +85,15 @@
           </div>
         </div>
       </div>
+
       <div class="viewButtons">
-        <h2 class="text text--lg color--white text--bold">Latest</h2>
+        <div class="viewButtons__title">
+          <h2 class="viewButtons__title__text">Latest</h2>
+        </div>
         <div class="buttons">
-          <button v-for="view in dashboardViews" :key="view" @click="handleViewChange(view)" class="text text--center text--xs" :class="{ active: view === currentView }">{{ view }}</button>
+          <button v-for="view in dashboardViews" :key="view" @click="handleViewChange(view)" class="text text--center text--xs" :class="{ active: view === currentView }">
+            {{ view }}
+          </button>
         </div>
       </div>
     </div>
@@ -128,7 +128,7 @@
                 <router-link :to="'/sandbagger/' + sb.id">
                   <div>
                     <img v-if="sb.image === null" src="@/assets/icons/accountCircle.svg" alt="account icon" />
-                    <img v-else :src="sb.image" alt="account icon">
+                    <img v-else :src="sb.image" alt="account icon" />
                   </div>
                   <div>
                     <span class="sandbagger__name text text--sm text-vpMD--md">
@@ -148,7 +148,6 @@
             </div>
           </div>
           <DashboardBets v-if="currentView === 'Bets'" :bets="Bets" />
-
         </div>
         <Loading v-if="loading" />
       </div>
@@ -157,163 +156,160 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import UIHelper from "@/utility/UIHelper";
-import Helper from "@/utility/Helper";
-import BetService from "@/services/BetService";
-import { BetVm } from "@/types/ViewModels/BetVm";
-import { SandbaggerWithHandicapVm } from "@/types/DashboardTypes";
-import DashboardService from "@/services/DashboardService";
-import { ScrambleChampVm } from "@/types/ViewModels/EventResultsVm";
+import { Component, Vue } from 'vue-property-decorator'
+import UIHelper from '@/utility/UIHelper'
+import Helper from '@/utility/Helper'
+import BetService from '@/services/BetService'
+import { BetVm } from '@/types/ViewModels/BetVm'
+import { SandbaggerWithHandicapVm } from '@/types/DashboardTypes'
+import DashboardService from '@/services/DashboardService'
+import { ScrambleChampVm } from '@/types/ViewModels/EventResultsVm'
 
 @Component({
-  name: "Dashboard",
+  name: 'Dashboard',
   components: {
-    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
-    Modal: (): Promise<typeof import("*.vue")> => import("@/components/ui/Modals/Modal.vue"),
-    DashboardBets: (): Promise<typeof import("*.vue")> => import("@/views/dashboard/dashboardBets.vue")
-  }
+    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
+    Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue'),
+    DashboardBets: (): Promise<typeof import('*.vue')> => import('@/views/dashboard/dashboardBets.vue'),
+  },
 })
 export default class Dashboard extends Vue {
-  loading = true;
-  descendingHandicap = false;
-  isSearchInputShowing = false;
-  searchInput = "";
-  currentView = "Handicaps";
-  dashboardViews = ["Handicaps", "Rounds", "Bets"];
-  Bets: BetVm[] = [];
-  selectedBet: BetVm | null = null;
-  ScrambleChamps: ScrambleChampVm[] = [];
+  loading = true
+  descendingHandicap = false
+  isSearchInputShowing = false
+  searchInput = ''
+  currentView = 'Handicaps'
+  dashboardViews = ['Handicaps', 'Rounds', 'Bets']
+  Bets: BetVm[] = []
+  selectedBet: BetVm | null = null
+  ScrambleChamps: ScrambleChampVm[] = []
 
   // Sandbaggers with Handicap pagination
-  size = 5;
-  pageNumber = 0;
-  Sandbaggers: SandbaggerWithHandicapVm[] = [];
+  size = 5
+  pageNumber = 0
+  Sandbaggers: SandbaggerWithHandicapVm[] = []
 
   get sandbaggerCount(): number {
     const l = this.Sandbaggers.length,
-        s = this.size;
-    return Math.ceil(l / s);
+      s = this.size
+    return Math.ceil(l / s)
   }
 
   changePage(status: string): void {
-    if (status === "next") {
-      this.pageNumber++;
+    if (status === 'next') {
+      this.pageNumber++
     } else {
-      this.pageNumber--;
+      this.pageNumber--
     }
   }
 
   handleViewChange(view: string): void {
-    const viewButtons = document.querySelector(".viewButtons");
-    const buttons = viewButtons?.querySelector(".buttons") as HTMLButtonElement;
-    if (view === "Bets") {
-      this.getBets();
+    const viewButtons = document.querySelector('.viewButtons')
+    const buttons = viewButtons?.querySelector('.buttons') as HTMLButtonElement
+    if (view === 'Bets') {
+      this.getBets()
     }
-    if (view === "Handicaps" && buttons) {
-      buttons.scrollLeft = 0;
+    if (view === 'Handicaps' && buttons) {
+      buttons.scrollLeft = 0
     } else {
-      buttons.scrollLeft = 100;
+      buttons.scrollLeft = 100
     }
 
-    this.currentView = view;
+    this.currentView = view
   }
 
   mounted(): void {
-    UIHelper.Header({ title: "Dashboard", isShowing: true, current: "main", bgColor: "#17252a" });
+    UIHelper.Header({ title: 'Dashboard', isShowing: true, current: 'main', bgColor: '#17252a' })
 
-    this.getDashboardData();
+    this.getDashboardData()
   }
 
   get filteredSandbaggers(): SandbaggerWithHandicapVm[] {
     const start = this.pageNumber * this.size,
-        end = start + this.size;
+      end = start + this.size
 
     const filteredSandbaggers = this.Sandbaggers.filter((sb) => {
-      return sb.fullName.toLowerCase().includes(this.searchInput.toLowerCase());
-    });
+      return sb.fullName.toLowerCase().includes(this.searchInput.toLowerCase())
+    })
 
-    return filteredSandbaggers.slice(start, end);
+    return filteredSandbaggers.slice(start, end)
   }
 
   async getDashboardData(): Promise<void> {
-    this.loading = true;
+    this.loading = true
     try {
-      const res = await DashboardService.DashboardData();
+      const res = await DashboardService.DashboardData()
       if (res.status === 200) {
-        this.Sandbaggers = this.sortSandbaggersAscending(res.data.sandbaggersWithHandicaps);
-        this.ScrambleChamps = res.data.scrambleChamps;
+        this.Sandbaggers = this.sortSandbaggersAscending(res.data.sandbaggersWithHandicaps)
+        this.ScrambleChamps = res.data.scrambleChamps
       }
     } catch (e) {
-      console.log(e);
+      console.log(e)
     } finally {
       setTimeout(() => {
-        this.loading = false;
-      }, Helper.randomNumber(3000));
+        this.loading = false
+      }, Helper.randomNumber(3000))
     }
   }
 
-
   async getBets(): Promise<void> {
-    this.loading = true;
+    this.loading = true
     try {
-      const res = await DashboardService.ActiveBets();
+      const res = await DashboardService.ActiveBets()
       if (res.status === 200) {
-        this.Bets = res.data;
+        this.Bets = res.data
       }
     } catch (e) {
-      console.log(e);
+      console.log(e)
     } finally {
       setTimeout(() => {
-        this.loading = false;
-      }, Math.floor(Math.random() * 3000));
+        this.loading = false
+      }, Math.floor(Math.random() * 3000))
     }
   }
 
   toggleDescendingHandicaps(): void {
-    this.descendingHandicap = !this.descendingHandicap;
-    this.descendingHandicap ? (this.Sandbaggers = this.sortSandbaggersDescending(this.Sandbaggers)) : (this.Sandbaggers = this.sortSandbaggersAscending(this.Sandbaggers));
+    this.descendingHandicap = !this.descendingHandicap
+    this.descendingHandicap ? (this.Sandbaggers = this.sortSandbaggersDescending(this.Sandbaggers)) : (this.Sandbaggers = this.sortSandbaggersAscending(this.Sandbaggers))
   }
 
   sortSandbaggersDescending(sandbaggers: Array<SandbaggerWithHandicapVm>): Array<SandbaggerWithHandicapVm> {
     return sandbaggers.sort((a, b) => {
       if (a.handicap > b.handicap) {
-        return -1;
+        return -1
       } else if (a.handicap < b.handicap) {
-        return 1;
+        return 1
       } else {
-        return 0;
+        return 0
       }
-    });
+    })
   }
 
   sortSandbaggersAscending(sandbaggers: Array<SandbaggerWithHandicapVm>): Array<SandbaggerWithHandicapVm> {
     return sandbaggers.sort((a, b) => {
       if (a.handicap > b.handicap) {
-        return 1;
+        return 1
       } else if (a.handicap < b.handicap) {
-        return -1;
+        return -1
       } else {
-        return 0;
+        return 0
       }
-    });
+    })
   }
 
   toggleSearch(): void {
-    this.isSearchInputShowing = !this.isSearchInputShowing;
+    this.isSearchInputShowing = !this.isSearchInputShowing
   }
 
   selectBet(bet: BetVm): void {
-    this.selectedBet = bet;
-    document.body.style.position = "fixed";
+    this.selectedBet = bet
+    document.body.style.position = 'fixed'
   }
 
   closeSelectedBetModal(): void {
-    this.selectedBet = null;
-    document.body.style.position = "static";
+    this.selectedBet = null
+    document.body.style.position = 'static'
   }
-
-
 }
 </script>
 

@@ -1,4 +1,24 @@
 ﻿@use './globals' as g;
+
+@mixin modifiers($map, $attribute, $prefix: '-', $separator: '-', $base: 'base') {
+  @each $key, $value in $map {
+    //@debug 'map' $map;
+    //@debug 'key' $key;
+    //@debug 'attribute' $attribute;
+    &#{if($key != $base, #{$prefix}#{$key}, '')} {
+      @if type-of($value) == 'map' {
+        @include modifiers($value, $attribute, $separator);
+      } @else {
+        #{$attribute}: $value;
+      }
+    }
+  }
+}
+
+.text {
+  @include modifiers(g.$font-title, 'font-size', '--');
+}
+
 .text {
   font-weight: normal;
 
@@ -16,7 +36,7 @@
   }
 
   &--md {
-    @include g.font-size(g.$font-md)
+    @include g.font-size(g.$font-md);
   }
 
   &--lg {
@@ -28,7 +48,7 @@
   }
 
   &--title {
-    @include g.font-size(g.$font-title);;
+    @include g.font-size(g.$font-title);
   }
 
   &--headerTitle {
@@ -40,9 +60,8 @@
   }
 
   &--label {
-    @include g.font-size(g.$font-label)
+    @include g.font-size(g.$font-label);
   }
-
 }
 
 .text-vpMD {
@@ -60,7 +79,7 @@
     }
 
     &--md {
-      @include g.font-size(g.$font-md-vpMD)
+      @include g.font-size(g.$font-md-vpMD);
     }
 
     &--lg {
@@ -72,7 +91,7 @@
     }
 
     &--title {
-      @include g.font-size(g.$font-title-vpMD);;
+      @include g.font-size(g.$font-title-vpMD);
     }
 
     &--headerTitle {
@@ -84,7 +103,7 @@
     }
 
     &--label {
-      @include g.font-size(g.$font-label-vpMD)
+      @include g.font-size(g.$font-label-vpMD);
     }
   }
 }
@@ -104,7 +123,7 @@
     }
 
     &--md {
-      @include g.font-size(g.$font-md-vpLG)
+      @include g.font-size(g.$font-md-vpLG);
     }
 
     &--lg {
@@ -116,7 +135,7 @@
     }
 
     &--title {
-      @include g.font-size(g.$font-title-vpLG);;
+      @include g.font-size(g.$font-title-vpLG);
     }
 
     &--headerTitle {
@@ -128,7 +147,7 @@
     }
 
     &--label {
-      @include g.font-size(g.$font-label-vpLG)
+      @include g.font-size(g.$font-label-vpLG);
     }
   }
 }
@@ -143,7 +162,7 @@
   }
 
   &--boldest {
-    font-weight: 900
+    font-weight: 900;
   }
 
   &--fw {
@@ -201,9 +220,7 @@
   }
 }
 
-
 .color {
-
   &--primary {
     color: g.$color-PrimaryFS;
   }
@@ -220,7 +237,6 @@
     color: g.$color-DarkBlue;
   }
 
-
   &--link {
     color: #007bff;
   }
@@ -229,7 +245,8 @@
     color: white;
   }
 
-  &--error, &--danger {
+  &--error,
+  &--danger {
     color: g.$color-danger;
   }
 }
