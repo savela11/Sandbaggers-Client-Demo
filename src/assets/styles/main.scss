@@ -35,9 +35,6 @@ body {
   width: 100%;
 }
 
-
-
-
 .divider {
   color: rgba(0, 0, 0, 0.87);
   display: block;
@@ -47,32 +44,11 @@ body {
   border-width: thin 0 0 0;
   transition: inherit;
   max-width: 100%;
-  border-color: rgba(0, 0, 0, .12);
+  border-color: rgba(0, 0, 0, 0.12);
   background-color: lightgrey;
   width: 100%;
   margin: 0 0 1rem 0;
   height: 1px;
-}
-
-.greyLinks {
-  display: flex;
-  justify-content: center;
-  margin-top: 3rem;
-
-  p {
-    color: grey;
-    font-size: 0.8rem;
-  }
-
-  a {
-    text-decoration: none;
-    color: blue;
-    margin-left: 0.5rem;
-  }
-}
-
-a {
-  -webkit-tap-highlight-color: transparent;
 }
 
 .z {
@@ -90,6 +66,3 @@ a {
     z-index: 3;
   }
 }
-
-
-

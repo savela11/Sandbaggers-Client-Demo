@@ -1,14 +1,9 @@
 ﻿@use "../globals" as g;
 
-
 .c-field-container {
-  padding: .8rem 0 .5rem 0;
+  padding: 0.8rem 0 0.5rem 0;
   flex: auto;
-  @include g.tablet {
-    padding: 1rem 0;
-  }
 }
-
 
 .c-field {
   flex: auto;
@@ -18,21 +13,23 @@
   position: relative;
   font-family: 'Raleway', sans-serif;
   @include g.font-size(g.$font-input);
-  border: 1px solid rgba(60, 60, 67, .2);
+  border: 1px solid rgba(60, 60, 67, 0.2);
   outline: none;
   border-radius: 5px;
-  padding: .5rem .8rem;
+  padding: 0.5rem 0.8rem;
   line-height: 25px;
 
   @include g.mobile {
-    padding: .3rem .9rem;
+    padding: 0.3rem 0.9rem;
   }
   @include g.tablet {
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
   }
 
-
-  &:active, &:focus, &:focus-within, &.active {
+  &:active,
+  &:focus,
+  &:focus-within,
+  &.active {
     border: 2px solid g.$color-PrimaryFS;
 
     label {
@@ -46,32 +43,32 @@
     }
   }
 
-
   label {
     position: absolute;
-    color: rgba(40, 40, 40, .7);
+    color: rgba(40, 40, 40, 0.7);
     @include g.font-size(g.$font-label);
-
 
     input {
       top: 50%;
       transform: translateY(-50%);
     }
-
-
   }
 
-  input, textarea {
-    padding: .5rem .2rem;
+  input,
+  textarea {
+    padding: 0.5rem 0.2rem;
     width: 100%;
     border: none;
     outline: none;
     line-height: 1.4;
-    color: rgba(40, 40, 40, .7);
+    color: rgba(40, 40, 40, 0.7);
     @include g.font-size(g.$font-input);
     @include g.tablet {
-      padding: .8rem;
+      padding: 0.8rem;
       line-height: 1.6;
+    }
+    @include g.tablet-landscape {
+      padding: 0.4rem;
     }
   }
 
@@ -83,8 +80,6 @@
     flex: auto;
     min-height: 150px;
   }
-
-
 }
 
 .sm {
@@ -93,16 +88,19 @@
 
 .search {
   min-height: 40px;
-  padding: .2rem .8rem;
+  padding: 0.2rem 0.8rem;
   border: 1px solid rgba(60, 60, 67, 0.2);
   border-radius: 50px;
 
   label {
     color: rgba(60, 60, 67, 0.2);
-    padding: 0 .3rem;
+    padding: 0 0.3rem;
   }
 
-  &:active, &:focus, &:focus-within, &.active {
+  &:active,
+  &:focus,
+  &:focus-within,
+  &.active {
     border: 2px solid rgba(60, 60, 67, 0.8);
 
     label {
@@ -111,13 +109,17 @@
     }
   }
 
-  input, textarea {
+  input,
+  textarea {
     color: rgba(60, 60, 67, 0.8);
   }
 }
 
 .primary {
-  &:active, &:focus, &:focus-within, &.active {
+  &:active,
+  &:focus,
+  &:focus-within,
+  &.active {
     border: 2px solid g.$color-primary;
 
     label {
@@ -125,14 +127,17 @@
     }
   }
 
-  input, textarea {
+  input,
+  textarea {
     color: g.$color-primary;
   }
-
 }
 
 .secondary {
-  &:active, &:focus, &:focus-within, &.active {
+  &:active,
+  &:focus,
+  &:focus-within,
+  &.active {
     border: 2px solid g.$color-secondary;
 
     label {
@@ -140,8 +145,8 @@
     }
   }
 
-  input, textarea {
+  input,
+  textarea {
     color: g.$color-secondary;
   }
 }
-

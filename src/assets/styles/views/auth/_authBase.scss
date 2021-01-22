@@ -1,0 +1,56 @@
+﻿@use '../../globals' as g;
+
+$-baseAuthForm: (
+  'width': (
+    g.$mQ-tablet-landscape: 60%,
+    g.$mQ-desktopSmall: 50%,
+    g.$mQ-desktop: 45%,
+    g.$mQ-desktopLarge: 40%,
+  ),
+);
+$-registerForm: g.deepMerge(
+  $-baseAuthForm,
+  (
+    'width': (
+      g.$mQ-tablet-landscape: 90%,
+      g.$mQ-desktopSmall: 80%,
+      g.$mQ-desktop: 70%,
+      g.$mQ-desktopLarge: 60%,
+    ),
+  )
+);
+
+.greyLinks {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+
+  a {
+    text-decoration: none;
+    color: blue;
+    margin-left: 0.5rem;
+  }
+}
+
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+.login,
+.register {
+  margin: 0;
+  @include g.tablet-landscape {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form {
+    @include g.printStyles($-baseAuthForm);
+  }
+}
+.register {
+  .form {
+    @include g.printStyles($-registerForm);
+  }
+}

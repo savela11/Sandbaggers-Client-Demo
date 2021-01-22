@@ -18,9 +18,8 @@
         <input type="submit" class="btn submit btn--bg-darkBlue btn--sm" id="loginBTN" value="Login" />
       </form>
     </div>
-
     <div class="greyLinks" v-if="!loading">
-      <p>
+      <p class="text text--xs color--grey">
         Need an account?
         <router-link to="/register">Register</router-link>
       </p>
@@ -30,75 +29,74 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { ISnackBar } from "@/types/UI/SnackBar";
-import AuthService from "@/services/AuthService";
-import UIHelper from "@/utility/UIHelper";
-import { LoginUserDto } from "@/types/DTO/AuthDto";
+import { Component, Vue } from 'vue-property-decorator'
+import { ISnackBar } from '@/types/UI/SnackBar'
+import AuthService from '@/services/AuthService'
+import UIHelper from '@/utility/UIHelper'
+import { LoginUserDto } from '@/types/DTO/AuthDto'
 
 @Component({
-  name: "Login",
+  name: 'Login',
   components: {
-    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/InputField.vue"),
-    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue")
-  }
+    InputField: (): Promise<typeof import('*.vue')> => import('@/components/ui/InputField.vue'),
+    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
+  },
 })
 export default class Login extends Vue {
-  loading = false;
+  loading = false
   LoginForm: LoginUserDto = {
-    username: "",
-    password: ""
-  };
-  showPassword = false;
-
-  mounted(): void {
+    username: '',
+    password: '',
   }
+  showPassword = false
+
+  mounted(): void {}
 
   updateLoginForm(val: string): void {
-    this.LoginForm.username = val;
+    this.LoginForm.username = val
   }
 
   validateForm(): boolean {
-    if (this.LoginForm.username === "" || this.LoginForm.password === "") {
+    if (this.LoginForm.username === '' || this.LoginForm.password === '') {
       UIHelper.SnackBar({
-        title: "Login Error",
-        message: "Please provide a username and password",
+        title: 'Login Error',
+        message: 'Please provide a username and password',
         isSnackBarShowing: true,
-        classInfo: "error",
-        errors: []
-      });
-      return false;
+        classInfo: 'error',
+        errors: [],
+      })
+      return false
     } else {
-      return true;
+      return true
     }
   }
 
   async onSubmit(): Promise<void> {
-    UIHelper.clickedButton("loginBTN");
-    this.loading = true;
-    const validForm = this.validateForm();
+    UIHelper.clickedButton('loginBTN')
+    this.loading = true
+    const validForm = this.validateForm()
     if (validForm) {
       try {
-        const res = await AuthService.loginUser(this.LoginForm);
+        const res = await AuthService.loginUser(this.LoginForm)
         if (res.status === 200) {
-          await this.$store.dispatch("authStore/SetLoggedInUser", res.data);
+          await this.$store.dispatch('authStore/SetLoggedInUser', res.data)
         }
       } catch (e) {
-        this.loading = false;
+        this.loading = false
         if (e.response.data) {
-          UIHelper.SnackBar({ title: "Login Error", message: `${e.response.data.message}`, classInfo: `error`, isSnackBarShowing: true, errors: undefined });
+          UIHelper.SnackBar({ title: 'Login Error', message: `${e.response.data.message}`, classInfo: `error`, isSnackBarShowing: true, errors: undefined })
         } else {
-
-          UIHelper.SnackBar({ title: "Login Error", message: `Issue Logging in`, classInfo: `error`, isSnackBarShowing: true, errors: undefined });
-
+          UIHelper.SnackBar({ title: 'Login Error', message: `Issue Logging in`, classInfo: `error`, isSnackBarShowing: true, errors: undefined })
         }
       }
     } else {
-      this.loading = false;
-      return;
+      this.loading = false
+      return
     }
   }
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+@use "~@/assets/styles/views/auth/_authBase.scss";
+</style>

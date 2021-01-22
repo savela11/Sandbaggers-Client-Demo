@@ -4,6 +4,7 @@
 //@import './mixins/_lineHeight.scss';
 
 @forward './mixins/mediaQueries';
+@forward './mixins/deepMerge';
 @forward "./mixins/fontSize";
 @forward "./mixins/lineHeight";
 @forward './mixins/universal';

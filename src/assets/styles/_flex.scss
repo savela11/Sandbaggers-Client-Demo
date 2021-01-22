@@ -1,6 +1,15 @@
+@use './mixins/mediaQueries' as mQ;
 .flex {
   display: flex;
 
+  &--sm {
+  }
+
+  &--md {
+  }
+
+  &--lg {
+  }
 
   &--iCenter {
     align-items: center;
@@ -47,3 +56,33 @@
   }
 }
 
+.flexContainer {
+  &--sm {
+  }
+
+  &--md {
+  }
+
+  &--lg {
+    @include mQ.tablet-landscape {
+      flex-wrap: nowrap;
+      display: flex;
+    }
+  }
+}
+
+.flexItem {
+  flex: auto;
+  padding-right: 0.5rem !important;
+
+  @include mQ.desktopSmall {
+    padding-right: 0.8rem !important;
+  }
+  &:last-child {
+    padding-right: 0 !important;
+  }
+
+  &:first-child {
+    padding-left: 0 !important;
+  }
+}

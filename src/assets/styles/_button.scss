@@ -4,10 +4,10 @@
 @use './mixins/fontSize' as *;
 
 $--preNextBtnFS: (
-        null: 0.8rem,
-        $mobile: 0.9rem,
-        $tablet: 1rem,
-        $tablet-landscape: 1.1rem,
+  null: 0.8rem,
+  $mobile: 0.9rem,
+  $tablet: 1rem,
+  $tablet-landscape: 1.1rem,
 );
 
 button {
@@ -45,12 +45,6 @@ button {
       padding: 0;
     }
   }
-
-
-
-
-
-
 
   &.clicked {
     transform: translateY(4px);
@@ -92,9 +86,6 @@ button {
     }
   }
 }
-
-
-
 
 .backBtn {
   padding: 1rem;
@@ -146,21 +137,17 @@ button {
     &-darkGreen {
       background-color: white;
       border: 1px solid $DarkGreen;
-
     }
   }
-
 
   &--borderBottom {
     border-top: none;
     border-left: none;
     border-right: none;
-
   }
 }
 
 .btn {
-
   &--tiny {
     padding: 0.2rem 0.8rem;
   }
@@ -185,6 +172,9 @@ button {
 
     @include tablet {
       padding: 0.7rem 2.8rem;
+    }
+    @include tablet-landscape {
+      padding: 0.8rem 3rem;
     }
   }
 

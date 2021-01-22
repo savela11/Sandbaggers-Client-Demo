@@ -2,7 +2,6 @@
 
 .app {
   .routerView {
-    min-height: 100vh;
     padding: 2rem 1rem;
     position: relative;
     margin-bottom: 70px;
@@ -12,14 +11,12 @@
     @include g.tablet {
       padding: 3rem 2rem;
     }
-
-
   }
 
   .withBackBtn {
-    padding: .8rem 1rem;
+    padding: 0.8rem 1rem;
     @include g.mobile {
-      padding: .8rem 1.5rem;
+      padding: 0.8rem 1.5rem;
     }
 
     @include g.tablet {
@@ -33,4 +30,3 @@
     }
   }
 }
-
