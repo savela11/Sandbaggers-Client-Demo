@@ -1,88 +1,91 @@
 @use './mixins/mediaQueries' as mQ;
 .flex {
-  display: flex;
-
-  &--sm {
-  }
-
-  &--md {
-  }
-
-  &--lg {
-  }
-
-  &--iCenter {
-    align-items: center;
-  }
-
-  &--iStart {
-    align-items: flex-start;
-  }
-
-  &--iEnd {
-    align-items: flex-end;
-  }
-
-  // flex direction
-  &--column {
-    flex-direction: column;
-  }
-
-  &--row {
-    flex-direction: row;
-  }
-
-  // flex wrap
-
-  &--noWrap {
-    flex-wrap: nowrap;
-  }
-
-  // justify-content
-  &--start {
-    justify-content: flex-start;
-  }
-
-  &--center {
-    justify-content: center;
-  }
-
-  &--between {
-    justify-content: space-between;
-  }
-
-  &--end {
-    justify-content: flex-end;
-  }
-}
-
-.flexContainer {
-  &--sm {
-  }
-
-  &--md {
-  }
-
-  &--lg {
-    @include mQ.tablet-landscape {
-      flex-wrap: nowrap;
-      display: flex;
+    &--xs {
+        display: flex;
     }
-  }
+    &--sm {
+        @include mQ.mobile {
+            display: flex;
+        }
+    }
+
+    &--md {
+        @include mQ.tablet {
+            display: flex;
+        }
+    }
+
+    &--lg {
+        @include mQ.tablet-landscape {
+            display: flex;
+        }
+    }
+
+    &--iCenter {
+        align-items: center;
+    }
+
+    &--iStart {
+        align-items: flex-start;
+    }
+
+    &--iEnd {
+        align-items: flex-end;
+    }
+
+    // flex direction
+    &--column {
+        flex-direction: column;
+
+        &-reverse {
+            flex-direction: column-reverse;
+        }
+    }
+
+    &--row {
+        flex-direction: row;
+    }
+
+    // flex wrap
+
+    &--wrap {
+        flex-wrap: wrap;
+    }
+    &--noWrap {
+        flex-wrap: nowrap;
+    }
+
+    // justify-content
+    &--start {
+        justify-content: flex-start;
+    }
+
+    &--center {
+        justify-content: center;
+    }
+
+    &--between {
+        justify-content: space-between;
+    }
+
+    &--end {
+        justify-content: flex-end;
+    }
 }
 
 .flexItem {
-  flex: auto;
-  padding-right: 0.5rem !important;
-
-  @include mQ.desktopSmall {
-    padding-right: 0.8rem !important;
-  }
-  &:last-child {
-    padding-right: 0 !important;
-  }
-
-  &:first-child {
-    padding-left: 0 !important;
-  }
+    flex: auto;
+    padding: 0.5rem !important;
+    @include mQ.tablet {
+        padding: 0.6rem !important;
+    }
+    @include mQ.tablet-landscape {
+        padding: 0.5rem !important;
+    }
+    @include mQ.desktopSmall {
+        padding-right: 0.8rem !important;
+    }
+    @include mQ.desktopLarge {
+        padding-right: 1rem !important;
+    }
 }

@@ -1,8 +1,8 @@
 ﻿<template>
   <header class="heading">
-    <div class="heading__backgroundColor" v-bind:style="{ backgroundColor: backgroundColor }">
+    <div class="heading__container" v-bind:style="{ backgroundColor: backgroundColor }">
       <div class="heading__image">
-        <svg width="34" height="60" viewBox="0 0 34 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 34 72" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="31.6004" cy="2.4" r="2.4" fill="white" />
           <circle cx="17.2004" cy="2.4" r="2.4" fill="white" />
           <circle cx="2.80039" cy="2.4" r="2.4" fill="white" />
@@ -27,24 +27,25 @@
         </svg>
       </div>
       <div class="heading__title">
-        <h1 class="text text--bolder text--headerTitle color--white">{{ title }}</h1>
+        <h1>{{ title }}</h1>
       </div>
+      <img class="heading__bgImg" :src="require('@/assets/test.jpg')" alt="" />
     </div>
     <div class="heading__smallText">
-      <p class="text text--sm">{{ smallText }}</p>
+      <p>{{ smallText }}</p>
     </div>
   </header>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
-@Component({ name: "DefaultHeader" })
+@Component({ name: 'DefaultHeader' })
 export default class DefaultHeader extends Vue {
-  @Prop({ default: "Sandbaggers" }) private smallText: string | undefined;
-  @Prop({ default: "Default" }) private title!: string;
-  @Prop({ default: "#425a41" }) private backgroundColor: string | undefined;
-  @Prop() private fontSize: string | undefined;
+  @Prop({ default: 'Sandbaggers' }) private smallText: string | undefined
+  @Prop({ default: 'Default' }) private title!: string
+  @Prop({ default: '#425a41' }) private backgroundColor: string | undefined
+  @Prop() private fontSize: string | undefined
 }
 </script>
 

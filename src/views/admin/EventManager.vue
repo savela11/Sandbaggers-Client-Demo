@@ -9,8 +9,17 @@
             </svg>
           </template>
         </IconBtn>
-        <SelectBoxComponent v-if="selectedYear" :selected="selectedYear.year" :options="Events" keyValue="eventId" optionValue="year" :showSelectOptions="showSelectOptions"
-                            @click.prevent.stop="toggleSelectBox" @select-option="selectOption" />
+        <SelectBoxComponent
+          v-if="selectedYear"
+          :selected="selectedYear"
+          :options="Events"
+          keyValue="eventId"
+          selected-value="year"
+          optionValue="year"
+          :showSelectOptions="showSelectOptions"
+          @click.prevent.stop="toggleSelectBox"
+          @select-option="selectOption"
+        />
       </div>
       <div class="eventList">
         <div class="selectedEvent" v-if="selectedYear">
@@ -21,12 +30,12 @@
                 <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M3.125 17.9688V21.875H7.03125L18.5521 10.3542L14.6458 6.44792L3.125 17.9688ZM21.5729 7.33334C21.9792 6.92709 21.9792 6.27084 21.5729 5.86459L19.1354 3.42709C18.7292 3.02084 18.0729 3.02084 17.6667 3.42709L15.7604 5.33334L19.6667 9.23959L21.5729 7.33334V7.33334Z"
-                    fill="#17252A" />
+                    fill="#17252A"
+                  />
                 </svg>
               </template>
             </IconBtn>
           </div>
-
 
           <div class="selectedEvent__grid">
             <div class="location">
@@ -41,10 +50,7 @@
                 <p class="text text--sm color--secondary my-03">{{ selectedYear.location.postalCode }}</p>
               </div>
             </div>
-            <div class="registeredUsers">
-
-            </div>
-
+            <div class="registeredUsers"></div>
           </div>
         </div>
       </div>

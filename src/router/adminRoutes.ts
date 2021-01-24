@@ -8,104 +8,102 @@ import AuthLayoutNoHeader from '@/layouts/authLayouts/AuthLayoutNoHeader.vue'
 import AuthLayoutNoBars from '@/layouts/authLayouts/AuthLayoutNoBars.vue'
 
 function loadView(view: string) {
-  return (): Promise<typeof import('*.vue')> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`)
+    return (): Promise<typeof import('*.vue')> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`)
 }
 
 function guardAdminRoute(to: Route, from: Route, next: any): any {
-  let authenticated = false
-  if (store.state.authStore.isLoggedIn && store.state.authStore.currentUser && store.state.authStore.currentUser.roles.includes('Admin')) {
-    authenticated = true
-  }
-  if (authenticated) {
-
-    if(to.meta.backBtn) {
-      store.dispatch("navigationStore/_setBackBtnShowingStatus", true).then()
-    }else {
-      store.dispatch("navigationStore/_setBackBtnShowingStatus", false).then()
+    let authenticated = false
+    if (store.state.authStore.isLoggedIn && store.state.authStore.currentUser && store.state.authStore.currentUser.roles.includes('Admin')) {
+        authenticated = true
     }
-    UIHelper.PageLoading(false)
-    UIHelper.Header({ current: 'main', isShowing: true, title: 'Admin', bgColor: 'white' })
-    next()
-  } else {
-    store.dispatch('authStore/Logout').then()
-    next('/login')
-  }
+    if (authenticated) {
+        if (to.meta.backBtn) {
+            store.dispatch('navigationStore/_setBackBtnShowingStatus', true).then()
+        } else {
+            store.dispatch('navigationStore/_setBackBtnShowingStatus', false).then()
+        }
+        UIHelper.PageLoading(false)
+        UIHelper.Header({ current: 'main', isShowing: true, title: 'Admin', bgColor: 'white' })
+        next()
+    } else {
+        store.dispatch('authStore/Logout').then()
+        next('/login')
+    }
 }
 
 export default [
-  {
-    path: '/admin',
-    name: 'Admin',
-    beforeEnter: guardAdminRoute,
-    component: loadView('admin/index'),
-    meta: {},
-  },
-  {
-    path: '/admin/roles',
-    name: 'Roles',
-    beforeEnter: guardAdminRoute,
-    component: loadView('admin/Roles'),
-    meta: {
-      layout: AuthLayout,
+    {
+        path: '/admin',
+        name: 'Admin',
+        beforeEnter: guardAdminRoute,
+        component: loadView('admin/index'),
+        meta: {},
     },
-  },
-  {
-    path: '/admin/createRole',
-    name: 'CreateRole',
-    beforeEnter: guardAdminRoute,
-    component: loadView('admin/CreateRole'),
-    meta: {
-      layout: AuthLayoutNoHeader,
-      backBtn: true
+    {
+        path: '/admin/roles',
+        name: 'Roles',
+        beforeEnter: guardAdminRoute,
+        component: loadView('admin/Roles'),
+        meta: {
+            layout: AuthLayout,
+        },
     },
-  },
-  {
-    path: '/admin/roles/editRole/:id',
-    name: 'EditRole',
-    beforeEnter: guardAdminRoute,
-    component: loadView('admin/role/EditRole'),
-    meta: {
-      layout: AuthLayout,
+    {
+        path: '/admin/createRole',
+        name: 'CreateRole',
+        beforeEnter: guardAdminRoute,
+        component: loadView('admin/CreateRole'),
+        meta: {
+            layout: AuthLayoutNoHeader,
+            backBtn: true,
+        },
     },
-  },
+    {
+        path: '/admin/roles/editRole/:id',
+        name: 'EditRole',
+        beforeEnter: guardAdminRoute,
+        component: loadView('admin/role/EditRole'),
+        meta: {
+            layout: AuthLayout,
+        },
+    },
 
-  {
-    path: '/admin/eventManager',
-    name: 'Event Manager',
-    beforeEnter: guardAdminRoute,
-    component: loadView('admin/EventManager'),
-    meta: {
-      layout: AuthLayout,
-
+    {
+        path: '/admin/eventManager',
+        name: 'Event Manager',
+        beforeEnter: guardAdminRoute,
+        component: loadView('admin/EventManager'),
+        meta: {
+            layout: AuthLayout,
+        },
     },
-  },
-  {
-    path: '/admin/createEvent',
-    name: 'Create Event',
-    beforeEnter: guardAdminRoute,
-    component: loadView('admin/CreateEvent'),
-    meta: {
-      layout: AuthLayoutNoHeader,
-      backBtn: true
+    {
+        path: '/admin/createEvent',
+        name: 'Create Event',
+        beforeEnter: guardAdminRoute,
+        component: loadView('admin/CreateEvent'),
+        meta: {
+            layout: AuthLayoutNoHeader,
+            backBtn: true,
+        },
     },
-  },
-  {
-    path: '/admin/editEvent/:id',
-    name: 'Edit Event',
-    beforeEnter: guardAdminRoute,
-    component: loadView('admin/EditEvent'),
-    meta: {
-      layout: AuthLayoutNoHeader,
-      backBtn: true
+    {
+        path: '/admin/editEvent/:id',
+        name: 'Edit Event',
+        beforeEnter: guardAdminRoute,
+        component: loadView('admin/EditEvent'),
+        meta: {
+            layout: AuthLayoutNoHeader,
+            backBtn: true,
+        },
     },
-  },
-  {
-    path: '/admin/events/eventTeams/:eventId',
-    name: 'Event Teams',
-    beforeEnter: guardAdminRoute,
-    component: loadView('admin/events/EventTeams'),
-    meta: {
-      layout: AuthLayout,
+    {
+        path: '/admin/events/eventTeams/:eventId',
+        name: 'Event Teams',
+        beforeEnter: guardAdminRoute,
+        component: loadView('admin/events/EventTeams'),
+        meta: {
+            layout: AuthLayout,
+        },
     },
-  },
 ]

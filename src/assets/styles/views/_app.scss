@@ -1,32 +1,33 @@
 ﻿@use '../globals' as g;
 
 .app {
-  .routerView {
-    padding: 2rem 1rem;
-    position: relative;
-    margin-bottom: 70px;
-    @include g.mobile {
-      padding: 2rem 1.5rem;
-    }
-    @include g.tablet {
-      padding: 3rem 2rem;
-    }
-  }
-
-  .withBackBtn {
-    padding: 0.8rem 1rem;
-    @include g.mobile {
-      padding: 0.8rem 1.5rem;
+    .routerView {
+        padding: 2rem 1rem;
+        position: relative;
+        margin-bottom: 70px;
+        @include g.mobile {
+            padding: 2rem 1.5rem;
+        }
+        @include g.tablet {
+            padding: 3rem 2rem;
+            margin-bottom: 80px;
+        }
     }
 
-    @include g.tablet {
-      padding: 1rem 2rem;
+    .withBackBtn {
+        padding: 0.8rem 1rem;
+        @include g.mobile {
+            padding: 0.8rem 1.5rem;
+        }
+
+        @include g.tablet {
+            padding: 1rem 2rem;
+        }
+        @include g.tablet-landscape {
+            padding: 2rem 3rem;
+        }
+        @include g.desktopSmall {
+            padding: 3rem 5rem;
+        }
     }
-    @include g.tablet-landscape {
-      padding: 2rem 3rem;
-    }
-    @include g.desktopSmall {
-      padding: 5rem;
-    }
-  }
 }
