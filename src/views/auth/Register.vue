@@ -96,9 +96,8 @@ export default class Login extends Vue {
         if (this.validateForm()) {
             try {
                 const res = await AuthService.registerUser(this.registerForm)
-                console.log(res)
                 if (res.status === 200) {
-                    UIHelper.SnackBar({ title: 'Success', message: `${res.data.username} has been created`, classInfo: `primary`, isSnackBarShowing: true, errors: undefined })
+                    UIHelper.SnackBar({ title: 'Success', message: `Username ${res.data.username} has been registered`, classInfo: `primary`, isSnackBarShowing: true, errors: undefined })
 
                     setTimeout(() => {
                         this.$router.push('/login')

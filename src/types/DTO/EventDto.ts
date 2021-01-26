@@ -8,3 +8,7 @@ export interface RegisterUserForEventDto {
   userId: string
 }
 
+export interface AddRemoveTeamFromEvent {
+ eventId: number,
+ teamName: string
+}

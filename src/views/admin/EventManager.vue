@@ -13,7 +13,6 @@
           v-if="selectedYear"
           :selected="selectedYear"
           :options="Events"
-          keyValue="eventId"
           selected-value="year"
           optionValue="year"
           :showSelectOptions="showSelectOptions"
