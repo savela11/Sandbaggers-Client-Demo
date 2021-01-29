@@ -15,9 +15,9 @@
   }
 }
 
-.text {
-  @include modifiers(g.$font-title, 'font-size', '--');
-}
+//.text {
+//  @include modifiers(g.$font-title, 'font-size', '--');
+//}
 
 .text {
   font-weight: normal;
@@ -60,97 +60,10 @@
   }
 
   &--label {
-    @include g.font-size(g.$font-label);
+    @include g.printStyles(g.$font-label);
   }
 }
 
-.text-vpMD {
-  @include g.tablet {
-    &--tiny {
-      @include g.font-size(g.$font-tiny-vpMD);
-    }
-
-    &--xs {
-      @include g.font-size(g.$font-xs-vpMD);
-    }
-
-    &--sm {
-      @include g.font-size(g.$font-sm-vpMD);
-    }
-
-    &--md {
-      @include g.font-size(g.$font-md-vpMD);
-    }
-
-    &--lg {
-      @include g.font-size(g.$font-lg-vpMD);
-    }
-
-    &--xl {
-      @include g.font-size(g.$font-xl-vpMD);
-    }
-
-    &--title {
-      @include g.font-size(g.$font-title-vpMD);
-    }
-
-    &--headerTitle {
-      @include g.font-size(g.$font-headerTitle-vpMD);
-    }
-
-    &--input {
-      @include g.font-size(g.$font-input-vpMD);
-    }
-
-    &--label {
-      @include g.font-size(g.$font-label-vpMD);
-    }
-  }
-}
-
-.text-vpLG {
-  @include g.tablet-landscape {
-    &--tiny {
-      @include g.font-size(g.$font-tiny-vpLG);
-    }
-
-    &--xs {
-      @include g.font-size(g.$font-xs-vpLG);
-    }
-
-    &--sm {
-      @include g.font-size(g.$font-sm-vpLG);
-    }
-
-    &--md {
-      @include g.font-size(g.$font-md-vpLG);
-    }
-
-    &--lg {
-      @include g.font-size(g.$font-lg-vpLG);
-    }
-
-    &--xl {
-      @include g.font-size(g.$font-xl-vpLG);
-    }
-
-    &--title {
-      @include g.font-size(g.$font-title-vpLG);
-    }
-
-    &--headerTitle {
-      @include g.font-size(g.$font-headerTitle-vpLG);
-    }
-
-    &--input {
-      @include g.font-size(g.$font-input-vpLG);
-    }
-
-    &--label {
-      @include g.font-size(g.$font-label-vpLG);
-    }
-  }
-}
 
 .text {
   &--bold {

@@ -1,10 +1,10 @@
 ﻿@use '../../globals' as g;
 
 $-formWidth: (
-        margin:(
+        margin: (
                 null: 0 auto,
                 g.$mQ-tablet: 1rem auto,
-                g.$mQ-tablet-landscape: 2rem auto
+                g.$mQ-tablet-landscape: 2rem auto,
         ),
         width: (
                 null: 90%,
@@ -20,35 +20,62 @@ $-formWidth: (
 }
 
 .view {
-  padding: 1rem 0;
 }
 
-.users {
-  &__wrapper {
-    @include g.tablet {
-      display: flex;
-      flex-wrap: wrap;
+.toggle {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button {
+    @include g.font-size(g.$font-xs);
+  }
+}
+
+.main {
+  &__form {
+    @include g.printStyles(
+                    g.deepMerge(
+                                    $-formWidth,
+                                    (
+                                            width: (
+                                                    g.$mQ-tablet: 75%,
+                                            ),
+                                    )
+                    )
+    );
+  }
+}
+
+.registration {
+  .users {
+    &__wrapper {
+      @include g.tablet {
+        display: flex;
+        flex-wrap: wrap;
+      }
     }
   }
-}
 
-.user {
-  padding: 0.3rem;
+  .user {
+    padding: 0.3rem;
 
-  @include g.tablet {
-    flex: 0 0 50%;
-  }
-  @include g.tablet-landscape {
-    flex: 0 0 33%;
-  }
+    @include g.tablet {
+      flex: 0 0 50%;
+    }
+    @include g.tablet-landscape {
+      flex: 0 0 33%;
+    }
 
-  &__container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    border-radius: 3px;
-    border: 1px solid g.$color-DarkBlue;
+    &__container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      border-radius: 3px;
+      border: 1px solid g.$color-DarkBlue;
+    }
   }
 }
 
@@ -125,48 +152,61 @@ $-formWidth: (
   }
 }
 
-
-.toggle {
-  margin: 1rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  button {
-    @include g.font-size(g.$font-xs);
-  }
-}
-
-.main {
-  &__form {
-    @include g.printStyles(g.deepMerge($-formWidth, (width: (g.$mQ-tablet:  75%))))
-  }
-}
 .teams {
   &__list {
     &__container {
       margin: 1rem 0;
       @include g.tablet {
-        display: flex; flex-wrap: wrap;
+        display: flex;
+        flex-wrap: wrap;
       }
     }
-
   }
+
   .team {
-padding: .3rem;
+    padding: 0.5rem;
     @include g.tablet {
       flex: 0 0 33%;
     }
+
     &__container {
+      position: relative;
       border: 1px solid g.$color-DarkBlue;
       padding: 1rem 1rem 2rem 1rem;
       border-radius: 5px;
     }
+
+
+    &--editTeam {
+      &__container {
+        border: none;
+        padding: 0;
+      }
+
+      .captain {
+        padding: .5rem;
+
+
+        .boxContainer {
+          &__box {
+            min-width: 100px;
+            min-height: 100px;
+          }
+        }
+
+      }
+    }
+
+    &__editBtn {
+      position: absolute;
+      top: .5rem;
+      right: .5rem;
+    }
   }
 }
+
 .location {
   &__form {
     @include g.printStyles($-formWidth);
   }
 }
-

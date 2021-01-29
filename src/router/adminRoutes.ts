@@ -93,7 +93,7 @@ export default [
         beforeEnter: guardAdminRoute,
         component: loadView('admin/EditEvent'),
         meta: {
-            layout: AuthLayoutNoHeader,
+            layout: AuthLayout,
             backBtn: true,
         },
     },

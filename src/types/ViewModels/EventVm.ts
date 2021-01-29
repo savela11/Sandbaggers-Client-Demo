@@ -39,14 +39,13 @@ export interface TeamVm {
   teamId: number;
   name: string;
   eventId: number;
-  captain: string;
+  captain: TeamMemberVm;
   teamMembers: Array<TeamMemberVm>
   place: string;
 }
 
 export interface TeamMemberVm {
   id: string;
-  username: string;
   fullName: string;
   image: string;
 }

@@ -1,37 +1,35 @@
 ﻿<template>
   <div class='EditEvent'>
     <div v-if='!loading && Event.eventId'>
-      <h1 class='text text--title text--bold color--primary'>{{ Event.name }}</h1>
-      <div class='flex--xs  flex--end flex--iCenter'>
-        <SelectBoxComponent :selected='currentView' :options='views'
-            :showSelectOptions='showSelectOptions'
-            @click.prevent.stop='toggleSelectBox' @select-option='selectOption' />
+      <div class='flex--xs flex--end flex--iCenter'>
+        <SelectBoxComponent :selected='currentView' :options='views' :showSelectOptions='showSelectOptions' @click.prevent.stop='toggleSelectBox' @select-option='selectOption' />
       </div>
       <div class='views'>
         <div v-if="currentView === 'main'" class='view main'>
           <form class='main__form' @submit.prevent.stop='UpdateEvent'>
+            <InputField class-name='noBorder title' :isActive="Event.name !== ''">
+              <template v-slot:field><label for='name'>Event Name</label> <input type='text' id='name' v-model.trim='Event.name' /></template>
+            </InputField>
             <div class='toggle'>
-              <h2 class='text text--md text--bold color--primary'>Current Event:</h2>
+              <h2 class='text text--sm text--bold color--primary'>Current Event:</h2>
               <div class='toggle__buttons'>
-                <button class='btn btn--tiny btn--border-darkBlue mr-02' :class='{ active: Event.isCurrentYear === true }' @click.prevent.stop='Event.isCurrentYear = true'>Yes</button>
+                <button class='btn btn--tiny btn--border-darkBlue mr-02' :class='{ active: Event.isCurrentYear === true }' @click.prevent.stop='Event.isCurrentYear = true'>Yes
+                </button>
                 <button class='btn btn--tiny btn--border-darkBlue' :class='{ active: Event.isCurrentYear === false }' @click.prevent.stop='Event.isCurrentYear = false'>No</button>
               </div>
             </div>
             <div class='toggle'>
-              <h2 class='text text--md text--bold color--primary'>Active:</h2>
+              <h2 class='text text--sm text--bold color--primary'>Active:</h2>
               <div class='toggle__buttons'>
                 <button class='btn btn--tiny btn--border-darkBlue mr-02' :class='{ active: Event.isPublished === true }' @click.prevent.stop='Event.isPublished = true'>Yes</button>
                 <button class='btn btn--tiny btn--border-darkBlue' :class='{ active: Event.isPublished === false }' @click.prevent.stop='Event.isPublished = false'>No</button>
               </div>
             </div>
-            <InputField :isActive="Event.name !== ''">
-              <template v-slot:field><label for='name'>Event Name</label>
-                <input type='text' id='name' v-model.trim='Event.name' /></template>
-            </InputField>
+
             <input type='submit' value='Update' class='btn btn--sm my-1 btn--bg-darkBlue' />
           </form>
         </div>
-        <div v-if="currentView === 'registration'" class='view'>
+        <div v-if="currentView === 'registration'" class='view registration'>
           <div class='users'>
             <div class='registered'>
               <h3 class='text text--base color--secondary'>Registered</h3>
@@ -43,8 +41,8 @@
                       <template v-slot:svg>
                         <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
                           <path
-                              d='M12.5 0C5.5971 0 0 5.5971 0 12.5C0 19.4029 5.5971 25 12.5 25C19.4029 25 25 19.4029 25 12.5C25 5.5971 19.4029 0 12.5 0ZM17.8571 13.1696C17.8571 13.2924 17.7567 13.3929 17.6339 13.3929H7.36607C7.2433 13.3929 7.14286 13.2924 7.14286 13.1696V11.8304C7.14286 11.7076 7.2433 11.6071 7.36607 11.6071H17.6339C17.7567 11.6071 17.8571 11.7076 17.8571 11.8304V13.1696Z'
-                              fill='#9F0000'
+                            d='M12.5 0C5.5971 0 0 5.5971 0 12.5C0 19.4029 5.5971 25 12.5 25C19.4029 25 25 19.4029 25 12.5C25 5.5971 19.4029 0 12.5 0ZM17.8571 13.1696C17.8571 13.2924 17.7567 13.3929 17.6339 13.3929H7.36607C7.2433 13.3929 7.14286 13.2924 7.14286 13.1696V11.8304C7.14286 11.7076 7.2433 11.6071 7.36607 11.6071H17.6339C17.7567 11.6071 17.8571 11.7076 17.8571 11.8304V13.1696Z'
+                            fill='#9F0000'
                           />
                         </svg>
                       </template>
@@ -63,8 +61,8 @@
                       <template v-slot:svg>
                         <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
                           <path
-                              d='M12.5 0C5.6 0 0 5.6 0 12.5C0 19.4 5.6 25 12.5 25C19.4 25 25 19.4 25 12.5C25 5.6 19.4 0 12.5 0ZM18.75 13.75H13.75V18.75H11.25V13.75H6.25V11.25H11.25V6.25H13.75V11.25H18.75V13.75Z'
-                              fill='#167230'
+                            d='M12.5 0C5.6 0 0 5.6 0 12.5C0 19.4 5.6 25 12.5 25C19.4 25 25 19.4 25 12.5C25 5.6 19.4 0 12.5 0ZM18.75 13.75H13.75V18.75H11.25V13.75H6.25V11.25H11.25V6.25H13.75V11.25H18.75V13.75Z'
+                            fill='#167230'
                           />
                         </svg>
                       </template>
@@ -81,8 +79,8 @@
               <template v-slot:svg>
                 <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
                   <path
-                      d='M12.5 0C5.625 0 0 5.625 0 12.5C0 19.375 5.625 25 12.5 25C19.375 25 25 19.375 25 12.5C25 5.625 19.375 0 12.5 0ZM12.5 2.77778C14.6528 2.77778 16.6667 3.54167 18.3333 4.72222L4.72222 18.3333C3.54167 16.6667 2.77778 14.6528 2.77778 12.5C2.77778 7.15278 7.15278 2.77778 12.5 2.77778ZM12.5 22.2222C10.3472 22.2222 8.33333 21.4583 6.66667 20.2778L20.2778 6.66667C21.4583 8.33333 22.2222 10.3472 22.2222 12.5C22.2222 17.8472 17.8472 22.2222 12.5 22.2222Z'
-                      fill='#9F0000'
+                    d='M12.5 0C5.625 0 0 5.625 0 12.5C0 19.375 5.625 25 12.5 25C19.375 25 25 19.375 25 12.5C25 5.625 19.375 0 12.5 0ZM12.5 2.77778C14.6528 2.77778 16.6667 3.54167 18.3333 4.72222L4.72222 18.3333C3.54167 16.6667 2.77778 14.6528 2.77778 12.5C2.77778 7.15278 7.15278 2.77778 12.5 2.77778ZM12.5 22.2222C10.3472 22.2222 8.33333 21.4583 6.66667 20.2778L20.2778 6.66667C21.4583 8.33333 22.2222 10.3472 22.2222 12.5C22.2222 17.8472 17.8472 22.2222 12.5 22.2222Z'
+                    fill='#9F0000'
                   />
                 </svg>
               </template>
@@ -135,8 +133,8 @@
                     <template v-slot:svg>
                       <svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
                         <path
-                            d='M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04V7.04Z'
-                            fill='#17252A'
+                          d='M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04V7.04Z'
+                          fill='#17252A'
                         />
                       </svg>
                     </template>
@@ -161,44 +159,68 @@
           </div>
         </div>
         <div v-if="currentView === 'teams'" class='view teams'>
-          <div class='flex--xs' :class="[isAddingTeam === true ? 'flex--between' : 'flex--end']">
-            <IconBtn v-if='isAddingTeam' btn-text='Cancel' class='ml-04' @click.prevent.stop="addTeam('cancel')">
-              <template v-slot:svg>
-                <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                  <path
-                      d='M12.5 0C5.625 0 0 5.625 0 12.5C0 19.375 5.625 25 12.5 25C19.375 25 25 19.375 25 12.5C25 5.625 19.375 0 12.5 0ZM12.5 2.77778C14.6528 2.77778 16.6667 3.54167 18.3333 4.72222L4.72222 18.3333C3.54167 16.6667 2.77778 14.6528 2.77778 12.5C2.77778 7.15278 7.15278 2.77778 12.5 2.77778ZM12.5 22.2222C10.3472 22.2222 8.33333 21.4583 6.66667 20.2778L20.2778 6.66667C21.4583 8.33333 22.2222 10.3472 22.2222 12.5C22.2222 17.8472 17.8472 22.2222 12.5 22.2222Z'
-                      fill='#9F0000'
-                  />
-                </svg>
-              </template>
-            </IconBtn>
-            <IconBtn btn-text='Add' @click.prevent.stop="addTeam('add')">
+          <div class='flex--xs' :class="[ 'flex--end']">
+            <IconBtn v-if='!editTeam' btn-text='Add' @click.prevent.stop='addTeam'>
               <template v-slot:svg>
                 <svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
                   <path d='M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 13H13V17H11V13H7V11H11V7H13V11H17V13Z' fill='#17252A' />
                 </svg>
               </template>
             </IconBtn>
+            <IconBtn v-else btn-text='Cancel' @click.prevent.stop='editTeam = null'>
+              <template v-slot:svg>
+                <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                  <path
+                    d='M12.5 0C5.625 0 0 5.625 0 12.5C0 19.375 5.625 25 12.5 25C19.375 25 25 19.375 25 12.5C25 5.625 19.375 0 12.5 0ZM12.5 2.77778C14.6528 2.77778 16.6667 3.54167 18.3333 4.72222L4.72222 18.3333C3.54167 16.6667 2.77778 14.6528 2.77778 12.5C2.77778 7.15278 7.15278 2.77778 12.5 2.77778ZM12.5 22.2222C10.3472 22.2222 8.33333 21.4583 6.66667 20.2778L20.2778 6.66667C21.4583 8.33333 22.2222 10.3472 22.2222 12.5C22.2222 17.8472 17.8472 22.2222 12.5 22.2222Z'
+                    fill='#9F0000'
+                  />
+                </svg>
+              </template>
+            </IconBtn>
           </div>
-          <div class='teams__list team__list--toBeAdded' v-if='addedTeams.length > 0'>
-            <div class='teams__list__container'>
-              <div class='team' v-for='(toBeAddedTeam, index) in addedTeams' :key='index'>
+          <div class='teams__list' v-if='Event.teams.length > 0'>
+            <div v-if='!editTeam' class='teams__list__container'>
+
+              <div class='team' v-for='(team, index) in Event.teams' :key='index'>
                 <div class='team__container'>
-                  <h2>Team {{ index + 1 }}</h2>
-                  <InputField :isActive="toBeAddedTeam.teamName !== ''">
-                    <template v-slot:field>
-                      <label :for="'team' + index">Team Name</label>
-                      <input type='text' :id="'team' + index" v-model.trim='toBeAddedTeam.teamName' /></template>
-                  </InputField>
-
+                  <IconBtn class='team__editBtn' btn-text='Edit' @click.prevent.stop='editSelectedTeam(team)'>
+                    <template v-slot:svg>
+                      <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                        <path
+                          d='M3.125 17.9688V21.875H7.03125L18.5521 10.3542L14.6458 6.44792L3.125 17.9688ZM21.5729 7.33334C21.9792 6.92709 21.9792 6.27084 21.5729 5.86459L19.1354 3.42709C18.7292 3.02084 18.0729 3.02084 17.6667 3.42709L15.7604 5.33334L19.6667 9.23959L21.5729 7.33334V7.33334Z'
+                          fill='#17252A' />
+                      </svg>
+                    </template>
+                  </IconBtn>
+                  <h2>Team {{ team.name }}</h2>
+                  <p>Team Members: {{ team.teamMembers.length }}</p>
                 </div>
+              </div>
+            </div>
+            <div v-else class='teams__list__container teams__list__container--editTeam'>
+              <div class='team team--editTeam'>
+                <div class='team__container team--editTeam__container'>
+                  <InputField class-name='noBorder title' :isActive="editTeam.name !== ''">
+                    <template v-slot:field>
+                      <label for='teamName'>Team Name</label>
+                      <input type='text' id='teamName' v-model.trim='editTeam.name' />
+                    </template>
+                  </InputField>
+                  <div class='captain'>
+                    <div class='flex--xs flex--iCenter flex--between flex--noWrap'>
+                      <p class='text text--sm color--primary'>Captain:</p>
+                      <SelectBoxComponent :selected='editTeam.captain.fullName' :options='Event.registeredUsers' :showSelectOptions='showCaptainOptions' option-value='fullName'
+                                          @click.prevent.stop='toggleSelectCaptainBox' @select-option='selectCaptainOption' />
+                    </div>
 
-
+                  </div>
+                </div>
               </div>
 
+              <button @click.prevent.stop='UpdateEvent' class='btn btn--sm my-1 btn--bg-darkBlue'>Update</button>
             </div>
 
-            <button class='btn btn--sm my-1 btn--bg-darkBlue' @click.prevent.stop="addTeam('save')">Update</button>
+
           </div>
         </div>
         <div v-if="currentView === 'location'" class='view location'>
@@ -249,7 +271,7 @@
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 import EventService from '@/services/EventService'
-import { AdminEventManagerVm, EventVm, ItineraryVm, RegisteredUserVm } from '@/types/ViewModels/EventVm'
+import { AdminEventManagerVm, EventVm, ItineraryVm, RegisteredUserVm, TeamMemberVm, TeamVm } from '@/types/ViewModels/EventVm'
 import UIHelper from '@/utility/UIHelper'
 
 import { AddRemoveTeamFromEvent, RegisterUserForEventDto } from '@/types/DTO/EventDto'
@@ -276,9 +298,27 @@ export default class EditEvent extends Vue {
   editItinerary = null
   showSelectOptions = false
   addedTeams = [] as AddRemoveTeamFromEvent[]
+  editTeam: null | TeamVm = null
+  showCaptainOptions = false
 
   mounted(): void {
     this.getEvent()
+  }
+
+  toggleSelectCaptainBox(): void {
+    this.showCaptainOptions = !this.showCaptainOptions
+  }
+
+  selectCaptainOption(option: TeamMemberVm): void {
+    if (this.editTeam) {
+      this.editTeam.captain.fullName = option.fullName
+      this.editTeam.captain.id = option.id
+      this.editTeam.captain.image = option.image
+      this.showCaptainOptions = false
+    } else {
+      return
+    }
+
   }
 
   toggleSelectBox(): void {
@@ -314,25 +354,21 @@ export default class EditEvent extends Vue {
     }
   }
 
- async addTeam(status: string): void {
-    if (status === 'add') {
-      this.isAddingTeam = true
-      this.addedTeams.push({ teamName: '', eventId: this.Event.eventId })
-      return
-    } else if (status === 'cancel') {
-      this.isAddingTeam = false
-      this.addedTeams = []
-    } else if (status === 'save') {
-      try {
-        const res = await EventService.AddTeamsToEvent(this.addedTeams);
-      } catch (e) {
-        console.log(e)
-      } finally {
+  async addTeam(): Promise<void> {
+    try {
+      const res = await EventService.CreateTeamForEvent({ eventId: this.Event.eventId })
+    } catch (e) {
+      console.log(e)
+    } finally {
+    }
+  }
 
-      }
-    } else {
+  editSelectedTeam(team: TeamVm): void {
+    if (this.editTeam && this.editTeam.teamId === team.teamId) {
+      this.editTeam = null
       return
     }
+    this.editTeam = team
   }
 
   selectItinerary(itinerary: ItineraryVm): void {

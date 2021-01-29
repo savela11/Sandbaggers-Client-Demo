@@ -36,21 +36,12 @@
     border: 2px solid g.$color-PrimaryFS;
 
     label {
-      top: 0;
-      transform: translateY(-15px);
-      background-color: white;
-      border-radius: 5px;
-      font-weight: bold;
-      color: g.$color-PrimaryFS;
-      @include g.font-size(g.$font-activeLabel);
+      @include g.printStyles(g.$font-activeLabel);
     }
   }
 
   label {
-    position: absolute;
-    color: rgba(40, 40, 40, 0.7);
-    z-index: 1;
-    @include g.font-size(g.$font-label);
+    @include g.printStyles(g.$font-label);
 
     input {
       top: 50%;
@@ -160,4 +151,32 @@
   textarea {
     color: g.$color-secondary;
   }
+}
+
+.noBorder{
+  border: none;
+  border-bottom: 1px solid rgba(60, 60, 67, 0.2);
+
+  &:active,
+  &:focus,
+  &:focus-within,
+  &.active {
+border: none;
+    border-bottom: 1px solid rgba(60, 60, 67, 0.2);
+
+  }
+}
+
+.title {
+
+  &:active,
+  &:focus,
+  &:focus-within,
+  &.active {
+    label {
+      @include g.printStyles(g.$font-activeTitleLabel);
+    }
+
+  }
+
 }

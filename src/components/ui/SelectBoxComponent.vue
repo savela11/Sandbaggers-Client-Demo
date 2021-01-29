@@ -1,5 +1,6 @@
 ﻿<template>
   <div class='SelectBoxComponent'>
+    <div class='closeBg' v-show='showSelectOptions' v-on='$listeners'></div>
     <div class='select-wrapper' v-on='$listeners'>
       <div class='select' :class='{open: showSelectOptions}'>
         <div class='trigger'>
