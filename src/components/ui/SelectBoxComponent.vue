@@ -4,15 +4,19 @@
     <div class='select-wrapper' v-on='$listeners'>
       <div class='select' :class='{open: showSelectOptions}'>
         <div class='trigger'>
-          <div class='selectedSpan'>
-            <span v-if='selected' class='text text--sm'>{{ selectedValue ? selected[selectedValue] : selected }}</span>
+          <div class='selected'>
+            <span v-if='selected' class='selected__span'>{{ selectedValue ? selected[selectedValue] : selected }}</span>
           </div>
           <div class='arrow'></div>
         </div>
         <div class='options' v-show='showSelectOptions'>
-          <div class='options__container'>
-            <span class='option option--disabled text text--sm'>{{ selectedValue ? selected[selectedValue] : selected }}</span>
-            <span @click.prevent.stop='selectOption(option)' class='option text text--sm' v-for='(option, index) in displayOptionValues' :key='index'>{{ optionValue ? option[optionValue] : option }}</span>
+          <div v-if='displayOptionValues.length > 0' class='options__container'>
+            <span class='option option--disabled '>{{ selectedValue ? selected[selectedValue] : selected }}</span>
+            <span @click.prevent.stop='selectOption(option)' class='option' v-for='(option, index) in displayOptionValues'
+                  :key='index'>{{ optionValue ? option[optionValue] : option }}</span>
+          </div>
+          <div v-else class='options__container'>
+            <span class='option option--disabled '>No Options Available</span>
           </div>
         </div>
       </div>

@@ -1,212 +1,159 @@
 ﻿@use '../../globals' as g;
 
 $-formWidth: (
-        margin: (
-                null: 0 auto,
-                g.$mQ-tablet: 1rem auto,
-                g.$mQ-tablet-landscape: 2rem auto,
-        ),
-        width: (
-                null: 90%,
-                g.$mQ-tablet-landscape: 80%,
-        ),
+    margin: (
+        null: 0 auto,
+        g.$mQ-tablet: 1rem auto,
+        g.$mQ-tablet-landscape: 2rem auto,
+    ),
+    width: (
+        null: 90%,
+        g.$mQ-tablet-landscape: 80%,
+    ),
 );
 
 .EditEvent {
 }
 
 .views {
-  padding: 1rem 0;
+    padding: 1rem 0;
 }
 
 .view {
 }
 
 .toggle {
-  margin: 1rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-  button {
-    @include g.font-size(g.$font-xs);
-  }
+    button {
+        @include g.font-size(g.$font-xs);
+    }
 }
 
 .main {
-  &__form {
-    @include g.printStyles(
-                    g.deepMerge(
-                                    $-formWidth,
-                                    (
-                                            width: (
-                                                    g.$mQ-tablet: 75%,
-                                            ),
-                                    )
-                    )
-    );
-  }
+    &__form {
+        @include g.printStyles(
+            g.deepMerge(
+                $-formWidth,
+                (
+                    width: (
+                        g.$mQ-tablet: 75%,
+                    ),
+                )
+            )
+        );
+    }
 }
 
 .registration {
-  .users {
-    &__wrapper {
-      @include g.tablet {
-        display: flex;
-        flex-wrap: wrap;
-      }
-    }
-  }
-
-  .user {
-    padding: 0.3rem;
-
-    @include g.tablet {
-      flex: 0 0 50%;
-    }
-    @include g.tablet-landscape {
-      flex: 0 0 33%;
+    .users {
+        &__wrapper {
+            @include g.tablet {
+                display: flex;
+                flex-wrap: wrap;
+            }
+        }
     }
 
-    &__container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 1rem;
-      border-radius: 3px;
-      border: 1px solid g.$color-DarkBlue;
+    .user {
+        padding: 0.3rem;
+
+        @include g.tablet {
+            flex: 0 0 50%;
+        }
+        @include g.tablet-landscape {
+            flex: 0 0 33%;
+        }
+
+        &__container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 3px;
+            border: 1px solid g.$color-DarkBlue;
+        }
     }
-  }
 }
 
 .itineraries {
-  margin: 1rem 0;
+    margin: 1rem 0;
 
-  .itinerary {
-    padding: 1rem 0;
-    overflow: hidden;
-    @include g.tablet {
-      padding: 0.5rem;
-      flex: 0 0 50%;
-    }
-    @include g.tablet-landscape {
-      flex: 0 0 33%;
-    }
-
-    &--toBeAdded {
-      &__top {
-        flex-wrap: wrap;
-      }
-
-      &__bottom {
-        margin-top: 0;
-      }
-    }
-
-    &__container {
-      position: relative;
-      padding: 1rem 1rem 3rem 1rem;
-      border-radius: 5px;
-      box-shadow: 0 5px 10px lightgrey;
-      @include g.tablet {
-        padding: 1.5rem 1.5rem 3rem 1.5rem;
-      }
-
-      &--toBeAdded {
+    .itinerary {
+        padding: 1rem 0;
+        overflow: hidden;
+        @include g.tablet {
+            padding: 0.5rem;
+            flex: 0 0 50%;
+        }
         @include g.tablet-landscape {
-          padding: 1rem;
-        }
-      }
-    }
-
-    &__editBtn {
-      position: absolute;
-      bottom: 0.5rem;
-      right: 0.5rem;
-    }
-
-    &__top {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    &__bar {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    &__title {
-      margin: 0 0 0.3rem 0;
-      @include g.font-size(g.$font-xs);
-      font-weight: bold;
-    }
-
-    &__val {
-      @include g.font-size(g.$font-xs);
-      color: g.$color-SecondaryFS;
-    }
-
-    &__bottom {
-    }
-  }
-}
-
-.teams {
-  &__list {
-    &__container {
-      margin: 1rem 0;
-      @include g.tablet {
-        display: flex;
-        flex-wrap: wrap;
-      }
-    }
-  }
-
-  .team {
-    padding: 0.5rem;
-    @include g.tablet {
-      flex: 0 0 33%;
-    }
-
-    &__container {
-      position: relative;
-      border: 1px solid g.$color-DarkBlue;
-      padding: 1rem 1rem 2rem 1rem;
-      border-radius: 5px;
-    }
-
-
-    &--editTeam {
-      &__container {
-        border: none;
-        padding: 0;
-      }
-
-      .captain {
-        padding: .5rem;
-
-
-        .boxContainer {
-          &__box {
-            min-width: 100px;
-            min-height: 100px;
-          }
+            flex: 0 0 33%;
         }
 
-      }
-    }
+        &--toBeAdded {
+            &__top {
+                flex-wrap: wrap;
+            }
 
-    &__editBtn {
-      position: absolute;
-      top: .5rem;
-      right: .5rem;
+            &__bottom {
+                margin-top: 0;
+            }
+        }
+
+        &__container {
+            position: relative;
+            padding: 1rem 1rem 3rem 1rem;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px lightgrey;
+            @include g.tablet {
+                padding: 1.5rem 1.5rem 3rem 1.5rem;
+            }
+
+            &--toBeAdded {
+                @include g.tablet-landscape {
+                    padding: 1rem;
+                }
+            }
+        }
+
+        &__editBtn {
+            position: absolute;
+            bottom: 0.5rem;
+            right: 0.5rem;
+        }
+
+        &__top {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &__bar {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        &__title {
+            margin: 0 0 0.3rem 0;
+            @include g.font-size(g.$font-xs);
+            font-weight: bold;
+        }
+
+        &__val {
+            @include g.font-size(g.$font-xs);
+            color: g.$color-SecondaryFS;
+        }
+
+        &__bottom {
+        }
     }
-  }
 }
 
 .location {
-  &__form {
-    @include g.printStyles($-formWidth);
-  }
+    &__form {
+        @include g.printStyles($-formWidth);
+    }
 }

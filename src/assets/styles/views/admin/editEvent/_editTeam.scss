@@ -1,0 +1,116 @@
+﻿@use '../../../globals' as g;
+
+$-title: (
+        font-size: (
+                null: .9rem,
+                g.$mQ-mobile: 1rem,
+                g.$mQ-tablet: 1.1rem,
+        ),
+        color: g.$color-PrimaryFS,
+        font-weight: 500,
+);
+$-team: (
+        padding: (
+                null: 0.5rem,
+                g.$mQ-tablet: .8rem,
+                g.$mQ-tablet-landscape: .5rem
+        ),
+        flex: (
+                null: auto,
+                g.$mQ-tablet: 0 0 50%,
+                g.$mQ-tablet-landscape: 0 0 33%,
+        ),
+);
+$-team__container: (
+        padding: (
+                null: 3rem 2rem,
+                g.$mQ-tablet: 4rem 2rem,
+        ),
+        'position': relative,
+        'border': 1px solid g.$color-DarkBlue,
+        'border-radius': 5px,
+);
+
+$-team__name: (
+        'font-size': (
+                null: 1.2rem,
+                g.$mQ-mobile: 1.3rem,
+                g.$mQ-tablet: 1.4rem,
+        ),
+        'color': g.$color-PrimaryFS,
+        margin: (
+                null: 0 0 0.5rem 0,
+        ),
+);
+
+$-team__members: (
+        'color': g.$color-SecondaryFS,
+        'margin': 0,
+        'font-size': (
+                null: 1rem,
+                g.$mQ-tablet: 1.1rem
+        ),
+);
+
+.title {
+  @include g.printStyles($-title);
+}
+
+.teams {
+  &__list {
+    &__container {
+      margin: 1rem 0;
+      @include g.tablet {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+  }
+
+  .team {
+    @include g.printStyles($-team);
+
+    &__name {
+      @include g.printStyles($-team__name);
+    }
+
+    &__members {
+      @include g.printStyles($-team__members);
+    }
+
+    &__container {
+      @include g.printStyles($-team__container);
+    }
+
+
+    &__editBtn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+    }
+  }
+
+  .editTeam {
+    &__container {
+      border: none;
+      padding: 0;
+      display: block;
+    }
+
+    .section {
+      padding: 0.5rem;
+    }
+
+    &__captain {
+
+
+      .boxContainer {
+        &__box {
+          min-width: 100px;
+          min-height: 100px;
+        }
+      }
+    }
+  }
+}
+

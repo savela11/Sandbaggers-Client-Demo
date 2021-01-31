@@ -60,7 +60,11 @@ $activeLabel: (
 $activeTitleLabel: mixin.deepMerge($activeLabel,
         (
                 'font-size':(
-                        null: 1rem
+                        null: 1rem,
+                        $mobile: 1.1rem,
+                        $tablet: 1.2rem,
+                        $tablet-landscape: 1.3rem,
+                        $desktopSmall: 1.4rem,
                 ))
 );
 

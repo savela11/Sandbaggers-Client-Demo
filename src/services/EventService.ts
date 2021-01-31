@@ -1,7 +1,7 @@
 import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
-import { AdminEventManagerVm, EventVm, TeamVm } from '@/types/ViewModels/EventVm'
-import { AddRemoveTeamFromEvent, CreateEventDto, RegisterUserForEventDto } from '@/types/DTO/EventDto'
+import { AdminEventManagerVm, EventVm } from '@/types/ViewModels/EventVm'
+import { CreateEventDto, RegisterUserForEventDto } from '@/types/DTO/EventDto'
 
 const url = '/events'
 
@@ -32,10 +32,6 @@ class EventService {
 
     static async UnRegisterUserFromEvent(registerUserForEventDto: RegisterUserForEventDto): Promise<AxiosResponse> {
         return await apiClient.post(`${url}/UnRegisterUserFromEvent`, registerUserForEventDto)
-    }
-
-    static async CreateTeamForEvent({ ...eventId }): Promise<AxiosResponse<TeamVm>> {
-        return await apiClient.post(`${url}/CreateTeamForEvent`, eventId)
     }
 }
 

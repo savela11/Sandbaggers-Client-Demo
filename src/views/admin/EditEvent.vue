@@ -36,7 +36,7 @@
               <div class='users__wrapper'>
                 <div class='user' v-for='user in Event.registeredUsers' :key='user.id'>
                   <div class='user__container'>
-                    <p class='text text--lg'>{{ user.fullName }}</p>
+                    <p class='user__fullName'>{{ user.fullName }}</p>
                     <IconBtn @click='registration(user)'>
                       <template v-slot:svg>
                         <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -56,7 +56,7 @@
               <div class='users__wrapper'>
                 <div class='user' v-for='user in Event.unRegisteredUsers' :key='user.id'>
                   <div class='user__container'>
-                    <p class='text text--lg'>{{ user.fullName }}</p>
+                    <p class='user__fullName'>{{ user.fullName }}</p>
                     <IconBtn @click="registration(user, 'register')">
                       <template v-slot:svg>
                         <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -158,71 +158,16 @@
             </div>
           </div>
         </div>
-        <div v-if="currentView === 'teams'" class='view teams'>
-          <div class='flex--xs' :class="[ 'flex--end']">
-            <IconBtn v-if='!editTeam' btn-text='Add' @click.prevent.stop='addTeam'>
-              <template v-slot:svg>
-                <svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                  <path d='M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 13H13V17H11V13H7V11H11V7H13V11H17V13Z' fill='#17252A' />
-                </svg>
-              </template>
-            </IconBtn>
-            <IconBtn v-else btn-text='Cancel' @click.prevent.stop='editTeam = null'>
-              <template v-slot:svg>
-                <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                  <path
-                    d='M12.5 0C5.625 0 0 5.625 0 12.5C0 19.375 5.625 25 12.5 25C19.375 25 25 19.375 25 12.5C25 5.625 19.375 0 12.5 0ZM12.5 2.77778C14.6528 2.77778 16.6667 3.54167 18.3333 4.72222L4.72222 18.3333C3.54167 16.6667 2.77778 14.6528 2.77778 12.5C2.77778 7.15278 7.15278 2.77778 12.5 2.77778ZM12.5 22.2222C10.3472 22.2222 8.33333 21.4583 6.66667 20.2778L20.2778 6.66667C21.4583 8.33333 22.2222 10.3472 22.2222 12.5C22.2222 17.8472 17.8472 22.2222 12.5 22.2222Z'
-                    fill='#9F0000'
-                  />
-                </svg>
-              </template>
-            </IconBtn>
-          </div>
-          <div class='teams__list' v-if='Event.teams.length > 0'>
-            <div v-if='!editTeam' class='teams__list__container'>
+        <EditTeam
+          v-if="currentView === 'teams'"
+          class='view'
+          v-bind='{ showCaptainOptions: showCaptainOptions, teams: Event.teams, registeredUsers: Event.registeredUsers, loading: loading }'
+          @show-captain-options='(status) => (showCaptainOptions = status)'
+          @toggle-select-captain='(status) => (showCaptainOptions = status)'
+          @update-teams='UpdateTeams'
+          @add-team='addTeam'
+        />
 
-              <div class='team' v-for='(team, index) in Event.teams' :key='index'>
-                <div class='team__container'>
-                  <IconBtn class='team__editBtn' btn-text='Edit' @click.prevent.stop='editSelectedTeam(team)'>
-                    <template v-slot:svg>
-                      <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                        <path
-                          d='M3.125 17.9688V21.875H7.03125L18.5521 10.3542L14.6458 6.44792L3.125 17.9688ZM21.5729 7.33334C21.9792 6.92709 21.9792 6.27084 21.5729 5.86459L19.1354 3.42709C18.7292 3.02084 18.0729 3.02084 17.6667 3.42709L15.7604 5.33334L19.6667 9.23959L21.5729 7.33334V7.33334Z'
-                          fill='#17252A' />
-                      </svg>
-                    </template>
-                  </IconBtn>
-                  <h2>Team {{ team.name }}</h2>
-                  <p>Team Members: {{ team.teamMembers.length }}</p>
-                </div>
-              </div>
-            </div>
-            <div v-else class='teams__list__container teams__list__container--editTeam'>
-              <div class='team team--editTeam'>
-                <div class='team__container team--editTeam__container'>
-                  <InputField class-name='noBorder title' :isActive="editTeam.name !== ''">
-                    <template v-slot:field>
-                      <label for='teamName'>Team Name</label>
-                      <input type='text' id='teamName' v-model.trim='editTeam.name' />
-                    </template>
-                  </InputField>
-                  <div class='captain'>
-                    <div class='flex--xs flex--iCenter flex--between flex--noWrap'>
-                      <p class='text text--sm color--primary'>Captain:</p>
-                      <SelectBoxComponent :selected='editTeam.captain.fullName' :options='Event.registeredUsers' :showSelectOptions='showCaptainOptions' option-value='fullName'
-                                          @click.prevent.stop='toggleSelectCaptainBox' @select-option='selectCaptainOption' />
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <button @click.prevent.stop='UpdateEvent' class='btn btn--sm my-1 btn--bg-darkBlue'>Update</button>
-            </div>
-
-
-          </div>
-        </div>
         <div v-if="currentView === 'location'" class='view location'>
           <form class='location__form' @submit.prevent.stop='UpdateEvent'>
             <div class='flex--md'>
@@ -271,14 +216,16 @@
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 import EventService from '@/services/EventService'
-import { AdminEventManagerVm, EventVm, ItineraryVm, RegisteredUserVm, TeamMemberVm, TeamVm } from '@/types/ViewModels/EventVm'
+import { AdminEventManagerVm, ItineraryVm, RegisteredUserVm, TeamMemberVm, TeamVm } from '@/types/ViewModels/EventVm'
 import UIHelper from '@/utility/UIHelper'
 
 import { AddRemoveTeamFromEvent, RegisterUserForEventDto } from '@/types/DTO/EventDto'
+import TeamService from '@/services/TeamService'
 
 @Component({
   name: 'EditEvent',
   components: {
+    EditTeam: (): Promise<typeof import('*.vue')> => import('@/views/admin/editEvent/EditTeam.vue'),
     Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
     InputField: (): Promise<typeof import('*.vue')> => import('@/components/ui/InputField.vue'),
     BackBtn: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/BackBtn.vue'),
@@ -294,31 +241,14 @@ export default class EditEvent extends Vue {
   views: Array<string> = ['main', 'registration', 'itinerary', 'teams', 'location']
   currentView = 'main'
   isAddingItineraries = false
-  isAddingTeam = false
+
   editItinerary = null
   showSelectOptions = false
-  addedTeams = [] as AddRemoveTeamFromEvent[]
-  editTeam: null | TeamVm = null
+
   showCaptainOptions = false
 
   mounted(): void {
     this.getEvent()
-  }
-
-  toggleSelectCaptainBox(): void {
-    this.showCaptainOptions = !this.showCaptainOptions
-  }
-
-  selectCaptainOption(option: TeamMemberVm): void {
-    if (this.editTeam) {
-      this.editTeam.captain.fullName = option.fullName
-      this.editTeam.captain.id = option.id
-      this.editTeam.captain.image = option.image
-      this.showCaptainOptions = false
-    } else {
-      return
-    }
-
   }
 
   toggleSelectBox(): void {
@@ -356,19 +286,29 @@ export default class EditEvent extends Vue {
 
   async addTeam(): Promise<void> {
     try {
-      const res = await EventService.CreateTeamForEvent({ eventId: this.Event.eventId })
+      const res = await TeamService.CreateTeamForEvent(this.Event.eventId)
     } catch (e) {
       console.log(e)
     } finally {
     }
   }
 
-  editSelectedTeam(team: TeamVm): void {
-    if (this.editTeam && this.editTeam.teamId === team.teamId) {
-      this.editTeam = null
-      return
+  async UpdateTeams(teams: Array<TeamVm>): Promise<void> {
+    this.loading = true
+    try {
+      const res = await TeamService.UpdateTeams(teams)
+      if(res.status === 200) {
+        UIHelper.SnackBar({ title: 'success', message: `Teams have been updated`, classInfo: `primary`, isSnackBarShowing: true, errors: undefined })
+        setTimeout(() => {
+          this.loading = false;
+        }, Math.floor(Math.random() * 2000))
+
+      }
+      console.log(res)
+    } catch (e) {
+      console.log(e)
+this.loading = false;
     }
-    this.editTeam = team
   }
 
   selectItinerary(itinerary: ItineraryVm): void {
@@ -482,5 +422,5 @@ export default class EditEvent extends Vue {
 </script>
 
 <style scoped lang='scss'>
-@import '~@/assets/styles/views/admin/_editEvent';
+@use "~@/assets/styles/views/admin/_editEvent.scss";
 </style>
