@@ -1,94 +1,119 @@
 ﻿<template>
-  <div class='EditPowerRanking'>
-    <div v-if="!loading && PowerRanking.eventId">
-      <h1 class="text text--title text--bold color--primary">{{ PowerRanking.eventName }}</h1>
-      <ViewBtns :viewButtons="viewButtons" :activeViewBtn="activeViewBtn" @selected-btn="toggleActiveView" />
-      <div class="views py-05">
-        <div class="view" v-if="activeViewBtn === 'Main'">
-          <InputField :isActive="PowerRanking.disclaimer !== ''">
+  <div class='editPowerRanking'>
+    <div v-if='!loading && PowerRanking.eventId'>
+      <h1 class='editPowerRanking__title'>{{ PowerRanking.eventName }}</h1>
+      <div class='flex--xs flex--end'>
+        <SelectBoxComponent
+          :selected='activeViewBtn'
+          :options='viewButtons'
+          selected-value=''
+          optionValue=''
+          :showSelectOptions='showSelectOptions'
+          @click.prevent.stop='toggleSelectBox'
+          @select-option='selectOption'
+        />
+      </div>
+      <div class='editPowerRanking__views'>
+        <div v-if="activeViewBtn === 'Main'" class='view main'>
+          <InputField class-name='textArea' :isActive="PowerRanking.disclaimer !== ''">
             <template v-slot:field>
-              <label for="disclaimer">Disclaimer</label>
-              <textarea type="text" id="disclaimer" v-model.trim="PowerRanking.disclaimer" />
+              <label for='disclaimer'>Disclaimer</label>
+              <textarea type='text' id='disclaimer' v-model.trim='PowerRanking.disclaimer' />
             </template>
           </InputField>
+          <div class='updateBtn my-1'>
+            <button class='btn btn--sm text--sm btn--bg-darkGreen text--bold '>Update</button>
+          </div>
         </div>
-        <div class="view" v-if="activeViewBtn === 'Registered'">
+        <div v-if="activeViewBtn === 'Registered'" class='view registered'>
 
+          <div v-for='user in PowerRanking.registeredUsers' :key='user.id'>
+            <p>{{ user.fullName }}</p>
+          </div>
         </div>
-        <div class="updateBtn my-1">
-          <button class="btn btn--sm text--sm btn--bg-darkGreen text--bold ">Update</button>
-        </div>
+
       </div>
     </div>
     <Loading v-else />
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import PowerRankingService from "@/services/PowerRankingService";
-import { EventPowerRankingVm } from "@/types/ViewModels/EventPowerRankingVm";
-import UIHelper from "@/utility/UIHelper";
-import NavigationHelper from "@/utility/NavigationHelper";
+<script lang='ts'>
+import { Component, Vue } from 'vue-property-decorator'
+import PowerRankingService from '@/services/PowerRankingService'
+import { EventPowerRankingVm } from '@/types/ViewModels/EventPowerRankingVm'
+import UIHelper from '@/utility/UIHelper'
+
 
 @Component({
-  name: "EditPowerRanking",
+  name: 'EditPowerRanking',
   components: {
-    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
-    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/InputField.vue"),
-    ViewBtns: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/ViewBtns.vue")
+    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
+    InputField: (): Promise<typeof import('*.vue')> => import('@/components/ui/InputField.vue'),
+    SelectBoxComponent: (): Promise<typeof import('*.vue')> => import('@/components/ui/SelectBoxComponent.vue'),
+    ViewBtns: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/ViewBtns.vue')
 
   }
 })
 
 
 export default class EditPowerRanking extends Vue {
-  loading = true;
-  PowerRanking = {} as EventPowerRankingVm;
-  viewButtons = ["Main", "Registered"];
-  activeViewBtn = "Main";
+  loading = true
+  PowerRanking = {} as EventPowerRankingVm
+  viewButtons = ['Main', 'Registered']
+  activeViewBtn = 'Main'
+
+  showSelectOptions = false
 
   mounted(): void {
-    this.getPowerRanking();
+    this.getPowerRanking()
   }
 
-  toggleActiveView(view: string): void {
-    this.activeViewBtn = view;
+
+  toggleSelectBox(): void {
+    this.showSelectOptions = !this.showSelectOptions
   }
-async updatePowerRanking():Promise<void> {
+
+  selectOption(option: string): void {
+    this.activeViewBtn = option
+    this.showSelectOptions = false
+  }
+
+  async updatePowerRanking(): Promise<void> {
     try {
-    const res = await PowerRankingService.UpdatePowerRanking(this.PowerRanking);
+      const res = await PowerRankingService.UpdatePowerRanking(this.PowerRanking)
 
-    } catch(e) {
-    console.log(e)
+    } catch (e) {
+      console.log(e)
 
     } finally {
 
 
     }
-}
+  }
+
   async getPowerRanking(): Promise<void> {
     try {
-      const res = await PowerRankingService.PowerRanking(this.$route.params.eventId);
+      const res = await PowerRankingService.PowerRanking(this.$route.params.eventId)
       if (res.status === 200) {
-        this.PowerRanking = res.data;
+        this.PowerRanking = res.data
         setTimeout(() => {
-          this.loading = false;
-        }, Math.floor(Math.random() * 3000));
+          this.loading = false
+        }, Math.floor(Math.random() * 3000))
       }
 
     } catch (e) {
-      UIHelper.SnackBar({ title: "Error", message: `No Power Ranking Found for this Event`, classInfo: `error`, isSnackBarShowing: true, errors: undefined });
+      UIHelper.SnackBar({ title: 'Error', message: `No Power Ranking Found for this Event`, classInfo: `error`, isSnackBarShowing: true, errors: undefined })
       setTimeout(() => {
 
-        this.$router.go(-1);
-      }, Math.floor(Math.random() * 3000));
+        this.$router.go(-1)
+      }, Math.floor(Math.random() * 3000))
 
     }
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
 @use "~@/assets/styles/views/powerRanking/_editPowerRanking";
 </style>

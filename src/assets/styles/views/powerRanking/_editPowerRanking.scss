@@ -1,16 +1,36 @@
 ﻿@use "../../globals" as g;
 
-.EditPowerRanking {
+$-powerRankingTitle: (
+        margin: (
+                null: 0 0 1rem 0
+        ),
+        font-size: (
+                null: 1.4rem,
+                g.$mQ-mobile: 1.5rem
+        )
+);
+
+.editPowerRanking {
   @include g.tablet {
     width: 80%;
     margin: 0 auto;
   }
 
-  .view {
-    textarea {
-      @include g.tablet {
-        min-height: 300px;
-      }
+  &__title {
+    @include g.printStyles($-powerRankingTitle);
+  }
+
+  &__views {
+    padding: 1rem 0;
+  }
+
+}
+
+
+.view {
+  .c-field {
+    @include g.tablet {
+      min-height: 300px;
     }
   }
 }

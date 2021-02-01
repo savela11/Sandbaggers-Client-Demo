@@ -12,19 +12,7 @@
             <SelectBoxComponent v-if="selectedYear " :selected="selectedYear.year" :options="powerRankings" keyValue="eventId" optionValue="year"
                                 :showSelectOptions="showSelectOptions"
                                 @click.prevent.stop="toggleSelectBox" @select-option="selectOption" />
-            <!--            <div class="select-wrapper" @click="showSelectOptions = !showSelectOptions">-->
-            <!--              <div class="select" :class="{open: showSelectOptions}">-->
-            <!--                <div class="trigger">-->
-            <!--                  <div class="selectedSpan">-->
-            <!--                    <span v-if="selectedYear">{{ selectedYear.year }}</span>-->
-            <!--                  </div>-->
-            <!--                  <div class="arrow"></div>-->
-            <!--                </div>-->
-            <!--                <div class="options" v-show="showSelectOptions">-->
-            <!--                  <span class="option" v-for="powerRanking in powerRankings" :key="powerRanking.eventId">{{ powerRanking.year }}</span>-->
-            <!--                </div>-->
-            <!--              </div>-->
-            <!--            </div>-->
+
           </div>
 
           <transition name="fade">
@@ -59,7 +47,7 @@
               <p>Sandbagger</p>
             </div>
           </div>
-          <div class="user" :class="{ active: user.id === showUsersWriteUpID }" v-for="user in Users" :key="user.id">
+          <div class="user" :class="{ active: user.userId === showUsersWriteUpID }" v-for="user in selectedYear.rankings" :key="user.userId">
             <div class="top">
               <div class="rank">
                 <div class="circle">
@@ -68,7 +56,7 @@
               </div>
               <div class="sandbagger">
                 <div class="name">
-                  <h3>{{ user.name }}</h3>
+                  <h3>{{ user.fullName }}</h3>
                 </div>
                 <div class="handicap">
                   <p>HDCP</p>
@@ -77,7 +65,7 @@
                 </div>
               </div>
             </div>
-            <div class="bottom" v-if="showUsersWriteUpID && showUsersWriteUpID === user.id">
+            <div class="bottom" v-if="showUsersWriteUpID && showUsersWriteUpID === user.userId">
               <div class="images">
                 <div class="image">
                   <img src="https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="golf" />
@@ -90,11 +78,11 @@
                 </div>
               </div>
               <div class="writeUp">
-                <p>{{ user.writeUp }}</p>
+                <p>{{ user.writeup }}</p>
               </div>
             </div>
             <div class="toggleWriteup">
-              <button @click="toggleShowUsersWriteUp(user.id)">
+              <button @click="toggleShowUsersWriteUp(user.userId)">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     fill-rule="evenodd"
@@ -121,7 +109,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import PowerRankingService from "@/services/PowerRankingService";
-import { EventPowerRankingVm } from "@/types/ViewModels/EventPowerRankingVm";
+import { EventPowerRankingVm, RankingVm } from '@/types/ViewModels/EventPowerRankingVm'
 import { EventVm } from "@/types/ViewModels/EventVm";
 import IconBtn from "@/components/ui/Buttons/IconBtn.vue";
 
@@ -153,6 +141,7 @@ export default class PowerRankings extends Vue {
     { id: "3", name: "Matt Miller", rank: 3, images: [], trending: "-2", handicap: 10.1, writeUp: "" }
   ];
   powerRankings = [] as Array<EventPowerRankingVm>;
+
 
 
   mounted(): void {
