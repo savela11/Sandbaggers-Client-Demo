@@ -113,7 +113,7 @@
                     </InputField>
                   </div>
                   <div class='itinerary__bottom toBeAdded__bottom'>
-                    <InputField class-name='textArea' :isActive="itinerary.description !== ''">
+                    <InputField class='flexItem' class-name='textArea' :isActive="itinerary.description !== ''">
                       <template v-slot:field>
                         <label for='description'>Description</label>
                         <textarea type='text' id='description' v-model.trim='itinerary.description'></textarea>

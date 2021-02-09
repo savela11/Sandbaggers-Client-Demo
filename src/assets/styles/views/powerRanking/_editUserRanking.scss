@@ -1,0 +1,38 @@
+﻿@use '../../globals' as g;
+
+$-createdOn: (
+        color: g.$color-SecondaryFS,
+        font-size: (
+                null: .8rem
+        ),
+        margin: (
+                null: 0 0 .2rem 0,
+        )
+);
+
+.userRanking {
+  padding: .3rem;
+
+  &__container {
+    border: 1px solid grey;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+
+.selectedRanking {
+
+  .createdOn {
+    p {
+      @include g.printStyles($-createdOn);
+      &:last-of-type {
+        margin: 0;
+
+      }
+    }
+  }
+
+}

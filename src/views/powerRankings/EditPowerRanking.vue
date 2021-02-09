@@ -1,7 +1,6 @@
 ﻿<template>
   <div class='editPowerRanking'>
     <div v-if='!loading && PowerRanking.eventId'>
-      <h1 class='editPowerRanking__title'>{{ PowerRanking.eventName }}</h1>
       <div class='flex--xs flex--end'>
         <SelectBoxComponent
           :selected='activeViewBtn'
@@ -22,9 +21,11 @@
             </template>
           </InputField>
           <div class='updateBtn my-1'>
-            <button class='btn btn--sm text--sm btn--bg-darkGreen text--bold '>Update</button>
+            <button class='btn btn--sm text--sm btn--bg-darkBlue text--bold '>Update</button>
           </div>
         </div>
+        <EditUserRankings v-if="activeViewBtn === 'Edit Rankings'" class='view editRankings' v-bind='{rankings: PowerRanking.rankings}' />
+
         <div v-if="activeViewBtn === 'Registered'" class='view registered'>
 
           <div v-for='user in PowerRanking.registeredUsers' :key='user.id'>
@@ -51,7 +52,8 @@ import UIHelper from '@/utility/UIHelper'
     Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
     InputField: (): Promise<typeof import('*.vue')> => import('@/components/ui/InputField.vue'),
     SelectBoxComponent: (): Promise<typeof import('*.vue')> => import('@/components/ui/SelectBoxComponent.vue'),
-    ViewBtns: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/ViewBtns.vue')
+    ViewBtns: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/ViewBtns.vue'),
+    EditUserRankings: (): Promise<typeof import('*.vue')> => import('@/views/powerRankings/editPowerRanking/editUserRankings.vue')
 
   }
 })
@@ -60,7 +62,7 @@ import UIHelper from '@/utility/UIHelper'
 export default class EditPowerRanking extends Vue {
   loading = true
   PowerRanking = {} as EventPowerRankingVm
-  viewButtons = ['Main', 'Registered']
+  viewButtons = ['Main', 'Edit Rankings', 'Registered']
   activeViewBtn = 'Main'
 
   showSelectOptions = false

@@ -28,7 +28,7 @@
     width: 90%;
     border: 2px solid g.$color-DarkBlue;
     border-radius: 5px;
-    padding: 1rem 1rem 2rem 1rem;
+    padding: 1.5rem 1.5rem 2rem 1.5rem;
     z-index: 11;
     top: 50%;
     left: 50%;
@@ -63,11 +63,19 @@
       overflow-y: auto;
       overflow-x: hidden;
       min-height: 150px;
-
+@include g.mobile {
+  min-height: 250px;
+}
       @include g.tablet {
         max-height: 500px;
       }
     }
+  }
+
+  &__closeBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
 

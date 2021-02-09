@@ -34,6 +34,7 @@ if(to.meta.backBtn) {
 
   } else {
     store.dispatch("authStore/Logout").then();
+    store.dispatch("navigationStore/_setBackBtnShowingStatus", false).then()
     UIHelper.PageLoading(false);
     next("/login");
   }

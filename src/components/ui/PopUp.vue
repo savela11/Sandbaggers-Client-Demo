@@ -2,7 +2,7 @@
   <div class="popUp" :class="{ showPopUp: showPopUp === true }">
     <div class="popUp__backDrop"></div>
     <div class="container" :class="[showPopUp === true ? 'show' : 'hide']">
-      <IconBtn className="float--right" v-on="$listeners">
+      <IconBtn class='popUp__closeBtn' v-on="$listeners">
         <template v-slot:svg>
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
