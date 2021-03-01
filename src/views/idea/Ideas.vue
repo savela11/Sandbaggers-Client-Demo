@@ -68,7 +68,7 @@ import IdeaService from "@/services/IdeaService";
 import Helper from "@/utility/Helper";
 import FormatMixins from "@/mixins/FormatMixins.vue";
 import UIHelper from "@/utility/UIHelper";
-import { IdeaVm } from "@/types/ViewModels/IdeaVm";
+import { IdeaVm } from "@/types/ViewModels/Models/IdeaVm";
 
 @Component({
   name: "Ideas",

@@ -48,8 +48,8 @@
 import { Component, Vue } from 'vue-property-decorator'
 import BetService from '@/services/BetService'
 import Helper from '@/utility/Helper'
-import { LoggedInUserVm } from '@/types/ViewModels/UserVm'
-import { BetVm } from '@/types/ViewModels/BetVm'
+import { LoggedInUserVm } from '@/types/ViewModels/Models/UserVm'
+import { BetVm } from '@/types/ViewModels/Models/BetVm'
 import { UserAcceptsBetDto } from '@/types/DTO/Bets/UserAcceptsBetDto'
 import UIHelper from '@/utility/UIHelper'
 

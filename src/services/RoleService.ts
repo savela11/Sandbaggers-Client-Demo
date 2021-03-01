@@ -1,6 +1,6 @@
 ﻿import apiClient from "../utility/apiClient";
 import { AxiosResponse } from "axios";
-import { RoleVm, UserWithRoleVm } from "@/types/ViewModels/RoleVm";
+import { RoleVm, UserWithRoleVm } from "@/types/ViewModels/Models/RoleVm";
 import { AddUserToRoleDto, RemoveUserFromRoleDto } from "@/types/DTO/RoleDtos";
 import { CreateRoleDto } from "@/types/DTO/RoleDtos";
 

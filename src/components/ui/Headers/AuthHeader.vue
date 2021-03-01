@@ -26,7 +26,7 @@
 <script lang="ts">
 
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { LoggedInUserVm } from "@/types/ViewModels/UserVm";
+import { LoggedInUserVm } from "@/types/ViewModels/Models/UserVm";
 import { IHeader } from "@/types/vuexStore/UIStore";
 import NavigationHelper from "@/utility/NavigationHelper";
 

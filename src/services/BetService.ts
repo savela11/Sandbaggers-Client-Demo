@@ -1,7 +1,7 @@
 ﻿import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
-import { BetVm } from "@/types/ViewModels/BetVm";
-import { AcceptedByUserVm } from "@/types/ViewModels/UserVm";
+import { BetVm } from "@/types/ViewModels/Models/BetVm";
+import { AcceptedByUserVm } from "@/types/ViewModels/Models/UserVm";
 import { CreateBetDto } from "@/types/DTO/Bets/CreateBetDto";
 import { UserAcceptsBetDto } from "@/types/DTO/Bets/UserAcceptsBetDto";
 

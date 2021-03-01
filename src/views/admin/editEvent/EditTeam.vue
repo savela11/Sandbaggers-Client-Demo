@@ -35,7 +35,7 @@
                   </svg>
                 </template>
               </IconBtn>
-              <h2 class='team__name'>Team {{ team.name }}</h2>
+              <h2 class='team__name'>Team {{ team.name === '' || team.name === null ?  index + 1 : team.name}}</h2>
               <p class='team__members'>Team Members: {{ team.teamMembers.length }}</p>
             </div>
           </div>
@@ -47,7 +47,15 @@
               <input type='text' id='teamName' v-model.trim='editTeam.name' />
             </template>
           </InputField>
-          <div class='editTeam__captain section'>
+
+            <InputField class-name='noBorder title' :isActive="editTeam.color !== ''">
+                <template v-slot:field>
+                    <label for='color'>Color</label>
+                    <input type='text' id='color' v-model.trim='editTeam.color' />
+                </template>
+            </InputField>
+
+            <div class='editTeam__captain section'>
             <div class='flex--xs flex--iCenter flex--between flex--noWrap'>
               <p class='editTeam__captain__title title'>Captain:</p>
               <SelectBoxComponent
@@ -63,7 +71,6 @@
 
           <div class='editTeam__members section'>
             <p class='editTeam__members__title title'>Team Members:</p>
-
           </div>
           <button @click.prevent.stop='updateTeams' class='btn btn--sm my-1 btn--bg-darkBlue'>Update</button>
         </div>
@@ -76,7 +83,7 @@
 
 <script lang='ts'>
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { RegisteredUserVm, TeamMemberVm, TeamVm } from '@/types/ViewModels/EventVm'
+import { RegisteredUserVm, TeamMemberVm, TeamVm } from '@/types/ViewModels/Models/EventVm'
 
 @Component({
   name: 'EditTeam',

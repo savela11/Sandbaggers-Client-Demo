@@ -42,7 +42,7 @@
                 </div>
             </template>
             <template v-slot:submitBtn>
-                <button class="acceptBetBtn" v-if="selectedBet.userId !== $store.state.authStore.currentUser.id">Accept Bet</button>
+                <button class="acceptBetBtn" v-if="selectedBet.createdBy.id !== $store.state.authStore.currentUser.id">Accept Bet</button>
             </template>
         </Modal>
         <div class="top">
@@ -160,10 +160,10 @@ import { Component, Vue } from 'vue-property-decorator'
 import UIHelper from '@/utility/UIHelper'
 import Helper from '@/utility/Helper'
 import BetService from '@/services/BetService'
-import { BetVm } from '@/types/ViewModels/BetVm'
-import { SandbaggerWithHandicapVm } from '@/types/DashboardTypes'
+import { BetVm } from '@/types/ViewModels/Models/BetVm'
+import { SandbaggerWithHandicapVm } from '@/types/ViewModels/DashboardViewModel'
 import DashboardService from '@/services/DashboardService'
-import { ScrambleChampVm } from '@/types/ViewModels/EventResultsVm'
+import { ScrambleChampVm } from '@/types/ViewModels/Models/EventResultsVm'
 
 @Component({
     name: 'Dashboard',

@@ -1,4 +1,4 @@
-import { TeamVm } from "@/types/ViewModels/EventVm";
+import { TeamVm } from "@/types/ViewModels/Models/EventVm";
 
 
 export interface EventResultsVm {

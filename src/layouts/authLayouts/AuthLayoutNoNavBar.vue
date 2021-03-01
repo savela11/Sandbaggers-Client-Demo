@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { LoggedInUserVm } from "@/types/ViewModels/UserVm";
+import { LoggedInUserVm } from "@/types/ViewModels/Models/UserVm";
 
 @Component({
   name: "AuthLayoutNoNavBar", components: {

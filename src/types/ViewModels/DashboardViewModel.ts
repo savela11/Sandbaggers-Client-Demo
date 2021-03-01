@@ -1,6 +1,6 @@
-import { ScrambleChampVm } from "@/types/ViewModels/EventResultsVm";
+import { ScrambleChampVm } from "@/types/ViewModels/Models/EventResultsVm";
 
-export interface DashboardData {
+export interface DashboardViewModel {
   sandbaggersWithHandicaps: Array<SandbaggerWithHandicapVm>;
   scrambleChamps: Array<ScrambleChampVm>
 

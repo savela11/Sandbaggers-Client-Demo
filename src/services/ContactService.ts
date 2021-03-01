@@ -1,6 +1,6 @@
 import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
-import { ContactVm } from "@/types/ViewModels/ContactVm";
+import { ContactVm } from "@/types/ViewModels/Models/ContactVm";
 
 
 const url = '/Contact'

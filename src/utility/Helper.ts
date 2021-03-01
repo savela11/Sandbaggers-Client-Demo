@@ -1,4 +1,4 @@
-﻿import { ContactVm } from "@/types/ViewModels/ContactVm";
+﻿import { ContactVm } from "@/types/ViewModels/Models/ContactVm";
 
 export default class Helper {
   static formatDate(date: string): string {

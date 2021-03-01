@@ -26,7 +26,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import NavigationHelper from "@/utility/NavigationHelper";
-import { FavoriteLinkVm } from "@/types/ViewModels/UserVm";
+import { FavoriteLinkVm } from "@/types/ViewModels/Models/UserVm";
 
 @Component({ name: "NavBar" })
 export default class NavBar extends Vue {

@@ -1,4 +1,4 @@
-import { CreatedByUserVm } from "@/types/ViewModels/UserVm";
+import { CreatedByUserVm } from "@/types/ViewModels/Models/UserVm";
 
 export interface IdeaVm {
   id: number;

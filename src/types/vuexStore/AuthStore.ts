@@ -1,4 +1,4 @@
-import { LoggedInUserVm } from "@/types/ViewModels/UserVm";
+import { LoggedInUserVm } from "@/types/ViewModels/Models/UserVm";
 
 export interface IAuthState {
   currentUser: LoggedInUserVm | undefined

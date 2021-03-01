@@ -78,7 +78,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import GalleryService from '@/services/GalleryService'
-import { EventGalleryVm, GalleryImgVm } from '@/types/ViewModels/EventGallery'
+import { EventGalleryVm, GalleryImgVm } from '@/types/ViewModels/Models/EventGallery'
 import UIHelper from '@/utility/UIHelper'
 import { AddImageToGalleryDto } from '@/types/DTO/GalleryDtos'
 

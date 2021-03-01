@@ -29,7 +29,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import PowerRankingService from '@/services/PowerRankingService'
 import UIHelper from '@/utility/UIHelper'
-import { RegisteredUserVm } from '@/types/ViewModels/EventVm'
+import { RegisteredUserVm } from '@/types/ViewModels/Models/EventVm'
 
 @Component({ name: 'CreatePowerRanking' })
 export default class CreatePowerRanking extends Vue {

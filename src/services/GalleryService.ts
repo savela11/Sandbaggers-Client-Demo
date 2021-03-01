@@ -1,6 +1,6 @@
 import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
-import { EventGalleryVm, GalleryImgVm, GalleryWithNoImageVm } from '@/types/ViewModels/EventGallery'
+import { EventGalleryVm, GalleryImgVm, GalleryWithNoImageVm } from '@/types/ViewModels/Models/EventGallery'
 import { AddImageToGalleryDto } from '@/types/DTO/GalleryDtos'
 
 const url = '/Gallery'

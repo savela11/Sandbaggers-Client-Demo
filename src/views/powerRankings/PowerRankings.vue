@@ -109,8 +109,8 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import PowerRankingService from "@/services/PowerRankingService";
-import { EventPowerRankingVm, RankingVm } from '@/types/ViewModels/EventPowerRankingVm'
-import { EventVm } from "@/types/ViewModels/EventVm";
+import { EventPowerRankingVm, RankingVm } from '@/types/ViewModels/Models/EventPowerRankingVm'
+import { EventVm } from "@/types/ViewModels/Models/EventVm";
 import IconBtn from "@/components/ui/Buttons/IconBtn.vue";
 
 @Component({

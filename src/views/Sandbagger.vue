@@ -40,7 +40,7 @@ import { Component, Vue } from "vue-property-decorator";
 import FormatMixins from "@/mixins/FormatMixins.vue";
 import UserHistoryService from "@/services/UserHistoryService";
 import UIHelper from "@/utility/UIHelper";
-import { UserHistoryVm } from "@/types/ViewModels/UserHistoryVm";
+import { UserHistoryVm } from "@/types/ViewModels/Models/UserHistoryVm";
 
 @Component({ name: "Sandbagger", mixins: [FormatMixins] })
 export default class Sandbagger extends Vue {

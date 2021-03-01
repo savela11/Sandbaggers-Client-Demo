@@ -1,7 +1,7 @@
 ﻿import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
 
-import { EventResultsVm, ScrambleChampVm } from "@/types/ViewModels/EventResultsVm";
+import { EventResultsVm, ScrambleChampVm } from "@/types/ViewModels/Models/EventResultsVm";
 
 const url = '/EventResults'
 

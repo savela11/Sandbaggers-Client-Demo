@@ -48,7 +48,7 @@
 
 <script lang='ts'>
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { RankingVm } from '@/types/ViewModels/EventPowerRankingVm'
+import { RankingVm } from '@/types/ViewModels/Models/EventPowerRankingVm'
 import Helper from '@/utility/Helper'
 
 @Component({

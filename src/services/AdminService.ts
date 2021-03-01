@@ -1,6 +1,6 @@
 ﻿import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
-import { EventVm } from '@/types/ViewModels/EventVm'
+import { EventVm } from '@/types/ViewModels/Models/EventVm'
 
 const url = '/admin'
 

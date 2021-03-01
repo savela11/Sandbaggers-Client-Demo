@@ -1,4 +1,4 @@
-import { AcceptedByUserVm, CreatedByUserVm } from "@/types/ViewModels/UserVm";
+import { AcceptedByUserVm, CreatedByUserVm } from "@/types/ViewModels/Models/UserVm";
 
 export interface BetVm {
   betId: number;

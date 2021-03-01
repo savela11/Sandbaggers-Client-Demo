@@ -58,7 +58,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import ContactService from '@/services/ContactService'
-import { ContactVm } from '@/types/ViewModels/ContactVm'
+import { ContactVm } from '@/types/ViewModels/Models/ContactVm'
 import Loading from '@/components/ui/Loading.vue'
 import Helper from '@/utility/Helper'
 

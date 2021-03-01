@@ -1,0 +1,80 @@
+@use '../../globals' as g;
+@use './userProfile';
+
+$--settingsTitleFS: (
+        null: 1rem,
+        g.$mQ-mobile: 1.1rem,
+);
+$--settingsParaFS: (
+        null: 0.8rem,
+        g.$mQ-mobile: 0.9rem,
+);
+$--settingsContactBtnFS: (
+        null: 0.8rem,
+        g.$mQ-mobile: 0.9rem,
+);
+
+$--selectBoxOptionFS: (
+        null: 0.8rem,
+        g.$mQ-mobile: 0.9rem,
+);
+.profileSettings {
+  h2 {
+    @include g.font-size($--settingsTitleFS);
+  }
+
+  p {
+    @include g.font-size($--settingsParaFS);
+  }
+
+  .favorites {
+  }
+
+  .favoriteLink {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0.8rem;
+
+
+  }
+
+  .contacts {
+    &__flex {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin: 1rem 0;
+    }
+
+    &__btns {
+      align-items: center;
+      display: flex;
+      margin-left: 1rem;
+
+      button {
+        @include g.font-size($--settingsContactBtnFS);
+        background-color: white;
+        border: 1px solid g.$color-DarkBlue;
+        color: g.$color-DarkBlue;
+        margin-right: 0.5rem;
+        padding: 0.3rem 1.2rem;
+
+        &:last-of-type {
+          margin: 0;
+        }
+
+        &.active {
+          color: white;
+          background-color: g.$color-DarkBlue;
+        }
+      }
+    }
+  }
+
+
+  .btn {
+    &__update {
+      @include g.printStyles(userProfile.$text--btn-update);
+    }
+  }
+}

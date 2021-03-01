@@ -38,10 +38,10 @@ export interface RegisteredUserVm {
 export interface TeamVm {
   teamId: number;
   name: string;
+  color: string;
   eventId: number;
   captain: TeamMemberVm;
   teamMembers: Array<TeamMemberVm>
-  place: string;
 }
 
 export interface TeamMemberVm {

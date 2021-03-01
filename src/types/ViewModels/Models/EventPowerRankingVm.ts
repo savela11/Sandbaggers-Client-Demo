@@ -1,4 +1,4 @@
-import { RegisteredUserVm } from "@/types/ViewModels/EventVm";
+import { RegisteredUserVm } from "@/types/ViewModels/Models/EventVm";
 
 export interface EventPowerRankingVm {
   eventId: number

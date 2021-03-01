@@ -42,7 +42,7 @@
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 import PowerRankingService from '@/services/PowerRankingService'
-import { EventPowerRankingVm } from '@/types/ViewModels/EventPowerRankingVm'
+import { EventPowerRankingVm } from '@/types/ViewModels/Models/EventPowerRankingVm'
 import UIHelper from '@/utility/UIHelper'
 
 

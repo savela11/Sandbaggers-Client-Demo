@@ -74,7 +74,7 @@ import { Component, Vue } from "vue-property-decorator";
 import RoleService from "@/services/RoleService";
 // import UIHelper from '@/utility/UIHelper'
 // import { ISnackBar } from "@/types/UI/SnackBar";
-import { RoleVm, UserWithRoleVm } from "@/types/ViewModels/RoleVm";
+import { RoleVm, UserWithRoleVm } from "@/types/ViewModels/Models/RoleVm";
 import { AddUserToRoleDto, RemoveUserFromRoleDto } from "@/types/DTO/RoleDtos";
 import UIHelper from "@/utility/UIHelper";
 

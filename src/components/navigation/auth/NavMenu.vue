@@ -1,9 +1,9 @@
 <template>
   <div class="navMenu">
     <div class="adminButtons" v-if="userRoles.includes('Admin')">
-      <button class="btn btn--xs text text--sm btn--borderBottom btn--border-darkBlue" @click="toggleLinksView('Main')" :class="{ active: currentLinkView === 'Main' }">Main
+      <button  @click="toggleLinksView('Main')" :class="{ active: currentLinkView === 'Main' }">Main
       </button>
-      <button class="btn btn--xs text text--sm btn--borderBottom btn--border-darkBlue" @click="toggleLinksView('Admin')" :class="{ active: currentLinkView === 'Admin' }">Admin
+      <button  @click="toggleLinksView('Admin')" :class="{ active: currentLinkView === 'Admin' }">Admin
       </button>
     </div>
     <nav>

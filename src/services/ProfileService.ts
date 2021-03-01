@@ -1,8 +1,8 @@
 import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
-import { UserVm } from '@/types/ViewModels/UserVm'
-import { BetVm } from '@/types/ViewModels/BetVm'
-import { UserProfileData } from '@/types/ViewModels/UserProfile'
+import { UserVm } from '@/types/ViewModels/Models/UserVm'
+import { BetVm } from '@/types/ViewModels/Models/BetVm'
+import { UserProfileData } from '@/types/ViewModels/Models/UserProfile'
 import { UpdateProfileImageDto } from '@/types/DTO/ProfileDto'
 
 const url = '/profile'

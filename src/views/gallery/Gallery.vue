@@ -34,7 +34,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import GalleryService from "@/services/GalleryService";
-import { GalleryWithNoImageVm } from "@/types/ViewModels/EventGallery";
+import { GalleryWithNoImageVm } from "@/types/ViewModels/Models/EventGallery";
 import UIHelper from "@/utility/UIHelper";
 
 @Component({

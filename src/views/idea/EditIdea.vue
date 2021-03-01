@@ -29,7 +29,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import IdeaService from "@/services/IdeaService";
 import { GetIdeaDto } from "@/types/DTO/Ideas/GetIdeaDto";
-import { IdeaVm } from "@/types/ViewModels/IdeaVm";
+import { IdeaVm } from "@/types/ViewModels/Models/IdeaVm";
 import UIHelper from "@/utility/UIHelper";
 import Helper from "@/utility/Helper";
 

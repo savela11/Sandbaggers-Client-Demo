@@ -1,7 +1,7 @@
 import apiClient from "../utility/apiClient";
 import { AxiosResponse } from "axios";
-import { EventPowerRankingVm } from "@/types/ViewModels/EventPowerRankingVm";
-import { RegisteredUserVm } from "@/types/ViewModels/EventVm";
+import { EventPowerRankingVm } from "@/types/ViewModels/Models/EventPowerRankingVm";
+import { RegisteredUserVm } from "@/types/ViewModels/Models/EventVm";
 
 
 const url = "/PowerRanking";

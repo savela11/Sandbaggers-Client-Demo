@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { AxiosResponse } from 'axios'
 import { LoginUserDto, RegisterUserDto } from '@/types/DTO/AuthDto'
-import { ApplicationUserVm, LoggedInUserVm } from '@/types/ViewModels/UserVm'
+import { ApplicationUserVm, LoggedInUserVm } from '@/types/ViewModels/Models/UserVm'
 const url = process.env.VUE_APP_URL
 const baseURL = process.env.NODE_ENV === 'production' ? url : `http://10.0.0.56:8080/api`
 

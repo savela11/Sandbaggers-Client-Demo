@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { FavoriteLinkVm, LoggedInUserVm } from "@/types/ViewModels/UserVm";
+import { FavoriteLinkVm, LoggedInUserVm } from "@/types/ViewModels/Models/UserVm";
 
 @Component({
   name: "AuthLayoutNoBars", components: {

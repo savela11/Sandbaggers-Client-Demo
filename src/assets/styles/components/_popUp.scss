@@ -1,4 +1,5 @@
 ﻿@use '../globals' as g;
+
 .popUp {
   position: fixed;
   z-index: 100;
@@ -63,9 +64,9 @@
       overflow-y: auto;
       overflow-x: hidden;
       min-height: 150px;
-@include g.mobile {
-  min-height: 250px;
-}
+      @include g.mobile {
+        min-height: 250px;
+      }
       @include g.tablet {
         max-height: 500px;
       }

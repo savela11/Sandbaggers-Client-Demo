@@ -1,6 +1,6 @@
 import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
-import { UserHistoryVm } from "@/types/ViewModels/UserHistoryVm";
+import { UserHistoryVm } from "@/types/ViewModels/Models/UserHistoryVm";
 
 const url = '/Sandbagger'
 

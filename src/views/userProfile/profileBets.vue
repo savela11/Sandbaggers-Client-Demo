@@ -77,9 +77,9 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from "vue-property-decorator";
-import { BetVm } from "@/types/ViewModels/BetVm";
+import { BetVm } from "@/types/ViewModels/Models/BetVm";
 import Helper from "@/utility/Helper";
-import { AcceptedByUserVm } from "@/types/ViewModels/UserVm";
+import { AcceptedByUserVm } from "@/types/ViewModels/Models/UserVm";
 
 @Component({
   name: "ProfileBets",

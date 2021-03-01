@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { BetVm } from '@/types/ViewModels/BetVm'
+import { BetVm } from '@/types/ViewModels/Models/BetVm'
 import Helper from '@/utility/Helper'
 
 @Component({ name: 'DashboardBets' })

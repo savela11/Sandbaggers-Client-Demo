@@ -1,6 +1,6 @@
 import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
-import { AdminEventManagerVm, EventVm } from '@/types/ViewModels/EventVm'
+import { AdminEventManagerVm, EventVm } from '@/types/ViewModels/Models/EventVm'
 import { CreateEventDto, RegisterUserForEventDto } from '@/types/DTO/EventDto'
 
 const url = '/events'

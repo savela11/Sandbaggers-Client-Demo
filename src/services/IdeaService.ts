@@ -1,7 +1,7 @@
 ﻿import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
 import { IAddIdea, IIdea } from '@/types/Idea'
-import { IdeaVm } from '@/types/ViewModels/IdeaVm'
+import { IdeaVm } from '@/types/ViewModels/Models/IdeaVm'
 import { GetIdeaDto } from '@/types/DTO/Ideas/GetIdeaDto'
 
 const url = '/ideas'

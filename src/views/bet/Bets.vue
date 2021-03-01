@@ -133,7 +133,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import BetService from '@/services/BetService'
 import Helper from '@/utility/Helper'
 import UIHelper from '@/utility/UIHelper'
-import { BetVm } from '@/types/ViewModels/BetVm'
+import { BetVm } from '@/types/ViewModels/Models/BetVm'
 import { CreateBetDto } from '@/types/DTO/Bets/CreateBetDto'
 import { UserAcceptsBetDto } from '@/types/DTO/Bets/UserAcceptsBetDto'
 

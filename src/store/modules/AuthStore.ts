@@ -3,7 +3,7 @@ import SecureLS from 'secure-ls'
 import AuthService from '../../services/AuthService'
 import { ActionContext } from 'vuex'
 import { IRootState } from '@/store'
-import { LoggedInUserVm, UserSettingsVm } from '@/types/ViewModels/UserVm'
+import { LoggedInUserVm, UserSettingsVm } from '@/types/ViewModels/Models/UserVm'
 import { IAuthState } from '@/types/vuexStore/AuthStore'
 
 const ls = new SecureLS({ isCompression: false })

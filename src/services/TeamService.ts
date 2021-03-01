@@ -1,6 +1,6 @@
 import apiClient from '../utility/apiClient'
 import { AxiosResponse } from 'axios'
-import { TeamVm } from '@/types/ViewModels/EventVm'
+import { TeamVm } from '@/types/ViewModels/Models/EventVm'
 
 const url = '/teams'
 
