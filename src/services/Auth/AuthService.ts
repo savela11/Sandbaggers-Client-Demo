@@ -8,15 +8,15 @@ const baseURL = process.env.NODE_ENV === 'production' ? url : `http://10.0.0.56:
 
 class AuthService {
   static async registerUser(registerUser: RegisterUserDto): Promise<AxiosResponse<ApplicationUserVm>> {
-    return await axios.post(baseURL + '/auth/Register', registerUser)
+    return await axios.post(baseURL + '/auth/Registration/Register', registerUser)
   }
 
   static async loginUser(loginUser: LoginUserDto): Promise<AxiosResponse<LoggedInUserVm>> {
-    return await axios.post(baseURL + '/auth/Login', loginUser)
+    return await axios.post(baseURL + '/auth/Login/UserLogin', loginUser)
   }
 
   static async logout(): Promise<void> {
-    return await axios.post(baseURL + '/auth/Logout')
+    return await axios.post(baseURL + '/auth/Login/Logout')
   }
 }
 

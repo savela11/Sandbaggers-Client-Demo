@@ -1,9 +1,9 @@
-import apiClient from '../utility/apiClient'
+import apiClient from '../../utility/apiClient'
 import { AxiosResponse } from 'axios'
 import { BetVm } from '@/types/ViewModels/Models/BetVm'
 import { DashboardViewModel } from '@/types/ViewModels/DashboardViewModel'
 
-const url = '/Dashboard'
+const url = 'USER/Dashboard'
 
 class DashboardService {
     static async DashboardData(): Promise<AxiosResponse<DashboardViewModel>> {

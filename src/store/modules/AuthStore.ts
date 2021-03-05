@@ -1,6 +1,6 @@
 ﻿import router from '../../router'
 import SecureLS from 'secure-ls'
-import AuthService from '../../services/AuthService'
+import AuthService from '../../services/Auth/AuthService'
 import { ActionContext } from 'vuex'
 import { IRootState } from '@/store'
 import { LoggedInUserVm, UserSettingsVm } from '@/types/ViewModels/Models/UserVm'

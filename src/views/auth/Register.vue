@@ -63,7 +63,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import AuthService from '../../services/AuthService'
+import AuthService from '../../services/Auth/AuthService'
 import { ISnackBar } from '@/types/UI/SnackBar'
 import { RegisterUserDto } from '@/types/DTO/AuthDto'
 import UIHelper from '@/utility/UIHelper'

@@ -43,7 +43,7 @@ export default [
         path: '/admin/roles',
         name: 'Roles',
         beforeEnter: guardAdminRoute,
-        component: loadView('admin/Roles'),
+        component: loadView('admin/roleManager/Roles'),
         meta: {
             layout: AuthLayout,
         },
@@ -52,7 +52,7 @@ export default [
         path: '/admin/createRole',
         name: 'CreateRole',
         beforeEnter: guardAdminRoute,
-        component: loadView('admin/CreateRole'),
+        component: loadView('admin/roleManager/CreateRole'),
         meta: {
             layout: AuthLayoutNoHeader,
             backBtn: true,
@@ -72,7 +72,7 @@ export default [
         path: '/admin/eventManager',
         name: 'Event Manager',
         beforeEnter: guardAdminRoute,
-        component: loadView('admin/EventManager'),
+        component: loadView('admin/eventManager/EventManager'),
         meta: {
             layout: AuthLayout,
         },
@@ -81,7 +81,7 @@ export default [
         path: '/admin/createEvent',
         name: 'Create Event',
         beforeEnter: guardAdminRoute,
-        component: loadView('admin/CreateEvent'),
+        component: loadView('admin/eventManager/CreateEvent'),
         meta: {
             layout: AuthLayoutNoHeader,
             backBtn: true,
@@ -91,7 +91,7 @@ export default [
         path: '/admin/editEvent/:id',
         name: 'Edit Event',
         beforeEnter: guardAdminRoute,
-        component: loadView('admin/EditEvent'),
+        component: loadView('admin/eventManager/EditEvent'),
         meta: {
             layout: AuthLayout,
             backBtn: true,

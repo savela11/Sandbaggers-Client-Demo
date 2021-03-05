@@ -106,8 +106,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import EventService from '@/services/EventService'
 import { EventVm } from '@/types/ViewModels/Models/EventVm'
+import EventManagerService from '@/services/Admin/EventManagerService'
 
 @Component({
     name: 'EventManager',
@@ -159,8 +159,7 @@ export default class EventManager extends Vue {
 
     async getEvents(): Promise<void> {
         try {
-            const res = await EventService.GetEventsByYear()
-            console.log(res)
+            const res = await EventManagerService.EventVmList()
             this.Events = res.data
             const currentYear = this.Events.find((e) => e.isCurrentYear)
             if (currentYear) {

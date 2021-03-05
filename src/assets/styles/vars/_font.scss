@@ -57,16 +57,21 @@ $activeLabel: (
                 $desktopLarge: 1rem,
         ),
 );
-$activeTitleLabel: mixin.deepMerge($activeLabel,
-        (
-                'font-size':(
-                        null: 1rem,
-                        $mobile: 1.1rem,
-                        $tablet: 1.2rem,
-                        $tablet-landscape: 1.3rem,
-                        $desktopSmall: 1.4rem,
-                ))
-);
+$activeTitleLabel: (
+        'top': 0,
+        'transform': translateY(-15px),
+        'background-color': white,
+        'border-radius': 5px,
+        'font-weight': bold,
+        'color': color.$PrimaryFS,
+        'font-size':(
+                null: 1rem,
+                $mobile: 1.1rem,
+                $tablet: 1.2rem,
+                $tablet-landscape: 1.3rem,
+                $desktopSmall: 1.4rem,
+                $desktopLarge: 1.5rem
+        ));
 
 $tiny: (
         null: 0.5rem,

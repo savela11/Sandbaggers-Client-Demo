@@ -25,7 +25,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { CreateRoleDto } from "@/types/DTO/RoleDtos";
-import RoleService from "@/services/RoleService";
+import RoleService from "@/services/Admin/RoleManagerService";
 import UIHelper from "@/utility/UIHelper";
 
 @Component({

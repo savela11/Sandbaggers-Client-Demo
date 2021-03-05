@@ -1,16 +1,16 @@
-import apiClient from '../utility/apiClient'
+import apiClient from '../../utility/apiClient'
 import { AxiosResponse } from 'axios'
 import { TeamVm } from '@/types/ViewModels/Models/EventVm'
 
-const url = '/teams'
+const url = 'ADMIN/TeamManager'
 
-class TeamService {
+class TeamManagerService {
     static async CreateTeamForEvent(eventId: number): Promise<AxiosResponse<TeamVm>> {
         return await apiClient.post(`${url}/CreateTeamForEvent`, { eventId: eventId })
     }
     static async UpdateTeams(teams: Array<TeamVm>): Promise<AxiosResponse<Array<TeamVm>>> {
-      return await apiClient.post(`${url}/UpdateTeams`, teams)
+        return await apiClient.post(`${url}/UpdateTeams`, teams)
     }
 }
 
-export default TeamService
+export default TeamManagerService

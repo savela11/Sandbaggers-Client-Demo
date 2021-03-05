@@ -162,7 +162,7 @@ import Helper from '@/utility/Helper'
 import BetService from '@/services/BetService'
 import { BetVm } from '@/types/ViewModels/Models/BetVm'
 import { SandbaggerWithHandicapVm } from '@/types/ViewModels/DashboardViewModel'
-import DashboardService from '@/services/DashboardService'
+import DashboardService from '@/services/User/DashboardService'
 import { ScrambleChampVm } from '@/types/ViewModels/Models/EventResultsVm'
 
 @Component({

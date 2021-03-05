@@ -1,14 +1,14 @@
-﻿import apiClient from "../utility/apiClient";
+﻿import apiClient from "../../utility/apiClient";
 import { AxiosResponse } from "axios";
 import { RoleVm, UserWithRoleVm } from "@/types/ViewModels/Models/RoleVm";
 import { AddUserToRoleDto, RemoveUserFromRoleDto } from "@/types/DTO/RoleDtos";
 import { CreateRoleDto } from "@/types/DTO/RoleDtos";
 
-const url = "/roles";
+const url = "ADMIN/RoleManager";
 
 
-class RoleService {
-  static async roleList(): Promise<AxiosResponse<RoleVm[]>> {
+class RoleManagerService {
+  static async Roles(): Promise<AxiosResponse<RoleVm[]>> {
     return await apiClient.get(url + "/Roles");
   }
 
@@ -25,4 +25,4 @@ class RoleService {
   }
 }
 
-export default RoleService;
+export default RoleManagerService;

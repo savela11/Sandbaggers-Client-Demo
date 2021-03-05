@@ -30,7 +30,7 @@
           <div class="user" v-for="user in selectedRole.members" :key="user.id">
             <div class="user__container">
               <p class="text text--md">{{ user.fullName }}</p>
-              <IconBtn @click="removeUserWithRole(user)">
+              <IconBtn @click.prevent.stop="removeUserWithRole(user)">
                 <template v-slot:svg>
                   <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -48,7 +48,7 @@
           <div class="user" v-for="user in selectedRole.nonMembers" :key="user.id">
             <div class="user__container">
               <p class="text text--md">{{ user.fullName }}</p>
-              <IconBtn @click="addUserToRole(user)">
+              <IconBtn @click.prevent.stop="addUserToRole(user)">
                 <template v-slot:svg>
                   <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -70,13 +70,10 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-// import { IAddOrRemoveUseFromRole, ICreateRole, IRoleDto, IUserWithRole } from "@/types/Admin/Role";
-import RoleService from "@/services/RoleService";
-// import UIHelper from '@/utility/UIHelper'
-// import { ISnackBar } from "@/types/UI/SnackBar";
 import { RoleVm, UserWithRoleVm } from "@/types/ViewModels/Models/RoleVm";
 import { AddUserToRoleDto, RemoveUserFromRoleDto } from "@/types/DTO/RoleDtos";
 import UIHelper from "@/utility/UIHelper";
+import RoleManagerService from '@/services/Admin/RoleManagerService'
 
 @Component({
   components: {
@@ -126,7 +123,7 @@ export default class Roles extends Vue {
     };
     this.loading = true;
     try {
-      const res = await RoleService.AddUserToRole(addUserToRoleDto);
+      const res = await RoleManagerService.AddUserToRole(addUserToRoleDto);
       if (res.status === 200) {
         UIHelper.SnackBar({
           title: "Success",
@@ -156,7 +153,7 @@ export default class Roles extends Vue {
     };
     this.loading = true;
     try {
-      const res = await RoleService.RemoveUserFromRole(removeUserFromRoleDto);
+      const res = await RoleManagerService.RemoveUserFromRole(removeUserFromRoleDto);
       if (res.status === 200) {
         UIHelper.SnackBar({
           title: "Success",
@@ -182,7 +179,7 @@ export default class Roles extends Vue {
 
   async getRoles(): Promise<void> {
     try {
-      const res = await RoleService.roleList();
+      const res = await RoleManagerService.Roles();
       if (res.status === 200) {
         this.roles = res.data;
         this.selectedRole = res.data.find((r) => r.roleName === "Admin") as RoleVm;

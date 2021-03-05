@@ -31,7 +31,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { ISnackBar } from '@/types/UI/SnackBar'
-import AuthService from '@/services/AuthService'
+import AuthService from '@/services/Auth/AuthService'
 import UIHelper from '@/utility/UIHelper'
 import { LoginUserDto } from '@/types/DTO/AuthDto'
 
