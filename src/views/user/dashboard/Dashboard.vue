@@ -159,7 +159,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import UIHelper from '@/utility/UIHelper'
 import Helper from '@/utility/Helper'
-import BetService from '@/services/BetService'
+import BetService from '@/services/User/BetService'
 import { BetVm } from '@/types/ViewModels/Models/BetVm'
 import { SandbaggerWithHandicapVm } from '@/types/ViewModels/DashboardViewModel'
 import DashboardService from '@/services/User/DashboardService'
@@ -170,7 +170,7 @@ import { ScrambleChampVm } from '@/types/ViewModels/Models/EventResultsVm'
     components: {
         Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
         Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue'),
-        DashboardBets: (): Promise<typeof import('*.vue')> => import('@/views/dashboard/dashboardBets.vue'),
+        DashboardBets: (): Promise<typeof import('*.vue')> => import('@/views/user/dashboard/dashboardBets.vue'),
     },
 })
 export default class Dashboard extends Vue {

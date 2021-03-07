@@ -1,18 +1,17 @@
-﻿import apiClient from '../utility/apiClient'
+﻿import apiClient from '../../utility/apiClient'
 import { AxiosResponse } from 'axios'
 import { BetVm } from "@/types/ViewModels/Models/BetVm";
 import { AcceptedByUserVm } from "@/types/ViewModels/Models/UserVm";
-import { CreateBetDto } from "@/types/DTO/Bets/CreateBetDto";
-import { UserAcceptsBetDto } from "@/types/DTO/Bets/UserAcceptsBetDto";
+import { CreateBetDto, UserAcceptsBetDto } from '@/types/DTO/BetDto'
 
-const url = '/bets'
+const url = 'USER/Bet'
 
 class BetService {
   static async GetUserBets(id: string): Promise<AxiosResponse<Array<BetVm>>> {
     return await apiClient.get(`${url}/UserBets/${id}`)
   }
   static async AllActiveBets(): Promise<AxiosResponse<Array<BetVm>>> {
-    return await apiClient.get(url + `/AllActiveBets`)
+    return await apiClient.get(url + `/ActiveBets`)
   }
 
   static async UpdateBet(bet: BetVm): Promise<AxiosResponse<void>> {

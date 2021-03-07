@@ -111,6 +111,10 @@
     }
   }
 
+  input {
+    border-radius: 50px;
+  }
+
   input,
   textarea {
     color: rgba(60, 60, 67, 0.8);
@@ -153,7 +157,7 @@
   }
 }
 
-.noBorder{
+.noBorder {
   border: none;
   border-bottom: 1px solid rgba(60, 60, 67, 0.2);
 
@@ -161,7 +165,7 @@
   &:focus,
   &:focus-within,
   &.active {
-border: none;
+    border: none;
     border-bottom: 1px solid rgba(60, 60, 67, 0.2);
 
   }

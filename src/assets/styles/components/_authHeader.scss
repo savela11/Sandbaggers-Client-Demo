@@ -66,16 +66,30 @@
 
   }
 
-  .messages {
-
+  .utilityBar {
     position: relative;
     display: flex;
     align-items: flex-end;
     margin-right: .5rem;
+    transform: translateY(20px);
+    button {
+      background-color: white;
+      height: 30px;
+      width: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      padding: .2rem;
 
-    &__message {
+      &.hide {
+        transform: rotate(180deg);
+      }
 
-      transform: translateY(20px);
+      svg {
+        height: 100%;
+        width: 100%;
+      }
     }
   }
 

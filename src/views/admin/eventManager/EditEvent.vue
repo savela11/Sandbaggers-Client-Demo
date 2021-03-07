@@ -2,14 +2,14 @@
   <div class='EditEvent'>
     <div v-if='!loading && Event.eventId'>
       <div class='flex--xs flex--end flex--iCenter'>
-        <SelectBoxComponent :selected='currentView' :options='views' :showSelectOptions='showSelectOptions' @click.prevent.stop='toggleSelectBox' @select-option='selectOption'/>
+        <SelectBoxComponent :selected='currentView' :options='views' :showSelectOptions='showSelectOptions' @click.prevent.stop='toggleSelectBox' @select-option='selectOption' />
       </div>
       <div class='views'>
         <div v-if="currentView === 'main'" class='view main'>
           <form class='main__form' @submit.prevent.stop='UpdateEvent'>
             <InputField class-name='noBorder title' :isActive="Event.name !== ''">
               <template v-slot:field><label for='name'>Event Name</label>
-                <input type='text' id='name' v-model.trim='Event.name'/></template>
+                <input type='text' id='name' v-model.trim='Event.name' /></template>
             </InputField>
             <div class='toggle'>
               <h2 class='text text--sm text--bold color--primary'>Current Event:</h2>
@@ -27,7 +27,7 @@
               </div>
             </div>
 
-            <input type='submit' value='Update' class='btn btn--sm my-1 btn--bg-darkBlue'/>
+            <input type='submit' value='Update' class='btn btn--sm my-1 btn--bg-darkBlue' />
           </form>
         </div>
         <div v-if="currentView === 'registration'" class='view registration'>
@@ -89,7 +89,7 @@
             <IconBtn btn-text='Add' @click.prevent.stop="addItinerary('add')">
               <template v-slot:svg>
                 <svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                  <path d='M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 13H13V17H11V13H7V11H11V7H13V11H17V13Z' fill='#17252A'/>
+                  <path d='M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 13H13V17H11V13H7V11H11V7H13V11H17V13Z' fill='#17252A' />
                 </svg>
               </template>
             </IconBtn>
@@ -103,13 +103,13 @@
                     <InputField class='flexItem' :isActive="itinerary.day !== ''">
                       <template v-slot:field>
                         <label :for="'Day' + index">Day</label>
-                        <input type='text' :id="'Day' + index" v-model.trim='itinerary.day'/>
+                        <input type='text' :id="'Day' + index" v-model.trim='itinerary.day' />
                       </template>
                     </InputField>
                     <InputField class='flexItem' :isActive="itinerary.time !== ''">
                       <template v-slot:field>
                         <label for='time'>Time</label>
-                        <input type='text' id='time' v-model.trim='itinerary.time'/>
+                        <input type='text' id='time' v-model.trim='itinerary.time' />
                       </template>
                     </InputField>
                   </div>
@@ -168,7 +168,7 @@
             @update-teams='UpdateTeams'
             @add-team='addTeam'
             @remove-captain='removeTeamCaptain'
-            @remove-user-from-team="removeUserFromTeam"
+            @remove-user-from-team='removeUserFromTeam'
         />
 
         <div v-if="currentView === 'location'" class='view location'>
@@ -177,19 +177,19 @@
               <InputField class='flexItem' :isActive="Event.location.name !== ''">
                 <template v-slot:field>
                   <label for='lName'>Location Name</label>
-                  <input type='text' id='lName' v-model.trim='Event.location.name'/>
+                  <input type='text' id='lName' v-model.trim='Event.location.name' />
                 </template>
               </InputField>
               <InputField class='flexItem' :isActive="Event.location.city !== ''">
                 <template v-slot:field>
                   <label for='city'>City</label>
-                  <input type='text' id='city' v-model.trim='Event.location.city'/>
+                  <input type='text' id='city' v-model.trim='Event.location.city' />
                 </template>
               </InputField>
               <InputField class='flexItem' :isActive="Event.location.postalCode !== ''">
                 <template v-slot:field>
                   <label for='zip'>Zip Code</label>
-                  <input type='text' id='zip' v-model.trim='Event.location.postalCode'/>
+                  <input type='text' id='zip' v-model.trim='Event.location.postalCode' />
                 </template>
               </InputField>
             </div>
@@ -197,34 +197,34 @@
               <InputField class='flexItem' :isActive="Event.location.streetName !== ''">
                 <template v-slot:field>
                   <label for='sName'>Street Name</label>
-                  <input type='text' id='sName' v-model.trim='Event.location.streetName'/>
+                  <input type='text' id='sName' v-model.trim='Event.location.streetName' />
                 </template>
               </InputField>
               <InputField class='flexItem' :isActive="Event.location.streetNumbers !== ''">
                 <template v-slot:field>
                   <label for='sNum'>Street Numbers</label>
-                  <input type='text' id='sNum' v-model.trim='Event.location.streetNumbers'/>
+                  <input type='text' id='sNum' v-model.trim='Event.location.streetNumbers' />
                 </template>
               </InputField>
             </div>
 
-            <input type='submit' value='Update' class='btn btn--sm my-1 btn--bg-darkBlue'/>
+            <input type='submit' value='Update' class='btn btn--sm my-1 btn--bg-darkBlue' />
           </form>
         </div>
       </div>
     </div>
-    <Loading v-else/>
+    <Loading v-else />
   </div>
 </template>
 <script lang='ts'>
-import {Component, Vue} from 'vue-property-decorator'
-import {AdminEventManagerVm, ItineraryVm, RegisteredUserVm, TeamVm} from '@/types/ViewModels/Models/EventVm'
+import { Component, Vue } from 'vue-property-decorator'
+import { AdminEventManagerVm, ItineraryVm, RegisteredUserVm, TeamVm } from '@/types/ViewModels/Models/EventVm'
 import UIHelper from '@/utility/UIHelper'
 
-import {RegisterUserForEventDto} from '@/types/DTO/EventDto'
+import { RegisterUserForEventDto } from '@/types/DTO/EventDto'
 import EventManagerService from '@/services/Admin/EventManagerService'
 import TeamManagerService from '@/services/Admin/TeamManagerService'
-import {RemoveUserFromTeamDto} from "@/types/DTO/TeamDto";
+import { RemoveUserFromTeamDto } from '@/types/DTO/TeamDto'
 
 @Component({
   name: 'EditEvent',
@@ -271,7 +271,7 @@ export default class EditEvent extends Vue {
   addItinerary(status: string): void {
     if (status === 'add') {
       this.isAddingItineraries = true
-      this.addedItinerary.push({day: '', time: '', description: ''})
+      this.addedItinerary.push({ day: '', time: '', description: '' })
       return
     } else if (status === 'cancel') {
       this.isAddingItineraries = false
@@ -295,28 +295,34 @@ export default class EditEvent extends Vue {
   removeTeamCaptain(teamId: number): void {
     const teamIndex = this.Event.teams.findIndex(t => t.teamId == teamId)
     if (this.Event.teams[teamIndex].teamId != teamId) {
-      return;
+      return
     }
 
-    this.Event.teams[teamIndex].captain.fullName = null
-    this.Event.teams[teamIndex].captain.id = null
-    this.Event.teams[teamIndex].captain.image = null
+    this.Event.teams[teamIndex].captain.fullName = ''
+    this.Event.teams[teamIndex].captain.id = ''
+    this.Event.teams[teamIndex].captain.image = ''
 
-    UIHelper.SnackBar({title: "Success", message: `Team Captain Removed`, classInfo: `primary`, isSnackBarShowing: true, errors: undefined});
+    UIHelper.SnackBar({
+      title: 'Success',
+      message: `Team Captain Removed`,
+      classInfo: `primary`,
+      isSnackBarShowing: true,
+      errors: undefined
+    })
 
 
   }
 
   removeUserFromTeam(removeUserFromTeamDto: RemoveUserFromTeamDto): void {
-    const teamIndex = this.Event.teams.findIndex(t => t.teamId == removeUserFromTeamDto.teamId);
+    const teamIndex = this.Event.teams.findIndex(t => t.teamId == removeUserFromTeamDto.teamId)
     const foundTeam = this.Event.teams[teamIndex]
-    console.log(foundTeam);
+    console.log(foundTeam)
     if (!foundTeam) {
-      return;
+      return
     }
 
-    const teamMemberIndex = foundTeam.teamMembers.findIndex(m => m.id == removeUserFromTeamDto.teamMemberId);
-    foundTeam.teamMembers.splice(teamMemberIndex, 1);
+    const teamMemberIndex = foundTeam.teamMembers.findIndex(m => m.id == removeUserFromTeamDto.teamMemberId)
+    foundTeam.teamMembers.splice(teamMemberIndex, 1)
   }
 
   async addTeam(): Promise<void> {

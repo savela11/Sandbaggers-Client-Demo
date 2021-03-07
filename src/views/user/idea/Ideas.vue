@@ -1,37 +1,17 @@
 ﻿<template>
   <div class="ideas">
-    <Modal v-if="isAddingIdea" @click="toggleAddIdea(false)" :isFooter="false">
-      <template v-slot:header>
-        <h2 v-if="!loading" class="text text--bold text--lg color--primary">Add Idea</h2>
-      </template>
 
-      <template v-slot:body>
-        <form v-if="!loading" class="form--addIdea">
-          <InputField className="sm secondary" :isActive="addIdea.title !== ''">
-            <template v-slot:field>
-              <label for="title">Title</label>
-              <input type="text" id="title" v-model.trim="addIdea.title" />
-            </template>
-          </InputField>
-
-          <InputField :isActive="addIdea.description !== ''">
-            <template v-slot:field>
-              <label for="description">Description</label>
-              <textarea type="text" id="description" v-model.trim="addIdea.description"></textarea>
-            </template>
-          </InputField>
-          <div class="btnContainer">
-            <button class="btn btn--sm text text--sm btn--bg-darkBlue" id="addIdeaBTN" @click.prevent.stop="createIdea">Add</button>
-          </div>
-        </form>
-        <Loading v-if="loading" />
+    <IconBtn btn-text="Add" :link-btn="true" link="/ideas/AddIdea">
+      <template v-slot:svg>
+        <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+              d="M3.125 17.9688V21.875H7.03125L18.5521 10.3542L14.6458 6.44792L3.125 17.9688ZM21.5729 7.33334C21.9792 6.92709 21.9792 6.27084 21.5729 5.86459L19.1354 3.42709C18.7292 3.02084 18.0729 3.02084 17.6667 3.42709L15.7604 5.33334L19.6667 9.23959L21.5729 7.33334V7.33334Z"
+              fill="#17252A"
+          />
+        </svg>
       </template>
-    </Modal>
-    <div class="addIdea">
-      <button @click="toggleAddIdea(true)">
-        <img :src="require('@/assets/icons/addCircle.svg')" alt="add circle" />
-      </button>
-    </div>
+    </IconBtn>
+
     <div class="ideas__list">
       <div class="idea" v-for="idea in paginatedIdeas" :key="idea.id" :class="{ autoHeight: showDescriptionById === idea.id }">
         <div class="section title">
@@ -44,7 +24,7 @@
         </div>
 
         <div class="section description" v-show="showDescriptionById === idea.id" :class="[showDescriptionById === idea.id ? 'show' : 'hide']">
-          <hr class="divider" />
+          <hr class="divider"/>
           <div class="description__edit" v-if="$store.state.authStore.currentUser.id === idea.createdBy.id">
             <router-link class="btn btn--xs text text--sm" :to="`/ideas/editIdea/${idea.id}`">Edit</router-link>
           </div>
@@ -62,29 +42,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { IAddIdea } from "@/types/Idea";
-import IdeaService from "@/services/IdeaService";
+import {Component, Vue} from "vue-property-decorator";
+import IdeaService from "@/services/User/IdeaService";
 import Helper from "@/utility/Helper";
 import FormatMixins from "@/mixins/FormatMixins.vue";
 import UIHelper from "@/utility/UIHelper";
-import { IdeaVm } from "@/types/ViewModels/Models/IdeaVm";
+import {IdeaVm} from "@/types/ViewModels/Models/IdeaVm";
 
 @Component({
   name: "Ideas",
   components: {
     Modal: (): Promise<typeof import("*.vue")> => import("@/components/ui/Modals/Modal.vue"),
     Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
-    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/InputField.vue")
+    InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/InputField.vue"),
+    IconBtn: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/IconBtn.vue'),
   },
   mixins: [FormatMixins]
 })
 export default class Ideas extends Vue {
-  addIdea = {
-    title: "",
-    description: ""
-  } as IAddIdea;
-  isAddingIdea = false;
+
   Ideas = [] as IdeaVm[];
   showDescriptionById: number | null = null;
   loading = false;
@@ -105,13 +81,13 @@ export default class Ideas extends Vue {
 
   get paginatedIdeas(): IdeaVm[] {
     const start = this.pageNumber * this.size,
-      end = start + this.size;
+        end = start + this.size;
     return this.Ideas.slice(start, end);
   }
 
   get ideaCount(): number {
     const l = this.Ideas.length,
-      s = this.size;
+        s = this.size;
     return Math.ceil(l / s);
   }
 
@@ -132,29 +108,9 @@ export default class Ideas extends Vue {
     return Helper.formatLongString(str, num);
   }
 
-  toggleAddIdea(status: boolean): void {
-    this.isAddingIdea = status;
-  }
 
-  async createIdea(): Promise<void> {
-    this.loading = true;
-    try {
-      this.addIdea.userId = this.$store.state.authStore.currentUser.id;
-      const res = await IdeaService.AddIdea(this.addIdea);
-      if (res.status === 200) {
-        this.Ideas.push(res.data);
-        setTimeout(() => {
-          this.toggleAddIdea(false);
-        }, Math.floor(Math.random() * 3000));
-      }
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setTimeout(() => {
-        this.loading = false;
-      }, 3000);
-    }
-  }
+
+
 
   toggleShowDescription(id: number): void {
     if (this.showDescriptionById === id) {
@@ -168,7 +124,10 @@ export default class Ideas extends Vue {
   async getIdeas(): Promise<void> {
     try {
       const res = await IdeaService.AllIdeas();
-      this.Ideas = this.filterIdeas(res.data);
+      if (res.status === 200) {
+        this.Ideas = this.filterIdeas(res.data);
+
+      }
     } catch (e) {
       console.log(e);
     }

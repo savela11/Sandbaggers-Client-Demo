@@ -6,6 +6,7 @@ const state: NavigationStoreState = {
   isNavBarShowing: true,
   isNavMenuShowing: false,
   isBackBtnShowing: false,
+  isUtilityBarShowing: false,
   userLinks: [
     {
       name: 'Dashboard',
@@ -94,6 +95,7 @@ const getters = {
   IsNavBarShowing: (state: NavigationStoreState): boolean => state.isNavBarShowing,
   IsNavMenuShowing: (state: NavigationStoreState): boolean => state.isNavMenuShowing,
   IsBackBtnShowing:(state: NavigationStoreState): boolean => state.isBackBtnShowing,
+  IsUtilityBarShowing:(state: NavigationStoreState): boolean => state.isUtilityBarShowing,
   UserLinks: (state: NavigationStoreState): Array<UserLink> => state.userLinks,
   AdminLinks: (state: NavigationStoreState): Array<UserLink> => state.adminLinks,
 }
@@ -108,6 +110,10 @@ const mutations = {
   },
   SetBackBtnShowingStatus(state: NavigationStoreState, showingStatus: boolean):void {
     state.isBackBtnShowing = showingStatus
+  },
+
+  SetUtilityBarShowingStatus(state: NavigationStoreState, showingStatus: boolean):void {
+    state.isUtilityBarShowing = showingStatus
   }
 }
 
@@ -121,6 +127,10 @@ const actions = {
   },
   _setBackBtnShowingStatus(context: ActionContext<NavigationStoreState, IRootState>, showingStatus: boolean):void {
     context.commit('SetBackBtnShowingStatus', showingStatus);
+  },
+
+  _setUtilityBarShowingStatus(context: ActionContext<NavigationStoreState, IRootState>, showingStatus: boolean):void {
+    context.commit('SetUtilityBarShowingStatus', showingStatus);
   }
 }
 

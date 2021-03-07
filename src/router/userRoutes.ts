@@ -1,5 +1,5 @@
 import UIHelper from "@/utility/UIHelper";
-import { Route } from "vue-router";
+import { Route, NavigationGuardNext } from "vue-router";
 import store from "../store/index";
 import AuthLayout from "@/layouts/authLayouts/AuthLayout.vue";
 import AuthLayoutNoNavBar from '@/layouts/authLayouts/AuthLayoutNoNavBar.vue';
@@ -8,12 +8,12 @@ import AuthLayoutNoBars from "@/layouts/authLayouts/AuthLayoutNoBars.vue";
 
 
 function loadView(view: string): () => Promise<typeof import("*.vue")> {
-  return (): Promise<typeof import("*.vue")> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`);
+  return (): Promise<typeof import("*.vue")> => import(/* webpackChunkName: "view-[request]" */ `@/views/user/${view}.vue`);
 }
 
 
 
-function guardRoute(to: Route, from: Route, next: any): any {
+function guardRoute(to: Route, from: Route, next: NavigationGuardNext): any {
   let authenticated = false;
   UIHelper.PageLoading(true);
   if (store.state.authStore.isLoggedIn) {
@@ -91,7 +91,6 @@ export default  [
       layout: AuthLayout
     }
   },
-
   {
     path: "/bets",
     name: "Bets",
@@ -107,6 +106,17 @@ export default  [
     name: "SelectedBet",
     beforeEnter: guardRoute,
     component: loadView("bet/SelectedBet"),
+    meta: {
+      layout: AuthLayout
+    }
+
+  },
+
+  {
+    path: "/bet/AddBet",
+    name: "AddBet",
+    beforeEnter: guardRoute,
+    component: loadView("bet/AddBet"),
     meta: {
       layout: AuthLayout
     }
@@ -130,6 +140,16 @@ export default  [
       layout: AuthLayout
     }
   },
+
+    {
+        path: "/ideas/addIdea",
+        name: "AddIdea",
+        beforeEnter: guardRoute,
+        component: loadView("idea/AddIdea"),
+        meta: {
+            layout: AuthLayout
+        }
+    },
   {
     path: "/powerRankings",
     name: "PowerRankings",

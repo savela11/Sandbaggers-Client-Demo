@@ -22,7 +22,7 @@ import BackBtn from "@/components/ui/Buttons/BackBtn.vue";
   components: {
     SnackBar,
     PageLoading,
-    BackBtn
+    BackBtn,
   }
 })
 export default class App extends Vue {

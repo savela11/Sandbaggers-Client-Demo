@@ -1,0 +1,84 @@
+@use '../../../globals' as g;
+
+#spanAmt,
+#spanAcceptNum {
+  &.flash {
+    font-weight: bold;
+    color: green;
+    transform: scale(1.2);
+  }
+}
+
+.form-text {
+  &--title {
+    color: g.$color-SecondaryFS;
+    font-weight: 500;
+    font-size: 0.8rem;
+    @include g.mobile {
+      font-size: .9rem;
+    }
+
+    @include g.tablet {
+      font-size: 1rem;
+    }
+  }
+
+  span {
+    font-size: 1rem;
+    float: right;
+    font-weight: normal;
+  }
+}
+
+.btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-auto-rows: 30px;
+  gap: 10px;
+  margin-top: 0.5rem;
+  @include g.tablet {
+    grid-auto-rows: 50px;
+  }
+
+  button {
+    border-radius: 2px;
+    background-color: white;
+    color: g.$color-DarkBlue;
+    border: none;
+    border-bottom: 1px solid g.$color-DarkBlue;
+    font-size: 0.8rem;
+    @include g.mobile {
+      font-size: .9rem;
+    }
+    @include g.tablet {
+      font-size: 1rem;
+    }
+
+    &.clicked {
+      background-color: g.$color-DarkBlue;
+      color: white;
+      transform: scale(1.1);
+      font-weight: bold;
+    }
+  }
+
+  &--acceptBetNum {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+    button {
+    }
+  }
+}
+
+
+.form {
+  &__field {
+    margin-bottom: .5rem;
+  }
+}
+
+.btn {
+  &--add-bet {
+    margin: 1rem 0 0 0;
+  }
+}

@@ -46,12 +46,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import BetService from '@/services/BetService'
+import BetService from '@/services/User/BetService'
 import Helper from '@/utility/Helper'
 import { LoggedInUserVm } from '@/types/ViewModels/Models/UserVm'
 import { BetVm } from '@/types/ViewModels/Models/BetVm'
-import { UserAcceptsBetDto } from '@/types/DTO/Bets/UserAcceptsBetDto'
 import UIHelper from '@/utility/UIHelper'
+import { UserAcceptsBetDto } from '@/types/DTO/BetDto'
 
 @Component({
   name: 'SelectedBet',
@@ -129,5 +129,5 @@ export default class SelectedBet extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "~@/assets/styles/views/bet/_selectedBet";
+@use "~@/assets/styles/views/user/bet/_selectedBet";
 </style>

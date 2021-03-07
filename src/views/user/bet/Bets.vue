@@ -1,68 +1,5 @@
 ﻿<template>
   <div class="bets">
-    <Modal v-if="isAddingBet && !loading" @click="isAddingBet = false">
-      <template v-slot:header>
-        <h2 v-if="!loading">Add Bet</h2>
-      </template>
-      <template v-slot:body>
-        <form v-if="!modalLoading" class="form--addBet">
-          <!--          <div class="form__field">-->
-          <!--            <label for="title">Title</label>-->
-          <!--            <input type="text" id="title" v-model="addBetForm.title" />-->
-          <!--          </div>-->
-          <InputField :isActive="addBetForm.title !== ''" className="secondary">
-            <template v-slot:field>
-              <label for="title">Title</label>
-              <input type="text" id="title" v-model.trim="addBetForm.title" />
-            </template>
-          </InputField>
-          <div class="form__field">
-            <p class="amountTitle">
-              Active: <span id="spanActiveStatus"> {{ addBetForm.isActive ? 'Yes' : 'No' }}</span>
-            </p>
-            <div class="btns">
-              <button :class="{ clicked: addBetForm.isActive === true }" @click.prevent.stop="addBetForm.isActive = true">Yes</button>
-              <button :class="{ clicked: addBetForm.isActive === false }" @click.prevent.stop="addBetForm.isActive = false">No</button>
-            </div>
-          </div>
-          <div class="form__field">
-            <p class="amountTitle">
-              Amount: <span id="spanAmt">${{ addBetForm.amount }}</span>
-            </p>
-            <div class="btns">
-              <button v-for="(amount, index) in amounts" :key="amount" ref="amount" @click.prevent.stop="increaseBetAmount(amount, index)">${{ amount }}</button>
-            </div>
-          </div>
-          <div class="form__field">
-            <p class="amountTitle">
-              How many can accept? <span id="spanAcceptNum">{{ addBetForm.canAcceptNumber }}</span>
-            </p>
-            <div class="btns btns--acceptBetNum">
-              <button
-                v-for="acceptedBets in numOfAcceptedBets"
-                :key="acceptedBets"
-                :class="{ clicked: addBetForm.canAcceptNumber === acceptedBets }"
-                @click.prevent.stop="numberCanAcceptBet(acceptedBets)"
-              >
-                {{ acceptedBets }}
-              </button>
-            </div>
-          </div>
-
-          <InputField :isActive="addBetForm.description !== ''" className="secondary">
-            <template v-slot:field>
-              <label for="description">Description</label>
-              <textarea type="text" id="description" v-model.trim="addBetForm.description"></textarea>
-            </template>
-          </InputField>
-        </form>
-        <Loading v-else />
-      </template>
-      <template v-slot:submitBtn>
-        <button class="btn btn--xs btn--darkGreen" id="addBetBTN" :disabled="!validateForm || loading || modalLoading" @click.prevent.stop="createBet">Add</button>
-      </template>
-    </Modal>
-
     <div v-if="!loading">
       <div class="bets__viewButtons">
         <button class="viewButton" v-for="view in views" v-bind:key="view" :class="{ active: currentView === view }" @click="setCurrentView(view)">{{ view }}</button>
@@ -72,7 +9,7 @@
         <div class="searchBets" v-if="currentView !== 'Amount'">
           <!--          <label for="searchSB" class="hideLabel">Search</label>-->
           <!--          <input id="searchSB" class="input" type="text" v-model="search" placeholder="Search Bets" />-->
-          <InputField :isActive="search !== ''" className="search">
+          <InputField :isActive="search !== ''" class-name="search">
             <template v-slot:field>
               <label for="search">Search</label>
               <input type="text" id="search" v-model.trim="search" />
@@ -80,7 +17,13 @@
           </InputField>
         </div>
         <div class="createBet">
-          <button @click="isAddingBet = true"><img :src="require('@/assets/icons/addCircle.svg')" alt="Add Bet" /><span>Add Bet</span></button>
+          <IconBtn btn-text="Add Bet" :link-btn="true" link="/Bet/AddBet">
+            <template v-slot:svg>
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 13H13V17H11V13H7V11H11V7H13V11H17V13Z" fill="#17252A" />
+              </svg>
+            </template>
+          </IconBtn>
         </div>
       </div>
       <div class="bets__list">
@@ -130,12 +73,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import BetService from '@/services/BetService'
+import BetService from '@/services/User/BetService'
 import Helper from '@/utility/Helper'
 import UIHelper from '@/utility/UIHelper'
 import { BetVm } from '@/types/ViewModels/Models/BetVm'
-import { CreateBetDto } from '@/types/DTO/Bets/CreateBetDto'
-import { UserAcceptsBetDto } from '@/types/DTO/Bets/UserAcceptsBetDto'
 
 @Component({
   name: 'Bets',
@@ -143,6 +84,7 @@ import { UserAcceptsBetDto } from '@/types/DTO/Bets/UserAcceptsBetDto'
     Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue'),
     Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
     InputField: (): Promise<typeof import('*.vue')> => import('@/components/ui/InputField.vue'),
+    IconBtn: (): Promise<typeof import("*.vue")> => import("@/components/ui/Buttons/IconBtn.vue")
   },
 })
 export default class Bets extends Vue {
@@ -153,19 +95,9 @@ export default class Bets extends Vue {
   views = ['All', 'My bets', 'Amount', 'Accepted']
   isAddingBet = false
   loading = true
-  modalLoading = false
-  addBetForm: CreateBetDto = {
-    title: '',
-    description: '',
-    amount: 0,
-    canAcceptNumber: 0,
-    requiresPassCode: false,
-    isActive: false,
-    userId: '',
-  }
 
-  amounts = [1, 5, 10, 25]
-  numOfAcceptedBets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+
   showAcceptedListOfBet: null | number = null
 
   // BET pagination
@@ -197,9 +129,7 @@ export default class Bets extends Vue {
     this.getBets()
   }
 
-  get validateForm(): boolean {
-    return !!(this.addBetForm.title && this.addBetForm.description && this.addBetForm.amount > 0 && this.addBetForm.canAcceptNumber > 0)
-  }
+
 
   get filterBets(): Array<BetVm> {
     if (this.search) {
@@ -229,14 +159,8 @@ export default class Bets extends Vue {
   }
 
   get checkIfCurrentUsersBet(): boolean {
-    if (
-      (this.selectedBet && this.selectedBet.createdBy.id === this.$store.state.authStore.currentUser.id) ||
-      (this.selectedBet && this.selectedBet.acceptedBy.length === this.selectedBet.canAcceptNumber)
-    ) {
-      return false
-    } else {
-      return true
-    }
+    return !((this.selectedBet && this.selectedBet.createdBy.id === this.$store.state.authStore.currentUser.id) ||
+        (this.selectedBet && this.selectedBet.acceptedBy.length === this.selectedBet.canAcceptNumber));
   }
 
   async getBets(): Promise<void> {
@@ -255,24 +179,6 @@ export default class Bets extends Vue {
     }
   }
 
-  async createBet(): Promise<void> {
-    this.modalLoading = true
-    this.addBetForm.userId = this.$store.state.authStore.currentUser.id
-    try {
-      UIHelper.clickedButton('addBetBTN')
-      const res = await BetService.CreateBet(this.addBetForm)
-      if (res.status === 200) {
-        this.Bets.unshift(res.data)
-      }
-    } catch (e) {
-      console.log(e)
-    } finally {
-      setTimeout(() => {
-        this.modalLoading = false
-        this.resetAddBetForm()
-      }, Math.floor(Math.random() * 3000))
-    }
-  }
 
   setCurrentView(view: string): void {
     this.currentView = view
@@ -287,26 +193,6 @@ export default class Bets extends Vue {
     }
   }
 
-  increaseBetAmount(amount: number, index: number): void {
-    const spanTxt = document.getElementById('spanAmt')
-    if (spanTxt) spanTxt.classList.add('flash')
-    const els = this.$refs.amount as Element[]
-    els[index].classList.add('clicked')
-    setTimeout(() => {
-      els[index].classList.remove('clicked')
-      if (spanTxt) spanTxt.classList.remove('flash')
-    }, 500)
-    this.addBetForm.amount += amount
-  }
-
-  numberCanAcceptBet(numCanAccept: number): void {
-    const spanTxt = document.getElementById('spanAcceptNum')
-    if (spanTxt) spanTxt.classList.add('flash')
-    setTimeout(() => {
-      if (spanTxt) spanTxt.classList.remove('flash')
-    }, 500)
-    this.addBetForm.canAcceptNumber = numCanAccept
-  }
 
   formatDate(date: string): string {
     return Helper.formatDate(date)
@@ -324,21 +210,10 @@ export default class Bets extends Vue {
     this.showAcceptedListOfBet = betId
   }
 
-  resetAddBetForm(): void {
-    this.isAddingBet = false
-    this.addBetForm = {
-      title: '',
-      description: '',
-      amount: 0,
-      canAcceptNumber: 0,
-      requiresPassCode: false,
-      isActive: false,
-      userId: '',
-    }
-  }
+
 }
 </script>
 
 <style scoped lang="scss">
-@use "~@/assets/styles/views/bet/_bets.scss";
+@use "~@/assets/styles/views/user/bet/bets.scss";
 </style>
