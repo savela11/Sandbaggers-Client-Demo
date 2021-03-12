@@ -41,8 +41,6 @@ if(to.meta.backBtn) {
 }
 
 export default  [
-
-
   {
     path: "/userProfile",
     name: "UserProfile",
@@ -111,7 +109,17 @@ export default  [
     }
 
   },
+  {
+    path: "/MyBets",
+    name: "MyBets",
+    beforeEnter: guardRoute,
+    component: loadView("bet/MyBets"),
+    meta: {
+      layout: AuthLayout,
+      backBtn: true
+    }
 
+  },
   {
     path: "/bet/AddBet",
     name: "AddBet",
@@ -140,8 +148,7 @@ export default  [
       layout: AuthLayout
     }
   },
-
-    {
+   {
         path: "/ideas/addIdea",
         name: "AddIdea",
         beforeEnter: guardRoute,
@@ -158,7 +165,6 @@ export default  [
     meta: {
       layout: AuthLayout
     }
-
   },
   {
     path: "/powerRanking/edit/:eventId",

@@ -2,17 +2,21 @@
 
 .navMenu {
   padding: 2rem 1rem;
-  position: relative;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 60px;
   transform: translateY(150%);
-  min-height: calc(100vh - 60px);
+  //min-height: calc(100vh - 60px);
   display: flex;
-  flex-direction: column;
   @include g.mobile {
-    min-height: calc(100vh - 80px);
+    //min-height: calc(100vh - 80px);
+    top: 80px;
   }
   @include g.tablet {
     padding: 5rem;
-    min-height: calc(100vh - 100px);
+    top: 100px;
   }
   @include g.tablet-landscape {
     padding: 2rem 5rem;
@@ -24,6 +28,14 @@
 
   &.hide {
     animation: hideMenu 0.5s linear forwards;
+  }
+
+  &__container {
+    flex: auto;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .svgContainer {
@@ -93,15 +105,9 @@
   }
 
   nav {
-    margin-bottom: 5rem;
     min-height: 250px;
     position: relative;
-    @include g.tablet {
-      margin-bottom: 10rem;
-    }
-    @include g.tablet-landscape {
-      margin-bottom: 5rem;
-    }
+
 
     ul {
       padding: 0;
@@ -182,15 +188,44 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    @include g.desktop {
+      padding: 0 5rem;
+    }
 
-    button {
+    @include g.desktopLarge {
+      padding: 0 10rem;
+    }
+
+    &__btn {
+      padding: .5rem 1rem;
+      min-width: 80px;
+      font-size: .7rem;
+      font-weight: 600;
+      border-radius: 5px;
+      border: none;
+
+      @include g.mobile {
+        padding: .5rem 1.5rem;
+        min-width: 90px;
+      }
       @include g.tablet {
-        font-size: 1.2rem;
+        padding: .8rem 2rem;
+        font-size: .9rem;
+        min-width: 125px;
+      }
+
+      &--logout {
+        color: g.$color-Crimson;
+        border-bottom: 1px solid g.$color-Crimson;
+      }
+
+      &--close-menu {
+        color: g.$color-secondary;
+        border-bottom: 1px solid g.$color-secondary;
       }
     }
 
-    .closeNavMenu {
-    }
+
   }
 
   .slide-fade-enter-active {

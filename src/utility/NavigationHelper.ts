@@ -7,6 +7,9 @@ export default class NavigationHelper {
     static ToggleNavMenu(status: boolean): void {
         const navMenu = document.querySelector('.navMenu')
         const closeNavMenu = document.querySelector('.closeNavMenu')
+        if (store.state.navigationStore.isUtilityMenuShowing) {
+            this.ToggleUtilityMenu(false)
+        }
         if (navMenu) {
             if (status) {
                 store.dispatch('navigationStore/_setNavMenuShowingStatus', status).then()
@@ -68,7 +71,10 @@ export default class NavigationHelper {
         store.dispatch('navigationStore/_setBackBtnShowingStatus', status).then()
     }
 
-    static ToggleUtilityBar(status: boolean): void {
-        store.dispatch('navigationStore/_setUtilityBarShowingStatus', status).then()
+    static ToggleUtilityMenu(status: boolean): void {
+        if (store.state.navigationStore.isNavMenuShowing) {
+            this.ToggleNavMenu(false)
+        }
+        store.dispatch('navigationStore/_setUtilityMenuShowingStatus', status).then()
     }
 }

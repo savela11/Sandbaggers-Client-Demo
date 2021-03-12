@@ -7,7 +7,7 @@
         <h1>Miller's Power Rankings</h1>
         <div class="search">
           <div class="top">
-            <button @click="toggleSearch" class="searchButton"><img src="@/assets/icons/search.svg" alt="search icon" />
+            <button @click="toggleSearch" class="searchButton"><img src='@/assets/icons/search.svg' alt="search icon" />
             </button>
             <SelectBoxComponent v-if="selectedYear " :selected="selectedYear.year" :options="powerRankings" keyValue="eventId" optionValue="year"
                                 :showSelectOptions="showSelectOptions"
@@ -109,8 +109,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import PowerRankingService from "@/services/PowerRankingService";
-import { EventPowerRankingVm, RankingVm } from '@/types/ViewModels/Models/EventPowerRankingVm'
-import { EventVm } from "@/types/ViewModels/Models/EventVm";
+import { EventPowerRankingVm  } from '@/types/ViewModels/Models/EventPowerRankingVm'
 import IconBtn from "@/components/ui/Buttons/IconBtn.vue";
 
 @Component({

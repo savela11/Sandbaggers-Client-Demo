@@ -29,6 +29,10 @@ class BetService {
   static async GetBetById(betId: number): Promise<AxiosResponse<BetVm>> {
     return await apiClient.get(`${url}/Bet/${betId}`)
   }
+
+    static async MyBets(userId: string): Promise<AxiosResponse<Array<BetVm>>> {
+      return await apiClient.get(`${url}/MyBets/${userId}`)
+    }
 }
 
 export default BetService

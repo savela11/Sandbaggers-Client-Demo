@@ -53,7 +53,7 @@ import UIHelper from '@/utility/UIHelper'
     InputField: (): Promise<typeof import('*.vue')> => import('@/components/ui/InputField.vue'),
     SelectBoxComponent: (): Promise<typeof import('*.vue')> => import('@/components/ui/SelectBoxComponent.vue'),
     ViewBtns: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/ViewBtns.vue'),
-    EditUserRankings: (): Promise<typeof import('*.vue')> => import('@/views/powerRankings/editPowerRanking/editUserRankings.vue')
+    EditUserRankings: (): Promise<typeof import('*.vue')> => import('@/views/user/powerRankings/editPowerRanking/editUserRankings.vue')
 
   }
 })

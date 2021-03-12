@@ -4,7 +4,7 @@
       <div class='sbLogo'><img src='@/assets/SBLogo.png' alt='Sandbagger Logo' /></div>
       <div class='userBar'>
         <div class='utilityBar'>
-          <button @click.prevent.stop='toggleUtilityBar' :class="[utilityBarStatus ? 'show' : 'hide']">
+          <button @click.prevent.stop='toggleUtilityMenu' :class="[utilityBarStatus ? 'show' : 'hide']">
             <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
               <path d='M3.84375 5.84375L2 7.6875L12.3125 18L22.625 7.6875L20.7812 5.84375L12.3125 14.3125L3.84375 5.84375Z' fill='#17252A' />
             </svg>
@@ -42,9 +42,9 @@ export default class AuthHeader extends Vue {
     NavigationHelper.ToggleNavMenu(false)
   }
 
-  toggleUtilityBar(): void {
-    const currentUtilityBarStatus = this.$store.state.navigationStore.isUtilityBarShowing
-    NavigationHelper.ToggleUtilityBar(!currentUtilityBarStatus)
+  toggleUtilityMenu(): void {
+    const currentUtilityMenuStatus = this.$store.state.navigationStore.isUtilityMenuShowing
+    NavigationHelper.ToggleUtilityMenu(!currentUtilityMenuStatus)
   }
 
   get currentUserImage(): string {

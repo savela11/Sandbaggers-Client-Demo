@@ -6,7 +6,7 @@ const state: NavigationStoreState = {
   isNavBarShowing: true,
   isNavMenuShowing: false,
   isBackBtnShowing: false,
-  isUtilityBarShowing: false,
+  isUtilityMenuShowing: false,
   userLinks: [
     {
       name: 'Dashboard',
@@ -95,7 +95,7 @@ const getters = {
   IsNavBarShowing: (state: NavigationStoreState): boolean => state.isNavBarShowing,
   IsNavMenuShowing: (state: NavigationStoreState): boolean => state.isNavMenuShowing,
   IsBackBtnShowing:(state: NavigationStoreState): boolean => state.isBackBtnShowing,
-  IsUtilityBarShowing:(state: NavigationStoreState): boolean => state.isUtilityBarShowing,
+  IsUtilityBarShowing:(state: NavigationStoreState): boolean => state.isUtilityMenuShowing,
   UserLinks: (state: NavigationStoreState): Array<UserLink> => state.userLinks,
   AdminLinks: (state: NavigationStoreState): Array<UserLink> => state.adminLinks,
 }
@@ -112,8 +112,8 @@ const mutations = {
     state.isBackBtnShowing = showingStatus
   },
 
-  SetUtilityBarShowingStatus(state: NavigationStoreState, showingStatus: boolean):void {
-    state.isUtilityBarShowing = showingStatus
+  SetUtilityMenuShowingStatus(state: NavigationStoreState, showingStatus: boolean):void {
+    state.isUtilityMenuShowing = showingStatus
   }
 }
 
@@ -129,8 +129,8 @@ const actions = {
     context.commit('SetBackBtnShowingStatus', showingStatus);
   },
 
-  _setUtilityBarShowingStatus(context: ActionContext<NavigationStoreState, IRootState>, showingStatus: boolean):void {
-    context.commit('SetUtilityBarShowingStatus', showingStatus);
+  _setUtilityMenuShowingStatus(context: ActionContext<NavigationStoreState, IRootState>, showingStatus: boolean):void {
+    context.commit('SetUtilityMenuShowingStatus', showingStatus);
   }
 }
 
