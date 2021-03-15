@@ -3,12 +3,7 @@
 @use './mixins/mediaQueries' as *;
 @use './mixins/fontSize' as *;
 
-$--preNextBtnFS: (
-        null: 0.8rem,
-        $mobile: 0.9rem,
-        $tablet: 1rem,
-        $tablet-landscape: 1.1rem,
-);
+
 
 button {
   -webkit-writing-mode: horizontal-tb !important;
@@ -155,30 +150,7 @@ button {
   margin-top: 1rem;
 }
 
-.prevNextButtons {
-  margin: 1rem 0;
 
-  button {
-    margin-right: 1rem;
-    padding: 0.5rem 1.2rem;
-    border-radius: 5px;
-    border: none;
-    border-bottom: 1px solid $DarkBlue;
-    font-weight: bold;
-    @include font-size($--preNextBtnFS);
-    color: white;
-    background-color: $DarkBlue;
-
-    &:disabled {
-      background-color: white;
-      color: rgba(128, 128, 128, 0.25);
-    }
-
-    &:last-child {
-      margin: 0;
-    }
-  }
-}
 
 .backBtn {
   padding: 1rem;

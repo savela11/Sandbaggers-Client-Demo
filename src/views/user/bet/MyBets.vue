@@ -1,9 +1,8 @@
 <template>
   <div class='myBets'>
     <div v-if='!loading'>
-      <h1>My Bets</h1>
       <div class='bet-list'>
-        <Card v-for='bet in myBets' :key='bet.betId' :additional='true'>
+        <Card v-for='bet in myBets' :key='bet.betId' :additional='true' class='card-component'>
           <template v-slot:sectionOne>
             <p class='card__text card__text--alt'>Created: {{ formatDate(bet.createdOn) }}</p>
             <p class='card__text card__text--alt'>Accepted:
@@ -16,7 +15,7 @@
           <template v-slot:sectionThree>
           </template>
           <template v-slot:additional>
-            <button>Edit</button>
+            <router-link :to='`/MyBets/${bet.betId}`' class='card-component__btn card-component__btn--edit'>Edit</router-link>
           </template>
         </Card>
 

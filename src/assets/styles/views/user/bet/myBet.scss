@@ -1,0 +1,29 @@
+@use '../../../globals' as g;
+
+.myBet {
+
+  &__text {
+
+    &--secondary-title {
+      font-size: .9rem;
+      color: g.$color-SecondaryFS;
+      font-weight: 600;
+    }
+
+    &--small-text {
+      font-size: .7rem;
+      color: g.$color-AlternativeFS;
+    }
+  }
+
+
+  &__section {
+    padding: 1rem;
+  }
+
+
+  &__updated-on {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

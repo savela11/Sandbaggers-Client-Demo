@@ -27,8 +27,11 @@ class BetService {
   }
 
   static async GetBetById(betId: number): Promise<AxiosResponse<BetVm>> {
-    return await apiClient.get(`${url}/Bet/${betId}`)
+    return await apiClient.get(`${url}/ById/${betId}`)
   }
+  static async BetVmById(betId: number): Promise<AxiosResponse<BetVm>> {
+   return await apiClient.get(`${url}/BetVmById/${betId}`)
+}
 
     static async MyBets(userId: string): Promise<AxiosResponse<Array<BetVm>>> {
       return await apiClient.get(`${url}/MyBets/${userId}`)

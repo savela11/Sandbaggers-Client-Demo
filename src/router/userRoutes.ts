@@ -121,6 +121,17 @@ export default  [
 
   },
   {
+
+    path: "/MyBets/:betId",
+    name: "MyBet",
+    beforeEnter: guardRoute,
+    component: loadView("bet/MyBet"),
+    meta: {
+      layout: AuthLayout,
+      backBtn: true
+    }
+  },
+  {
     path: "/bet/AddBet",
     name: "AddBet",
     beforeEnter: guardRoute,
