@@ -66,7 +66,7 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("Sandbagger"),
     meta: {
-      layout: AuthLayoutNoNavBar,
+      layout: AuthLayoutNoBars,
       backBtn: true
     }
   },

@@ -46,11 +46,11 @@
       </template>
     </Modal>
     <div class='top'>
-      <div class='scrambleChamps'>
+      <div class='scrambleChamps' v-if='ScrambleChamps.length > 0'>
         <div class='scrambleChamps__title'>
           <h2 class='scrambleChamps__title__text'>Scramble Champs</h2>
         </div>
-        <div class='scrambleChamps__list flex--xs' v-if='ScrambleChamps.length > 0'>
+        <div class='scrambleChamps__list flex--xs'>
           <div class='champ' v-for='champ in ScrambleChamps' :key='champ.userId'>
             <div class='imgContainer'>
               <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />
@@ -58,32 +58,32 @@
             <p class='text text--xs color--white text--center'>{{ champ.fullName }}</p>
           </div>
         </div>
-        <div class='scrambleChamps__list flex--xs' v-else>
-          <div class='champ'>
-            <div class='imgContainer'>
-              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />
-            </div>
-            <p class='text text--xs color--white text--center'>Sandbagger #1</p>
-          </div>
-          <div class='champ'>
-            <div class='imgContainer'>
-              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />
-            </div>
-            <p class='text text--xs color--white text--center'>Sandbagger #2</p>
-          </div>
-          <div class='champ'>
-            <div class='imgContainer'>
-              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />
-            </div>
-            <p class='text text--xs color--white text--center'>Sandbagger #3</p>
-          </div>
-          <div class='champ'>
-            <div class='imgContainer'>
-              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />
-            </div>
-            <p class='text text--xs color--white text--center'>Sandbagger #4</p>
-          </div>
-        </div>
+        <!--        <div class='scrambleChamps__list flex&#45;&#45;xs' v-else>-->
+        <!--          <div class='champ'>-->
+        <!--            <div class='imgContainer'>-->
+        <!--              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />-->
+        <!--            </div>-->
+        <!--            <p class='text text&#45;&#45;xs color&#45;&#45;white text&#45;&#45;center'>Sandbagger #1</p>-->
+        <!--          </div>-->
+        <!--          <div class='champ'>-->
+        <!--            <div class='imgContainer'>-->
+        <!--              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />-->
+        <!--            </div>-->
+        <!--            <p class='text text&#45;&#45;xs color&#45;&#45;white text&#45;&#45;center'>Sandbagger #2</p>-->
+        <!--          </div>-->
+        <!--          <div class='champ'>-->
+        <!--            <div class='imgContainer'>-->
+        <!--              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />-->
+        <!--            </div>-->
+        <!--            <p class='text text&#45;&#45;xs color&#45;&#45;white text&#45;&#45;center'>Sandbagger #3</p>-->
+        <!--          </div>-->
+        <!--          <div class='champ'>-->
+        <!--            <div class='imgContainer'>-->
+        <!--              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />-->
+        <!--            </div>-->
+        <!--            <p class='text text&#45;&#45;xs color&#45;&#45;white text&#45;&#45;center'>Sandbagger #4</p>-->
+        <!--          </div>-->
+        <!--        </div>-->
       </div>
 
       <div class='viewButtons'>
@@ -102,50 +102,59 @@
         <div v-if='!loading'>
           <div v-if="currentView === 'Handicaps'" class='handicaps'>
             <transition name='slide-fade'>
-              <div v-show='isSearchInputShowing' class='searchBar'>
+              <div v-show='isSearchInputShowing' class='searchBar handicaps__search'>
                 <label for='searchSB' class='hideLabel'>Search</label>
                 <input id='searchSB' class='input text text--input' type='text' v-model='searchInput' placeholder='Search by name' />
                 <div class='clearBtnContainer'>
-                  <button class='clearBtn text text--xs'>Clear</button>
+                  <button class='handicaps__btn handicaps__btn--clear'>Clear</button>
                 </div>
               </div>
             </transition>
             <div class='titleBar'>
               <div>
-                <button @click='toggleSearch' class='searchButton'>
-                  <img src='@/assets/icons/search.svg' alt='search icon' />
+                <button @click.prevent.stop='toggleSearch' class='handicaps__btn handicaps__btn--search'>
+                  <img src='@/assets/icons/search.svg' alt='search icon' class='handicaps__icon' />
                 </button>
               </div>
               <div>
-                <p class='text text--sm text-vpMD--md'>Name</p>
+                <p class=' handicaps__text'>Name</p>
               </div>
               <div @click='toggleDescendingHandicaps'>
-                <p class='text text--sm text-vpMD--md'>Handicap</p>
+                <p class=' handicaps__text'>Handicap</p>
               </div>
             </div>
             <div class='sandbaggerList'>
               <div class='sandbagger' v-for='sb in filteredSandbaggers' :key='sb.id'>
-                <router-link :to="'/sandbagger/' + sb.id">
+                <!--                <router-link :to="'/sandbagger/' + sb.id">-->
+                <!--                  <div>-->
+                <!--                    <img v-if='sb.image === null' src='@/assets/icons/accountCircle.svg' alt='account icon' />-->
+                <!--                    <img v-else :src='sb.image' alt='account icon' />-->
+                <!--                  </div>-->
+                <!--                  <div>-->
+                <!--                                        <span class='sandbagger__name text text&#45;&#45;sm text-vpMD&#45;&#45;md'>-->
+                <!--                                            {{ sb.fullName }}-->
+                <!--                                        </span>-->
+                <!--                  </div>-->
+                <!--                  <div>-->
+                <!--                    <span class='sandbagger__handicap text text&#45;&#45;sm text-vpMD&#45;&#45;md'>{{ sb.handicap }}</span>-->
+                <!--                  </div>-->
+                <!--                </router-link>-->
+                <div class='sandbagger__container'>
                   <div>
                     <img v-if='sb.image === null' src='@/assets/icons/accountCircle.svg' alt='account icon' />
                     <img v-else :src='sb.image' alt='account icon' />
                   </div>
                   <div>
-                                        <span class='sandbagger__name text text--sm text-vpMD--md'>
+                                        <span class='handicaps__text handicaps__text--fullName'>
                                             {{ sb.fullName }}
                                         </span>
                   </div>
                   <div>
-                    <span class='sandbagger__handicap text text--sm text-vpMD--md'>{{ sb.handicap }}</span>
+                    <span class='handicaps__text handicaps__text--handicap'>{{ sb.handicap }}</span>
                   </div>
-                </router-link>
+                </div>
               </div>
-
               <PaginationBtns :items-count='sandbaggerCount' :size='size' :page-number='pageNumber' @change-page='changePage' />
-<!--              <div class='prevNextButtons' v-if='filteredSandbaggers.length > 0'>-->
-<!--                <button v-on:click.prevent.stop="changePage('previous')" :disabled='pageNumber === 0'>Previous</button>-->
-<!--                <button v-on:click.prevent.stop="changePage('next')" :disabled='pageNumber >= sandbaggerCount - 1'>Next</button>-->
-<!--              </div>-->
             </div>
           </div>
           <DashboardBets v-if="currentView === 'Bets'" :bets='Bets' />

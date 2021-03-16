@@ -1,5 +1,31 @@
 @use '../../../globals' as g;
 
+.search {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+
+  &__btn {
+    border: none;
+
+    &--clear {
+      font-weight: bold;
+      color: grey;
+      @include g.font-size(g.$font-xs);
+    }
+  }
+
+  &__column {
+    padding-left: 1rem;
+    flex: 1 0 auto;
+
+    &--input {
+      display: flex;
+
+    }
+  }
+}
+
 .bet-list {
   @include g.tablet {
     display: flex;
@@ -9,7 +35,7 @@
   .card-component {
     @include g.tablet {
       flex: 0 0 50%;
-     padding: .3rem;
+      padding: .3rem;
     }
 
     @include g.tablet-landscape {

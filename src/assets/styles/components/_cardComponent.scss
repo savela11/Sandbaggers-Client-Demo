@@ -11,11 +11,13 @@
     border-radius: 5px;
     padding: 1rem 1rem 2rem 1rem;
     border-left: 5px solid g.$color-DarkGreen;
-    height: 200px;
+    height: 175px;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-
+    @include g.mobile {
+      height: 200px;
+    }
     @include g.tablet {
       height: 200px;
     }
@@ -58,32 +60,14 @@
 
     &--additional {
       position: absolute;
-      bottom: 1rem;
-      right: 1rem;
-
-
+      bottom: .8rem;
+      right: .8rem;
       @include g.desktop {
         bottom: 1.5rem;
         right: 1.5rem;
       }
     }
   }
-
-  //h3 {
-  //  font-size: 0.8rem;
-  //  margin-bottom: 0.3rem;
-  //  @include g.mobile {
-  //    font-size: 0.9rem;
-  //  }
-  //}
-
-  //p {
-  //  color: grey;
-  //  font-size: 0.8rem;
-  //  @include g.mobile {
-  //    font-size: 0.9rem;
-  //  }
-  //}
 
   button, a {
     font-size: 0.8rem;

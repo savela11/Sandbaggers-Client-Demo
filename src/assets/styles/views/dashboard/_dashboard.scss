@@ -6,62 +6,62 @@ $viewBtnTextColor: g.$color-DarkBlue;
 $searchBarTitleColor: white;
 
 $-sectionTitleStyles: (
-  color: white,
-  padding-left: (
-    null: 0.5rem,
-    g.$mQ-mobile: 0.8rem,
-    g.$mQ-tablet: 1rem,
-    g.$mQ-tablet-landscape: 2rem,
-  ),
-  font-size:
-    map-merge(
-      g.$font-base,
-      (
-        g.$mQ-desktopSmall: 1.8rem,
-        g.$mQ-desktop: 1.9rem,
-        g.$mQ-desktopLarge: 2rem,
-      )
-    ),
+        color: white,
+        padding-left: (
+                null: 0.5rem,
+                g.$mQ-mobile: 0.8rem,
+                g.$mQ-tablet: 1rem,
+                g.$mQ-tablet-landscape: 2rem,
+        ),
+        font-size:
+        map-merge(
+                        g.$font-base,
+                        (
+                                g.$mQ-desktopSmall: 1.8rem,
+                                g.$mQ-desktop: 1.9rem,
+                                g.$mQ-desktopLarge: 2rem,
+                        )
+        ),
 );
 
 //SCRAMBLE CHAMPS
 $-scrambleChampsStyles: ();
 $-scrambleChampsChamp: (
-  display: flex,
-  flex-direction: column,
-  align-items: center,
-  justify-content: center,
-  flex: (
-    null: 0 0 25%,
-    //g.$mQ-mobile: 0 0 25%,
-    //g.$mQ-tablet: 0 0 25%,
-    //g.$mQ-tablet-landscape: 0 0 25%,
-    //g.$mQ-desktopSmall: 0 0 25%,
-    //g.$mQ-desktop: 0 0 25%,
-    //g.$mQ-desktopLarge: 0 0 25%,,,,,,,
-  ),
-  padding: (
-    null: 0.2rem,
-    g.$mQ-tablet: 0.5rem,
-  ),
+        display: flex,
+        flex-direction: column,
+        align-items: center,
+        justify-content: center,
+        flex: (
+                null: 0 0 25%,
+          //g.$mQ-mobile: 0 0 25%,
+          //g.$mQ-tablet: 0 0 25%,
+          //g.$mQ-tablet-landscape: 0 0 25%,
+          //g.$mQ-desktopSmall: 0 0 25%,
+          //g.$mQ-desktop: 0 0 25%,
+          //g.$mQ-desktopLarge: 0 0 25%,,,,,,,
+        ),
+        padding: (
+                null: 0.2rem,
+                g.$mQ-tablet: 0.5rem,
+        ),
 );
 $-champImgContainerStyles: (
-  border-radius: 5px,
-  background-color: white,
-  width: 100%,
-  height: (
-    null: 60px,
-    g.$mQ-tablet: 80px,
-    g.$mQ-tablet-landscape: 100px,
-    g.$mQ-desktopSmall: 125px,
-    g.$mQ-desktop: 150px,
-  ),
-  padding: (
-    null: 0.3rem,
-    g.$mQ-tablet: 0.5rem,
-    g.$mQ-desktopSmall: 0.8rem,
-    g.$mQ-desktop: 1rem,
-  ),
+        border-radius: 5px,
+        background-color: white,
+        width: 100%,
+        height: (
+                null: 60px,
+                g.$mQ-tablet: 80px,
+                g.$mQ-tablet-landscape: 100px,
+                g.$mQ-desktopSmall: 125px,
+                g.$mQ-desktop: 150px,
+        ),
+        padding: (
+                null: 0.3rem,
+                g.$mQ-tablet: 0.5rem,
+                g.$mQ-desktopSmall: 0.8rem,
+                g.$mQ-desktop: 1rem,
+        ),
 );
 
 .dashboard {
@@ -119,41 +119,6 @@ $-champImgContainerStyles: (
     }
   }
 
-  .searchBar {
-    margin: 0.5rem 0;
-    display: flex;
-    align-items: center;
-
-    @include g.mobile {
-      margin: 0.8rem 0;
-    }
-
-    label {
-      color: $searchBarTitleColor;
-    }
-
-    input {
-      background-color: white;
-
-      @include g.tablet-landscape {
-        padding: 0.8rem 2rem;
-      }
-    }
-
-    .clearBtnContainer {
-      padding: 0.3rem;
-
-      @include g.tablet-landscape {
-        padding: 0.5rem;
-      }
-
-      .clearBtn {
-        font-weight: bold;
-        border: none;
-        color: grey;
-      }
-    }
-  }
 
   .selectedBet {
     h2 {
@@ -276,13 +241,13 @@ $-champImgContainerStyles: (
 
 .scrambleChamps {
   @include g.printStyles(
-    (
-      margin-bottom: (
-        null: 1rem,
-        g.$mQ-tablet-landscape: 2rem,
-        g.$mQ-desktopSmall: 3rem,
-      ),
-    )
+                  (
+                          margin-bottom: (
+                                  null: 1rem,
+                                  g.$mQ-tablet-landscape: 2rem,
+                                  g.$mQ-desktopSmall: 3rem,
+                          ),
+                  )
   );
 
   &__title {
@@ -352,6 +317,85 @@ $-champImgContainerStyles: (
 }
 
 .handicaps {
+  &__text {
+    color: g.$color-PrimaryFS;
+    font-size: .9rem;
+    @include g.mobile {
+      font-size: 1rem;
+    }
+    @include g.tablet {
+      font-size: 1.1rem;
+    }
+    @include g.tablet-landscape {
+      font-size: 1.2rem;
+    }
+
+    @include g.desktopSmall {
+      font-size: 1.3rem;
+    }
+    @include g.desktop {
+      font-size: 1.4rem;
+    }
+
+  }
+
+  &__btn {
+    border: none;
+    &--search {
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @include g.tablet {
+        height: 100%;
+        width: 100%;
+      }
+    }
+    &--clear {
+      font-weight: bold;
+      color: grey;
+      @include g.font-size(g.$font-xs);
+    }
+  }
+
+  &__icon {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+
+  &__search {
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+
+    @include g.mobile {
+      margin: 0.8rem 0;
+    }
+
+    label {
+      color: $searchBarTitleColor;
+    }
+
+    input {
+      background-color: white;
+
+      @include g.tablet-landscape {
+        padding: 0.8rem 2rem;
+      }
+    }
+
+    .clearBtnContainer {
+      padding: 0.3rem;
+
+      @include g.tablet-landscape {
+        padding: 0.5rem;
+      }
+
+
+    }
+  }
+
   .titleBar {
     display: grid;
     grid-template-columns: 50px 2fr 1fr;
@@ -368,23 +412,6 @@ $-champImgContainerStyles: (
       grid-template-columns: 100px 2fr 1fr;
     }
 
-    .searchButton {
-      border: none;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      @include g.tablet {
-        height: 100%;
-        width: 100%;
-      }
-
-      img {
-        height: 100%;
-        width: 100%;
-        object-fit: contain;
-      }
-    }
 
     & > div {
       display: flex;
@@ -396,8 +423,6 @@ $-champImgContainerStyles: (
       }
     }
 
-    p {
-    }
   }
 
   .sandbaggerList {
@@ -415,6 +440,7 @@ $-champImgContainerStyles: (
     @include g.tablet-landscape {
       margin-bottom: 1rem;
     }
+
 
     img {
       height: 30px;
@@ -439,7 +465,7 @@ $-champImgContainerStyles: (
       }
     }
 
-    a {
+    &__container {
       padding: 0.5rem 0;
       color: black;
       text-decoration: none;
@@ -472,11 +498,7 @@ $-champImgContainerStyles: (
       }
     }
 
-    &__name {
-    }
 
-    &__handicap {
-    }
   }
 }
 
