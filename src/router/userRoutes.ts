@@ -20,7 +20,7 @@ function guardRoute(to: Route, from: Route, next: NavigationGuardNext): any {
     authenticated = true;
   }
 
-  const headerTitle = "";
+  // const headerTitle = "";
 if(to.meta.backBtn) {
   store.dispatch("navigationStore/_setBackBtnShowingStatus", true).then()
 }else {
@@ -29,7 +29,7 @@ if(to.meta.backBtn) {
   if (authenticated) {
     next();
     UIHelper.PageLoading(false);
-    UIHelper.Header({ current: "main", isShowing: true, title: headerTitle, bgColor: "white" });
+    // UIHelper.Header({ current: "main", isShowing: true, title: headerTitle, bgColor: "white" });
 
 
   } else {

@@ -1,5 +1,6 @@
 ﻿<template>
   <div class='dashboard'>
+    <div class='dashboard__bg'></div>
     <Modal v-if='selectedBet' class='selectedBet' @click='closeSelectedBetModal' v-bind='{ isHeader: false }'>
       <template v-slot:body>
         <div class='body'>
@@ -167,7 +168,6 @@
 
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
-import UIHelper from '@/utility/UIHelper'
 import Helper from '@/utility/Helper'
 import { BetVm } from '@/types/ViewModels/Models/BetVm'
 import { SandbaggerWithHandicapVm } from '@/types/ViewModels/DashboardViewModel'
@@ -179,7 +179,7 @@ import { ScrambleChampVm } from '@/types/ViewModels/Models/EventResultsVm'
   components: {
     Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
     Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue'),
-    DashboardBets: (): Promise<typeof import('*.vue')> => import('@/views/user/dashboard/dashboardBets.vue'),
+    DashboardBets: (): Promise<typeof import('*.vue')> => import('@/views/user/dashboard/_DashboardBets.vue'),
     PaginationBtns: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/PaginationBtns.vue')
   }
 })
@@ -229,7 +229,7 @@ export default class Dashboard extends Vue {
   }
 
   mounted(): void {
-    UIHelper.Header({ title: 'Dashboard', isShowing: true, current: 'main', bgColor: '#17252a' })
+    // UIHelper.Header({ title: 'Dashboard', isShowing: true, current: 'main', bgColor: '#17252a' })
 
     this.getDashboardData()
   }

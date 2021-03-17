@@ -44,7 +44,6 @@ import { Component, Vue } from 'vue-property-decorator'
 import BetService from '@/services/User/BetService'
 import { BetVm } from '@/types/ViewModels/Models/BetVm'
 import Helper from '@/utility/Helper'
-import { SandbaggerWithHandicapVm } from '@/types/ViewModels/DashboardViewModel'
 
 @Component({
   name: 'MyBets',

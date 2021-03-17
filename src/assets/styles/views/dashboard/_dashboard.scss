@@ -67,11 +67,20 @@ $-champImgContainerStyles: (
 .dashboard {
   padding: 0;
 
-  .top {
-    padding: 2rem 1rem 3rem 1rem;
+  &__bg {
     background-color: $topBGColor;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 250px;
+    z-index: -1;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
+  }
+  .top {
+    padding: 2rem 1rem 3rem 1rem;
+
 
     @include g.tablet {
       padding: 1rem 4rem 2rem 4rem;
