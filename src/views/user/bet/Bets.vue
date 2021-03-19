@@ -1,6 +1,9 @@
 ﻿<template>
   <div class='bets'>
     <div v-if='!loading'>
+      <div class='app__title-bar'>
+        <h1 class='app__text app__text--title'>Bets</h1>
+      </div>
       <div class='bets__viewButtons'>
         <button class='viewButton' v-for='view in views' v-bind:key='view' :class='{ active: currentView === view }' @click='setCurrentView(view)'>{{ view }}</button>
       </div>
@@ -62,10 +65,11 @@
           </div>
         </div>
       </div>
-      <div class='prevNextButtons' v-if='filterBets.length > 0'>
-        <button v-on:click="changePage('previous')" :disabled='pageNumber === 0'>Previous</button>
-        <button v-on:click="changePage('next')" :disabled='pageNumber >= betCount - 1'>Next</button>
-      </div>
+      <PaginationBtns :items-count='filterBets' :size='size' :page-number='pageNumber' @change-page='changePage' />
+<!--      <div class='prevNextButtons' v-if='filterBets.length > 0'>-->
+<!--        <button v-on:click="changePage('previous')" :disabled='pageNumber === 0'>Previous</button>-->
+<!--        <button v-on:click="changePage('next')" :disabled='pageNumber >= betCount - 1'>Next</button>-->
+<!--      </div>-->
     </div>
     <Loading v-else />
   </div>
@@ -84,7 +88,8 @@ import { BetVm } from '@/types/ViewModels/Models/BetVm'
     Modal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/Modal.vue'),
     Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
     InputField: (): Promise<typeof import('*.vue')> => import('@/components/ui/InputField.vue'),
-    IconBtn: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/IconBtn.vue')
+    IconBtn: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/IconBtn.vue'),
+    PaginationBtns: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/PaginationBtns.vue')
   }
 })
 export default class Bets extends Vue {

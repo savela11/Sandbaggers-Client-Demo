@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig, Route } from 'vue-router'
 import store from '../store/index'
 import adminRoutes from './adminRoutes'
 import userRoutes from './userRoutes'
+import additionalRoutes from '@/router/additionalRoutes'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 function loadView(view: string) {
@@ -68,6 +69,7 @@ function defaultGuard(to: Route, from: Route, next: any): any {
 const routes: Array<RouteConfig> = [
   ...userRoutes,
   ...adminRoutes,
+    ...additionalRoutes,
   {
     path: '*',
     name: 'NotFound',
@@ -101,7 +103,7 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
-  scrollBehavior(to, from, savedPosition): any {
+  scrollBehavior(): any {
     return { x: 0, y: 0 }
   },
 })

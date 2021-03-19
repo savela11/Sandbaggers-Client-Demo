@@ -1,4 +1,4 @@
-﻿import { Route } from 'vue-router'
+﻿import { Route, NavigationGuardNext } from 'vue-router'
 import UIHelper from '@/utility/UIHelper'
 import store from '@/store'
 
@@ -6,12 +6,13 @@ import AuthLayout from '@/layouts/authLayouts/AuthLayout.vue'
 import AuthLayoutNoNavBar from '@/layouts/authLayouts/AuthLayoutNoNavBar.vue'
 import AuthLayoutNoHeader from '@/layouts/authLayouts/AuthLayoutNoHeader.vue'
 import AuthLayoutNoBars from '@/layouts/authLayouts/AuthLayoutNoBars.vue'
+import AuthLayoutNoHeaderAlt from "@/layouts/authLayouts/AuthLayoutNoHeader-Alt.vue";
 
 function loadView(view: string) {
     return (): Promise<typeof import('*.vue')> => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`)
 }
 
-function guardAdminRoute(to: Route, from: Route, next: any): any {
+function guardAdminRoute(to: Route, from: Route, next: NavigationGuardNext): any {
     let authenticated = false
     if (store.state.authStore.isLoggedIn && store.state.authStore.currentUser && store.state.authStore.currentUser.roles.includes('Admin')) {
         authenticated = true
@@ -45,7 +46,7 @@ export default [
         beforeEnter: guardAdminRoute,
         component: loadView('admin/roleManager/Roles'),
         meta: {
-            layout: AuthLayout,
+            layout: AuthLayoutNoHeaderAlt,
         },
     },
     {
@@ -54,7 +55,7 @@ export default [
         beforeEnter: guardAdminRoute,
         component: loadView('admin/roleManager/CreateRole'),
         meta: {
-            layout: AuthLayoutNoHeader,
+            layout: AuthLayoutNoHeaderAlt,
             backBtn: true,
         },
     },

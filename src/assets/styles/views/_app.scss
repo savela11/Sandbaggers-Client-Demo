@@ -1,29 +1,72 @@
 ﻿@use '../globals' as g;
 
 .app {
+  &__title-bar {
+    margin-bottom: 2rem;
+    @include g.tablet {
+      margin-bottom: 3rem;
+    }
+    @include g.tablet-landscape {
+      margin-bottom: 4rem;
+    }
+    @include g.desktopSmall {
+      margin-bottom: 5rem;
+    }
+
+  }
+
+  &__text {
+    margin: 0;
+
+    &--title {
+      color: g.$color-PrimaryFS;
+      font-weight: bold;
+      font-size: 2rem;
+      @include g.mobile {
+        font-size: 2.2rem;
+      }
+      @include g.tablet {
+        font-size: 2.4rem;
+      }
+      @include g.tablet-landscape {
+        font-size: 2.6rem;
+      }
+
+      @include g.desktop {
+        font-size: 2.8rem;
+      }
+      @include g.desktopLarge {
+        font-size: 3rem
+      }
+    }
+  }
+
   .routerView {
     padding: 2rem 1rem;
     position: relative;
     margin-bottom: 70px;
 
-    @include g.tablet {
+    @include g.mobile {
       padding: 3rem 2rem;
+    }
+    @include g.tablet {
+      padding: 4rem 3rem;
       margin-bottom: 80px;
     }
     @include g.tablet-landscape {
-      padding: 3rem 4rem;
+      padding: 5rem 4rem;
     }
     @include g.desktopSmall {
-      padding: 4rem 6rem;
+      padding: 6rem 5rem;
     }
 
     @include g.desktop {
-      padding: 5rem 6rem;
+      padding: 7rem 6rem;
     }
 
-    //@include g.desktopLarge {
-    //  padding: 5rem 6rem;
-    //}
+    @include g.desktopLarge {
+      padding: 8rem 7rem;
+    }
   }
 
   .withBackBtn {

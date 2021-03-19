@@ -1,45 +1,36 @@
 ﻿<template>
-  <div class="view">
+  <div class='view'>
 
 
-    <div class="powerRankings" v-if="!loading">
-      <div class="title">
-        <h1>Miller's Power Rankings</h1>
-        <div class="search">
-          <div class="top">
-            <button @click="toggleSearch" class="searchButton"><img src='@/assets/icons/search.svg' alt="search icon" />
-            </button>
-            <SelectBoxComponent v-if="selectedYear " :selected="selectedYear.year" :options="powerRankings" keyValue="eventId" optionValue="year"
-                                :showSelectOptions="showSelectOptions"
-                                @click.prevent.stop="toggleSelectBox" @select-option="selectOption" />
+    <div class='powerRankings' v-if='!loading'>
 
-          </div>
+      <div class='app__title-bar'>
+        <h1 class='app__text app__text--title'>Power Rankings</h1>
+      </div>
 
-          <transition name="fade">
-            <div v-if="isSearchingUser" class="bottom">
-              <div class="searchBar">
-                <label for="searchUser"></label>
-                <input type="text" id="searchUser" v-model="searchUser" />
-              </div>
-            </div>
-          </transition>
+      <div class='search'>
+        <div class='top'>
+          <button @click='toggleSearch' class='searchButton'><img src='@/assets/icons/search.svg' alt='search icon' />
+          </button>
+          <SelectBoxComponent v-if='selectedYear ' :selected='selectedYear.year' :options='powerRankings' keyValue='eventId' optionValue='year'
+              :showSelectOptions='showSelectOptions'
+              @click.prevent.stop='toggleSelectBox' @select-option='selectOption' />
         </div>
-      </div>
-      <div class="editPowerRanking" v-if="$store.state.authStore.currentUser.roles.includes('MillerTime') && selectedYear">
-        <IconBtn btn-text="Edit" :link-btn="true" :link="`/powerRanking/edit/${selectedYear.eventId}`">
-          <template v-slot:svg>
-            <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M3.125 17.9688V21.875H7.03125L18.5521 10.3542L14.6458 6.44792L3.125 17.9688ZM21.5729 7.33334C21.9792 6.92709 21.9792 6.27084 21.5729 5.86459L19.1354 3.42709C18.7292 3.02084 18.0729 3.02084 17.6667 3.42709L15.7604 5.33334L19.6667 9.23959L21.5729 7.33334V7.33334Z"
-                fill="#17252A" />
-            </svg>
-          </template>
-        </IconBtn>
+
+        <transition name='fade'>
+          <div v-if='isSearchingUser' class='bottom'>
+            <div class='searchBar'>
+              <label for='searchUser'></label>
+              <input type='text' id='searchUser' v-model='searchUser' />
+            </div>
+          </div>
+        </transition>
       </div>
 
-      <div class="views" v-if="selectedYear">
-        <div class="view rankings">
-          <div class="titleBar">
+
+      <div class='views' v-if='selectedYear'>
+        <div class='view rankings'>
+          <div class='titleBar'>
             <div>
               <p>Rank</p>
             </div>
@@ -47,48 +38,48 @@
               <p>Sandbagger</p>
             </div>
           </div>
-          <div class="user" :class="{ active: user.userId === showUsersWriteUpID }" v-for="user in selectedYear.rankings" :key="user.userId">
-            <div class="top">
-              <div class="rank">
-                <div class="circle">
+          <div class='user' :class='{ active: user.userId === showUsersWriteUpID }' v-for='user in selectedYear.rankings' :key='user.userId'>
+            <div class='top'>
+              <div class='rank'>
+                <div class='circle'>
                   <p>{{ user.rank }}</p>
                 </div>
               </div>
-              <div class="sandbagger">
-                <div class="name">
+              <div class='sandbagger'>
+                <div class='name'>
                   <h3>{{ user.fullName }}</h3>
                 </div>
-                <div class="handicap">
+                <div class='handicap'>
                   <p>HDCP</p>
 
                   <span>{{ user.handicap }}</span>
                 </div>
               </div>
             </div>
-            <div class="bottom" v-if="showUsersWriteUpID && showUsersWriteUpID === user.userId">
-              <div class="images">
-                <div class="image">
-                  <img src="https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="golf" />
+            <div class='bottom' v-if='showUsersWriteUpID && showUsersWriteUpID === user.userId'>
+              <div class='images'>
+                <div class='image'>
+                  <img src='https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60' alt='golf' />
                 </div>
-                <div class="image">
-                  <img src="https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="golf" />
+                <div class='image'>
+                  <img src='https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60' alt='golf' />
                 </div>
-                <div class="image">
-                  <img src="https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="golf" />
+                <div class='image'>
+                  <img src='https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60' alt='golf' />
                 </div>
               </div>
-              <div class="writeUp">
+              <div class='writeUp'>
                 <p>{{ user.writeup }}</p>
               </div>
             </div>
-            <div class="toggleWriteup">
-              <button @click="toggleShowUsersWriteUp(user.userId)">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class='toggleWriteup'>
+              <button @click='toggleShowUsersWriteUp(user.userId)'>
+                <svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M16 8C16 10.1217 15.1571 12.1566 13.6569 13.6569C12.1566 15.1571 10.1217 16 8 16C5.87827 16 3.84344 15.1571 2.34315 13.6569C0.842855 12.1566 0 10.1217 0 8C0 5.87827 0.842855 3.84344 2.34315 2.34315C3.84344 0.842855 5.87827 0 8 0C10.1217 0 12.1566 0.842855 13.6569 2.34315C15.1571 3.84344 16 5.87827 16 8V8ZM8.5 5C8.5 4.86739 8.44732 4.74021 8.35355 4.64645C8.25979 4.55268 8.13261 4.5 8 4.5C7.86739 4.5 7.74021 4.55268 7.64645 4.64645C7.55268 4.74021 7.5 4.86739 7.5 5V9.793L5.354 7.646C5.30751 7.59951 5.25232 7.56264 5.19158 7.53748C5.13084 7.51232 5.06574 7.49937 5 7.49937C4.93426 7.49937 4.86916 7.51232 4.80842 7.53748C4.74768 7.56264 4.69249 7.59951 4.646 7.646C4.59951 7.69249 4.56264 7.74768 4.53748 7.80842C4.51232 7.86916 4.49937 7.93426 4.49937 8C4.49937 8.06574 4.51232 8.13084 4.53748 8.19158C4.56264 8.25232 4.59951 8.30751 4.646 8.354L7.646 11.354C7.69245 11.4006 7.74762 11.4375 7.80837 11.4627C7.86911 11.4879 7.93423 11.5009 8 11.5009C8.06577 11.5009 8.13089 11.4879 8.19163 11.4627C8.25238 11.4375 8.30755 11.4006 8.354 11.354L11.354 8.354C11.4479 8.26011 11.5006 8.13278 11.5006 8C11.5006 7.86722 11.4479 7.73989 11.354 7.646C11.2601 7.55211 11.1328 7.49937 11 7.49937C10.8672 7.49937 10.7399 7.55211 10.646 7.646L8.5 9.793V5Z"
-                    fill="#17252A"
+                      fill-rule='evenodd'
+                      clip-rule='evenodd'
+                      d='M16 8C16 10.1217 15.1571 12.1566 13.6569 13.6569C12.1566 15.1571 10.1217 16 8 16C5.87827 16 3.84344 15.1571 2.34315 13.6569C0.842855 12.1566 0 10.1217 0 8C0 5.87827 0.842855 3.84344 2.34315 2.34315C3.84344 0.842855 5.87827 0 8 0C10.1217 0 12.1566 0.842855 13.6569 2.34315C15.1571 3.84344 16 5.87827 16 8V8ZM8.5 5C8.5 4.86739 8.44732 4.74021 8.35355 4.64645C8.25979 4.55268 8.13261 4.5 8 4.5C7.86739 4.5 7.74021 4.55268 7.64645 4.64645C7.55268 4.74021 7.5 4.86739 7.5 5V9.793L5.354 7.646C5.30751 7.59951 5.25232 7.56264 5.19158 7.53748C5.13084 7.51232 5.06574 7.49937 5 7.49937C4.93426 7.49937 4.86916 7.51232 4.80842 7.53748C4.74768 7.56264 4.69249 7.59951 4.646 7.646C4.59951 7.69249 4.56264 7.74768 4.53748 7.80842C4.51232 7.86916 4.49937 7.93426 4.49937 8C4.49937 8.06574 4.51232 8.13084 4.53748 8.19158C4.56264 8.25232 4.59951 8.30751 4.646 8.354L7.646 11.354C7.69245 11.4006 7.74762 11.4375 7.80837 11.4627C7.86911 11.4879 7.93423 11.5009 8 11.5009C8.06577 11.5009 8.13089 11.4879 8.19163 11.4627C8.25238 11.4375 8.30755 11.4006 8.354 11.354L11.354 8.354C11.4479 8.26011 11.5006 8.13278 11.5006 8C11.5006 7.86722 11.4479 7.73989 11.354 7.646C11.2601 7.55211 11.1328 7.49937 11 7.49937C10.8672 7.49937 10.7399 7.55211 10.646 7.646L8.5 9.793V5Z'
+                      fill='#17252A'
                   />
                 </svg>
               </button>
@@ -106,58 +97,44 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import PowerRankingService from "@/services/PowerRankingService";
-import { EventPowerRankingVm  } from '@/types/ViewModels/Models/EventPowerRankingVm'
-import IconBtn from "@/components/ui/Buttons/IconBtn.vue";
+<script lang='ts'>
+import { Component, Vue } from 'vue-property-decorator'
+import PowerRankingService from '@/services/User/PowerRankingService'
+import { EventPowerRankingVm } from '@/types/ViewModels/Models/EventPowerRankingVm'
+import IconBtn from '@/components/ui/Buttons/IconBtn.vue'
 
 @Component({
-  name: "PowerRankings", components: {
+  name: 'PowerRankings', components: {
     IconBtn,
-    Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
-    SelectBoxComponent: (): Promise<typeof import("*.vue")> => import("@/components/ui/SelectBoxComponent.vue")
+    Loading: (): Promise<typeof import('*.vue')> => import('@/components/ui/Loading.vue'),
+    SelectBoxComponent: (): Promise<typeof import('*.vue')> => import('@/components/ui/SelectBoxComponent.vue')
   }
 })
 export default class PowerRankings extends Vue {
-  loading = false;
-  isSearchingUser = false;
-  selectedYear: EventPowerRankingVm | null = null;
-  showSelectOptions = false;
-  searchUser = "";
-  showUsersWriteUpID: null | string = null;
-  Users = [
-    {
-      id: "1",
-      name: "Andy Savela",
-      rank: 1,
-      images: [],
-      trending: "+5",
-      handicap: 15.1,
-      writeUp: "Here is a test writeup"
-    },
-    { id: "2", name: "Mitch Howell", rank: 2, images: [], trending: "-2", handicap: 2.1, writeUp: "" },
-    { id: "3", name: "Matt Miller", rank: 3, images: [], trending: "-2", handicap: 10.1, writeUp: "" }
-  ];
-  powerRankings = [] as Array<EventPowerRankingVm>;
-
+  loading = false
+  isSearchingUser = false
+  selectedYear: EventPowerRankingVm | null = null
+  showSelectOptions = false
+  searchUser = ''
+  showUsersWriteUpID: null | string = null
+  powerRankings = [] as Array<EventPowerRankingVm>
 
 
   mounted(): void {
-    this.getPowerRankings();
+    this.getPowerRankings()
   }
 
   async getPowerRankings(): Promise<void> {
     try {
-      const res = await PowerRankingService.PowerRankings();
+      const res = await PowerRankingService.PowerRankings()
       if (res.status === 200) {
-        this.powerRankings = res.data;
+        this.powerRankings = res.data
 
-        this.selectedYear = res.data[0];
+        this.selectedYear = res.data[0]
 
       }
     } catch (e) {
-      console.log(e);
+      console.log(e)
     } finally {
 
     }
@@ -165,28 +142,28 @@ export default class PowerRankings extends Vue {
 
   toggleShowUsersWriteUp(id: string): void {
     if (id === this.showUsersWriteUpID) {
-      this.showUsersWriteUpID = null;
-      return;
+      this.showUsersWriteUpID = null
+      return
     }
 
-    this.showUsersWriteUpID = id;
+    this.showUsersWriteUpID = id
   }
 
   toggleSelectBox(): void {
-    this.showSelectOptions = !this.showSelectOptions;
+    this.showSelectOptions = !this.showSelectOptions
   }
 
   selectOption(option: EventPowerRankingVm): void {
-    this.selectedYear = option;
-    this.showSelectOptions = false;
+    this.selectedYear = option
+    this.showSelectOptions = false
   }
 
   toggleSearch(): void {
-    this.isSearchingUser = !this.isSearchingUser;
+    this.isSearchingUser = !this.isSearchingUser
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
 @use "~@/assets/styles/views/powerRanking/_powerRankings";
 </style>

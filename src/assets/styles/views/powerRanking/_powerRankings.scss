@@ -4,15 +4,9 @@ $--selectBoxOptionFS: (
         null: .8rem,
         g.$mQ-mobile: .9rem
 );
-$--powerRankingTitleFS: (
-        null: 1.2rem,
-        g.$mQ-mobile: 1.4rem
-);
+
 .powerRankings {
-  h1 {
-    color: g.$color-PrimaryFS;
-    @include g.font-size($--powerRankingTitleFS);
-  }
+
 }
 
 .currentViewBtns {
@@ -238,9 +232,6 @@ $--powerRankingTitleFS: (
   }
 }
 
-.title {
-
-}
 
 .editPowerRanking {
   display: flex;

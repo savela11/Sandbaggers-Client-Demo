@@ -5,22 +5,21 @@ $viewBtnBG: white;
 $viewBtnTextColor: g.$color-DarkBlue;
 $searchBarTitleColor: white;
 
-$-sectionTitleStyles: (
+
+$-text--section-title: (
         color: white,
         padding-left: (
                 null: 0.5rem,
                 g.$mQ-mobile: 0.8rem,
                 g.$mQ-tablet: 1rem,
-                g.$mQ-tablet-landscape: 2rem,
         ),
-        font-size:
-        map-merge(
-                        g.$font-base,
-                        (
-                                g.$mQ-desktopSmall: 1.8rem,
-                                g.$mQ-desktop: 1.9rem,
-                                g.$mQ-desktopLarge: 2rem,
-                        )
+        font-size: (
+                null: 1rem,
+                g.$mQ-mobile: 1.1rem,
+                g.$mQ-tablet: 1.2rem,
+                g.$mQ-desktopSmall: 1.3rem,
+                g.$mQ-desktop: 1.4rem,
+                g.$mQ-desktopLarge: 1.5rem,
         ),
 );
 
@@ -65,7 +64,19 @@ $-champImgContainerStyles: (
 );
 
 .dashboard {
-  padding: 0;
+  h1 {
+    color: white;
+  }
+
+  &__text {
+    &--title {
+      color: white;
+    }
+
+    &--section-title {
+      @include g.printStyles($-text--section-title);
+    }
+  }
 
   &__bg {
     background-color: $topBGColor;
@@ -73,43 +84,42 @@ $-champImgContainerStyles: (
     top: 0;
     left: 0;
     right: 0;
-    height: 250px;
+    height: 400px;
     z-index: -1;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
-  }
-  .top {
-    padding: 2rem 1rem 3rem 1rem;
-
-
+    @include g.mobile {
+      height: 425px;
+    }
     @include g.tablet {
-      padding: 1rem 4rem 2rem 4rem;
+      height: 450px;
     }
     @include g.tablet-landscape {
-      padding: 1rem 6rem 3rem 6rem;
+      height: 550px;
     }
     @include g.desktopSmall {
-      padding: 1rem 8rem 3rem 8rem;
+      height: 700px;
     }
     @include g.desktop {
-      padding: 3rem 15rem;
+      height: 750px;
+    }
+    @include g.desktopLarge {
+      height: 800px;
     }
   }
 
-  .bottom {
-    transform: translateY(-30px);
-    padding: 0 0.8rem 0 0.8rem;
-    @include g.tablet {
-      padding: 4rem 0;
-      width: 80%;
-      margin: 0 auto;
+  &__section {
+    margin: 1rem 0;
+
+    &--top {
+
     }
-    @include g.tablet-landscape {
-    }
-    @include g.desktopSmall {
-      padding: 3rem 8rem;
+
+    &--bottom {
+
     }
   }
+
 
   .content {
     border-radius: 10px;
@@ -261,7 +271,7 @@ $-champImgContainerStyles: (
 
   &__title {
     &__text {
-      @include g.printStyles($-sectionTitleStyles);
+
     }
   }
 
@@ -281,11 +291,7 @@ $-champImgContainerStyles: (
 }
 
 .viewButtons {
-  &__title {
-    &__text {
-      @include g.printStyles($-sectionTitleStyles);
-    }
-  }
+
 
   .buttons {
     overflow-x: auto;
@@ -350,6 +356,7 @@ $-champImgContainerStyles: (
 
   &__btn {
     border: none;
+
     &--search {
       padding: 0;
       display: flex;
@@ -360,6 +367,7 @@ $-champImgContainerStyles: (
         width: 100%;
       }
     }
+
     &--clear {
       font-weight: bold;
       color: grey;

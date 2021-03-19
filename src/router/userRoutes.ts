@@ -4,6 +4,7 @@ import store from "../store/index";
 import AuthLayout from "@/layouts/authLayouts/AuthLayout.vue";
 import AuthLayoutNoNavBar from '@/layouts/authLayouts/AuthLayoutNoNavBar.vue';
 import AuthLayoutNoHeader from "@/layouts/authLayouts/AuthLayoutNoHeader.vue";
+import AuthLayoutNoHeaderAlt from "@/layouts/authLayouts/AuthLayoutNoHeader-Alt.vue";
 import AuthLayoutNoBars from "@/layouts/authLayouts/AuthLayoutNoBars.vue";
 
 
@@ -57,7 +58,7 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("dashboard/Dashboard"),
     meta: {
-      layout: AuthLayout
+      layout: AuthLayoutNoHeaderAlt
     }
   },
   {
@@ -95,7 +96,7 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("bet/Bets"),
     meta: {
-      layout: AuthLayout
+      layout: AuthLayoutNoHeaderAlt
     }
 
   },
@@ -105,7 +106,8 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("bet/SelectedBet"),
     meta: {
-      layout: AuthLayout
+      layout: AuthLayoutNoHeaderAlt,
+      backBtn: true
     }
 
   },
@@ -174,19 +176,8 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("powerRankings/PowerRankings"),
     meta: {
-      layout: AuthLayout
+      layout: AuthLayoutNoHeaderAlt
     }
-  },
-  {
-    path: "/powerRanking/edit/:eventId",
-    name: "EditPowerRanking",
-    beforeEnter: guardRoute,
-    component: loadView("powerRankings/EditPowerRanking"),
-    meta: {
-      layout: AuthLayout,
-      backBtn: true
-    }
-
   },
   {
     path: "/mockDrafts",

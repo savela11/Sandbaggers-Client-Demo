@@ -1,5 +1,8 @@
 ﻿<template>
   <div class='dashboard'>
+    <div class='app__title-bar'>
+      <h1 class='app__text app__text--title'>Dashboard</h1>
+    </div>
     <div class='dashboard__bg'></div>
     <Modal v-if='selectedBet' class='selectedBet' @click='closeSelectedBetModal' v-bind='{ isHeader: false }'>
       <template v-slot:body>
@@ -46,7 +49,7 @@
         <button class='acceptBetBtn' v-if='selectedBet.createdBy.id !== $store.state.authStore.currentUser.id'>Accept Bet</button>
       </template>
     </Modal>
-    <div class='top'>
+    <div class='dashboard__section dashboard__section--top'>
       <div class='scrambleChamps' v-if='ScrambleChamps.length > 0'>
         <div class='scrambleChamps__title'>
           <h2 class='scrambleChamps__title__text'>Scramble Champs</h2>
@@ -59,37 +62,44 @@
             <p class='text text--xs color--white text--center'>{{ champ.fullName }}</p>
           </div>
         </div>
-        <!--        <div class='scrambleChamps__list flex&#45;&#45;xs' v-else>-->
-        <!--          <div class='champ'>-->
-        <!--            <div class='imgContainer'>-->
-        <!--              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />-->
-        <!--            </div>-->
-        <!--            <p class='text text&#45;&#45;xs color&#45;&#45;white text&#45;&#45;center'>Sandbagger #1</p>-->
-        <!--          </div>-->
-        <!--          <div class='champ'>-->
-        <!--            <div class='imgContainer'>-->
-        <!--              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />-->
-        <!--            </div>-->
-        <!--            <p class='text text&#45;&#45;xs color&#45;&#45;white text&#45;&#45;center'>Sandbagger #2</p>-->
-        <!--          </div>-->
-        <!--          <div class='champ'>-->
-        <!--            <div class='imgContainer'>-->
-        <!--              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />-->
-        <!--            </div>-->
-        <!--            <p class='text text&#45;&#45;xs color&#45;&#45;white text&#45;&#45;center'>Sandbagger #3</p>-->
-        <!--          </div>-->
-        <!--          <div class='champ'>-->
-        <!--            <div class='imgContainer'>-->
-        <!--              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />-->
-        <!--            </div>-->
-        <!--            <p class='text text&#45;&#45;xs color&#45;&#45;white text&#45;&#45;center'>Sandbagger #4</p>-->
-        <!--          </div>-->
-        <!--        </div>-->
+
+      </div>
+      <div class='scrambleChamps' v-else>
+        <div class='scrambleChamps__title'>
+          <h2 class='dashboard__text dashboard__text--section-title'>Scramble Champs</h2>
+        </div>
+        <div class='scrambleChamps__list flex--xs'>
+          <div class='champ'>
+            <div class='imgContainer'>
+              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />
+            </div>
+            <p class='text text--xs color--white text--center'>Sandbagger #1</p>
+          </div>
+          <div class='champ'>
+            <div class='imgContainer'>
+              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />
+            </div>
+            <p class='text text--xs color--white text--center'>Sandbagger #2</p>
+          </div>
+          <div class='champ'>
+            <div class='imgContainer'>
+              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />
+            </div>
+            <p class='text text--xs color--white text--center'>Sandbagger #3</p>
+          </div>
+          <div class='champ'>
+            <div class='imgContainer'>
+              <img src='@/assets/SBLogo.png' alt='Sandbagger Logo' />
+            </div>
+            <p class='text text--xs color--white text--center'>Sandbagger #4</p>
+          </div>
+        </div>
+
       </div>
 
       <div class='viewButtons'>
         <div class='viewButtons__title'>
-          <h2 class='viewButtons__title__text'>Latest</h2>
+          <h2 class='dashboard__text dashboard__text--section-title'>Latest</h2>
         </div>
         <div class='buttons'>
           <button v-for='view in dashboardViews' :key='view' @click='handleViewChange(view)' class='text text--center text--xs' :class='{ active: view === currentView }'>
@@ -98,7 +108,7 @@
         </div>
       </div>
     </div>
-    <div class='bottom'>
+    <div class='dashboard__section dashboard__section--bottom'>
       <div class='content'>
         <div v-if='!loading'>
           <div v-if="currentView === 'Handicaps'" class='handicaps'>
