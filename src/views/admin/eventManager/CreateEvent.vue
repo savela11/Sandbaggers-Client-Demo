@@ -27,10 +27,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component,  Vue } from "vue-property-decorator";
 import { CreateEventDto } from "@/types/DTO/EventDto";
-import EventService from "@/services/EventService";
 import UIHelper from "@/utility/UIHelper";
+import EventManagerService from '@/services/Admin/EventManagerService'
 
 @Component({
   name: "CreateEvent", components: {
@@ -61,9 +61,9 @@ export default class CreateEvent extends Vue {
     }
     this.loading = true;
     try {
-      const res = await EventService.CreateEvent(this.createEventForm);
+      const res = await EventManagerService.CreateEvent(this.createEventForm);
       if (res.status === 200) {
-        UIHelper.SnackBar({ title: "Success", message: `${res.data.name} Event has been created`, classInfo: "primary", isSnackBarShowing: true, errors: [] });
+        UIHelper.SnackBar({ title: "Success", message: `Event has been created`, classInfo: "primary", isSnackBarShowing: true, errors: [] });
         await this.$router.push("/admin/EventManager");
 
       }
