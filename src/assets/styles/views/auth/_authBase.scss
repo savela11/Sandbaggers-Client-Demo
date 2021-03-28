@@ -6,7 +6,6 @@ $-baseAuthForm: (
     g.$mQ-tablet-landscape: 60%,
     g.$mQ-desktopSmall: 50%,
     g.$mQ-desktop: 45%,
-    g.$mQ-desktopLarge: 40%,
   ),
 );
 $-registerForm: g.deepMerge(
@@ -17,7 +16,6 @@ $-registerForm: g.deepMerge(
       g.$mQ-tablet-landscape: 90%,
       g.$mQ-desktopSmall: 80%,
       g.$mQ-desktop: 70%,
-      g.$mQ-desktopLarge: 60%,
     ),
   )
 );

@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class='EditEvent'>
+  <div class='editEvent'>
     <div v-if='!loading && Event.eventId'>
       <div class='flex--xs flex--end flex--iCenter'>
         <SelectBoxComponent :selected='currentView' :options='views' :showSelectOptions='showSelectOptions' @click.prevent.stop='toggleSelectBox' @select-option='selectOption' />
@@ -31,13 +31,13 @@
           </form>
         </div>
         <div v-if="currentView === 'registration'" class='view registration'>
-          <div class='users'>
-            <div class='registered'>
-              <h3 class='text text--base color--secondary'>Registered</h3>
-              <div class='users__wrapper'>
+          <div class='registration__container'>
+            <div class='registration__section registration__section--registered'>
+              <h3 class='text text__section-title'>Registered</h3>
+              <div class='registration__users registration__users--registered'>
                 <div class='user' v-for='user in Event.registeredUsers' :key='user.id'>
                   <div class='user__container'>
-                    <p class='user__fullName'>{{ user.fullName }}</p>
+                    <p class='text text__registration--fullName'>{{ user.fullName }}</p>
                     <IconBtn @click='registration(user)'>
                       <template v-slot:svg>
                         <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -52,12 +52,12 @@
                 </div>
               </div>
             </div>
-            <div class='notRegistered'>
-              <h3 class='text text--base color--secondary'>Not Registered</h3>
-              <div class='users__wrapper'>
+            <div class='registration__section registration__section--not-registered'>
+              <h3 class='text text__section-title'>Not Registered</h3>
+              <div class='registration__users registration__users--not-registered'>
                 <div class='user' v-for='user in Event.unRegisteredUsers' :key='user.id'>
                   <div class='user__container'>
-                    <p class='user__fullName'>{{ user.fullName }}</p>
+                    <p class='text text__registration--fullName'>{{ user.fullName }}</p>
                     <IconBtn @click="registration(user, 'register')">
                       <template v-slot:svg>
                         <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -326,14 +326,26 @@ export default class EditEvent extends Vue {
   }
 
   async addTeam(): Promise<void> {
+    this.loading = true
     try {
       const res = await TeamManagerService.CreateTeamForEvent(this.Event.eventId)
       if (res.status === 200) {
         this.Event.teams.push(res.data)
+        UIHelper.SnackBar({
+          title: 'Success',
+          message: `Team Added. In order to delete a team, please remove all team members first.`,
+          classInfo: `primary`,
+          isSnackBarShowing: true,
+          errors: undefined
+        })
+
+        setTimeout(() => {
+          this.loading = false
+        }, 2000)
       }
     } catch (e) {
       console.log(e)
-    } finally {
+      this.loading = false
     }
   }
 

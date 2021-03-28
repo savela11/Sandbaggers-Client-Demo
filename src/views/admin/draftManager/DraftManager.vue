@@ -2,7 +2,7 @@
   <div class='DraftManager'>
     <div v-if='!loading'>
       <div class='app__title-bar'>
-        <h1 class='app__text app__text--title'>Draft Manager</h1>
+        <h1 class='app__text app__text--title '>Draft Manager</h1>
       </div>
       <div class='landmark landmark--main'>
 
@@ -19,7 +19,7 @@
 </template>
 
 <script lang='ts'>
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import DraftManagerService from '@/services/Admin/DraftManagerService'
 import { RegisteredUserVm } from '@/types/ViewModels/Models/EventVm'
 import UIHelper from '@/utility/UIHelper'
@@ -35,6 +35,7 @@ import UIHelper from '@/utility/UIHelper'
 export default class DraftManager extends Vue {
   loading = true
   registeredUsers = [] as Array<RegisteredUserVm>
+
 
   mounted(): void {
     this.getRegisteredUsers()

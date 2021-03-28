@@ -1,12 +1,14 @@
 ﻿<template>
   <div class='teams'>
     <div v-if='!loading'>
-
       <div class='flex--xs' :class="['flex--end']">
+        <button @click.prevent.stop='testModal' type='button' class='btn btn-primary'>
+          Test Modal
+        </button>
         <IconBtn v-if='!editTeam' btn-text='Add' @click.prevent.stop='addTeam'>
           <template v-slot:svg>
             <svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-              <path d='M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 13H13V17H11V13H7V11H11V7H13V11H17V13Z' fill='#17252A'/>
+              <path d='M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 13H13V17H11V13H7V11H11V7H13V11H17V13Z' fill='#17252A' />
             </svg>
           </template>
         </IconBtn>
@@ -44,14 +46,14 @@
           <InputField class-name='noBorder title' :isActive="editTeam.name !== ''">
             <template v-slot:field>
               <label for='teamName'>Team Name</label>
-              <input type='text' id='teamName' v-model.trim='editTeam.name'/>
+              <input type='text' id='teamName' v-model.trim='editTeam.name' />
             </template>
           </InputField>
 
           <InputField class-name='noBorder title' :isActive="editTeam.color !== ''">
             <template v-slot:field>
               <label for='color'>Color</label>
-              <input type='text' id='color' v-model.trim='editTeam.color'/>
+              <input type='text' id='color' v-model.trim='editTeam.color' />
             </template>
           </InputField>
 
@@ -73,17 +75,18 @@
           </div>
 
           <div class='editTeam__members section'>
-            <p class='editTeam__members__title text--title'>Team Members: <span class="text--count">{{ editTeam.teamMembers.length }}</span></p>
+            <p class='editTeam__members__title text--title'>Team Members:
+              <span class='text--count'>{{ editTeam.teamMembers.length }}</span></p>
 
-            <div v-for="member in editTeam.teamMembers" :key="member.id" class="editTeam__member">
-              <div class="editTeam__member__container flex--xs flex--iCenter flex--between">
-                <p class="editTeam__member__text--fullName">{{ member.fullName }}</p>
-                <IconBtn @click.prevent.stop="removeUserFromTeam(member.id)">
+            <div v-for='member in editTeam.teamMembers' :key='member.id' class='editTeam__member'>
+              <div class='editTeam__member__container flex--xs flex--iCenter flex--between'>
+                <p class='editTeam__member__text--fullName'>{{ member.fullName }}</p>
+                <IconBtn @click.prevent.stop='removeUserFromTeam(member.id)'>
                   <template v-slot:svg>
-                    <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
                       <path
-                          d="M12.5 0C5.5971 0 0 5.5971 0 12.5C0 19.4029 5.5971 25 12.5 25C19.4029 25 25 19.4029 25 12.5C25 5.5971 19.4029 0 12.5 0ZM17.8571 13.1696C17.8571 13.2924 17.7567 13.3929 17.6339 13.3929H7.36607C7.2433 13.3929 7.14286 13.2924 7.14286 13.1696V11.8304C7.14286 11.7076 7.2433 11.6071 7.36607 11.6071H17.6339C17.7567 11.6071 17.8571 11.7076 17.8571 11.8304V13.1696Z"
-                          fill="#9F0000"
+                          d='M12.5 0C5.5971 0 0 5.5971 0 12.5C0 19.4029 5.5971 25 12.5 25C19.4029 25 25 19.4029 25 12.5C25 5.5971 19.4029 0 12.5 0ZM17.8571 13.1696C17.8571 13.2924 17.7567 13.3929 17.6339 13.3929H7.36607C7.2433 13.3929 7.14286 13.2924 7.14286 13.1696V11.8304C7.14286 11.7076 7.2433 11.6071 7.36607 11.6071H17.6339C17.7567 11.6071 17.8571 11.7076 17.8571 11.8304V13.1696Z'
+                          fill='#9F0000'
                       />
                     </svg>
                   </template>
@@ -101,9 +104,11 @@
 </template>
 
 <script lang='ts'>
-import {Component, Prop, Vue} from 'vue-property-decorator'
-import {RegisteredUserVm, TeamMemberVm, TeamVm} from '@/types/ViewModels/Models/EventVm'
-import {RemoveUserFromTeamDto} from "@/types/DTO/TeamDto";
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { RegisteredUserVm, TeamMemberVm, TeamVm } from '@/types/ViewModels/Models/EventVm'
+import { RemoveUserFromTeamDto } from '@/types/DTO/TeamDto'
+import { IModal } from '@/types/vuexStore/UIStore'
+import UIHelper from '@/utility/UIHelper'
 
 @Component({
   name: 'EditTeam',
@@ -123,6 +128,12 @@ export default class EditTeam extends Vue {
   @Prop() registeredUsers!: Array<RegisteredUserVm>
   @Prop() loading!: boolean
   editTeam: null | TeamVm = null
+
+  testModal(): void {
+
+    UIHelper.Modal({ body: `<h1>Test</h1> `, classes: '', footer: null, title: 'title' })
+
+  }
 
   get captainListFromRegisteredUsers(): Array<RegisteredUserVm> {
     return this.registeredUsers.filter(u => {
@@ -165,12 +176,12 @@ export default class EditTeam extends Vue {
 
   removeUserFromTeam(teamMemberId: string): void {
     if (!this.editTeam) {
-      return;
+      return
     }
     const removeUserFromTeamDto: RemoveUserFromTeamDto = {
       teamMemberId: teamMemberId, teamId: this.editTeam.teamId
     }
-    this.$emit('remove-user-from-team', removeUserFromTeamDto);
+    this.$emit('remove-user-from-team', removeUserFromTeamDto)
   }
 
   updateTeams(): void {

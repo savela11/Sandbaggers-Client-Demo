@@ -6,7 +6,7 @@ const url = 'ADMIN/TeamManager'
 
 class TeamManagerService {
     static async CreateTeamForEvent(eventId: number): Promise<AxiosResponse<TeamVm>> {
-        return await apiClient.post(`${url}/CreateTeamForEvent`, { eventId: eventId })
+        return await apiClient.post(`${url}/CreateTeam`, { eventId: eventId })
     }
     static async UpdateTeams(teams: Array<TeamVm>): Promise<AxiosResponse<Array<TeamVm>>> {
         return await apiClient.post(`${url}/UpdateTeams`, teams)

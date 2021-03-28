@@ -6,10 +6,9 @@
 @use './position';
 @use './margin';
 @use './padding';
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 html {
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Raleway', sans-serif !important;
     word-spacing: 1px;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
@@ -34,6 +33,8 @@ body {
     top: 0;
     left: 0;
     width: 100%;
+
+    font-family: 'Raleway', sans-serif !important;
 }
 
 .divider {
