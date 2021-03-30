@@ -7,64 +7,77 @@
 @use './margin';
 @use './padding';
 
+
+$theme-colors: (
+        "primary": #425a41,
+        "secondary": #17252a,
+        //"success": $success,
+        "info": #117a8b,
+        //"warning": $warning,
+        "danger": #8b2635,
+        //"light": $light,
+        //"dark": $dark
+);
+
+
 html {
-    font-family: 'Raleway', sans-serif !important;
-    word-spacing: 1px;
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    box-sizing: border-box;
-    text-rendering: optimizeLegibility;
-    font-variant-ligatures: none;
-    -webkit-font-variant-ligatures: none;
-    text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
-    font-size: 16px;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-family: 'Raleway', sans-serif !important;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  text-rendering: optimizeLegibility;
+  font-variant-ligatures: none;
+  -webkit-font-variant-ligatures: none;
+  text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
+  font-size: 16px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    overflow-x: hidden;
-    right: 0;
-    top: 0;
-    left: 0;
-    width: 100%;
+  overflow-x: hidden;
+  right: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
 
-    font-family: 'Raleway', sans-serif !important;
+  font-family: 'Raleway', sans-serif !important;
 }
 
 .divider {
-    color: rgba(0, 0, 0, 0.87);
-    display: block;
-    flex: 1 1 0;
-    max-height: 0;
-    border-bottom-style: solid;
-    border-width: thin 0 0 0;
-    transition: inherit;
-    max-width: 100%;
-    border-color: rgba(0, 0, 0, 0.12);
-    background-color: lightgrey;
-    width: 100%;
-    margin: 0 0 1rem 0;
-    height: 1px;
+  color: rgba(0, 0, 0, 0.87);
+  display: block;
+  flex: 1 1 0;
+  max-height: 0;
+  border-bottom-style: solid;
+  border-width: thin 0 0 0;
+  transition: inherit;
+  max-width: 100%;
+  border-color: rgba(0, 0, 0, 0.12);
+  background-color: lightgrey;
+  width: 100%;
+  margin: 0 0 1rem 0;
+  height: 1px;
 }
 
 .z {
-    z-index: 0;
+  z-index: 0;
 
-    &1 {
-        z-index: 1;
-    }
+  &1 {
+    z-index: 1;
+  }
 
-    &2 {
-        z-index: 2;
-    }
+  &2 {
+    z-index: 2;
+  }
 
-    &3 {
-        z-index: 3;
-    }
+  &3 {
+    z-index: 3;
+  }
 }

@@ -1,6 +1,6 @@
 ﻿import { IRootState } from '@/store'
 import { ActionContext } from 'vuex'
-import { IHeader, IModal, IUIState } from '@/types/vuexStore/UIStore'
+import { IHeader,  IUIState } from '@/types/vuexStore/UIStore'
 import { ISnackBar } from '@/types/UI/SnackBar'
 
 const state: IUIState = {
@@ -19,20 +19,12 @@ const state: IUIState = {
         isSnackBarShowing: false
     } as ISnackBar,
     deviceSize: 'mobile',
-    modal: {
-        title: 'This is a test title',
-        classes: 'modal-dialog-centered modal-dialog-scrollable',
-        body: ``,
-        footer: `
-           <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
-           <button type='button' class='btn btn-primary'>Understood</button>
-        `
-    } as IModal
+
 }
 
 const getters = {
     Header: (state: IUIState): IHeader => state.header,
-    Modal: (state: IUIState): IModal => state.modal,
+
     SnackBarClass: (state: IUIState): string | undefined => state.snackBar.classInfo
 }
 
@@ -104,10 +96,7 @@ const mutations = {
         state.deviceSize = deviceSize
     },
 
-    SetModal(state: IUIState, modal: IModal): void {
-        console.log(modal)
-        state.modal = modal
-    }
+
 }
 
 
@@ -133,9 +122,7 @@ const actions = {
     _setDeviceSize(context: ActionContext<IUIState, IRootState>, deviceSize: string): void {
         context.commit('SetDeviceSize', deviceSize)
     },
-    _setModal(context: ActionContext<IUIState, IRootState>, modal: IModal): void {
-        context.commit('SetModal', modal)
-    }
+
 }
 
 export default {

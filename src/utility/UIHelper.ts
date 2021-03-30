@@ -1,6 +1,6 @@
 ﻿import store from '@/store/index'
 import { ISnackBar } from '@/types/UI/SnackBar'
-import { IHeader, IModal } from '@/types/vuexStore/UIStore'
+import { IHeader } from '@/types/vuexStore/UIStore'
 
 export default class UIHelper {
     static SnackBar({ isSnackBarShowing, title, message, errors, classInfo }: ISnackBar): void {
@@ -23,18 +23,6 @@ export default class UIHelper {
         store.dispatch('uiStore/_setSnackBar', snackBarData).then()
     }
 
-    static Modal({ title, classes, body, footer }: IModal): void {
-
-        const myModal = new bootstrap.Modal(document.getElementById('modal'), {
-            keyboard: false
-        })
-        myModal.show()
-        const myModalEl = document.getElementById('modal')
-
-        const modal = bootstrap.Modal.getInstance(myModalEl) //
-        console.log(modal)
-        store.dispatch('uiStore/_setModal', { title, classes, body, footer }).then()
-    }
 
     /**
      * @type {IHeader} headerInfo

@@ -5,7 +5,6 @@ export interface IUIState {
     pageLoading: boolean
     snackBar: ISnackBar
     deviceSize: string,
-    modal:IModal
 }
 
 export interface IPageLoadStatus {
@@ -19,11 +18,4 @@ export interface IHeader {
     title: string
     isShowing: boolean
     bgColor?: string
-}
-
-export interface IModal {
-    title: string;
-    classes: string;
-    body: string;
-    footer: string | null;
 }

@@ -27,7 +27,7 @@
               </div>
             </div>
 
-            <input type='submit' value='Update' class='btn btn--sm my-1 btn--bg-darkBlue' />
+            <input type='submit' value='Update' class='btn px-4  btn-secondary my-1' />
           </form>
         </div>
         <div v-if="currentView === 'registration'" class='view registration'>
@@ -170,7 +170,6 @@
             @remove-captain='removeTeamCaptain'
             @remove-user-from-team='removeUserFromTeam'
         />
-
         <div v-if="currentView === 'location'" class='view location'>
           <form class='location__form' @submit.prevent.stop='UpdateEvent'>
             <div class='flex--md'>
