@@ -18,7 +18,7 @@
             </template>
           </InputField>
         </fieldset>
-        <input type="submit" value="Submit" class="btn btn--sm btn--bg-darkBlue mt-1 text text--fw-500">
+        <input type="submit" value="Submit" class="btn btn--sm btn--darkBlue mt-1 text text--fw-500">
       </form>
 
     </div>

@@ -1,0 +1,71 @@
+@use "../../globals.scss" as g;
+
+$text-secondary-title: (
+        color: g.$color-PrimaryFS,
+        font-size: (
+                null: 1.5rem,
+                g.$mQ-mobile: 1.6rem,
+                g.$mQ-tablet: 1.7rem,
+                g.$mQ-tablet-landscape: 1.8rem,
+                g.$mQ-desktopSmall: 1.9rem,
+                g.$mQ-desktop: 2.6rem,
+                g.$mQ-desktopLarge: 2.8rem,
+        ),
+);
+
+$text--section-title: (
+        margin: (
+                null: 0 0 .5rem 0,
+        ),
+        color: g.$color-SecondaryFS,
+        font-weight: 600,
+        font-size: (
+                null: .9rem,
+                g.$mQ-mobile: 1rem,
+                g.$mQ-tablet: 1.1rem,
+                g.$mQ-tablet-landscape: 1.3rem,
+                g.$mQ-desktopSmall: 1.4rem,
+                g.$mQ-desktop: 1.5rem,
+                g.$mQ-desktopLarge: 1.6rem,
+        ),
+);
+$text--section-values: (
+        margin: (
+                null: 0 0.3rem 0.3rem 0,
+        ),
+        color: g.$color-AlternativeFS,
+        font-size: (
+                null: 0.8rem,
+                g.$mQ-mobile: 0.9rem,
+                g.$mQ-tablet: 1rem,
+                g.$mQ-desktopSmall: 1.1rem,
+                g.$mQ-desktop: 1.2rem,
+                g.$mQ-desktopLarge: 1.3rem,
+        ),
+);
+$text--section-count: (
+        color: g.$color-SecondaryFS,
+        font-size:(
+                null: .8rem,
+                g.$mQ-mobile: .9rem,
+                g.$mQ-tablet: 1rem,
+        ),
+        border-bottom: 2px solid g.$color-DarkBlue,
+);
+
+.text {
+        &--secondary-title {
+                @include g.printStyles($text-secondary-title);
+        }
+        &--section-title {
+                @include g.printStyles($text--section-title);
+
+        }
+        &--section-value {
+                @include g.printStyles($text--section-values);
+        }
+        &--section-count {
+                @include g.printStyles($text--section-count)
+
+        }
+}

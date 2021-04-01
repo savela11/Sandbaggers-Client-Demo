@@ -154,6 +154,35 @@
   }
 }
 
+.pl {
+
+
+  &-0 {
+    padding-left: 0;
+  }
+
+  &-0l {
+    padding-left: .1rem;
+  }
+  &-02 {
+    padding-left: .2rem;
+  }
+  &-03 {
+    padding-left: .3rem;
+  }
+
+  &-04 {
+    padding-left: .4rem;
+  }
+
+  &-05 {
+    padding-left: .5rem;
+  }
+  &-1 {
+    padding-right: 1rem;
+  }
+}
+
 .py-md {
   &-0 {
     padding-top: 0;

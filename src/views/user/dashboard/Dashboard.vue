@@ -4,7 +4,7 @@
       <h1 class='app__text app__text--title'>Dashboard</h1>
     </div>
     <div class='dashboard__bg'></div>
-    <Modal v-if='selectedBet' class='selectedBet' @click='closeSelectedBetModal' v-bind='{ isHeader: false }'>
+    <Modal v-if='selectedBet' class='selectedBet' @click.prevent.stop='closeSelectedBetModal' v-bind='{ isHeader: false }'>
       <template v-slot:body>
         <div class='body'>
           <div class='body__header'>

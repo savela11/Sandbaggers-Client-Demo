@@ -6,8 +6,16 @@
       </div>
       <div class='landmark landmark--main'>
 
-        <div class='view view--registered' v-if='registeredUsers.length > 0'>
+        <div class='view view--registered'>
+          <div class='view__section view__section--captains'>
+            <h2 class='text text--section-title'>Captains</h2>
 
+            <div class='view__section__container'>
+
+            </div>
+
+
+          </div>
         </div>
 
 
@@ -21,8 +29,9 @@
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 import DraftManagerService from '@/services/Admin/DraftManagerService'
-import { RegisteredUserVm } from '@/types/ViewModels/Models/EventVm'
+import { RegisteredUserVm, TeamMemberVm, TeamVm } from '@/types/ViewModels/Models/EventVm'
 import UIHelper from '@/utility/UIHelper'
+import { DraftCaptainVM, DraftUserVm } from '@/types/ViewModels/Models/DraftVm'
 
 @Component({
   name: 'DraftManager',
@@ -34,20 +43,31 @@ import UIHelper from '@/utility/UIHelper'
 
 export default class DraftManager extends Vue {
   loading = true
+  draftId: number | null = null
   registeredUsers = [] as Array<RegisteredUserVm>
+  draftedUsers = [] as Array<DraftUserVm>
+  draftCaptains = [] as Array<DraftCaptainVM>
 
 
   mounted(): void {
     this.getRegisteredUsers()
   }
 
+
   async getRegisteredUsers(): Promise<void> {
     try {
       const res = await DraftManagerService.AdminDraftManagerData()
       if (res.status === 200) {
-        if (res.data.registeredUsers.length > 0 && res.data.teams.length > 0) {
+        console.log(res.data);
+        const errors = []
+        if(res.data.registeredUsers.length < 1) {
+          errors.push("No Registered Users for Event")
+        }
 
+        if (res.data.registeredUsers.length > 0 ) {
+          this.draftId = res.data.draftId
           this.registeredUsers = res.data.registeredUsers
+          this.draftedUsers = res.data.draftUsers;
           setTimeout(() => {
             this.loading = false
 
@@ -56,10 +76,10 @@ export default class DraftManager extends Vue {
 
           UIHelper.SnackBar({
             title: 'Error',
-            message: `No registered users or no teams created for event`,
+            message: ``,
             classInfo: `error`,
             isSnackBarShowing: true,
-            errors: undefined
+            errors: errors
           })
 
           setTimeout(() => {
@@ -89,7 +109,5 @@ export default class DraftManager extends Vue {
 </script>
 
 <style scoped lang='scss'>
-.DraftManager {
-
-}
+@use "~@/assets/styles/views/admin/_draftManager.scss";
 </style>

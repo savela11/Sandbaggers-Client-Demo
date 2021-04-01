@@ -1,5 +1,5 @@
 <template>
-  <div class='EventManager'>
+  <div class='eventManager'>
     <div v-if='!loading'>
       <div class='app__title-bar'>
         <h1 class='app__text app__text--title'>Event Manager</h1>
@@ -26,7 +26,7 @@
       <div class='eventList'>
         <div class='selectedEvent' v-if='selectedYear'>
           <div class='flex--xs flex--iCenter flex--between'>
-            <h2 class='selectedEvent__eventName'>{{ selectedYear.name }}</h2>
+            <h2 class='text text--secondary-title'>{{ selectedYear.name }}</h2>
             <IconBtn btn-text='Edit' :link-btn='true' :link='`/Admin/EditEvent/${selectedYear.eventId}`'>
               <template v-slot:svg>
                 <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -42,50 +42,46 @@
           <div class='selectedEvent__container'>
             <div class='flex--md'>
               <div class='section section--location'>
-                <h3 class='section__text--title'>Location</h3>
-                <p class='section__text--value'>{{ selectedYear.location.name }}</p>
+                <h3 class='text text--section-title'>Location</h3>
+                <p class='text text--section-value'>{{ selectedYear.location.name }}</p>
                 <div class='flex--xs flex--iCenter'>
-                  <p class='section__text--value'>{{ selectedYear.location.streetNumbers }}</p>
-                  <p class='section__text--value'>{{ selectedYear.location.streetName }}</p>
+                  <p class='text text--section-value'>{{ selectedYear.location.streetNumbers }}</p>
+                  <p class='text text--section-value'>{{ selectedYear.location.streetName }}</p>
                 </div>
                 <div class='flex--xs flex--iCenter'>
-                  <p class='section__text--value'>{{ selectedYear.location.city }}</p>
-                  <p class='section__text--value'>{{ selectedYear.location.postalCode }}</p>
+                  <p class='text text--section-value'>{{ selectedYear.location.city }}</p>
+                  <p class='text text--section-value'>{{ selectedYear.location.postalCode }}</p>
                 </div>
               </div>
               <div class='section section--registeredUsers'>
                 <div class='section__titleBar'>
-                  <h3 class='section__text--title section__text--title--registered'>Registered</h3>
+                  <h3 class='text text--section-title text text--section-title--registered'>Registered</h3>
                   <button class='section__btn-toggle' @click.prevent.stop='toggleViewRegisteredUsers(!showRegisteredUsers)'>
                     view
                     <span class='section__btn-circle'>{{ selectedYear.registeredUsers.length }}</span>
                   </button>
                 </div>
 
-                <PopUp class='popUp' v-if='showRegisteredUsers' :showPopUp='showPopUp' @click.prevent.stop='toggleViewRegisteredUsers(!showRegisteredUsers)'>
-                  <template v-slot:title>
-                    <h2 class='popUp__title'>Registered</h2>
+                <PopUp class='popUp' v-if='showRegisteredUsers' :is-footer='false' :showPopUp='showPopUp' :is-centered='true' @click.prevent.stop='toggleViewRegisteredUsers(!showRegisteredUsers)'>
+                  <template v-slot:header>
+                    <h2 class='popUp__text popUp__text--title'>Registered</h2>
                   </template>
-                  <template v-slot:content>
-                    <div class='popUp__content'>
-                      <div v-if='selectedYear.registeredUsers.length > 0' class='popUp__users'>
-                        <div v-for='(user, index) in selectedYear.registeredUsers' :key='user.id' class='popUp__user'>
-                          <p class='text-fullName'>
-                            <span class='text-number'>{{ index + 1 }}.</span> {{ user.fullName }}
-                          </p>
-                        </div>
-                      </div>
+                  <template v-slot:body>
+                      <ul v-if='selectedYear.registeredUsers.length > 0' class='popUp__list popUp__list--style-type-none pl-05 m-0'>
+                        <li v-for='(user, index) in selectedYear.registeredUsers' :key='user.id' class='popUp__list--item'>
+                            <span class='popUp__text popUp__text--number'>{{ index + 1 }}.</span> {{ user.fullName }}
+                        </li>
+                      </ul>
                       <div v-else>
                         <p class='text-notRegistered'>No Sandbaggers Registered</p>
                       </div>
-                    </div>
                   </template>
                 </PopUp>
               </div>
             </div>
             <div class='section section--teams'>
-              <h3 class='section__text--title'>
-                Teams <span class='section__text--count'>{{ selectedYear.teams.length }}</span>
+              <h3 class='text text--section-title'>
+                Teams <span class='text text--section-count'>{{ selectedYear.teams.length }}</span>
               </h3>
               <div class='section--teams__list'>
                 <div v-for='team in selectedYear.teams' :key='team.teamId' class='team'>

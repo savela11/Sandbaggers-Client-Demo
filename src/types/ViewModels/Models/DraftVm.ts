@@ -2,5 +2,9 @@ export interface DraftUserVm {
     id: string;
     fullName: string;
     bidAmount: number;
-    isCaptain: boolean;
+}
+export interface DraftCaptainVM {
+    id: string;
+    fullName: string;
+    Balance: number;
 }

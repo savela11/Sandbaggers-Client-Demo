@@ -1,76 +1,32 @@
 ﻿@use '../../globals' as g;
+@use './fonts.scss' as *;
 
-$-eventName: (
-        color: g.$color-PrimaryFS,
-        font-size: (
-                null: 1.5rem,
-                g.$mQ-mobile: 1.6rem,
-                g.$mQ-tablet: 1.7rem,
-                g.$mQ-tablet-landscape: 1.8rem,
-                g.$mQ-desktopSmall: 1.9rem,
-                g.$mQ-desktop: 2.6rem,
-                g.$mQ-desktopLarge: 2.8rem,
-        ),
-);
 
-.EventManager {
+
+.eventManager {
+
   .utility {
     display: flex;
     justify-content: space-between;
   }
 }
 
+
+
+
 .selectedEvent {
   padding: 1rem 0;
 
-  &__eventName {
-    @include g.printStyles($-eventName);
-  }
+
 
   &__container {
     padding: .5rem;
   }
 }
 
-$-sectionTitle: (
-        margin: (
-                null: 0 0 .5rem 0,
-        ),
-        color: g.$color-SecondaryFS,
-        font-weight: 600,
-        font-size: (
-                null: .9rem,
-                g.$mQ-mobile: 1rem,
-                g.$mQ-tablet: 1.1rem,
-                g.$mQ-tablet-landscape: 1.3rem,
-                g.$mQ-desktopSmall: 1.4rem,
-                g.$mQ-desktop: 1.5rem,
-                g.$mQ-desktopLarge: 1.6rem,
-        ),
-);
-$-sectionValues: (
-        margin: (
-                null: 0 0.3rem 0.3rem 0,
-        ),
-        color: g.$color-AlternativeFS,
-        font-size: (
-                null: 0.8rem,
-                g.$mQ-mobile: 0.9rem,
-                g.$mQ-tablet: 1rem,
-                g.$mQ-desktopSmall: 1.1rem,
-                g.$mQ-desktop: 1.2rem,
-                g.$mQ-desktopLarge: 1.3rem,
-        ),
-);
-$-text--count: (
-        color: g.$color-SecondaryFS,
-        font-size:(
-                null: .8rem,
-                g.$mQ-mobile: .9rem,
-                g.$mQ-tablet: 1rem,
-        ),
-        border-bottom: 2px solid g.$color-DarkBlue,
-);
+
+
+
 $-btnToggle: (
         font-size: (
                 null: .8rem
@@ -96,22 +52,6 @@ $-btnToggle: (
     justify-content: space-between;
   }
 
-  &__text {
-    &--title {
-      @include g.printStyles($-sectionTitle);
-
-    }
-
-    &--value {
-      @include g.printStyles($-sectionValues);
-    }
-
-    &--count {
-      @include g.printStyles($-text--count)
-
-    }
-
-  }
 
   &__btn {
 
@@ -225,56 +165,6 @@ $-btnToggle: (
           }
         }
       }
-    }
-  }
-}
-
-$-user-fullName: (
-        margin: (
-                null: 0,
-        ),
-        color: g.$color-AlternativeFS,
-        font-size: (
-                null: 0.8rem,
-                g.$mQ-mobile: 0.9rem,
-                g.$mQ-tablet: 1rem,
-                g.$mQ-tablet-landscape: 1.1rem,
-                g.$mQ-desktopSmall: 1.2rem,
-                g.$mQ-desktop: 1.3rem,
-                g.$mQ-desktopLarge: 1.4rem,
-        ),
-);
-.popUp {
-  &__title {
-    margin: 0;
-    font-size: 1.2rem;
-  }
-
-  &__content {
-    padding: .8rem 0;
-  }
-
-  &__users {
-
-  }
-
-  &__user {
-
-  }
-
-  .text {
-    &-fullName {
-      @include g.printStyles($-user-fullName);
-    }
-
-    &-number {
-      font-weight: bold;
-      margin-right: .5rem;
-    }
-
-    &-notRegistered {
-      white-space: nowrap;
-      @include g.printStyles($-user-fullName);
     }
   }
 }

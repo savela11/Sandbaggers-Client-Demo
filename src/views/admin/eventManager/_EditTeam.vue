@@ -1,17 +1,21 @@
 ﻿<template>
   <div class='teams'>
-    <BootstrapModal :centered='true' v-show='modalShowing'>
+    <PopUp class='popUp' v-if='isPopUpShowing' :showPopUp='isPopUpShowing' @click.prevent.stop='togglePopUp(false)'>
       <template v-slot:header>
-        <h5 class='modal-title' id='staticBackdropLabel'>Confirm</h5>
+        <h2 class='popUp__text popUp__text--title'>Confirm</h2>
       </template>
       <template v-slot:body>
-        <p>Are you sure you want to delete this team?</p>
+        <p class='popUp__text popUp__text--para'>Are you sure you want to delete this team?</p>
       </template>
       <template v-slot:footer>
-        <button type='button' class='btn btn-danger' data-bs-dismiss='modal'>No</button>
-        <button type='button' class='btn btn-primary' @click.prevent.stop='deleteTeam'>Yes</button>
+
+        <div class='flex--xs flex--end'>
+          <button class='btn btn--sm btn--danger mr-1' @click.prevent.stop='togglePopUp(false)'>No</button>
+          <button class='btn btn--sm btn--success' @click.prevent.stop='deleteTeam'>Yes</button>
+        </div>
       </template>
-    </BootstrapModal>
+    </PopUp>
+
 
     <div v-if='!loading'>
       <div class='flex--xs' :class="['flex--end']">
@@ -75,7 +79,7 @@
               </div>
               <SelectBoxComponent
                   :selected='editTeam.captain.fullName'
-                  :options='captainListFromRegisteredUsers'
+                  :options='captainListFromTeamMembers'
                   :showSelectOptions='showCaptainOptions'
                   option-value='fullName'
                   @click.prevent.stop='toggleSelectCaptainBox'
@@ -105,9 +109,31 @@
               </div>
             </div>
           </div>
-          <div class='d-flex justify-content-between align-items-center'>
-            <button @click.prevent.stop='updateTeams' class='btn btn-sm my-1 btn-secondary'>Update</button>
-            <button v-if='editTeam.teamMembers.length === 0' type='button' class='btn btn-sm btn-danger' data-bs-toggle='modal' data-bs-target='#modal'>Delete Team</button>
+
+          <div class='editTeam__members section'>
+            <p class='editTeam__members__title text--title'>
+              Available: <span class='text--count'>{{ registeredUsersNotOnTeam.length }}</span>
+            </p>
+
+            <div v-for='member in registeredUsersNotOnTeam' :key='member.id' class='editTeam__member'>
+              <div class='editTeam__member__container flex--xs flex--iCenter flex--between'>
+                <p class='editTeam__member__text--fullName'>{{ member.fullName }}</p>
+                <IconBtn @click.prevent.stop='addUserToTeam(member)'>
+                  <template v-slot:svg>
+                    <svg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                      <path
+                          d='M12.5 0C5.6 0 0 5.6 0 12.5C0 19.4 5.6 25 12.5 25C19.4 25 25 19.4 25 12.5C25 5.6 19.4 0 12.5 0ZM18.75 13.75H13.75V18.75H11.25V13.75H6.25V11.25H11.25V6.25H13.75V11.25H18.75V13.75Z'
+                          fill='#167230'
+                      />
+                    </svg>
+                  </template>
+                </IconBtn>
+              </div>
+            </div>
+          </div>
+          <div class='d-flex justify-content-between align-items-center my-2'>
+            <button @click.prevent.stop='updateTeams' class='btn btn--xs mr-1 btn--secondary'>Update</button>
+            <button v-if='editTeam.teamMembers.length === 0' type='button' class='btn btn--xs btn--danger' @click.prevent.stop='togglePopUp(true)'>Delete Team</button>
           </div>
         </div>
       </div>
@@ -120,6 +146,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { RegisteredUserVm, TeamMemberVm, TeamVm } from '@/types/ViewModels/Models/EventVm'
 import { RemoveTeamFromEventDto, RemoveUserFromTeamDto } from '@/types/DTO/TeamDto'
 import TeamManagerService from '@/services/Admin/TeamManagerService'
+import UIHelper from '@/utility/UIHelper'
 
 
 @Component({
@@ -129,7 +156,7 @@ import TeamManagerService from '@/services/Admin/TeamManagerService'
     InputField: (): Promise<typeof import('*.vue')> => import('@/components/ui/InputField.vue'),
     IconBtn: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/IconBtn.vue'),
     SelectBoxComponent: (): Promise<typeof import('*.vue')> => import('@/components/ui/SelectBoxComponent.vue'),
-    BootstrapModal: (): Promise<typeof import('*.vue')> => import('@/components/ui/Modals/BootstrapModal.vue')
+    PopUp: (): Promise<typeof import('*.vue')> => import('@/components/ui/PopUp.vue')
   }
 })
 export default class EditTeam extends Vue {
@@ -138,7 +165,7 @@ export default class EditTeam extends Vue {
   @Prop() registeredUsers!: Array<RegisteredUserVm>
   @Prop() loading!: boolean
   editTeam: null | TeamVm = null
-  modalShowing = false
+  isPopUpShowing = false
 
 
   async deleteTeam(): Promise<void> {
@@ -152,10 +179,11 @@ export default class EditTeam extends Vue {
         const res = await TeamManagerService.RemoveTeamFromEvent(removeTeamFromEvent)
         console.log(res)
         if (res.status === 200) {
+          const teamIndex = this.teams.findIndex(t => t.teamId === removeTeamFromEvent.teamId)
 
-          console.log(modal)
-          // const myModal = document.getElementById('modal') as HTMLElement
-          // myModal.style.display = 'none'
+          if (teamIndex !== -1) {
+            this.teams.splice(teamIndex, 1)
+          }
         }
 
       } catch (e) {
@@ -166,16 +194,54 @@ export default class EditTeam extends Vue {
 
   }
 
+  togglePopUp(status: boolean): void {
+    this.isPopUpShowing = status
+    if (status) {
+      document.body.style.position = 'fixed'
+    } else {
+      document.body.style.position = 'static'
+    }
+  }
 
-  get captainListFromRegisteredUsers(): Array<RegisteredUserVm> {
-    return this.registeredUsers.filter((u) => {
-      const foundIndex = this.teams.findIndex((t) => t.captain.id === u.id)
-      if (foundIndex === -1) {
-        return u
-      } else {
-        return
-      }
-    })
+  get captainListFromTeamMembers(): Array<TeamMemberVm> {
+    if (this.editTeam) {
+      return this.editTeam.teamMembers.filter((u) => {
+        const foundIndex = this.teams.findIndex((t) => t.captain.id === u.id)
+        if (foundIndex === -1) {
+          return u
+        } else {
+          return
+        }
+      })
+    } else {
+      return []
+    }
+
+  }
+
+
+  get registeredUsersNotOnTeam(): Array<TeamMemberVm> {
+    if (this.editTeam) {
+      let registered = this.registeredUsers.filter((u) => {
+        return !this.editTeam?.teamMembers.find(({ id }) => u.id === id)
+      })
+      this.teams.forEach(team => {
+        team.teamMembers.forEach(teamMember => {
+
+          const registeredIndex = registered.findIndex(r => r.id == teamMember.id)
+          if (registeredIndex !== -1) {
+            registered.splice(registeredIndex, 1)
+          }
+        })
+      })
+      this.editTeam.teamMembers
+      return registered
+
+
+    } else {
+      return []
+    }
+
   }
 
   toggleSelectCaptainBox(): void {
@@ -205,6 +271,16 @@ export default class EditTeam extends Vue {
     this.$emit('add-team')
   }
 
+  addUserToTeam(member: TeamMemberVm): void {
+
+    if (!this.editTeam) {
+      return
+    }
+
+
+    this.editTeam.teamMembers.push(member)
+  }
+
   removeUserFromTeam(teamMemberId: string): void {
     if (!this.editTeam) {
       return
@@ -220,12 +296,13 @@ export default class EditTeam extends Vue {
     this.$emit('update-teams', this.teams)
   }
 
-  removeCaptain(teamId: number): void {
+  async removeCaptain(teamId: number): Promise<void> {
     if (!teamId) {
       return
     }
-
     this.$emit('remove-captain', teamId)
+
+
   }
 }
 </script>

@@ -1,4 +1,5 @@
 export interface RemoveTeamCaptainDto {
+    eventId: number
     teamId: number;
     captainId: string;
 }

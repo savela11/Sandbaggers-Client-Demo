@@ -27,7 +27,7 @@
               </div>
             </div>
 
-            <input type='submit' value='Update' class='btn px-4  btn-secondary my-1' />
+            <input type='submit' value='Update' class='btn btn--secondary btn--md my-1' />
           </form>
         </div>
         <div v-if="currentView === 'registration'" class='view registration'>
@@ -124,7 +124,7 @@
                 </div>
               </div>
             </div>
-            <button class='btn btn--sm my-1 btn--bg-darkBlue' @click.prevent.stop="addItinerary('save')">Update</button>
+            <button class='btn btn--sm my-1 btn--darkBlue' @click.prevent.stop="addItinerary('save')">Update</button>
           </div>
           <div class='itineraries' v-else-if='!isAddingItineraries && Event.itineraries.length > 0'>
             <div class='flex--md flex-wrap'>
@@ -207,7 +207,7 @@
               </InputField>
             </div>
 
-            <input type='submit' value='Update' class='btn btn--sm my-1 btn--bg-darkBlue' />
+            <input type='submit' value='Update' class='btn btn--sm my-1 btn--darkBlue' />
           </form>
         </div>
       </div>
@@ -301,13 +301,13 @@ export default class EditEvent extends Vue {
     this.Event.teams[teamIndex].captain.id = ''
     this.Event.teams[teamIndex].captain.image = ''
 
-    UIHelper.SnackBar({
-      title: 'Success',
-      message: `Team Captain Removed`,
-      classInfo: `primary`,
-      isSnackBarShowing: true,
-      errors: undefined
-    })
+    // UIHelper.SnackBar({
+    //   title: 'Success',
+    //   message: `Team Captain Removed`,
+    //   classInfo: `primary`,
+    //   isSnackBarShowing: true,
+    //   errors: undefined
+    // })
 
 
   }

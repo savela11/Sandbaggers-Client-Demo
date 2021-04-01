@@ -15,7 +15,7 @@
           </template>
         </InputField>
 
-        <input type="submit" class="btn submit btn--bg-darkBlue btn--sm" id="loginBTN" value="Login" />
+        <input type="submit" class="btn submit btn--darkBlue btn--md" id="loginBTN" value="Login" />
       </form>
     </div>
     <div class="greyLinks" v-if="!loading">

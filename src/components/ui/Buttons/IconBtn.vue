@@ -1,6 +1,6 @@
 <template>
     <div class="IconBtn" :class="[{ 'flex--xs flex--column flex--iCenter': btnText }]">
-        <button v-on="$listeners" v-if="!linkBtn" :class="className">
+        <button v-on="$listeners" v-if="!linkBtn" :class="className" class='btn'>
             <slot name="svg">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -17,7 +17,7 @@
             </slot>
         </button>
 
-        <router-link v-else :to="link">
+        <router-link v-else :to="link" class='btn'>
             <slot name="svg">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
