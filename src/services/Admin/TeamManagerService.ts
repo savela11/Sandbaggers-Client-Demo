@@ -1,7 +1,7 @@
 import apiClient from '../../utility/apiClient'
 import { AxiosResponse } from 'axios'
 import { TeamVm } from '@/types/ViewModels/Models/EventVm'
-import { RemoveTeamCaptainDto, RemoveTeamFromEventDto } from '@/types/DTO/TeamDto'
+import { AddOrRemoveTeamCaptainDto,  RemoveTeamFromEventDto } from '@/types/DTO/TeamDto'
 
 const url = 'ADMIN/TeamManager'
 
@@ -18,8 +18,12 @@ class TeamManagerService {
         return await apiClient.post(`${url}/RemoveTeamFromEvent`, removeTeamFromEvent)
     }
 
-    static async RemoveTeamCaptain(removeTeamCaptainDto: RemoveTeamCaptainDto): Promise<AxiosResponse> {
+    static async RemoveTeamCaptain(removeTeamCaptainDto: AddOrRemoveTeamCaptainDto): Promise<AxiosResponse> {
         return await apiClient.post(`${url}/RemoveTeamCaptain`, removeTeamCaptainDto)
+    }
+
+    static async AddTeamCaptain(addRemoveTeamCaptainDto: AddOrRemoveTeamCaptainDto) {
+        return await apiClient.post(`${url}/AddTeamCaptain`, addRemoveTeamCaptainDto)
     }
 }
 

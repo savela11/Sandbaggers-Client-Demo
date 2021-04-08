@@ -49,7 +49,7 @@
                     <input type="text" id="registrationCode" v-model.trim="registerForm.registrationCode" />
                 </template>
             </InputField>
-            <input type="submit" value="Register" class="btn submit btn--darkBlue btn--md " id="registerBtn" />
+            <input type="submit" value="Register" class="btn submit btn--darkBlue btn--md" id="registerBtn" />
         </form>
         <div class="greyLinks" v-if="!loading">
             <p class="text text--xs color--grey">

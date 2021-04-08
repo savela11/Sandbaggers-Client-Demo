@@ -27,7 +27,7 @@
               </div>
             </div>
 
-            <input type='submit' value='Update' class='btn btn--secondary btn--md my-1' />
+            <input type='submit' value='Update' class='btn btn--secondary btn--sm my-1' />
           </form>
         </div>
         <div v-if="currentView === 'registration'" class='view registration'>
@@ -367,13 +367,27 @@ export default class EditEvent extends Vue {
     } catch (e) {
       console.log(e)
       this.loading = false
-      UIHelper.SnackBar({
-        title: 'Error',
-        message: `Not able to update teams`,
-        classInfo: `error`,
-        isSnackBarShowing: true,
-        errors: undefined
-      })
+      if (e.data && e.data.message) {
+
+        UIHelper.SnackBar({
+          title: 'Error',
+          message: `${e.data.message}`,
+          classInfo: `error`,
+          isSnackBarShowing: true,
+          errors: undefined
+        })
+      } else {
+        UIHelper.SnackBar({
+          title: 'Error',
+          message: `Not able to update teams`,
+          classInfo: `error`,
+          isSnackBarShowing: true,
+          errors: undefined
+        })
+      }
+      setTimeout(() => {
+        this.$router.go(0);
+      }, 2000)
     }
   }
 

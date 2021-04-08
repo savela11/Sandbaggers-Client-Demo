@@ -75,7 +75,8 @@
             <div class='flex--xs flex--iCenter flex--between flex--noWrap'>
               <div class='flex--xs flex--column'>
                 <p class='editTeam__captain__title text--title'>Captain:</p>
-                <button v-if='editTeam.captain.id' class='editTeam__btn-remove-captain' @click.prevent.stop='removeCaptain(editTeam.teamId)'>Remove</button>
+                <button v-if='editTeam.captain.id && !isAddingCaptain' class='editTeam__btn editTeam__btn--remove-captain' @click.prevent.stop='addRemoveCaptain("remove")'>Remove</button>
+                <button v-if='isAddingCaptain' class='editTeam__btn editTeam__btn--add-captain' @click.prevent.stop="addRemoveCaptain('add')">Add</button>
               </div>
               <SelectBoxComponent
                   :selected='editTeam.captain.fullName'
@@ -144,7 +145,11 @@
 <script lang='ts'>
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { RegisteredUserVm, TeamMemberVm, TeamVm } from '@/types/ViewModels/Models/EventVm'
-import { RemoveTeamFromEventDto, RemoveUserFromTeamDto } from '@/types/DTO/TeamDto'
+import {
+  AddOrRemoveTeamCaptainDto,
+  RemoveTeamFromEventDto,
+  RemoveUserFromTeamDto
+} from '@/types/DTO/TeamDto'
 import TeamManagerService from '@/services/Admin/TeamManagerService'
 import UIHelper from '@/utility/UIHelper'
 
@@ -166,6 +171,7 @@ export default class EditTeam extends Vue {
   @Prop() loading!: boolean
   editTeam: null | TeamVm = null
   isPopUpShowing = false
+  isAddingCaptain = false
 
 
   async deleteTeam(): Promise<void> {
@@ -219,7 +225,6 @@ export default class EditTeam extends Vue {
 
   }
 
-
   get registeredUsersNotOnTeam(): Array<TeamMemberVm> {
     if (this.editTeam) {
       let registered = this.registeredUsers.filter((u) => {
@@ -262,6 +267,7 @@ export default class EditTeam extends Vue {
       this.editTeam.captain.id = option.id
       this.editTeam.captain.image = option.image
       this.$emit('show-captain-options', false)
+      this.isAddingCaptain = true
     } else {
       return
     }
@@ -296,12 +302,68 @@ export default class EditTeam extends Vue {
     this.$emit('update-teams', this.teams)
   }
 
-  async removeCaptain(teamId: number): Promise<void> {
-    if (!teamId) {
+  async removeCaptain(): Promise<void> {
+    if (!this.editTeam) {
       return
     }
-    this.$emit('remove-captain', teamId)
 
+  }
+
+  async addRemoveCaptain(addOrRemove: string): Promise<void> {
+
+    if (!this.editTeam) {
+      return
+    }
+
+    const addRemoveTeamCaptainDto: AddOrRemoveTeamCaptainDto = {
+      captainId: this.editTeam?.captain.id, eventId: this.editTeam?.eventId, teamId: this.editTeam?.teamId
+    }
+    if (addOrRemove === 'remove') {
+
+      try {
+        const {status, data} = await TeamManagerService.RemoveTeamCaptain(addRemoveTeamCaptainDto)
+
+        if (status === 200) {
+
+          this.$emit('remove-captain', addRemoveTeamCaptainDto.teamId)
+          UIHelper.SnackBar({
+            title: 'Success',
+            message: `${data}`,
+            classInfo: `primary`,
+            isSnackBarShowing: true,
+            errors: undefined
+          })
+        }
+
+      } catch (e) {
+        console.log(e)
+
+      }
+
+    } else {
+
+      try {
+        const { status, data } = await TeamManagerService.AddTeamCaptain(addRemoveTeamCaptainDto)
+        if (status === 200) {
+          console.log(data)
+          UIHelper.SnackBar({
+            title: 'Success',
+            message: `${data.fullName} has been added as Captain`,
+            classInfo: `primary`,
+            isSnackBarShowing: true,
+            errors: undefined
+          })
+
+          this.isAddingCaptain = false
+
+
+        }
+
+      } catch (e) {
+        console.log(e)
+
+      }
+    }
 
   }
 }

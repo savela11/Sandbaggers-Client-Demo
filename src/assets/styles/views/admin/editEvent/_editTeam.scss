@@ -31,6 +31,10 @@ $-team__container: (
         'position': relative,
         'border': 1px solid g.$color-DarkBlue,
         'border-radius': 5px,
+        min-height: (
+                g.$mQ-tablet: 200px,
+                g.$mQ-desktopSmall: 250px,
+        )
 );
 
 $-team__name: (
@@ -96,6 +100,14 @@ $-team__members: (
       position: absolute;
       top: 0.5rem;
       right: 0.5rem;
+      @include g.desktop {
+        right: 1rem;
+        top: 1rem;
+      }
+      @include g.desktopLarge {
+        right: 1.5rem;
+        top: 1.5rem;
+      }
     }
   }
 
@@ -139,13 +151,19 @@ $-team__members: (
 
     }
 
-    &__btn-remove-captain {
-      background-color: g.$color-Crimson;
+    &__btn {
       color: white;
       font-size: .8rem;
       padding: .3rem;
       border: none;
       border-radius: 3px;
+      &--remove-captain {
+        background-color: g.$color-Crimson;
+      }
+
+      &--add-captain {
+        background-color: g.$color-success;
+      }
     }
   }
 }

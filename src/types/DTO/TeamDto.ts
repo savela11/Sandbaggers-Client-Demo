@@ -1,4 +1,4 @@
-export interface RemoveTeamCaptainDto {
+export interface AddOrRemoveTeamCaptainDto {
     eventId: number
     teamId: number;
     captainId: string;
