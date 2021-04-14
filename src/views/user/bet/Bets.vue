@@ -65,7 +65,7 @@
           </div>
         </div>
       </div>
-      <PaginationBtns v-if='filterBets.length > 0' :items-count='filterBets' :size='size' :page-number='pageNumber' @change-page='changePage' />
+      <PaginationBtns v-if='filterBets.length > 0' :items-count='betCount' :size='size' :page-number='pageNumber' @change-page='changePage' />
 <!--      <div class='prevNextButtons' v-if='filterBets.length > 0'>-->
 <!--        <button v-on:click="changePage('previous')" :disabled='pageNumber === 0'>Previous</button>-->
 <!--        <button v-on:click="changePage('next')" :disabled='pageNumber >= betCount - 1'>Next</button>-->

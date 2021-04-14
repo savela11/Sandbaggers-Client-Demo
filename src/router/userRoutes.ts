@@ -77,7 +77,7 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("event/Events"),
     meta: {
-      layout: AuthLayout
+      layout: AuthLayoutNoHeaderAlt
     }
 
   },
@@ -87,7 +87,7 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("event/Event"),
     meta: {
-      layout: AuthLayout
+      layout: AuthLayoutNoHeaderAlt
     }
   },
   {
@@ -117,7 +117,7 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("bet/MyBets"),
     meta: {
-      layout: AuthLayout,
+      layout: AuthLayoutNoHeaderAlt,
       backBtn: true
     }
 
@@ -129,7 +129,7 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("bet/MyBet"),
     meta: {
-      layout: AuthLayout,
+      layout: AuthLayoutNoHeaderAlt,
       backBtn: true
     }
   },
@@ -139,7 +139,7 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("bet/AddBet"),
     meta: {
-      layout: AuthLayout
+      layout: AuthLayoutNoHeaderAlt
     }
 
   },
@@ -149,7 +149,7 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("idea/Ideas"),
     meta: {
-      layout: AuthLayout
+      layout: AuthLayoutNoHeaderAlt
     }
   },
   {
@@ -158,7 +158,7 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("idea/EditIdea"),
     meta: {
-      layout: AuthLayout
+      layout: AuthLayoutNoHeaderAlt
     }
   },
    {
@@ -167,7 +167,7 @@ export default  [
         beforeEnter: guardRoute,
         component: loadView("idea/AddIdea"),
         meta: {
-            layout: AuthLayout
+            layout: AuthLayoutNoHeaderAlt
         }
     },
   {
@@ -185,7 +185,7 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("mockDraft/MockDrafts"),
     meta: {
-      layout: AuthLayout
+      layout: AuthLayoutNoHeaderAlt
     }
 
   },
@@ -213,7 +213,7 @@ export default  [
     beforeEnter: guardRoute,
     component: loadView("contact/Contacts"),
     meta: {
-      layout: AuthLayout
+      layout: AuthLayoutNoHeaderAlt
     }
   }
 ];

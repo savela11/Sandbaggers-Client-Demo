@@ -1,16 +1,21 @@
 ﻿<template>
   <div class="ideas">
+    <div class='app__title-bar'>
+      <h1 class='app__text app__text--title'>Ideas</h1>
+    </div>
+    <div class='flex flex--xs flex--end'>
+      <IconBtn btn-text="Add" :link-btn="true" link="/ideas/AddIdea">
+        <template v-slot:svg>
+          <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M3.125 17.9688V21.875H7.03125L18.5521 10.3542L14.6458 6.44792L3.125 17.9688ZM21.5729 7.33334C21.9792 6.92709 21.9792 6.27084 21.5729 5.86459L19.1354 3.42709C18.7292 3.02084 18.0729 3.02084 17.6667 3.42709L15.7604 5.33334L19.6667 9.23959L21.5729 7.33334V7.33334Z"
+                fill="#17252A"
+            />
+          </svg>
+        </template>
+      </IconBtn>
+    </div>
 
-    <IconBtn btn-text="Add" :link-btn="true" link="/ideas/AddIdea">
-      <template v-slot:svg>
-        <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-              d="M3.125 17.9688V21.875H7.03125L18.5521 10.3542L14.6458 6.44792L3.125 17.9688ZM21.5729 7.33334C21.9792 6.92709 21.9792 6.27084 21.5729 5.86459L19.1354 3.42709C18.7292 3.02084 18.0729 3.02084 17.6667 3.42709L15.7604 5.33334L19.6667 9.23959L21.5729 7.33334V7.33334Z"
-              fill="#17252A"
-          />
-        </svg>
-      </template>
-    </IconBtn>
 
     <div class="ideas__list">
       <div class="idea" v-for="idea in paginatedIdeas" :key="idea.id" :class="{ autoHeight: showDescriptionById === idea.id }">
@@ -33,10 +38,11 @@
           </div>
         </div>
       </div>
-      <div class="prevNextButtons" v-if="paginatedIdeas.length > 0">
-        <button v-on:click="changePage('previous')" :disabled="pageNumber === 0">Previous</button>
-        <button v-on:click="changePage('next')" :disabled="pageNumber >= ideaCount - 1">Next</button>
-      </div>
+      <PaginationBtns v-if='filterIdeas.length > 0' :items-count='ideaCount' :size='size' :page-number='pageNumber' @change-page='changePage' />
+<!--      <div class="prevNextButtons" v-if="paginatedIdeas.length > 0">-->
+<!--        <button v-on:click="changePage('previous')" :disabled="pageNumber === 0">Previous</button>-->
+<!--        <button v-on:click="changePage('next')" :disabled="pageNumber >= ideaCount - 1">Next</button>-->
+<!--      </div>-->
     </div>
   </div>
 </template>
@@ -56,6 +62,7 @@ import {IdeaVm} from "@/types/ViewModels/Models/IdeaVm";
     Loading: (): Promise<typeof import("*.vue")> => import("@/components/ui/Loading.vue"),
     InputField: (): Promise<typeof import("*.vue")> => import("@/components/ui/InputField.vue"),
     IconBtn: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/IconBtn.vue'),
+    PaginationBtns: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/PaginationBtns.vue')
   },
   mixins: [FormatMixins]
 })
@@ -74,7 +81,6 @@ export default class Ideas extends Vue {
   editIdea(ideaId: number): void {
     this.editIdeaID = ideaId;
   }
-
   // Idea pagination
   size = 10;
   pageNumber = 0;
