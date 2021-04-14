@@ -12,13 +12,13 @@
               <input type="text" id="title" v-model.trim="Idea.title" />
             </template>
           </InputField>
-          <InputField :isActive="Idea.description !== ''">
+          <InputField :isActive="Idea.description !== ''" class-name='textArea'>
             <template v-slot:field>
               <label for="description">Description</label>
               <textarea type="text" id="description" v-model.trim="Idea.description"></textarea>
             </template>
           </InputField>
-          <input type="submit" class="btn btn--sm text text--sm btn--border-darkGreen" value="Update" />
+          <input type="submit" class="btn btn--sm text text--sm btn--secondary my-1" value="Update" />
         </form>
       </div>
     </div>
