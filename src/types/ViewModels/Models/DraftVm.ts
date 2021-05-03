@@ -6,5 +6,6 @@ export interface DraftUserVm {
 export interface DraftCaptainVM {
     id: string;
     fullName: string;
+    teamName: string;
     Balance: number;
 }

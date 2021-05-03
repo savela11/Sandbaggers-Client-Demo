@@ -1,23 +1,35 @@
 <template>
-  <div class='DraftManager'>
+  <div class='draftManager'>
     <div v-if='!loading'>
       <div class='app__title-bar'>
         <h1 class='app__text app__text--title '>Draft Manager</h1>
       </div>
       <div class='landmark landmark--main'>
-
-        <div class='view view--registered'>
-          <div class='view__section view__section--captains'>
-            <h2 class='text text--section-title'>Captains</h2>
-
-            <div class='view__section__container'>
-
+        <div class='section section--captains'>
+          <h2 class='text text--section-title'>Captains:</h2>
+          <div class='captain-list'>
+            <div class='captain' v-for='captain in draftCaptains' :key='captain.id'>
+              <div class='captain__container'>
+                <div class='captain__container__section captain__container__section--top'>
+                  <p class='text text--team-name'>Team {{ captain.teamName }}</p>
+                  <p class='text text--captain'>{{ captain.fullName }}</p>
+                </div>
+                <div class='captain__container__section captain__container__section--bottom'>
+                  <button class='btn btn--secondary btn--view-team'>View Team</button>
+                </div>
+              </div>
             </div>
-
-
           </div>
         </div>
 
+        <div class='section section--registered'>
+          <h2 class='text text--section-title'>Available:</h2>
+          <div class='registered-list'>
+            <div class='registered' v-for='user in registeredUsers' :key='user.id'>
+              <p>{{ user.fullName }}</p>
+            </div>
+          </div>
+        </div>
 
       </div>
 
@@ -29,7 +41,7 @@
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 import DraftManagerService from '@/services/Admin/DraftManagerService'
-import { RegisteredUserVm, TeamMemberVm, TeamVm } from '@/types/ViewModels/Models/EventVm'
+import { RegisteredUserVm } from '@/types/ViewModels/Models/EventVm'
 import UIHelper from '@/utility/UIHelper'
 import { DraftCaptainVM, DraftUserVm } from '@/types/ViewModels/Models/DraftVm'
 
@@ -58,16 +70,17 @@ export default class DraftManager extends Vue {
     try {
       const res = await DraftManagerService.AdminDraftManagerData()
       if (res.status === 200) {
-        console.log(res.data);
+        console.log(res.data)
         const errors = []
-        if(res.data.registeredUsers.length < 1) {
-          errors.push("No Registered Users for Event")
+        if (res.data.registeredUsers.length < 1) {
+          errors.push('No Registered Users for Event')
         }
 
-        if (res.data.registeredUsers.length > 0 ) {
+        if (res.data.registeredUsers.length > 0) {
           this.draftId = res.data.draftId
           this.registeredUsers = res.data.registeredUsers
-          this.draftedUsers = res.data.draftUsers;
+          this.draftedUsers = res.data.draftUsers
+          this.draftCaptains = res.data.draftCaptains
           setTimeout(() => {
             this.loading = false
 

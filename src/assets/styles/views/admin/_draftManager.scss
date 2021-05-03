@@ -1,2 +1,80 @@
 @use '../../globals' as g;
 @use './fonts.scss' as *;
+
+
+.draftManager {
+
+  .text {
+    &--team-name {
+      margin: 0 0 .5rem 0;
+      font-weight: bold;
+    }
+
+    &--captain {
+      margin: 0;
+      font-size: .9rem;
+      font-weight: 500;
+      color: g.$color-PrimaryFS;
+      text-align: center;
+
+    }
+  }
+
+  .btn {
+    border: none;
+
+    &--view-team {
+      font-size: .7rem;
+      border: none;
+      padding: .2rem .5rem;
+    }
+  }
+}
+
+.section {
+  margin-bottom: 1rem;
+
+  &--captains {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.captain-list {
+  display: inline;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 0 2rem 1rem .5rem;
+}
+
+.captain {
+  display: inline-block;
+  padding: .5rem;
+
+  &__container {
+    border-radius: 5px;
+    padding: 1rem;
+    box-shadow: 0 3px 3px lightgrey;
+    min-height: 100px;
+    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &__section {
+      display: flex;
+
+      &--top {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      &--bottom {
+        justify-content: flex-end;
+      }
+    }
+  }
+}
