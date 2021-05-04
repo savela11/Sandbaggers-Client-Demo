@@ -1,16 +1,10 @@
 ﻿@use '../../globals' as g;
+
 $--noBetsFoundFS: (
         null: 1rem,
         g.$mQ-mobile: 1.2rem,
 );
-$--betTitleFS: (
-        null: 0.9rem,
-        g.$mQ-mobile: 1rem,
-);
-$--betCreatedByFS: (
-        null: 0.7rem,
-        g.$mQ-tablet: 0.8rem,
-);
+
 
 $--viewBetBtnFS: (
         null: 0.8rem,
@@ -22,43 +16,93 @@ $--viewBetBtnFS: (
   }
 }
 
-.betList {
+.bet-list {
   @include g.tablet {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    grid-auto-rows: 160px;
+    display: flex;
+    flex-wrap: wrap;
+
+  }
+  @include g.tablet-landscape {
+  }
+  @include g.desktopSmall {
+  }
+  @include g.desktopLarge {
   }
 }
 
 .bet {
-  padding: 0.8rem;
-  border-radius: 5px;
-  border-left: 5px solid #425a41;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   overflow: hidden;
-  margin-bottom: 1rem;
-
+  padding: .5rem;
   @include g.tablet {
-    margin: 0;
-    height: auto;
+    flex: 0 1 50%;
+  }
+  @include g.tablet-landscape {
+    flex: 0 1 33%;
   }
 
-  h3 {
-    color: g.$color-DarkBlue;
-    @include g.font-size($--betTitleFS);
-    white-space: nowrap;
+  @include g.desktopLarge {
+    flex: 0 1 25%;
+  }
+
+  &__container {
+    height: 100%;
     overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 0.5rem;
+    padding: 0.8rem;
+    border-radius: 5px;
+    border-left: 5px solid #425a41;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    @include g.desktopSmall {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem;
+    }
+    @include g.desktopLarge {
+      padding: 1.2rem;
+    }
   }
 
-  p {
-    color: grey;
-    @include g.font-size($--betCreatedByFS);
+  &__text {
+    margin: 0;
+
+    &--title {
+      color: g.$color-DarkBlue;
+      font-size: .9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 0.5rem;
+      @include g.mobile {
+        font-size: 1rem;
+      }
+      @include g.desktopSmall {
+        font-size: 1.1rem;
+      }
+      @include g.desktop {
+        font-size: 1.2rem;
+      }
+    }
+
+    &--createdBy, &--createdOn {
+      color: grey;
+      font-size: .7rem;
+      @include g.tablet {
+        font-size: .8rem;
+      }
+      @include g.desktopSmall {
+        font-size: .9rem;
+      }
+    }
+
+    &--amount {
+
+    }
+
+
   }
 
-  .flex {
+
+  &__section {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -92,7 +136,7 @@ $--viewBetBtnFS: (
     }
 
     span {
-     font-size: 1rem;
+      font-size: 1rem;
       font-weight: bold;
       color: white;
     }

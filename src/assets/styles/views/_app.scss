@@ -57,15 +57,15 @@
       padding: 5rem 4rem;
     }
     @include g.desktopSmall {
-      padding: 6rem 5rem;
+      padding: 8rem 10rem;
     }
 
     @include g.desktop {
-      padding: 7rem 6rem;
+      padding: 8rem 12rem;
     }
 
     @include g.desktopLarge {
-      padding: 8rem 7rem;
+      padding: 10rem 20rem;
     }
   }
 

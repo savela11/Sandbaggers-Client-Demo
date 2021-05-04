@@ -1,42 +1,38 @@
 <template>
-  <div class="dashboardBets">
-    <div class="dashboardBets__container" v-if="bets.length > 0">
-      <div class="searchBar">
-        <div class="inputContainer">
-          <label for="searchSB" class="hideLabel">Search</label>
-          <input id="searchSB" class="input" type="text" v-model="searchInput" placeholder="Search by name" />
-        </div>
-        <button class="clearBtn">Clear</button>
-      </div>
-      <div class="betList">
-        <div class="bet" v-for="bet in filteredBets" :key="bet.betId">
-          <div class="flex">
-            <p class="createdOn">Created: {{ formatDate(bet.createdOn) }}</p>
-            <p>By: {{ bet.createdBy.fullName }}</p>
-          </div>
-          <div class="flex">
-            <div class="title">
-              <h3>{{ bet.title }}</h3>
+    <div class="dashboardBets">
+        <div class="dashboardBets__container" v-if="bets.length > 0">
+            <div class="searchBar">
+                <div class="inputContainer">
+                    <label for="searchSB" class="hideLabel">Search</label>
+                    <input id="searchSB" class="input" type="text" v-model="searchInput" placeholder="Search by name" />
+                </div>
+                <button class="clearBtn">Clear</button>
             </div>
-            <div class="amount">
-              <span>${{ bet.amount }}</span>
+            <div class="bet-list">
+                <Card v-for="bet in filteredBets" :key="bet.betId" class=" bet" footer-class='flex--end' header-class='flex--between' main-class='flex--items-center flex--between'>
+                    <template v-slot:card--header>
+                        <p class="card__text card__text--alt">Created: {{ formatDate(bet.createdOn) }}</p>
+                        <p class="card__text card__text--alt">By: {{ bet.createdBy.fullName }}</p>
+                    </template>
+                    <template v-slot:card--main>
+                            <div class="title">
+                                <h3 class="card__text card__text--title">{{ bet.title }}</h3>
+                            </div>
+                            <div class="amount">
+                                <span>${{ bet.amount }}</span>
+                            </div>
+                    </template>
+                    <template v-slot:card--footer >
+                      <router-link class="viewBetBtn btn btn--xs btn--border-darkBlue btn--borderBottom" :to="`/bets/${bet.betId}`">View</router-link>
+                    </template>
+                </Card>
             </div>
-          </div>
-
-          <div class="flex">
-            <button class="viewBetBtn btn btn--xs btn--border-darkBlue btn--borderBottom" @click="$router.push(`/bets/${bet.betId}`)">View</button>
-          </div>
+            <PaginationBtns :items-count="filteredBets" :size="size" :page-number="pageNumber" @change-page="changePage" />
         </div>
-      </div>
-      <div class="prevNextButtons" v-if="filteredBets.length > 0">
-        <button v-on:click="changePage('previous')" :disabled="pageNumber === 0">Previous</button>
-        <button v-on:click="changePage('next')" :disabled="pageNumber >= betCount - 1">Next</button>
-      </div>
+        <div v-else class="noBets">
+            <p>No Bets found...</p>
+        </div>
     </div>
-    <div v-else class="noBets">
-      <p>No Bets found...</p>
-    </div>
-  </div>
 </template>
 
 <script lang="ts">
@@ -44,43 +40,49 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { BetVm } from '@/types/ViewModels/Models/BetVm'
 import Helper from '@/utility/Helper'
 
-@Component({ name: 'DashboardBets' })
+@Component({
+    name: 'DashboardBets',
+    components: {
+        PaginationBtns: (): Promise<typeof import('*.vue')> => import('@/components/ui/Buttons/PaginationBtns.vue'),
+        Card: (): Promise<typeof import('*.vue')> => import('@/components/ui/CardComponent.vue'),
+    },
+})
 export default class DashboardBets extends Vue {
-  @Prop() bets!: Array<BetVm>
+    @Prop() bets!: Array<BetVm>
 
-  searchInput = ''
-  isSearchInputShowing = false
+    searchInput = ''
+    isSearchInputShowing = false
 
-  size = 10
-  pageNumber = 0
+    size = 10
+    pageNumber = 0
 
-  get betCount(): number {
-    const l = this.bets.length,
-      s = this.size
-    return Math.ceil(l / s)
-  }
-
-  changePage(status: string): void {
-    if (status === 'next') {
-      this.pageNumber++
-    } else {
-      this.pageNumber--
+    get betCount(): number {
+        const l = this.bets.length,
+            s = this.size
+        return Math.ceil(l / s)
     }
-  }
 
-  get filteredBets(): BetVm[] {
-    const start = this.pageNumber * this.size,
-      end = start + this.size
+    changePage(status: string): void {
+        if (status === 'next') {
+            this.pageNumber++
+        } else {
+            this.pageNumber--
+        }
+    }
 
-    const filterBets = this.bets.filter((b) => {
-      return b.createdBy.fullName.toLowerCase().includes(this.searchInput.toLowerCase())
-    })
-    return filterBets.slice(start, end)
-  }
+    get filteredBets(): BetVm[] {
+        const start = this.pageNumber * this.size,
+            end = start + this.size
 
-  formatDate(date: string): string {
-    return Helper.formatDate(date)
-  }
+        const filterBets = this.bets.filter((b) => {
+            return b.createdBy.fullName.toLowerCase().includes(this.searchInput.toLowerCase())
+        })
+        return filterBets.slice(start, end)
+    }
+
+    formatDate(date: string): string {
+        return Helper.formatDate(date)
+    }
 }
 </script>
 

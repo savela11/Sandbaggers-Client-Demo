@@ -114,6 +114,7 @@ $--acceptedByDropDownBtnFS: (
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  overflow: hidden;
 
   @include g.mobile {
     margin-bottom: 1.5rem;
@@ -140,17 +141,7 @@ $--acceptedByDropDownBtnFS: (
     }
   }
 
-  //h2 {
-  //  font-size: 1rem;
-  //  color: g.$color-DarkBlue;
-  //  white-space: nowrap;
-  //  overflow: hidden;
-  //  text-overflow: ellipsis;
-  //
-  //  @include mobile {
-  //    font-size: 1.2rem;
-  //  }
-  //}
+
 
   h3 {
     font-size: 0.8rem;

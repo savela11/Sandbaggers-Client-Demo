@@ -46,7 +46,7 @@
         </template>
       </InputField>
 
-      <input type='submit' class='btn btn--sm btn--bg-darkGreen btn--add-bet' id='addBetBTN' :disabled='!validateForm' value='Add'>
+      <input type='submit' class='btn btn--sm btn--darkGreen btn--add-bet' id='addBetBTN' :disabled='!validateForm' value='Add'>
     </form>
     <Loading v-else />
   </div>

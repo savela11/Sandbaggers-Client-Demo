@@ -7,5 +7,6 @@ export interface DraftManagerViewData {
     registeredUsers: Array<RegisteredUserVm>
     draftUsers: Array<DraftUserVm>
     draftCaptains: Array<DraftCaptainVM>
+    isDraftLive: boolean
 
 }

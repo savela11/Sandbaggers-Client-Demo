@@ -1,23 +1,21 @@
 ﻿@use '../../globals' as g;
 
 $-baseAuthForm: (
-  'width': (
-    g.$mQ-tablet: 50%,
-    g.$mQ-tablet-landscape: 60%,
-    g.$mQ-desktopSmall: 50%,
-    g.$mQ-desktop: 45%,
-  ),
+        'width': (
+                g.$mQ-tablet: 50%,
+                g.$mQ-tablet-landscape: 60%,
+                g.$mQ-desktopSmall: 80%,
+        ),
 );
 $-registerForm: g.deepMerge(
-  $-baseAuthForm,
-  (
-    'width': (
-      g.$mQ-tablet: 75%,
-      g.$mQ-tablet-landscape: 90%,
-      g.$mQ-desktopSmall: 80%,
-      g.$mQ-desktop: 70%,
-    ),
-  )
+                $-baseAuthForm,
+                (
+                        'width': (
+                                g.$mQ-tablet: 75%,
+                                g.$mQ-tablet-landscape: 90%,
+                                g.$mQ-desktopSmall: 100%,
+                        ),
+                )
 );
 
 .greyLinks {
@@ -35,6 +33,7 @@ $-registerForm: g.deepMerge(
 a {
   -webkit-tap-highlight-color: transparent;
 }
+
 .login,
 .register {
   margin: 0;
@@ -49,6 +48,7 @@ a {
     @include g.printStyles($-baseAuthForm);
   }
 }
+
 .register {
   .form {
     @include g.printStyles($-registerForm);

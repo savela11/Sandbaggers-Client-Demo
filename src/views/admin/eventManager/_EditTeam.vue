@@ -282,8 +282,6 @@ export default class EditTeam extends Vue {
     if (!this.editTeam) {
       return
     }
-
-
     this.editTeam.teamMembers.push(member)
   }
 
@@ -348,7 +346,7 @@ export default class EditTeam extends Vue {
           console.log(data)
           UIHelper.SnackBar({
             title: 'Success',
-            message: `${data.fullName} has been added as Captain`,
+            message: `Team Captain Updated`,
             classInfo: `primary`,
             isSnackBarShowing: true,
             errors: undefined

@@ -1,0 +1,194 @@
+@use '../../globals' as g;
+
+.handicaps {
+    &__text {
+        color: g.$color-PrimaryFS;
+        font-size: 0.9rem;
+        @include g.mobile {
+            font-size: 1rem;
+        }
+        @include g.tablet {
+            font-size: 1.1rem;
+        }
+        @include g.tablet-landscape {
+            font-size: 1.2rem;
+        }
+
+        @include g.desktopSmall {
+            font-size: 1.5rem;
+        }
+        @include g.desktop {
+            font-size: 1.6rem;
+        }
+    }
+
+    &__btn {
+        border: none;
+
+        &--search {
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            @include g.tablet {
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+        &--clear {
+            font-weight: bold;
+            color: grey;
+            @include g.font-size(g.$font-xs);
+        }
+    }
+
+    &__icon {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+    }
+
+    &__search {
+        margin: 0.5rem 0;
+        display: flex;
+        align-items: center;
+
+        @include g.mobile {
+            margin: 0.8rem 0;
+        }
+
+        label {
+            color: white;
+        }
+
+        input {
+            background-color: white;
+
+            @include g.tablet-landscape {
+                padding: 0.8rem 2rem;
+            }
+        }
+
+        .clearBtnContainer {
+            padding: 0.3rem;
+
+            @include g.tablet-landscape {
+                padding: 0.5rem;
+            }
+        }
+    }
+
+    .titleBar {
+        display: grid;
+        grid-template-columns: 50px 2fr 1fr;
+        border-bottom: 1px solid lightgrey;
+        padding-bottom: 0.5rem;
+        @include g.tablet {
+            padding: 0.5rem 1rem;
+            grid-template-columns: 75px 2fr 1fr;
+            grid-template-rows: 50px;
+            gap: 20px;
+        }
+        @include g.tablet-landscape {
+            grid-template-rows: 60px;
+            grid-template-columns: 100px 2fr 1fr;
+        }
+
+        & > div {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+
+            &:last-child {
+                justify-content: center;
+            }
+        }
+    }
+
+    .sandbaggerList {
+        margin-top: 0.5rem;
+        padding: 0 0 0.5rem 0;
+    }
+
+    .sandbagger {
+        margin-bottom: 0.5rem;
+        border: 1px solid grey;
+        border-radius: 5px;
+
+        @include g.mobile {
+            margin-bottom: 0.8rem;
+        }
+        @include g.tablet-landscape {
+            margin-bottom: 1rem;
+        }
+
+        svg {
+            height: 100%;
+            width: 100%;
+        }
+
+        img {
+            height: 30px;
+            width: 30px;
+            object-fit: cover;
+            border-radius: 50%;
+            @include g.mobile {
+                height: 35px;
+                width: 35px;
+            }
+            @include g.tablet {
+                height: 40px;
+                width: 40px;
+            }
+            @include g.tablet-landscape {
+                height: 45px;
+                width: 45px;
+            }
+            @include g.desktopSmall {
+                height: 60px;
+                width: 60px;
+            }
+            @include g.desktop {
+                height: 75px;
+                width: 75px;
+            }
+        }
+
+        &__container {
+            padding: 0.5rem 0;
+            color: black;
+            text-decoration: none;
+            display: grid;
+            grid-template-columns: 50px 2fr 1fr;
+            @include g.mobile {
+            }
+            @include g.tablet {
+                padding: 0.5rem 1rem;
+                gap: 20px;
+                grid-template-columns: 75px 2fr 1fr;
+            }
+
+            @include g.tablet-landscape {
+                grid-template-columns: 100px 2fr 1fr;
+                padding: 1.5rem;
+            }
+            @include g.desktopSmall {
+                padding: 2rem;
+            }
+            @include g.desktopLarge {
+                padding: 2rem 1rem;
+            }
+
+            & > div {
+                padding: 5px;
+                display: flex;
+                align-items: center;
+
+                &:last-child {
+                    justify-content: center;
+                }
+            }
+        }
+    }
+}

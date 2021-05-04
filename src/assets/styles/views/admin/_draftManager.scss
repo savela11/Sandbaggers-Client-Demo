@@ -21,7 +21,6 @@
   }
 
   .btn {
-    border: none;
 
     &--view-team {
       font-size: .7rem;
@@ -34,10 +33,28 @@
 .section {
   margin-bottom: 1rem;
 
+  &--utility {
+    display: flex;
+    justify-content: flex-end;
+  }
+
   &--captains {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+  }
+}
+
+.draft-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  p {
+    margin: 0 0 .2rem 0;
+    font-size: 1rem;
+    color: g.$color-PrimaryFS;
+    font-weight: bold;
   }
 }
 
