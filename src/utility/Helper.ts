@@ -52,12 +52,13 @@ export default class Helper {
     //   }
     // }
 
-    static debounce(callback: any, wait: number): any {
+    static debounce(callback: (n: any) => any, wait: number): any {
         let timerId: number
         return (...args: any[]) => {
             clearTimeout(timerId)
             timerId = setTimeout(() => {
-                callback(...args)
+                const allArgs = args.concat()
+                callback(allArgs)
             }, wait)
         }
     }
