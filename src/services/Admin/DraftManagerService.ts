@@ -1,6 +1,7 @@
 import apiClient from '../../utility/apiClient'
 import { AxiosResponse } from 'axios'
 import { DraftManagerViewData } from '@/types/ViewModels/admin/DraftManagerVm'
+import { UpdateDraftStatusDto } from '@/types/DTO/DraftDto'
 
 const url = 'ADMIN/DraftManager'
 
@@ -8,12 +9,9 @@ class DraftManagerService {
     static async AdminDraftManagerData(): Promise<AxiosResponse<DraftManagerViewData>> {
         return await apiClient.get(`${url}/AdminDraftManagerData`)
     }
-    static async UpdateDraftStatus(status: boolean): Promise<AxiosResponse<boolean>> {
-        return await apiClient.post(`${url}/UpdateDraftStatus`, status)
+    static async UpdateDraftStatus(UpdateDraftStatus: UpdateDraftStatusDto): Promise<AxiosResponse<boolean>> {
+        return await apiClient.post(`${url}/UpdateDraftStatus`, UpdateDraftStatus)
     }
-
-
-
 }
 
 export default DraftManagerService
