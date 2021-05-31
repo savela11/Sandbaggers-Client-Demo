@@ -41,27 +41,38 @@ export default class Helper {
     }
 
     // static debounce(n: number, fn: (...params: any[]) => any, immediately = false) {
-    //   let timer: number | undefined = undefined
-    //   return function (this: any, ...args: any[]) {
-    //     if (timer === undefined && immediately) {
-    //       fn.apply(this, args)
+    //     let timer: number | undefined = undefined
+    //     return function (this: any, ...args: any[]) {
+    //         if (timer === undefined && immediately) {
+    //             fn.apply(this, args)
+    //         }
+    //         clearTimeout(timer)
+    //         timer = setTimeout(() => fn.apply(this, args), n)
+    //         return timer
     //     }
-    //     clearTimeout(timer)
-    //     timer = setTimeout(() => fn.apply(this, args), n)
-    //     return timer
-    //   }
     // }
 
-    static debounce(callback: (n: any) => any, wait: number): any {
-        let timerId: number
-        return (...args: any[]) => {
-            clearTimeout(timerId)
-            timerId = setTimeout(() => {
-                const allArgs = args.concat()
-                callback(allArgs)
+    static debounce(fn: (...params: any[]) => any, wait: number): any {
+        let timer: number | undefined = undefined
+        return function (...args: any[]) {
+            clearTimeout(timer)
+
+            timer = setTimeout(() => {
+                fn(args)
             }, wait)
         }
     }
+
+    // static debounce(callback: (n: any) => any, wait: number): any {
+    //     let timerId: number
+    //     return (...args: any[]) => {
+    //         clearTimeout(timerId)
+    //         timerId = setTimeout(() => {
+    //             const allArgs = args.concat()
+    //             callback(allArgs)
+    //         }, wait)
+    //     }
+    // }
 
     static searchByProperty<T extends Record<string, any>>(arr: Array<T>, searchValue: string, searchInput: string): Array<T> {
         return arr.filter((a: T) => {
