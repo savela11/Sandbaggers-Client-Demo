@@ -124,29 +124,31 @@ export default class DraftManager extends Vue {
     }
 
     async updateDraftStatus(draftStatus: boolean): Promise<void> {
-        const updateDraftStatusDto: UpdateDraftStatusDto = {
-            draftId: this.draftId,
-            status: draftStatus,
-        }
-        try {
-            const { status, data } = await DraftManagerService.UpdateDraftStatus(updateDraftStatusDto)
-            if (status === 200) {
-                this.isDraftLive = data
-                let message = 'Draft is no longer live'
-                if (data) {
-                    message = 'Draft is now Live'
-                }
-
-                UIHelper.SnackBar({
-                    title: 'Success',
-                    message: `${message}`,
-                    classInfo: `primary`,
-                    isSnackBarShowing: true,
-                    errors: [],
-                })
+        if (this.draftId) {
+            const updateDraftStatusDto: UpdateDraftStatusDto = {
+                draftId: this.draftId,
+                status: draftStatus,
             }
-        } catch (e) {
-            console.log(e)
+            try {
+                const { status, data } = await DraftManagerService.UpdateDraftStatus(updateDraftStatusDto)
+                if (status === 200) {
+                    this.isDraftLive = data
+                    let message = 'Draft is no longer live'
+                    if (data) {
+                        message = 'Draft is now Live'
+                    }
+
+                    UIHelper.SnackBar({
+                        title: 'Success',
+                        message: `${message}`,
+                        classInfo: `primary`,
+                        isSnackBarShowing: true,
+                        errors: [],
+                    })
+                }
+            } catch (e) {
+                console.log(e)
+            }
         }
     }
 }
