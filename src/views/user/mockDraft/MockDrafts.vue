@@ -1,17 +1,17 @@
 ﻿<template>
-  <div></div>
+    <div>
+        <div class="app__title-bar">
+            <h1 class="app__text app__text--title">Mock Drafts</h1>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { IHeader } from '@/types/vuexStore/UIStore'
 
 @Component({ name: 'MockDrafts' })
 export default class MockDrafts extends Vue {
-  mounted(): void {
-
-
-  }
+    mounted(): void {}
 }
 </script>
 
